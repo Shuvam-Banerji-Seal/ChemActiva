@@ -1,0 +1,745 @@
+/* --- THEME VARIABLES --- */
+:root {
+    /* Light Mode (existing) */
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Lato', sans-serif;
+    
+    --color-green-light: #A8D5BA;
+    --color-green-medium: #007F5F;
+    --color-green-dark: #004B3A;
+    --color-beige: #F5EFE6;
+    --color-white: #FFFFFF;
+    --color-gray-light: #f4f4f4;
+    --color-gray-medium: #cccccc;
+    --color-gray-dark: #333333;
+    --color-text: #212529;
+    --color-background: var(--color-white);
+    --color-card-background: var(--color-white);
+    --color-border: var(--color-gray-medium);
+    --shadow-color: rgba(0,0,0,0.1);
+    --glow-color: transparent; /* No glow in light mode by default */
+    --navbar-bg: rgba(255, 255, 255, 0.9);
+    --hero-text-color: var(--color-green-dark);
+    --section-bg-odd: var(--color-gray-light);
+}
+
+body.dark-mode {
+    --color-text: #E0E0E0; /* Light text for dark mode */
+    --color-background: #1a1d24; /* Dark background */
+    --color-card-background: rgba(40, 45, 58, 0.6); /* Glassmorphic card bg */
+    --color-border: rgba(100, 110, 130, 0.3); /* Softer border for glass */
+    --shadow-color: rgba(0,0,0,0.3);
+    --color-green-light: #20C997; /* Brighter green for dark mode accents */
+    --color-green-medium: #1ABC9C;
+    --color-green-dark: #007F5F; /* Keep some contrast */
+    --glow-color: var(--color-green-light); /* Neon glow color */
+    --navbar-bg: rgba(28, 30, 36, 0.7); /* Darker, more transparent navbar */
+    --hero-text-color: var(--color-white);
+    --section-bg-odd: #222630; /* Darker alternating section bg */
+
+    /* For glassmorphism */
+    --backdrop-filter-blur: 10px;
+}
+
+
+/* Basic Reset & Defaults */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevent horizontal scroll from animations */
+    transition: background-color 0.5s ease; /* For scroll-triggered bg changes */
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    margin-bottom: 0.75em;
+    color: var(--color-green-dark);
+} */
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-green-medium); /* Or adjust based on preference for dark mode titles */
+}
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
+    color: var(--color-green-light);
+}
+
+/* Example of applying glassmorphism and glow to cards */
+.team-card, .award-item, #contact-form-container { /* Add other elements as needed */
+    background-color: var(--color-card-background);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 8px 32px 0 var(--shadow-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-mode .team-card, 
+body.dark-mode .award-item,
+body.dark-mode #contact-form-container {
+    backdrop-filter: blur(var(--backdrop-filter-blur));
+    -webkit-backdrop-filter: blur(var(--backdrop-filter-blur)); /* For Safari */
+    box-shadow: 0 0 15px 2px rgba(var(--glow-color-rgb), 0.3), /* Base glow */
+                0 0 25px 5px rgba(var(--glow-color-rgb), 0.2), /* Wider glow */
+                inset 0 0 5px 0px rgba(var(--glow-color-rgb), 0.2); /* Inner subtle glow */
+    border: 1px solid rgba(var(--glow-color-rgb), 0.4);
+}
+
+h1 { font-size: 2.8rem; }
+h2 { font-size: 2.2rem; }
+p { margin-bottom: 1em; }
+a { color: var(--color-green-medium); text-decoration: none; }
+a:hover { color: var(--color-green-dark); }
+
+/* Navbar */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 0;
+    background-color: transparent;
+    z-index: 1000;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#navbar.scrolled {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#navbar .logo {
+    font-family: var(--font-primary);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-green-medium);
+}
+#navbar.scrolled .logo { color: var(--color-green-dark); }
+
+
+#navbar .nav-links a {
+    margin-left: 25px;
+    font-family: var(--font-primary);
+    font-weight: 400;
+    color: var(--color-white); /* Initial color for transparent nav */
+    position: relative;
+    padding-bottom: 5px;
+}
+#navbar.scrolled .nav-links a { color: var(--color-text); }
+
+#navbar .nav-links a::after { /* Anime.js can target this for hover */
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-green-medium);
+    transition: width 0.3s ease;
+}
+#navbar .nav-links a:hover::after {
+    width: 100%;
+}
+
+
+#hamburger-menu {
+    display: none; /* Hidden on larger screens */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1001;
+}
+#hamburger-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-white); /* Initial color */
+    margin: 5px 0;
+    transition: all 0.3s ease-in-out;
+}
+#navbar.scrolled #hamburger-menu span { background-color: var(--color-text); }
+
+
+/* Homepage Hero Section */
+#homepage-hero {
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column; /* For text below 3D scene */
+    justify-content: center; /* Vertically center content */
+    align-items: center; /* Horizontally center content */
+    position: relative;
+    overflow: hidden; /* Clip any overflowing 3D elements if necessary */
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end)); /* Dynamic gradient */
+    color: var(--color-white);
+    text-align: center;
+    padding-top: 80px; /* Space for navbar */
+}
+
+/* src/css/loader.css */
+#hero-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Important for fragment animations */
+    /* background-color: black; Ensure this is here or on #loader-background */
+}
+
+#loader-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000; /* Starts black */
+    opacity: 1; /* Will be animated by JS */
+    /* transition: opacity 1s ease-in-out; JS handles this fade */
+}
+
+#loader-content {
+    position: relative;
+    z-index: 1; /* Above loader-background */
+    color: white; /* Placeholder text color if any */
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    opacity: 0; /* Initially hidden, faded in by JS */
+    /* Ensure it has dimensions or its content (like the Three.js canvas) will define them */
+    width: 300px; /* Example: give it some initial size for the canvas */
+    height: 300px;/* Example: give it some initial size for the canvas */
+    /* border: 1px solid red; /* For debugging visibility */
+}
+
+/* For cellulose chain explosion (if using DOM elements for fragments) */
+.cellulose-fragment {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #A8D5BA; /* A green shade */
+    border-radius: 50%;
+    opacity: 0; /* Initially hidden */
+}
+
+
+#hero-3d-scene-container {
+    width: 100%;
+    height: 60vh; /* Adjust as needed */
+    max-height: 500px;
+    position: relative; /* Changed from absolute for flow */
+    margin-bottom: 2rem; /* Space between 3D and text */
+}
+#hero-3d-scene-container canvas {
+    display: block; /* Remove extra space below canvas */
+    width: 100% !important; /* Ensure canvas fills container */
+    height: 100% !important;
+}
+
+.hero-text-area {
+    z-index: 10; /* Above background elements */
+    opacity: 0; /* Faded in by JS */
+    transform: translateY(20px); /* For animation */
+    color: var(--color-green-dark); /* Text color for hero section */
+}
+.hero-text-area h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 0.5rem;
+    color: var(--color-green-dark);
+}
+.hero-text-area p {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-family: var(--font-secondary);
+    color: var(--color-green-medium);
+}
+
+.scroll-down-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-green-medium);
+    animation: bounce 2s infinite;
+    z-index: 5;
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-10px); }
+    60% { transform: translateX(-50%) translateY(-5px); }
+}
+
+/* Content Sections */
+.content-section {
+    padding: 80px 0;
+    min-height: 70vh; /* Ensure some scroll space */
+    position: relative; /* For parallax or child absolute positioning */
+}
+.content-section:nth-child(odd) { /* Alternating background for visual separation */
+    background-color: var(--color-gray-light);
+}
+.content-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+}
+
+/* Our Goals Section */
+#goals .mission {
+    text-align: center;
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+}
+.goals-icons {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.goal-item {
+    text-align: center;
+    flex-basis: 200px; /* Grow but have a base size */
+    opacity: 0; /* For scroll animation */
+    transform: translateY(30px); /* For scroll animation */
+}
+.goal-item img {
+    width: 60px; /* Adjust size */
+    height: 60px;
+    margin-bottom: 10px;
+    /* Find/create SVGs and style them, e.g., fill with var(--color-green-medium) */
+}
+
+/* Our Vision Section */
+.vision-layout {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+.vision-text { flex: 1; }
+#vision-timeline-container {
+    flex: 1;
+    min-height: 300px; /* Placeholder */
+    background-color: var(--color-beige); /* Placeholder */
+    border-radius: 8px;
+    padding: 20px;
+}
+.placeholder-text { color: var(--color-gray-medium); text-align: center; }
+
+
+/* Our Team Section */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+.team-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-medium);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0; /* For scroll animation */
+    transform: scale(0.9); /* For scroll animation */
+}
+.team-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0,75,58,0.1); /* Greenish shadow */
+}
+.team-card img.team-member-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 15px auto;
+    display: block;
+    border: 3px solid var(--color-green-light);
+}
+.team-card h3 {
+    font-size: 1.3rem;
+    color: var(--color-green-medium);
+    margin-bottom: 5px;
+}
+.team-card .position {
+    font-style: italic;
+    color: var(--color-gray-dark);
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+.team-card .bio, .team-card .responsibilities {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+.team-card .contact-link {
+    font-size: 0.9rem;
+    color: var(--color-green-medium);
+    word-break: break-all;
+}
+
+/* Awards Section */
+.awards-carousel { /* Simple layout for now, can be enhanced with JS carousel */
+    display: flex;
+    flex-direction: column; /* Stack items, or use a library for carousel */
+    gap: 30px;
+}
+.award-item {
+    background-color: var(--color-white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    opacity: 0; /* For scroll animation */
+    transform: translateX(-30px); /* For scroll animation */
+}
+.award-item img { /* Placeholder for trophy/plaque icon */
+    width: 50px; height: 50px;
+    flex-shrink: 0;
+}
+.award-item h3 { font-size: 1.2rem; margin-bottom: 5px; }
+
+
+/* Contact Us Section */
+#contact-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--color-white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--color-green-dark);
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-gray-medium);
+    border-radius: 4px;
+    font-family: var(--font-secondary);
+}
+.form-group textarea {
+    resize: vertical;
+}
+.submit-button {
+    display: block;
+    width: auto;
+    padding: 12px 25px;
+    background-color: var(--color-green-medium);
+    color: var(--color-white);
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    position: relative; /* For ripple */
+    overflow: hidden; /* For ripple */
+}
+.submit-button:hover {
+    background-color: var(--color-green-dark);
+}
+.submit-button:active {
+    transform: scale(0.98);
+}
+/* Ripple effect for button */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+}
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+#form-confirmation {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--color-green-light);
+    color: var(--color-green-dark);
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Footer */
+#footer {
+    background-color: var(--color-green-dark);
+    color: var(--color-beige);
+    padding: 30px 0;
+    text-align: center;
+}
+#footer p {
+    margin-bottom: 0.5em;
+    font-size: 0.9rem;
+}
+
+/* Theme Switcher */
+.theme-switcher {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Push to the right if other nav items are left-aligned */
+    padding-right: 20px; /* Or adjust layout as needed */
+}
+
+.theme-toggle-checkbox {
+    display: none; /* Hide the actual checkbox */
+}
+
+.theme-toggle-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space out icons if you want them inside */
+    background-color: var(--color-gray-medium); /* Light mode track */
+    width: 50px;
+    height: 26px;
+    border-radius: 13px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+.theme-toggle-label .toggle-ball {
+    background-color: var(--color-white);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.theme-toggle-checkbox:checked + .theme-toggle-label {
+    background-color: var(--color-green-medium); /* Dark mode track color */
+}
+
+.theme-toggle-checkbox:checked + .theme-toggle-label .toggle-ball {
+    transform: translateX(24px);
+    background-color: var(--color-gray-dark); /* Dark mode ball color */
+}
+
+.theme-toggle-label .icon {
+    font-size: 0.9rem; /* Adjust as needed */
+    line-height: 26px; /* Align vertically */
+}
+.sun-icon { padding-left: 4px; color: #f39c12; }
+.moon-icon { padding-right: 4px; color: #f1c40f; }
+
+/* Hide one icon based on theme */
+.theme-toggle-checkbox:checked + .theme-toggle-label .sun-icon { display: none; }
+.theme-toggle-checkbox:not(:checked) + .theme-toggle-label .moon-icon { display: none; }
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #navbar .nav-links {
+        display: none; /* Hide links, show hamburger */
+        flex-direction: column;
+        position: absolute;
+        top: 70px; /* Adjust based on navbar height */
+        left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.98); /* Solid background for mobile menu */
+        padding: 1rem 0;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    #navbar .nav-links.active { /* JS will toggle this class */
+        display: flex;
+    }
+    #navbar .nav-links a {
+        margin: 10px 20px;
+        color: var(--color-text); /* Ensure text is visible on white bg */
+    }
+    #navbar #hamburger-menu {
+        display: block;
+    }
+    #navbar.scrolled #hamburger-menu span { background-color: var(--color-text); }
+    #navbar #hamburger-menu.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    #navbar #hamburger-menu.active span:nth-child(2) { opacity: 0; }
+    #navbar #hamburger-menu.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+
+
+    .hero-text-area h1 { font-size: 2rem; }
+    .hero-text-area p { font-size: 1.1rem; }
+
+    .vision-layout { flex-direction: column; }
+    #vision-timeline-container { width: 100%; }
+
+    .goals-icons { justify-content: center; }
+    .goal-item { flex-basis: 150px; }
+}
+
+/* src/css/styles.css - Navbar section */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.8rem 0; /* Adjust padding */
+    z-index: 1000;
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+    background-color: transparent; /* Initially fully transparent */
+}
+
+body.dark-mode #navbar {
+    /* Initial dark mode navbar style before scroll */
+    background-color: rgba(20, 22, 28, 0.3); /* Very faint dark glass */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+#navbar.scrolled {
+    background-color: var(--navbar-bg); /* Uses theme variable */
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+body.dark-mode #navbar.scrolled {
+    backdrop-filter: blur(var(--backdrop-filter-blur));
+    -webkit-backdrop-filter: blur(var(--backdrop-filter-blur));
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 10px var(--glow-color); /* Glow on scrolled navbar */
+}
+
+
+#navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Add some padding to container if navbar padding is reduced */
+    padding: 0 25px; 
+}
+
+#navbar .logo {
+    font-family: var(--font-primary);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--hero-text-color); /* Adapts to theme */
+    text-shadow: body.dark-mode ? 0 0 8px var(--glow-color) : none; /* Subtle glow on logo in dark mode */
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+#navbar.scrolled .logo { 
+    color: var(--color-green-medium); 
+}
+body.dark-mode #navbar.scrolled .logo {
+    color: var(--color-green-light);
+}
+
+
+#navbar .nav-links a {
+    margin-left: 30px; /* Increased spacing */
+    font-family: var(--font-primary);
+    font-weight: 400;
+    color: var(--hero-text-color); /* Adapts to theme */
+    position: relative;
+    padding: 8px 0; /* More clickable area */
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+#navbar.scrolled .nav-links a { color: var(--color-text); }
+body.dark-mode #navbar .nav-links a, body.dark-mode #navbar.scrolled .nav-links a {
+    color: var(--color-text); /* Use themed text color for dark mode */
+}
+
+
+/* New Hover Animation for Nav Links */
+#navbar .nav-links a::before,
+#navbar .nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-green-medium);
+    transition: width 0.3s cubic-bezier(0.42, 0, 0.58, 1); /* Smoother ease */
+}
+body.dark-mode #navbar .nav-links a::before,
+body.dark-mode #navbar .nav-links a::after {
+    background-color: var(--color-green-light); /* Neon green for underline */
+    box-shadow: 0 0 5px var(--color-green-light); /* Glow for underline */
+}
+
+#navbar .nav-links a::before {
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+}
+#navbar .nav-links a::after {
+    right: 50%;
+    top: 0; /* Top line */
+    transform: translateX(50%);
+}
+
+#navbar .nav-links a:hover::before,
+#navbar .nav-links a:hover::after {
+    width: 100%;
+    left: 0; /* Expand from center */
+    right: 0;
+    transform: translateX(0%);
+}
+
+/* Hamburger styling update for dark mode if needed */
+#hamburger-menu span {
+    background-color: var(--hero-text-color); /* Adapts to theme */
+    transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+}
+#navbar.scrolled #hamburger-menu span { background-color: var(--color-text); }
+/* Active state for hamburger (X) */
+#navbar #hamburger-menu.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+#navbar #hamburger-menu.active span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+#navbar #hamburger-menu.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+
+/* Mobile Nav Menu styling (glassmorphic for dark mode) */
+@media (max-width: 768px) {
+    #navbar .nav-links {
+        /* ... existing styles ... */
+        background-color: rgba(250, 250, 250, 0.95); /* Light mode */
+    }
+    body.dark-mode #navbar .nav-links {
+        background-color: rgba(28, 30, 36, 0.85);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-top: 1px solid var(--color-border);
+    }
+    body.dark-mode #navbar .nav-links a {
+        color: var(--color-text);
+    }
+}

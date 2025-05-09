@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChemActiva – Pioneering Sustainable Nano Cellulose</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/loader.css">
+    <link rel="stylesheet" href="src/css/styles.css">
+</head>
+<body>
+    <!-- Hero Loading Animation Container -->
+    <div id="hero-loader">
+        <div id="loader-background"></div>
+        <div id="loader-content">
+            <!-- 3D cellulose chain or animation will be injected here by JS -->
+            <p>ChemActiva</p> <!-- Placeholder text -->
+        </div>
+    </div>
+    
+
+        <!-- Inside #navbar .container in index.html -->
+
+
+    <!-- Main Content Area (Initially hidden, shown after loader) -->
+    <div id="main-container" style="display: none;">
+        <header id="navbar">
+            <div class="container">
+                <a href="#" class="logo">ChemActiva</a>
+                <nav class="nav-links">
+                    <a href="#goals">Our Goals</a>
+                    <a href="#vision">Our Vision</a>
+                    <a href="#team">Our Team</a>
+                    <a href="#awards">Awards</a>
+                    <a href="#contact">Contact Us</a>
+                        <div class="theme-switcher">
+        <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox">
+        <label for="theme-toggle" class="theme-toggle-label">
+            <span class="toggle-ball"></span>
+            <span class="icon sun-icon">☀️</span>
+            <span class="icon moon-icon">🌙</span>
+        </label>
+    </div>
+                </nav>
+                <button id="hamburger-menu" aria-label="Open menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Homepage Hero Section -->
+            <section id="homepage-hero">
+                <div id="hero-3d-scene-container">
+                    <!-- Three.js canvas for main molecule will be appended here -->
+                </div>
+                <div class="hero-text-area">
+                    <h1>Creating the Future with Nano Cellulose.</h1>
+                    <p>Sustainable. Strong. Smart Materials.</p>
+                </div>
+                <div class="scroll-down-indicator">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5V19M12 19L7 14M12 19L17 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Our Goals Section -->
+            <section id="goals" class="content-section">
+                <div class="container">
+                    <h2>Our Goals</h2>
+                    <p class="mission">Develop biodegradable, sustainable, and high-performance materials using nano cellulose.</p>
+                    <div class="goals-icons">
+                        <div class="goal-item">
+                            <img src="/assets/icons/zero-waste.svg" alt="Zero Waste Icon">
+                            <!-- Get actual SVG icons -->
+                            <p>Zero Waste</p>
+                        </div>
+                        <div class="goal-item">
+                            <img src="/assets/icons/renewable-inputs.svg" alt="Renewable Inputs Icon">
+                            <p>Renewable Inputs</p>
+                        </div>
+                        <div class="goal-item">
+                            <img src="/assets/icons/strength-weight.svg" alt="Strength-to-weight Icon">
+                            <p>Strength-to-Weight</p>
+                        </div>
+                        <div class="goal-item">
+                            <img src="/assets/icons/biodegradable.svg" alt="Biodegradability Icon">
+                            <p>Biodegradability</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Vision Section -->
+            <section id="vision" class="content-section">
+                <div class="container">
+                    <h2>Our Vision</h2>
+                    <div class="vision-layout">
+                        <div class="vision-text">
+                            <p>Charting a course from foundational research to global impact, ChemActiva envisions a future where nano cellulose is integral to a circular economy.</p>
+                            <!-- Milestones will be listed here, potentially interacting with timeline -->
+                        </div>
+                        <div id="vision-timeline-container">
+                            <!-- 3D or 2D animated timeline will go here -->
+                            <p class="placeholder-text">Animated timeline coming soon...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Team Section -->
+            <section id="team" class="content-section">
+                <div class="container">
+                    <h2>Our Team</h2>
+                    <div id="team-grid" class="team-grid">
+                        <!-- Team cards will be dynamically inserted here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Awards Section -->
+            <section id="awards" class="content-section">
+                <div class="container">
+                    <h2>Awards & Recognition</h2>
+                    <div class="awards-carousel">
+                        <!-- Award items will be dynamically inserted or statically placed -->
+                        <div class="award-item">
+                            <img src="/assets/icons/award-trophy.svg" alt="Award Icon">
+                            <h3>Green Chemistry Challenge Award 2023</h3>
+                            <p>For innovative breakthroughs in sustainable material science.</p>
+                        </div>
+                        <div class="award-item">
+                             <img src="/assets/icons/award-plaque.svg" alt="Award Icon">
+                            <h3>Bio-Innovation Prize 2024</h3>
+                            <p>Recognizing our pioneering work in nano cellulose applications.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Us Section -->
+            <section id="contact" class="content-section">
+                <div class="container">
+                    <h2>Contact Us</h2>
+                    <div id="contact-form-container">
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject:</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message:</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-button">Send Message</button>
+                        </form>
+                        <div id="form-confirmation" style="display:none;">Message Sent! Thank you.</div>
+                    </div>
+                    <div id="contact-map-background">
+                        <!-- Three.js particle globe might go here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer id="footer">
+            <div class="container">
+                <p>© <span id="current-year"></span> ChemActiva. All rights reserved.</p>
+                <p>Pioneering Sustainable Nano Cellulose</p>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Include 3Dmol.js if needed (e.g., for specific detailed views not covered by Three.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script>
+    <script type="module" src="src/js/main.js"></script>
+</body>
+</html>
