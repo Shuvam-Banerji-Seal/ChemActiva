@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Blog – ChemActiva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Lato:wght@300;400;700&family=Stix+Two+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/styles.css"> <!-- Main styles -->
+    <link rel="stylesheet" href="src/css/articles.css"> <!-- Blog/Research specific styles -->
+    <link rel="icon" type="image/png" href="/assets/images/logo-small_size.png">
+</head>
+<body>
+    <div id="main-container"> <!-- No loader on these sub-pages for simplicity, can be added -->
+        <header id="navbar">
+            <!-- Copy navbar HTML from index.html here -->
+            <div class="container">
+                <a href="/index.html#homepage-hero" class="logo"> <!-- Link back to homepage -->
+                    <img src="/assets/images/logo.png" alt="ChemActiva Logo" id="navbar-logo-img">
+                </a>
+                <nav class="nav-links">
+                    <a href="/index.html#about-us">About</a>
+                    <a href="/index.html#our-journey">Journey</a>
+                    <a href="/research.html">Research</a> <!-- Link to research page -->
+                    <a href="/blog.html" class="active-nav-link">Blog</a> <!-- Mark as active -->
+                    <a href="/index.html#products">Products</a>
+                    <a href="/index.html#our-team">Team</a>
+                    <a href="/index.html#contact">Contact</a>
+                     <div class="theme-switcher theme-switcher-mobile">
+                        <input type="checkbox" id="theme-toggle-mobile" class="theme-toggle-checkbox">
+                        <label for="theme-toggle-mobile" class="theme-toggle-label">
+                            <span class="toggle-ball"><span class="icon sun-icon">☀️</span><span class="icon moon-icon">🌙</span></span>
+                        </label>
+                    </div>
+                </nav>
+                <div class="controls-container">
+                    <div class="theme-switcher" id="theme-switcher-desktop">
+                        <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox">
+                        <label for="theme-toggle" class="theme-toggle-label">
+                            <span class="toggle-ball"><span class="icon sun-icon">☀️</span><span class="icon moon-icon">🌙</span></span>
+                        </label>
+                    </div>
+                    <button id="hamburger-menu" aria-label="Open menu"><span></span><span></span><span></span></button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section id="blog-listing" class="content-section article-listing-section">
+                <div class="container">
+                    <h2>Our Blog</h2>
+                    <div class="article-grid" id="blog-grid">
+                        <!-- Blog cards will be injected here by JS -->
+                        <p class="placeholder-text">Loading blog posts...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer id="footer">
+            <!-- Copy footer HTML from index.html here -->
+            <div class="container">
+                <p>© <span id="current-year">2024</span> ChemActiva Innovations Pvt Ltd. All rights reserved.</p>
+                <p>Pioneering Sustainable Nano Cellulose</p>
+            </div>
+        </footer>
+    </div>
+    <!-- <script src="src/js/lib/marked.min.js"></script> Markdown parser -->
+    <script type="module" src="src/js/ArticleManager.js"></script>
+    <script type="module">
+        import ArticleManager from './src/js/ArticleManager.js';
+        import UIAnimations from './src/js/UIAnimations.js'; // For navbar and theme
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const uiAnimations = new UIAnimations();
+            uiAnimations.init(); // Initialize navbar, theme toggle
+
+            const blogManager = new ArticleManager(
+                '#blog-grid',        // Grid container selector
+                '/blog.jsonl',       // Path to JSONL file
+                'blog',              // Type ('blog' or 'research')
+                'single-article.html' // Page to link to for single article view
+            );
+            
+            blogManager.loadAndDisplayArticles();
+
+            const currentYearSpan = document.getElementById('current-year');
+            if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

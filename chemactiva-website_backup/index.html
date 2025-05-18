@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChemActiva – Pioneering Sustainable Nano Cellulose</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Lato:wght@300;400;700&family=Stix+Two+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/loader.css">
+    <link rel="stylesheet" href="src/css/styles.css">
+    <link rel="icon" type="image/png" href="/assets/images/logo-small_size.png">
+<!-- Or use vite.svg if you prefer that one for favicon -->
+<!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+</head>
+<body>
+    <!-- Hero Loading Animation Container -->
+    <div id="hero-loader">
+        <div id="loader-background"></div>
+        <div id="loader-content">
+            <!-- Particle animation will be injected here by JS -->
+        </div>
+    </div>
+
+    <!-- Main Content Area (Initially hidden, shown after loader) -->
+    <div id="main-container" style="display: none;">
+        <header id="navbar">
+            <div class="container">
+                <!-- <a href="#homepage-hero" class="logo">ChemActiva</a> -->
+                 <!-- index.html - Navbar -->
+                <a href="#homepage-hero" class="logo">
+                    <img src="/assets/images/logo.png" alt="ChemActiva Logo" id="navbar-logo-img">
+                </a>
+                <nav class="nav-links">
+                    <a href="#about-us">About</a>
+                    <a href="#our-journey">Journey</a>
+                    <a href="#products">Products</a>
+                    <a href="#our-team">Team</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                <div class="controls-container">
+                    <div class="theme-switcher">
+                        <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox">
+                        <label for="theme-toggle" class="theme-toggle-label">
+                            <span class="toggle-ball"></span>
+                            <span class="icon sun-icon">☀️</span>
+                            <span class="icon moon-icon">🌙</span>
+                        </label>
+                    </div>
+                    <button id="hamburger-menu" aria-label="Open menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Homepage Hero Section -->
+            <section id="homepage-hero" class="content-section full-height-hero">
+                <div id="hero-3d-scene-container">
+                    <!-- Three.js canvas for main molecule will be appended here -->
+                </div>
+                <div class="hero-text-area">
+                    <!-- Title font recommendation: STIX Two Text -->
+                    <h1 style="font-family: 'Stix Two Text', serif;">Pioneering Sustainable Nano Cellulose.</h1>
+                    <p>Sustainable. Strong. Smart Materials.</p>
+                </div>
+                <div class="scroll-down-indicator">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5V19M12 19L7 14M12 19L17 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- About Us Section (from PDF) -->
+            <section id="about-us" class="content-section">
+                <div class="container">
+                    <h2>About Us</h2>
+                    <div class="about-us-content">
+                        <p>ChemActiva Innovations Pvt Ltd, is based and incubated in RISE Foundation IISER, IISER Kolkata, Mohanpur, Nadia, West Bengal - 741 246, with R&D and manufacturing sites currently in RISE Foundation IISER, IISER Kolkata. ChemActiva Innovations was established in 2023.</p>
+                        <p>Our vision is to address pressing environmental challenges through innovative solutions, ChemActiva leverages advanced chemical processes and green technologies to create a sustainable future. The company is committed to developing products and processes that minimize environmental impact, promote resource efficiency, and support the transition to a circular economy.</p>
+                        <h3>Mission and Vision</h3>
+                        <ul class="mission-vision-list">
+                            <li><strong>Mission:</strong> To innovate and implement cutting-edge chemical technologies that contribute to a cleaner, more sustainable planet.</li>
+                            <li><strong>Vision:</strong> To be a global leader in clean technology, recognized for pioneering solutions that drive sustainability and environmental stewardship.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Journey Section (from PDF) -->
+            <section id="our-journey" class="content-section">
+                <div class="container">
+                    <h2>Our Journey</h2>
+                    <div class="journey-timeline">
+     
+                        <!-- <div class="timeline-item">
+                            <div class="timeline-date">6<sup>th</sup> January, 2023</div>
+                            <div class="timeline-content card-style">
+                                <h4>Incorporated and established</h4>
+                            </div>
+                        </div> -->
+                        <!-- Item 2 -->
+                        <!-- <div class="timeline-item">
+                            <div class="timeline-date">1<sup>st</sup> February, 2023</div>
+                            <div class="timeline-content card-style">
+                                <h4>Incubated at RISE Foundation IISER, IISER Kolkata</h4>
+                            </div>
+                        </div> -->
+                        <!-- Item 3 -->
+                        <!-- <div class="timeline-item">
+                            <div class="timeline-date">6<sup>th</sup> January, 2024</div>
+                            <div class="timeline-content card-style">
+                                <h4>Awarded DST-NIDHI PRAYAS startup grants</h4>
+                                <p>10 lacs from Savli Technology & Business Incubator (STBI), Gujarat.</p>
+                            </div>
+                        </div> -->
+                        <!-- Item 4 -->
+                        <!-- <div class="timeline-item">
+                            <div class="timeline-date">30<sup>th</sup> March, 2024</div>
+                            <div class="timeline-content card-style">
+                                <h4>Awarded HDFC Bank CSR Parivartan startup grant</h4>
+                                <p>Amount 10 lacs.</p>
+                            </div>
+                        </div> -->
+                        <!-- Item 5 -->
+                        <!-- <div class="timeline-item">
+                            <div class="timeline-date">22<sup>nd</sup> January, 2025</div>
+                            <div class="timeline-content card-style">
+                                <h4>Selected top 10 startup</h4>
+                                <p>In 'The BlueEconomy Mission 50 Accelerated Programme' conducted by Bhubneswar City Knowledge Innovation Cluster (BCKIC) Foundation and KIIT-TBI (Technology Business Incubator).</p>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Core Areas of Focus / Philosophy (from PDF) -->
+            <section id="core-focus" class="content-section">
+                <div class="container">
+                    <h2>Core Areas of Focus</h2>
+                    <div class="focus-grid">
+                        <div class="focus-item card-style">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY9vLiRLVpk5Lvxdt6vSzvgzhm8Cr1eGaEMA&s" alt="Sustainable Chemicals" class="focus-icon">
+                            <h3>Sustainable Chemicals</h3>
+                            <p>Development of eco-friendly chemicals and materials that reduce pollution and promote sustainability. Including biodegradable polymers, green solvents, and renewable chemicals derived from plant sources.</p>
+                        </div>
+                        <div class="focus-item card-style">
+                            <img src="/assets/icons/plant-based.svg" alt="Plant-Based Products" class="focus-icon">
+                            <h3>Plant-Based Products</h3>
+                            <p>Emphasizing renewable and natural resources to replace conventional, petroleum-based materials. Examples include bioplastics, natural fiber composites, and bio-based additives.</p>
+                        </div>
+                        <div class="focus-item card-style">
+                            <img src="/assets/icons/bio-based.svg" alt="Bio-Based Products" class="focus-icon">
+                            <h3>Bio-Based Products</h3>
+                            <p>Production of chemicals and materials from renewable biological resources, supporting the reduction of reliance on fossil fuels and promoting a circular economy.</p>
+                        </div>
+                        <div class="focus-item card-style">
+                            <img src="/assets/icons/smart-materials.svg" alt="Smart Materials" class="focus-icon">
+                            <h3>Smart Materials</h3>
+                            <p>Creation of materials with self-healing, adaptive, or responsive properties, enhancing product longevity and reducing waste.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Products Section (from PDF) -->
+            <section id="products" class="content-section">
+                <div class="container">
+                    <h2>Products</h2>
+                    <div class="product-intro card-style">
+                        <h3>Cellulose Nanocrystals & Nanocellulose Products</h3>
+                        <p><strong>ChemActiva Innovations: Advancing Sustainability with Nanocellulose Solutions</strong></p>
+                        <p>Cellu®, derived from renewable plant sources, represents a line of high-performance, biodegradable cellulose nanocrystals. Marketed under the name Cellu®, these carboxylated CNCs are designed to meet a variety of application needs and are available in both powder and liquid forms.</p>
+                        <p>Our mission is to help manufacturers around the world enhance both the environmental sustainability and technical performance of their products through innovative biomaterials.</p>
+                    </div>
+
+                    <div class="product-feature card-style">
+                        <h4>Why Cellulose Nanocrystals?</h4>
+                        <p>CNCs combine high performance with sustainability. Their nanoscale structure forms effective barriers against liquids, gases, and particles, while surface charges enable selective filtering. Available in versatile formats, CNCs are easy to integrate and offer a green alternative to synthetic materials.</p>
+                    </div>
+                    
+                    <div class="product-highlight card-style">
+                        <h3>Cellulose-based oil spill kit</h3>
+                        <p>An ideal solution for marine, industrial, and food-grade spills. Biodegradable, plant-based, with high oil adsorption capacity (around 70% yield) and oleophilic properties.</p>
+                        <h4>Domestic oil spill kit: Reusable Oil Absorbent Kit</h4>
+                        <p>Safe | Sustainable | Taste-Preserving. Effectively removes excess oil from food without leaving fibers or altering taste.</p>
+                        <h5>Key Features:</h5>
+                        <ul>
+                            <li>Non-toxic & Food-Safe</li>
+                            <li>High Efficiency (97.3% porosity, 0.4 g/cm³ density)</li>
+                            <li>Water-Repellent Design (135° contact angle)</li>
+                            <li>Reusable & Eco-Friendly</li>
+                        </ul>
+                        <h4>Marine oil spill kit</h4>
+                        <p>Developed from Aeschynomene aspera L. (Shola plant), this eco-friendly kit offers a biodegradable solution for oil spill management, absorbing oil up to 50 times its weight.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Team Section -->
+            <section id="our-team" class="content-section">
+                <div class="team-scroller-wrapper"> <!-- Wrapper for pinning/overflow -->
+                    <div class="container section-header-container">
+                        <h2>Our Team</h2>
+                    </div>
+                    <div id="team-grid" class="team-flex-container">
+                        <!-- Team cards will be dynamically inserted here -->
+                        <!-- Structure for Dr. Goutam Kulsi -->
+                        <!-- Structure for Dr. Soumitra Hazra -->
+                        <!-- Structure for Mr. Rahul Mandal -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advisor Section -->
+            <section id="advisors" class="content-section">
+                <div class="container">
+                    <h2>Our Advisors</h2>
+                    <div class="advisor-grid">
+                        <!-- Card for Prof. Swaminathan Sivaram -->
+                        <div class="advisor-card card-style">
+                            <h3>Prof. Swaminathan Sivaram</h3>
+                            <p class="advisor-role">INSA Senior Scientist, IISER Pune & IISER Kolkata</p>
+                            <p>Pioneering contributions to polymer chemistry, biodegradable polymers, and sustainable materials.</p>
+                        </div>
+                        <!-- Card for Prof. Amitava Das -->
+                        <div class="advisor-card card-style">
+                            <h3>Prof. Amitava Das</h3>
+                            <p class="advisor-role">Professor, IISER Kolkata; Former Director, CSIR-CSMCRI</p>
+                            <p>Distinguished researcher in materials chemistry, energy, and sustainable technologies.</p>
+                        </div>
+                         <!-- Card for Prof. Sayam Sen Gupta -->
+                        <div class="advisor-card card-style">
+                            <h3>Prof. Sayam Sen Gupta</h3>
+                            <p class="advisor-role">Professor, IISER Kolkata</p>
+                            <p>Leading expert in organic chemistry, bio-inspired catalysis, and biomaterial sciences.</p>
+                        </div>
+                        <!-- Card for Prof. Anandamoy Puste -->
+                        <div class="advisor-card card-style">
+                            <h3>Prof. Anandamoy Puste</h3>
+                            <p class="advisor-role">Retired Professor, Bidhan Chandra Krishi Viswavidyalaya</p>
+                            <p>Expert in water/wetland management, Shola plantation, and sustainable agronomic practices.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Contact Us Section -->
+            <section id="contact" class="content-section">
+                <div class="container">
+                    <h2>Contact Us</h2>
+                    <div class="contact-layout">
+                        <div class="contact-info card-style">
+                            <h3>ChemActiva Innovations Pvt Ltd</h3>
+                            <p>RISE Foundation IISER,<br>
+                            Indian Institute of Science Education and Research Kolkata,<br>
+                            Mohanpur, Nadia – 741246,<br>
+                            West Bengal, India</p>
+                            <p><strong>Email:</strong> <a href="mailto:chemactiva.innovations@gmail.com">chemactiva.innovations@gmail.com</a></p>
+                            <p><strong>Contact:</strong> +91 983 011 7780</p>
+                            <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/company/104465867/admin/dashboard/" target="_blank" rel="noopener noreferrer">View our LinkedIn Profile</a></p>
+                        </div>
+                        <div id="contact-form-container" class="card-style">
+                            <!-- index.html - Contact Form within #contact-form-container -->
+                            <form id="contact-form">
+                                <div class="form-group floating-label-group">
+                                    <input type="text" id="name" name="name" required placeholder=" "> <!-- Note the placeholder -->
+                                    <label for="name">Name</label>
+                                </div>  
+                                <div class="form-group floating-label-group">
+                                    <input type="email" id="email" name="email" required placeholder=" ">
+                                    <label for="email">Email</label>
+                                </div>
+                                <div class="form-group floating-label-group">
+                                    <input type="text" id="subject" name="subject" required placeholder=" ">
+                                    <label for="subject">Subject</label>
+                                </div>
+                                <div class="form-group floating-label-group">
+                                    <textarea id="message" name="message" rows="5" required placeholder=" "></textarea>
+                                    <label for="message">Message</label>
+                                </div>
+                                <button type="submit" class="submit-button modern-submit">
+                                    Send Message
+                                    <span class="submit-icon">➔</span>
+                                </button>
+                            </form>
+                            <div id="form-confirmation" style="display:none;">Message Sent! Thank you.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer id="footer">
+            <div class="container">
+                <p>© <span id="current-year"></span> ChemActiva Innovations Pvt Ltd. All rights reserved.</p>
+                <p>Pioneering Sustainable Nano Cellulose</p>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script> --> <!-- Not used in this setup -->
+    <script type="module" src="src/js/main.js"></script>
+</body>
+</html>

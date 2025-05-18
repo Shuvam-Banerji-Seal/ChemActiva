@@ -1,0 +1,423 @@
+--- a/index.html
++++ b/index.html
+@@ -73,19 +73,19 @@
+                     <h2>Core Areas of Focus</h2>
+                     <div class="focus-grid">
+                         <div class="focus-item card-style">
+-                            <img src="/assets/icons/sustainable-chemicals.svg" alt="Sustainable Chemicals" class="focus-icon"> <!-- Replace with actual SVGs -->
++                            <img src="/assets/icons/sustainable-chemicals.svg" alt="Sustainable Chemicals" class="focus-icon" loading="lazy">
+                             <h3>Sustainable Chemicals</h3>
+                             <p>Development of eco-friendly chemicals and materials that reduce pollution and promote sustainability. Including biodegradable polymers, green solvents, and renewable chemicals derived from plant sources.</p>
+                         </div>
+                         <div class="focus-item card-style">
+-                            <img src="/assets/icons/plant-based.svg" alt="Plant-Based Products" class="focus-icon"> <!-- Replace with actual SVGs -->
++                            <img src="/assets/icons/plant-based.svg" alt="Plant-Based Products" class="focus-icon" loading="lazy">
+                             <h3>Plant-Based Products</h3>
+                             <p>Emphasizing renewable and natural resources to replace conventional, petroleum-based materials. Examples include bioplastics, natural fiber composites, and bio-based additives.</p>
+                         </div>
+                         <div class="focus-item card-style">
+-                            <img src="/assets/icons/bio-based.svg" alt="Bio-Based Products" class="focus-icon"> <!-- Replace with actual SVGs -->
++                            <img src="/assets/icons/bio-based.svg" alt="Bio-Based Products" class="focus-icon" loading="lazy">
+                             <h3>Bio-Based Products</h3>
+                             <p>Production of chemicals and materials from renewable biological resources, supporting the reduction of reliance on fossil fuels and promoting a circular economy.</p>
+                         </div>
+                         <div class="focus-item card-style">
+-                            <img src="/assets/icons/smart-materials.svg" alt="Smart Materials" class="focus-icon"> <!-- Replace with actual SVGs -->
++                            <img src="/assets/icons/smart-materials.svg" alt="Smart Materials" class="focus-icon" loading="lazy">
+                             <h3>Smart Materials</h3>
+                             <p>Creation of materials with self-healing, adaptive, or responsive properties, enhancing product longevity and reducing waste.</p>
+                         </div>
+--- a/src/css/styles.css
++++ b/src/css/styles.css
+@@ -216,7 +216,7 @@
+ }
+ 
+ 
+-/
++/* Mobile Full Screen Menu Active State & Link Styling */
+ /* --- MOBILE STYLES --- */
+ @media (max-width: 768px) {
+     #navbar { /* Becomes the FAB container */
+--- a/src/js/App.js
++++ b/src/js/App.js
+@@ -1,60 +1,62 @@
+ // src/js/App.js
+-// src/js/main.js
+-console.log('--- MAIN.JS EXECUTING ---'); // <<< ADD THIS AS THE VERY FIRST LINE
++// console.log('--- App.js Initializing ---');
+ import HeroLoader from './HeroLoader';
+ import SceneManager from './SceneManager';
+ import ScrollAnimations from './ScrollAnimations';
+ import TeamManager from './TeamManager';
+ import UIAnimations from './UIAnimations';
+ import JourneyManager from './JourneyManager'; // Import JourneyManager
+-
+ export default class App {
+     constructor() {
+-        console.log('[App] Constructor');
++        // console.log('[App] Constructor');
+         this.uiAnimations = new UIAnimations(); // Init UI first for early theme setup
+         this.heroLoader = new HeroLoader('#hero-loader');
+         this.sceneManager = new SceneManager('#hero-3d-scene-container'); 
+         this.scrollAnimations = new ScrollAnimations();
+         this.teamManager = new TeamManager('#team-grid', '/team.jsonl');
+         this.journeyManager = new JourneyManager('.journey-timeline', '/journey.jsonl');
+     }
+-
+     async init() {
+-        console.log('[App] init called.');
++        // console.log('[App] init called.');
+         try {
+             this.uiAnimations.initThemeToggle(); // Setup theme before loader potentially uses themed colors
+-
+-            console.log('[App] Awaiting heroLoader.start()...');
+             await this.heroLoader.start(); 
+-            console.log('[App] heroLoader.start() RESOLVED.');
++            // console.log('[App] heroLoader.start() resolved.');
+             this.showMainContent();
+         } catch (error) {
+             console.error("[App] Error during heroLoader.start() or it was REJECTED:", error);
+             const loaderElement = document.getElementById('hero-loader');
+             if (loaderElement) loaderElement.style.display = 'none';
+             this.showMainContent(); 
+         }
+     }
+-
+     showMainContent() {
+-        console.log('[App] showMainContent called.');
++        // console.log('[App] showMainContent called.');
+         const mainContainer = document.getElementById('main-container');
+         if (mainContainer) {
+             mainContainer.style.display = 'block';
+             
+             this.uiAnimations.init(); // Full UI init (navbar, contact, theme listeners)
+-
++
+             requestAnimationFrame(async () => {
+-                console.log('[App] rAF in showMainContent: Initializing core modules.');
++                // console.log('[App] rAF: Initializing core modules.');
+                 this.sceneManager.initMainScene();
+                 
+                 await this.journeyManager.loadAndDisplayJourney();
+                 
+                 this.teamManager.setScrollAnimator(this.scrollAnimations); // Still useful if scrollAnimator has other methods
+                 await this.teamManager.loadAndDisplayTeam();
++
++                // Initialize ScrollAnimations AFTER dynamic content (journey, team) is loaded
++                this.scrollAnimations.init(this.sceneManager);
+                 
+-                // Initialize ScrollAnimations AFTER dynamic content (journey, team) is loaded
+-                this.scrollAnimations.init(this.sceneManager); 
++                // Specifically initialize animations for dynamically loaded content
++                if (this.journeyManager.hasLoaded) {
++                    this.scrollAnimations.initJourneyTimelineAnimations();
++                }
+                 // Call team auto-scroll specifically after its content is loaded and general scroll init is done
+                 this.scrollAnimations.initTeamAutoScroll(); 
+ 
+                 const currentYearSpan = document.getElementById('current-year');
+                 if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
+-                console.log('[App] Main content setup complete.');
++                // console.log('[App] Main content setup complete.');
+             });
+         } else {
+             console.error('[App] Main container not found!');
+
+--- a/src/js/JourneyManager.js
++++ b/src/js/JourneyManager.js
+@@ -1,12 +1,13 @@
+ // src/js/JourneyManager.js
+-import { gsap } from 'gsap'; // For animations if needed later
++// import { gsap } from 'gsap'; // Not strictly needed here if animations are handled by ScrollAnimations
+ 
+ export default class JourneyManager {
+     constructor(timelineSelector, jsonlPath) {
+         this.timelineElement = document.querySelector(timelineSelector);
+         this.jsonlPath = jsonlPath;
+         this.hasLoaded = false;
+-
++        this.scrollAnimator = null; // To be set by App.js
++        
+         if (!this.timelineElement) {
+             console.error("Journey timeline element not found:", timelineSelector);
+         }
+@@ -49,12 +50,12 @@
+         itemDiv.appendChild(dateDiv);
+         itemDiv.appendChild(contentDiv);
+         return itemDiv;
++    }
++
++    setScrollAnimator(animator) {
++        this.scrollAnimator = animator;
+     }
+-
+     async loadAndDisplayJourney() {
+         if (this.hasLoaded || !this.timelineElement) {
+-            console.log('[JourneyManager] Already loaded or timeline element not found.');
++            // console.log('[JourneyManager] Already loaded or timeline element not found.');
+             return;
+         }
+         console.log('[JourneyManager] Loading journey data...');
+@@ -74,12 +75,6 @@
+ 
+         this.hasLoaded = true;
+         console.log('[JourneyManager] Journey timeline displayed.');
+-
+-        // Re-trigger scroll animations for these new items if ScrollAnimations is already init
+-        // This is a common pattern: content loads, then animations are applied.
+-        if (window.scrollAnimations && typeof window.scrollAnimations.initJourneyTimelineAnimations === 'function') {
+-             window.scrollAnimations.initJourneyTimelineAnimations(); // Re-call or a specific update method
+-        }
+     }
+ }
+--- a/src/js/SceneManager.js
++++ b/src/js/SceneManager.js
+@@ -3,13 +3,15 @@
+ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+ // import { gsap } from 'gsap'; // Not used directly in this version of SceneManager
++
++const IS_MOBILE = window.innerWidth <= 768;
+ 
+ export default class SceneManager {
+     constructor(containerSelector) {
+         this.container = document.querySelector(containerSelector);
+         if (!this.container) {
+             console.error('3D scene container not found:', containerSelector); return;
+-        }
++        }        
+         this.scene = new THREE.Scene();
+         this.camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000); // Aspect set in onWindowResize
+         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+@@ -29,10 +31,10 @@
+ 
+     initMainScene() {
+         if (!this.container) return;
+-        console.log('[SceneManager] Initializing main scene.');
++        // console.log('[SceneManager] Initializing main scene.');
+ 
+         this.renderer.setPixelRatio(window.devicePixelRatio);
+-        this.renderer.shadowMap.enabled = true;
++        this.renderer.shadowMap.enabled = !IS_MOBILE; // Disable shadows on mobile for performance
+         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+         
+         // Clear container before appending, important if re-initializing
+@@ -48,8 +50,8 @@
+ 
+         this.directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+         this.directionalLight.position.set(4, 8, 6);
+-        this.directionalLight.castShadow = true;
+-        this.directionalLight.shadow.mapSize.width = 1024;
++        this.directionalLight.castShadow = !IS_MOBILE; // Disable shadows on mobile
++        this.directionalLight.shadow.mapSize.width = IS_MOBILE ? 512 : 1024; // Smaller shadow map for mobile
+         this.directionalLight.shadow.mapSize.height = 1024;
+         this.directionalLight.shadow.camera.near = 0.5;
+         this.directionalLight.shadow.camera.far = 20;
+@@ -66,7 +68,7 @@
+         const groundMaterial = new THREE.ShadowMaterial({ opacity: 0.25 });
+         const groundPlane = new THREE.Mesh(groundGeometry, groundMaterial);
+         groundPlane.rotation.x = -Math.PI / 2;
+-        groundPlane.position.y = -0.05; // Slightly below pedestal base
++        groundPlane.position.y = -0.05; 
+         groundPlane.receiveShadow = true;
+         this.scene.add(groundPlane);
+ 
+@@ -82,7 +84,7 @@
+ 
+         // Defer sizing and starting animation loop
+         requestAnimationFrame(() => {
+-            console.log('[SceneManager] Deferred sizing and animation start.');
++            // console.log('[SceneManager] Deferred sizing and animation start.');
+             this.onWindowResize();
+             this.startAnimationLoop(); // Use a dedicated method to start loop
+         });
+@@ -124,14 +126,14 @@
+             this.celluloseMolecule.position.y = 0.9;
+             this.celluloseMolecule.castShadow = true;
+             this.scene.add(this.celluloseMolecule);
+-            console.log('[SceneManager] Fallback molecule created.');
++            // console.log('[SceneManager] Fallback molecule created.');
+         });
+     }
+     
+     startAnimationLoop() {
+         if (this.isAnimating) return; // Prevent multiple loops
+         this.isAnimating = true;
+-        this.animate();
++        this.animate(); // Call the animation loop
+         console.log('[SceneManager] Animation loop started.');
+     }
+ 
+@@ -140,7 +142,7 @@
+         if (this.animationFrameId) {
+             cancelAnimationFrame(this.animationFrameId);
+         }
+-        console.log('[SceneManager] Animation loop stopped.');
++        // console.log('[SceneManager] Animation loop stopped.');
+     }
+ 
+     animate() {
+@@ -164,7 +166,7 @@
+             console.warn('[SceneManager] onWindowResize called with zero/invalid dimensions for container.');
+             return;
+         }
+-        console.log(`[SceneManager] Resizing to: ${this.container.clientWidth}x${this.container.clientHeight}`);
++        // console.log(`[SceneManager] Resizing to: ${this.container.clientWidth}x${this.container.clientHeight}`);
+         this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
+         this.camera.updateProjectionMatrix();
+         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+--- a/src/js/ScrollAnimations.js
++++ b/src/js/ScrollAnimations.js
+@@ -12,14 +12,12 @@
+ 
+     init(sceneManagerInstance) {
+         this.sceneManager = sceneManagerInstance;
+-        console.log("[ScrollAnimations] Initializing scroll effects...");
++        // console.log("[ScrollAnimations] Initializing scroll effects...");
+ 
+         this.initNavbarScroll();
+         this.initHeroTextFade();
+         this.initLightingScroll();
+-        this.initJourneyTimelineAnimations(); // Called after JourneyManager populates DOM
+         this.initCoreFocusAnimations();
+-        // initTeamAutoScroll will be called by App.js AFTER TeamManager populates DOM
+         this.initGenericCardAnimations();
+         
+         console.log("Scroll animations setup complete.");
+@@ -52,7 +50,7 @@
+     initJourneyTimelineAnimations() {
+         const timelineItems = gsap.utils.toArray('.timeline-item');
+         if(timelineItems.length === 0) return; // In case JourneyManager hasn't loaded yet
+-        console.log(`[ScrollAnimations] Animating ${timelineItems.length} journey items.`);
++        // console.log(`[ScrollAnimations] Animating ${timelineItems.length} journey items.`);
+         timelineItems.forEach(item => {
+             const isOdd = item.classList.contains('timeline-item-odd') || (item.parentElement.children && Array.from(item.parentElement.children).indexOf(item) % 2 === 0) ; // More robust odd check
+             gsap.fromTo(item,
+@@ -60,7 +58,7 @@
+                 {
+                     opacity: 1, y: 0, x: 0, duration: 0.8, ease: 'power2.out',
+                     scrollTrigger: {
+-                        trigger: item, start: "top 90%", // Trigger a bit sooner
++                        trigger: item, start: "top 92%", // Trigger a bit sooner
+                         toggleActions: "play none none none"
+                     }
+                 }
+@@ -94,16 +92,12 @@
+         // Kill previous ScrollTriggers associated with teamGrid if any (e.g., old horizontal pinning)
+         ScrollTrigger.getAll().forEach(st => {
+             if (st.vars.trigger === teamScrollerWrapper || st.vars.trigger === teamGrid) {
+-                console.log('[TeamAutoScroll] Killing old ST for team section:', st);
++                // console.log('[TeamAutoScroll] Killing old ST for team section:', st);
+                 st.kill();
+             }
+         });
+         if (this.teamScrollTween) { // Kill previous auto-scroll tween if re-initializing
+-            // In ScrollAnimations.js -> initTeamAutoScroll() after the tween is created
+-console.log('[TeamAutoScroll] Tween Target X:', `-=${oneSetWidth + gap}`);
+-console.log('[TeamAutoScroll] Tween Duration:', (oneSetWidth + gap) / scrollSpeed);
+-console.log('[TeamAutoScroll] Team Scroll Tween Object:', this.teamScrollTween);
+             this.teamScrollTween.kill();
+         }
+ 
+@@ -117,10 +111,9 @@
+         let oneSetWidth = (cardWidth + gap) * originalCards.length - gap; // Width of one full set of cards
+ 
+         const viewportWidth = teamScrollerWrapper.clientWidth;
+-        console.log('[TeamAutoScroll] Total Card Width:', oneSetWidth, 'Viewport Width:', viewportWidth); // Add this
+ 
+         if (oneSetWidth <= viewportWidth) {
+-            console.log('[TeamAutoScroll] Not enough card width to scroll. Centering content.');
++            // console.log('[TeamAutoScroll] Not enough card width to scroll. Centering content.');
+             teamGrid.style.justifyContent = 'center'; // Center if not enough to scroll
+             // Apply simple fade-in for cards if not scrolling
+             gsap.fromTo(originalCards, 
+@@ -156,7 +149,7 @@
+         teamScrollerWrapper.addEventListener('mouseenter', () => this.teamScrollTween.pause());
+         teamScrollerWrapper.addEventListener('mouseleave', () => this.teamScrollTween.play());
+ 
+-        console.log('[TeamAutoScroll] Auto-scroll initialized.');
++        // console.log('[TeamAutoScroll] Auto-scroll initialized.');
+         // Initial card appearance animation (can be simpler, as they'll be moving)
+          gsap.fromTo(gsap.utils.toArray(teamGrid.children),
+             { opacity: 0.5, scale: 0.95 },
+@@ -182,7 +175,7 @@
+     }
+ 
+     animateInTeamCards() { // Fallback for non-scrolling team
+-        console.log("[ScrollAnimations] animateInTeamCards (fallback for vertical or non-scrolling).");
++        // console.log("[ScrollAnimations] animateInTeamCards (fallback for vertical or non-scrolling).");
+         const cards = gsap.utils.toArray('.team-card');
+         if (cards.length === 0) return;
+         gsap.fromTo(cards,
+--- a/src/js/TeamManager.js
++++ b/src/js/TeamManager.js
+@@ -27,6 +27,7 @@
+         const img = document.createElement('img');
+         img.src = imageSrc;
+         img.alt = member.name;
++        img.loading = 'lazy'; // Lazy load team member images
+         img.className = 'team-member-photo';
+ 
+         const nameH3 = document.createElement('h3');
+@@ -73,7 +74,7 @@
+ 
+     async loadAndDisplayTeam() {
+         if (this.hasLoaded || !this.gridElement) { // Prevent double load
+-            console.log('[TeamManager] Already loaded or grid not found. Skipping.');
++            // console.log('[TeamManager] Already loaded or grid not found. Skipping.');
+             return;
+         }
+         console.log('[TeamManager] Loading team data...');
+@@ -99,7 +100,7 @@
+         });
+ 
+         this.hasLoaded = true; // Set flag after loading
+-        console.log('[TeamManager] Team displayed.');
++        // console.log('[TeamManager] Team displayed.');
+ 
+         // Card entrance animation (can be handled by ScrollTrigger for horizontal scroll if complex)
+         if (this.scrollAnimator && typeof this.scrollAnimator.animateInTeamCards === 'function') {
+--- a/src/js/UIAnimations.js
++++ b/src/js/UIAnimations.js
+@@ -5,14 +5,13 @@
+ 
+ export default class UIAnimations {
+     constructor() {
+-        console.log('[UIAnimations] Constructor');
++        // console.log('[UIAnimations] Constructor');
+         this.isMobileMenuOpen = false; // Track mobile menu state
+         this.menuTimeline = null; // GSAP timeline for menu items
+     }
+ 
+     init() {
+-        console.log('[UIAnimations] init called');
++        // console.log('[UIAnimations] init called');
+         this.initNavbar();
+         this.initContactForm(); // Ensure GOOGLE_FORM_ACTION_URL and ENTRY_IDs are set
+         this.initThemeToggle();
+@@ -70,7 +69,6 @@
+     }
+ 
+     initThemeToggle() {
+-        // ... (Existing theme toggle logic, ensure it correctly finds #theme-toggle) ...
+         // Make sure the desktop theme switcher is correctly handled when hidden on mobile
+         // And if you decide to have a mobile one, initialize it separately.
+         // For now, one toggle #theme-toggle is assumed.
+@@ -119,8 +117,6 @@
+     }
+ 
+     initContactForm() {
+-        // ... (Existing modern contact form logic with Google Form submission) ...
+-        // Make sure the placeholder YOUR_FORM_ID and entry.XXXX are updated
+          const form = document.getElementById('contact-form');
+         const confirmationMessage = document.getElementById('form-confirmation');
+         if (!form) return;
+@@ -165,7 +161,7 @@
+                         body: formData,
+                     });
+                     
+-                    console.log('Form data sent to Google Forms.');
++                    // console.log('Form data sent to Google Forms.');
+                     confirmationMessage.textContent = "Message Sent! Thank you.";
+                     confirmationMessage.style.backgroundColor = "var(--color-accent-secondary)"; // Use CSS var
+                     confirmationMessage.style.color = "var(--lm-bg-deep)"; // Use CSS var for text

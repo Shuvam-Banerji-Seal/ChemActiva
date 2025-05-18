@@ -1,745 +1,1062 @@
+/* src/css/styles.css */
+
 /* --- THEME VARIABLES --- */
 :root {
-    /* Light Mode (existing) */
+    /* Light Mode Palette */
+    --lm-bg-deep: #E1EEBC;
+    --lm-bg-medium: #f4f8ed;
+    --lm-accent-primary: #328E6E;
+    --lm-accent-primary-rgb-values: 50, 142, 110; /* Populated by JS */
+    --lm-accent-secondary: #67AE6E;
+    --lm-text-primary: #18230F;
+    --lm-text-secondary: #27391C;
+    --lm-glow-color: transparent; /* No glow in light mode by default */
+    --lm-glow-color-rgb-values: 0,0,0; /* Populated by JS, will be transparent for light */
+    --lm-navbar-bg: rgba(225, 238, 188, 0.85); 
+    --lm-card-border: rgba(50, 142, 110, 0.25); 
+    --lm-shadow-color: rgba(39, 57, 28, 0.1);  
+
+    /* Dark Mode Palette */
+    --dm-bg-deep: #18230F;
+    --dm-bg-medium: #27391C;
+    --dm-bg-deep-rgb: 24, 35, 15;   /* Populated by JS */
+    --dm-bg-medium-rgb: 39, 57, 28; /* Populated by JS */
+    --dm-accent-primary: #255F38;
+    --dm-accent-secondary: #328E6E;
+    --dm-text-primary: #E1EEBC;
+    --dm-text-secondary: #90C67C;
+    --dm-glow-color: #328E6E;
+    --dm-glow-color-rgb-values: 50, 142, 110; /* Populated by JS */
+    --dm-navbar-bg: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.65); /* Fallback for dm-bg-deep-rgb */
+    --dm-card-border: rgba(var(--dm-glow-color-rgb-values, 50, 142, 110), 0.3); /* Fallback */
+    --dm-shadow-color: rgba(0,0,0,0.3);
+    --dm-backdrop-filter-blur: 10px;
+
+    /* Font Stacks */
     --font-primary: 'Poppins', sans-serif;
     --font-secondary: 'Lato', sans-serif;
-    
-    --color-green-light: #A8D5BA;
-    --color-green-medium: #007F5F;
-    --color-green-dark: #004B3A;
-    --color-beige: #F5EFE6;
-    --color-white: #FFFFFF;
-    --color-gray-light: #f4f4f4;
-    --color-gray-medium: #cccccc;
-    --color-gray-dark: #333333;
-    --color-text: #212529;
-    --color-background: var(--color-white);
-    --color-card-background: var(--color-white);
-    --color-border: var(--color-gray-medium);
-    --shadow-color: rgba(0,0,0,0.1);
-    --glow-color: transparent; /* No glow in light mode by default */
-    --navbar-bg: rgba(255, 255, 255, 0.9);
-    --hero-text-color: var(--color-green-dark);
-    --section-bg-odd: var(--color-gray-light);
+    --font-title: 'Stix Two Text', serif;
+
+    /* Default to Light Mode Variables (Semantic Variables) */
+    --color-background: var(--lm-bg-deep);
+    --color-background-card: var(--lm-bg-medium);
+    --color-text-primary: var(--lm-text-primary);
+    --color-accent-rgb-values: var(--lm-accent-primary-rgb-values); /* Will be updated by JS */
+    --color-text-secondary: var(--lm-text-secondary);
+    --color-accent-primary: var(--lm-accent-primary);
+    --color-accent-secondary: var(--lm-accent-secondary);
+    --color-glow: var(--lm-glow-color);
+    --color-glow-rgb-values: var(--lm-glow-color-rgb-values); /* Will be updated by JS */
+    --navbar-bg: var(--lm-navbar-bg);
+    --color-card-border: var(--lm-card-border);
+    --color-shadow: var(--lm-shadow-color);
+    --backdrop-filter-blur: 0px; /* No blur for light mode cards by default */
+    --section-bg-odd: #f0f7e4; 
 }
 
 body.dark-mode {
-    --color-text: #E0E0E0; /* Light text for dark mode */
-    --color-background: #1a1d24; /* Dark background */
-    --color-card-background: rgba(40, 45, 58, 0.6); /* Glassmorphic card bg */
-    --color-border: rgba(100, 110, 130, 0.3); /* Softer border for glass */
-    --shadow-color: rgba(0,0,0,0.3);
-    --color-green-light: #20C997; /* Brighter green for dark mode accents */
-    --color-green-medium: #1ABC9C;
-    --color-green-dark: #007F5F; /* Keep some contrast */
-    --glow-color: var(--color-green-light); /* Neon glow color */
-    --navbar-bg: rgba(28, 30, 36, 0.7); /* Darker, more transparent navbar */
-    --hero-text-color: var(--color-white);
-    --section-bg-odd: #222630; /* Darker alternating section bg */
-
-    /* For glassmorphism */
-    --backdrop-filter-blur: 10px;
+    --color-background: var(--dm-bg-deep);
+    --color-background-card: rgba(var(--dm-bg-medium-rgb, 39, 57, 28), 0.6); /* Fallback for dm-bg-medium-rgb */
+    --color-text-primary: var(--dm-text-primary);
+    --color-text-secondary: var(--dm-text-secondary);
+    --color-accent-primary: var(--dm-accent-primary);
+    --color-accent-rgb-values: var(--dm-glow-color-rgb-values); /* Use glow for accent RGB in dark */
+    --color-accent-secondary: var(--dm-accent-secondary);
+    --color-glow: var(--dm-glow-color);
+    --color-glow-rgb-values: var(--dm-glow-color-rgb-values); /* Will be updated by JS */
+    --navbar-bg: var(--dm-navbar-bg);
+    --color-card-border: var(--dm-card-border);
+    --color-shadow: var(--dm-shadow-color);
+    --backdrop-filter-blur: var(--dm-backdrop-filter-blur);
+    --section-bg-odd: #202d16;
 }
-
 
 /* Basic Reset & Defaults */
-* {
-    margin: 0;
-    padding: 0;
+* { 
+    margin: 0; 
+    padding: 0; 
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
-
-html {
-    scroll-behavior: smooth;
+html { 
+    scroll-behavior: smooth; 
+    font-size: 16px; 
 }
-
 body {
-    background-color: var(--color-background);
-    color: var(--color-text);
-    line-height: 1.6;
-    overflow-x: hidden; /* Prevent horizontal scroll from animations */
-    transition: background-color 0.5s ease; /* For scroll-triggered bg changes */
+    font-family: var(--font-secondary); 
+    color: var(--color-text-primary);
+    background-color: var(--color-background); 
+    line-height: 1.7;
+    overflow-x: hidden; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased; /* Smoother fonts on WebKit */
+    -moz-osx-font-smoothing: grayscale; /* Smoother fonts on Firefox */
+}
+.container { 
+    width: 90%; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
 }
 
-.container {
-    width: 90%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 20px;
+#main-container > main {
+    padding-top: -40px; /* Adjust this value based on your navbar's actual height */
+                       /* You might need to experiment a bit. Consider navbar padding + logo height */
 }
 
-/* h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-primary);
-    font-weight: 600;
-    margin-bottom: 0.75em;
-    color: var(--color-green-dark);
-} */
-
-h1, h2, h3, h4, h5, h6 {
-    color: var(--color-green-medium); /* Or adjust based on preference for dark mode titles */
+.section-header-container { /* For headers inside sections with wrappers like team scroller */
+    width: 90%; 
+    max-width: 1200px; 
+    margin: 0 auto 40px auto; 
+    padding: 0 20px; 
 }
-body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
-    color: var(--color-green-light);
+h1,h2,h3,h4,h5,h6 { 
+    font-family: var(--font-primary); 
+    font-weight: 600; 
+    margin-bottom: 0.75em; 
+    color: var(--color-accent-primary); 
+    line-height: 1.3;
+}
+h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); }
+h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); text-align: center; margin-bottom: 50px;}
+h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); }
+h4 { font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 600; color: var(--color-accent-secondary); }
+p { margin-bottom: 1.2em; font-size: 1rem; }
+a { 
+    color: var(--color-accent-secondary); 
+    text-decoration: none; 
+    transition: color 0.3s ease; 
+}
+a:hover, a:focus { /* Added :focus for accessibility */
+    color: var(--color-accent-primary); 
+    text-decoration: underline; 
+    outline: none; /* Or a custom outline style */
+}
+ul, ol { padding-left: 20px; margin-bottom: 1em; }
+li { margin-bottom: 0.5em; }
+.placeholder-text { 
+    text-align: center; 
+    color: var(--color-text-secondary); 
+    padding: 20px; 
+    font-style: italic;
 }
 
-/* Example of applying glassmorphism and glow to cards */
-.team-card, .award-item, #contact-form-container { /* Add other elements as needed */
-    background-color: var(--color-card-background);
-    border: 1px solid var(--color-border);
-    box-shadow: 0 8px 32px 0 var(--shadow-color);
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
 
-body.dark-mode .team-card, 
-body.dark-mode .award-item,
-body.dark-mode #contact-form-container {
+/* Card Style (Glassmorphic for Dark Mode) */
+.card-style {
+    background-color: var(--color-background-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px; 
+    padding: 25px 30px;
+    box-shadow: 0 5px 15px var(--color-shadow);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+body.dark-mode .card-style {
+    background-color: var(--color-background-card); /* Already rgba in dark mode vars */
     backdrop-filter: blur(var(--backdrop-filter-blur));
-    -webkit-backdrop-filter: blur(var(--backdrop-filter-blur)); /* For Safari */
-    box-shadow: 0 0 15px 2px rgba(var(--glow-color-rgb), 0.3), /* Base glow */
-                0 0 25px 5px rgba(var(--glow-color-rgb), 0.2), /* Wider glow */
-                inset 0 0 5px 0px rgba(var(--glow-color-rgb), 0.2); /* Inner subtle glow */
-    border: 1px solid rgba(var(--glow-color-rgb), 0.4);
+    -webkit-backdrop-filter: blur(var(--backdrop-filter-blur)); /* Safari */
+    border: 1px solid rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.3); /* Fallback for color-glow-rgb-values */
+    box-shadow: 0 0 12px 1px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.15),
+                0 0 20px 3px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.1),
+                inset 0 0 3px 0px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.1);
+}
+.card-style:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 25px var(--color-shadow); 
+}
+body.dark-mode .card-style:hover {
+    box-shadow: 0 0 18px 2px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.25),
+                0 0 30px 5px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.15),
+                inset 0 0 5px 0px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.15);
+    border-color: rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.5);
 }
 
-h1 { font-size: 2.8rem; }
-h2 { font-size: 2.2rem; }
-p { margin-bottom: 1em; }
-a { color: var(--color-green-medium); text-decoration: none; }
-a:hover { color: var(--color-green-dark); }
-
-/* Navbar */
+/* --- Navbar --- */
 #navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 1rem 0;
-    background-color: transparent;
-    z-index: 1000;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    position: fixed; top: 0; left: 0; width: 100%;
+    padding: 0.8rem 0; z-index: 1000;
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease,
+                top 0.3s ease, bottom 0.3s ease, left 0.3s ease, right 0.3s ease, width 0.3s ease, padding 0.3s ease; 
+    background-color: transparent; 
+}
+body.dark-mode #navbar:not(.is-fab-mode) { 
+    background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.3);
+    backdrop-filter: blur(5px); 
+    -webkit-backdrop-filter: blur(5px);
+}
+#navbar.scrolled:not(.is-fab-mode) { 
+    background-color: var(--navbar-bg);
+    box-shadow: 0 2px 10px var(--color-shadow);
+}
+body.dark-mode #navbar.scrolled:not(.is-fab-mode) {
+    backdrop-filter: blur(var(--backdrop-filter-blur));
+    -webkit-backdrop-filter: blur(var(--backdrop-filter-blur));
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 10px 1px var(--color-glow);
+}
+#navbar .container { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 25px; 
+}
+#navbar .logo img { 
+    height: 75px; 
+    width: auto; 
+    display: block; 
+    transition: filter 0.3s ease, transform 0.3s ease; 
+}
+#navbar .logo img:hover { 
+    filter: brightness(1.5);
+    transform: scale(1.25); 
+    box-shadow: 0 0 10px var(--color-glow);
 }
 
-#navbar.scrolled {
-    background-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+/* Nav Links General Structure (Desktop & Mobile Base) */
+/* Desktop Nav Links */
+#navbar .nav-links { 
+    display: flex; 
+    align-items: center; 
+} 
+#navbar .nav-links a {
+    margin-left: 28px; 
+    font-family: var(--font-primary); 
+    font-weight: 500; 
+    font-size: 0.95rem; 
+    color: var(--color-text-primary); 
+    position: relative;
+    padding: 8px 4px; 
+    letter-spacing: 0.5px; 
+    transition: color 0.3s ease;
+}
+/* Desktop Specific Nav Link Styles */
+@media (min-width: 769px) {
+    #navbar .nav-links { /* This is the <nav> element */
+        display: flex !important; 
+        align-items: center;
+        flex-direction: row; 
+        position: static; 
+        transform: none; 
+        height: auto; 
+        width: auto; 
+        background-color: transparent; 
+        padding: 0; 
+        gap: 0; 
+        z-index: auto; 
+        visibility: visible; 
+        overflow-y: visible; 
+    }
+    #navbar .nav-links a {
+        margin-left: 28px; 
+        font-family: var(--font-primary); 
+        font-weight: 500; 
+        font-size: 0.95rem; 
+        color: var(--color-text-primary); 
+        position: relative;
+        padding: 8px 4px; 
+        letter-spacing: 0.5px; 
+        transition: color 0.3s ease;
+        opacity: 1; /* Reset mobile animation start state */
+        transform: translateY(0); /* Reset mobile animation start state */
+    }
+    #navbar .nav-links a::before { /* Desktop hover underline */
+        content: ''; 
+        position: absolute; 
+        width: 0; 
+        height: 2px;
+        background-color: var(--color-accent-secondary);
+        transition: width 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+        left: 50%; 
+        bottom: 0; 
+        transform: translateX(-50%);
+    }
+    body.dark-mode #navbar .nav-links a::before {
+        background-color: var(--color-glow); 
+        box-shadow: 0 0 4px var(--color-glow);
+    }
+    #navbar .nav-links a:hover::before,
+    #navbar .nav-links a:focus::before { 
+        width: 100%; 
+        left: 0; 
+        transform: translateX(0%); 
+    }
 }
 
-#navbar .container {
+/* Controls Container (Theme switcher + Hamburger) */
+.controls-container { 
+    display: flex; 
+    align-items: center; 
+    flex-direction: row;
+    gap: 40px; 
+}
+
+/* Hamburger Menu / FAB Styling */
+#hamburger-menu {
+    background-color: var(--color-accent-secondary); 
+    border: none; cursor: pointer;
+    z-index: 1005; 
+    border-radius: 50%; width: 50px; height: 50px;
+    box-shadow: var(--color-glow);
+    display: none; /* Managed by media queries */
+    flex-direction: column; justify-content: center; align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; 
+    padding: 0; 
+    -webkit-appearance: none; appearance: none;
+}
+body.dark-mode #hamburger-menu {
+    background-color: var(--color-glow);
+    box-shadow: 0 0 10px 2px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.3);
+}
+#hamburger-menu:hover { transform: scale(1.05); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
+body.dark-mode #hamburger-menu:hover { box-shadow: 0 0 15px 3px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.5); }
+#hamburger-menu span {
+    display: block; width: 22px; height: 2.5px;
+    background-color: var(--lm-bg-deep); 
+    margin: 2.5px 0;
+    transition: all 0.3s ease-in-out; 
+    border-radius: 1px;
+}
+body.dark-mode #hamburger-menu span { background-color: var(--dm-bg-deep); }
+#navbar #hamburger-menu.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4.5px); }
+#navbar #hamburger-menu.active span:nth-child(2) { opacity: 0; transform: translateX(-8px); }
+#navbar #hamburger-menu.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4.5px); }
+
+/* Full-Screen Mobile Menu (triggered by .active class on .nav-links.mobile-menu) */
+#navbar .nav-links.mobile-menu { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background-color: var(--color-background); 
+    display: flex; /* This is key for its children to be laid out */
+    flex-direction: column; justify-content: center; align-items: center;
+    transform: translateX(100%); 
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
+    z-index: 1002; 
+    padding: 20px; 
+    gap: 15px; /* Reduced gap for more items */
+    overflow-y: auto; 
+    visibility: hidden; 
+}
+body.dark-mode #navbar .nav-links.mobile-menu { 
+    background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.97); 
+}
+#navbar .nav-links.mobile-menu.active { 
+    transform: translateX(0%); 
+    visibility: visible;
+}
+/* Styling for items directly inside mobile menu (<a> and .theme-switcher-mobile) */
+#navbar .nav-links.mobile-menu > * { /* Target direct children */
+    opacity: 0; 
+    transform: translateY(20px); 
+}
+#navbar .nav-links.mobile-menu > a { /* Specifics for links if different from switcher */
+    color: var(--color-text-primary); 
+    font-size: 1.8rem; 
+    font-family: var(--font-primary);
+    font-weight: 600; 
+    padding: 10px 20px; /* Slightly reduced padding */
+    margin-left: 0; 
+    text-align: center;
+}
+#navbar .nav-links.mobile-menu .theme-switcher-mobile {
+    margin-top: 20px; /* Space above mobile theme switcher */
+    margin-bottom: 10px;
+    /* display: flex; is inherited from .theme-switcher */
+}
+
+
+/* --- MOBILE STYLES (FAB Mode for Navbar) --- */
+@media (max-width: 768px) {
+    #navbar { /* Becomes the FAB container */
+        top: auto !important; bottom: 25px !important;
+        right: 25px !important; left: auto !important;
+        width: auto !important; padding: 0 !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        z-index: 1005; 
+    }
+    #navbar.is-fab-mode .container { padding: 0; justify-content: flex-end; }
+    #navbar.is-fab-mode .logo { display: none; }
+    
+    /* This hides the <nav class="nav-links"> from desktop flow when in FAB mode.
+       Its children (links and mobile switcher) are controlled by .mobile-menu.active visibility. */
+    #navbar.is-fab-mode .nav-links:not(.mobile-menu.active) { 
+        display: none !important; /* Hide if not active mobile menu */
+    }
+     /* Hide the desktop theme switcher specifically */
+    #navbar.is-fab-mode .controls-container #theme-switcher-desktop { 
+        display: none !important; 
+    }
+    #navbar.is-fab-mode #hamburger-menu { display: flex !important; } 
+}
+
+/* --- DESKTOP STYLES (ensure no FAB behavior & correct switcher visibility) --- */
+@media (min-width: 769px) {
+    /* Hide mobile full screen menu structure if .mobile-menu class is present */
+    #navbar .nav-links.mobile-menu { display: none !important; } 
+    #navbar #hamburger-menu { display: none !important; } 
+    
+    /* Ensure the mobile theme switcher (if inside .nav-links) is hidden on desktop */
+    #navbar .nav-links .theme-switcher-mobile {
+        display: none !important;
+    }
+    /* Ensure desktop theme switcher is visible */
+    #navbar .controls-container #theme-switcher-desktop { 
+        display: flex !important; /* Important to override any potential mobile hiding */
+    }
+}
+
+/* Theme Switcher General Styles (shared by desktop and mobile) */
+.theme-switcher {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
-
-#navbar .logo {
-    font-family: var(--font-primary);
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--color-green-medium);
+/* ... (rest of .theme-switcher, .theme-toggle-checkbox, .theme-toggle-label, .toggle-ball, .icon styles remain the same as your last version) ... */
+.theme-toggle-checkbox { display: none; }
+.theme-toggle-label {
+    display: flex; align-items: center;
+    background-color: var(--color-text-secondary); 
+    width: 55px; height: 28px; border-radius: 14px;
+    cursor: pointer; position: relative;
+    transition: background-color 0.3s ease;
+    border: 1px solid transparent; 
 }
-#navbar.scrolled .logo { color: var(--color-green-dark); }
-
-
-#navbar .nav-links a {
-    margin-left: 25px;
-    font-family: var(--font-primary);
-    font-weight: 400;
-    color: var(--color-white); /* Initial color for transparent nav */
-    position: relative;
-    padding-bottom: 5px;
+body.dark-mode .theme-toggle-label {
+    background-color: var(--dm-bg-medium); 
+    border: 1px solid rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.3);
 }
-#navbar.scrolled .nav-links a { color: var(--color-text); }
-
-#navbar .nav-links a::after { /* Anime.js can target this for hover */
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--color-green-medium);
-    transition: width 0.3s ease;
+.theme-toggle-label .toggle-ball {
+    background-color: var(--lm-bg-deep); 
+    width: 22px; height: 22px; border-radius: 50%;
+    position: absolute; top: 2px; left: 3px;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    display: flex; justify-content: center; align-items: center;
+    overflow: hidden;
 }
-#navbar .nav-links a:hover::after {
-    width: 100%;
+body.dark-mode .theme-toggle-label .toggle-ball { background-color: var(--dm-text-primary); }
+.theme-toggle-checkbox:checked + .theme-toggle-label .toggle-ball { transform: translateX(27px); }
+.theme-toggle-label .icon {
+    font-size: 14px; line-height: 1; position: absolute;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
+.theme-toggle-label .sun-icon { color: #f39c12; opacity: 1; transform: rotate(0deg); }
+.theme-toggle-label .moon-icon { color: #f1c40f; opacity: 0; transform: rotate(-90deg); }
+.theme-toggle-checkbox:checked + .theme-toggle-label .sun-icon { opacity: 0; transform: rotate(90deg); }
+.theme-toggle-checkbox:checked + .theme-toggle-label .moon-icon { opacity: 1; transform: rotate(0deg); }
+.theme-toggle-checkbox:not(:checked) + .theme-toggle-label .sun-icon { opacity: 1; transform: rotate(0deg); }
+.theme-toggle-checkbox:not(:checked) + .theme-toggle-label .moon-icon { opacity: 0; transform: rotate(-90deg); }
 
 
-#hamburger-menu {
-    display: none; /* Hidden on larger screens */
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    z-index: 1001;
-}
-#hamburger-menu span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: var(--color-white); /* Initial color */
-    margin: 5px 0;
-    transition: all 0.3s ease-in-out;
-}
-#navbar.scrolled #hamburger-menu span { background-color: var(--color-text); }
 
 
-/* Homepage Hero Section */
+/* --- Homepage Hero Section --- */
 #homepage-hero {
-    height: 100vh; /* Full viewport height */
+    height: 100vh;
+    min-height: 600px; 
     display: flex;
-    flex-direction: column; /* For text below 3D scene */
-    justify-content: center; /* Vertically center content */
-    align-items: center; /* Horizontally center content */
-    position: relative;
-    overflow: hidden; /* Clip any overflowing 3D elements if necessary */
-    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end)); /* Dynamic gradient */
-    color: var(--color-white);
-    text-align: center;
-    padding-top: 80px; /* Space for navbar */
-}
-
-/* src/css/loader.css */
-#hero-loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Important for fragment animations */
-    /* background-color: black; Ensure this is here or on #loader-background */
-}
-
-#loader-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000000; /* Starts black */
-    opacity: 1; /* Will be animated by JS */
-    /* transition: opacity 1s ease-in-out; JS handles this fade */
-}
-
-#loader-content {
     position: relative;
-    z-index: 1; /* Above loader-background */
-    color: white; /* Placeholder text color if any */
-    font-family: 'Poppins', sans-serif;
-    font-size: 2rem;
-    opacity: 0; /* Initially hidden, faded in by JS */
-    /* Ensure it has dimensions or its content (like the Three.js canvas) will define them */
-    width: 300px; /* Example: give it some initial size for the canvas */
-    height: 300px;/* Example: give it some initial size for the canvas */
-    /* border: 1px solid red; /* For debugging visibility */
+    overflow: hidden;
+    background: var(--color-background); 
+    color: var(--color-text-primary);
+    text-align: center;
+    /* padding-top: 80px; Space for navbar, adjust if navbar height changes */
+    padding-bottom: 30px; /* Space for scroll indicator */
 }
-
-/* For cellulose chain explosion (if using DOM elements for fragments) */
-.cellulose-fragment {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #A8D5BA; /* A green shade */
-    border-radius: 50%;
-    opacity: 0; /* Initially hidden */
-}
+/* Dynamic gradient for light mode hero, set by JS via updateLighting */
+/* body:not(.dark-mode) #homepage-hero { 
+     background: linear-gradient(135deg, var(--lm-bg-deep), var(--lm-bg-medium));
+} */
 
 
 #hero-3d-scene-container {
     width: 100%;
-    height: 60vh; /* Adjust as needed */
-    max-height: 500px;
-    position: relative; /* Changed from absolute for flow */
-    margin-bottom: 2rem; /* Space between 3D and text */
+    height: 55vh; 
+    max-height: 550px;
+    min-height: 250px; /* Ensure it has some height on small viewports */
+    position: relative;
+    /* margin-top: -80px; */
+    margin-bottom: 2.5rem;
+    will-change: transform; /* Hint for GPU layer */
 }
 #hero-3d-scene-container canvas {
-    display: block; /* Remove extra space below canvas */
-    width: 100% !important; /* Ensure canvas fills container */
+    display: block; 
+    width: 100% !important; /* three.js might set inline style */
     height: 100% !important;
 }
-
 .hero-text-area {
-    z-index: 10; /* Above background elements */
-    opacity: 0; /* Faded in by JS */
-    transform: translateY(20px); /* For animation */
-    color: var(--color-green-dark); /* Text color for hero section */
+    z-index: 10; /* Above 3D scene if overlapping */
+    opacity: 0; /* Faded in by ScrollAnimations */
+    transform: translateY(20px); /* Animated by ScrollAnimations */
+    color: var(--color-text-primary);
 }
 .hero-text-area h1 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    margin-bottom: 0.5rem;
-    color: var(--color-green-dark);
+    font-family: var(--font-title); 
+    color: var(--color-text-primary); 
+    margin-bottom: 0.75rem;
+    text-shadow: var(--color-glow) 0 0 10px; /* Uses --color-glow which is transparent in light mode */
 }
+/* body.dark-mode .hero-text-area h1 {
+    text-shadow: 0 0 10px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.5);
+} */
 .hero-text-area p {
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
     font-family: var(--font-secondary);
-    color: var(--color-green-medium);
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
-
 .scroll-down-indicator {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
+    position: absolute; 
+    bottom: 40px; 
+    left: 50%; 
     transform: translateX(-50%);
-    color: var(--color-green-medium);
-    animation: bounce 2s infinite;
+    color: var(--color-accent-secondary); 
+    animation: bounce 2s infinite; 
     z-index: 5;
+    opacity: 0.7;
 }
-@keyframes bounce {
+@keyframes bounce { 
     0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
     40% { transform: translateX(-50%) translateY(-10px); }
     60% { transform: translateX(-50%) translateY(-5px); }
 }
 
-/* Content Sections */
+/* --- Content Sections --- */
 .content-section {
     padding: 80px 0;
-    min-height: 70vh; /* Ensure some scroll space */
-    position: relative; /* For parallax or child absolute positioning */
+    position: relative; /* For potential pseudo-elements or absolute positioned children */
 }
-.content-section:nth-child(odd) { /* Alternating background for visual separation */
-    background-color: var(--color-gray-light);
+.content-section:nth-child(even) { /* Alternating background for sections */
+    background-color: var(--section-bg-odd); /* Uses theme variable */
 }
-.content-section h2 {
-    text-align: center;
-    margin-bottom: 40px;
-    font-size: 2.5rem;
+/* body.dark-mode .content-section:nth-child(even) {
+    background-color: var(--section-bg-odd); Already handled by body.dark-mode vars
+} */
+
+/* About Us Section */
+#about-us .about-us-content { 
+    max-width: 800px; 
+    margin: 0 auto; 
+    text-align: left; /* Default, but explicit */
+}
+.mission-vision-list { 
+    list-style: none; 
+    padding-left: 0; 
+}
+.mission-vision-list li { 
+    margin-bottom: 1em; 
+    padding-left: 25px; 
+    position: relative; 
+}
+.mission-vision-list li::before {
+    content: '✓'; 
+    position: absolute;
+    left: 0;
+    color: var(--color-accent-secondary);
+    font-weight: bold;
 }
 
-/* Our Goals Section */
-#goals .mission {
-    text-align: center;
-    font-size: 1.2rem;
-    max-width: 700px;
-    margin: 0 auto 40px auto;
+/* Journey Timeline */
+.journey-timeline { 
+    position: relative; 
+    max-width: 800px; 
+    margin: 50px auto 0 auto; /* Added top margin */
 }
-.goals-icons {
+.journey-timeline::before { /* The central line */
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--color-card-border);
+    border-radius: 2px;
+}
+body.dark-mode .journey-timeline::before {
+    background-image: linear-gradient(to bottom, transparent, var(--color-glow), transparent);
+}
+.timeline-item {
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-.goal-item {
-    text-align: center;
-    flex-basis: 200px; /* Grow but have a base size */
+    margin-bottom: 40px;
+    position: relative;
     opacity: 0; /* For scroll animation */
     transform: translateY(30px); /* For scroll animation */
 }
-.goal-item img {
-    width: 60px; /* Adjust size */
-    height: 60px;
-    margin-bottom: 10px;
-    /* Find/create SVGs and style them, e.g., fill with var(--color-green-medium) */
+.timeline-item:nth-child(odd) { 
+    flex-direction: row-reverse; 
+}
+.timeline-date {
+    flex-basis: 120px; 
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 600;
+    color: var(--color-accent-primary);
+    position: relative; 
+}
+/* No specific overrides needed for odd/even text-align if center is desired for both */
+/* .timeline-item:nth-child(odd) .timeline-date { text-align: center; } 
+.timeline-item:nth-child(even) .timeline-date { text-align: center; } */
+
+.timeline-date::after { /* Dot on the timeline */
+    content: '';
+    position: absolute;
+    top: 50%; /* Vertically center dot */
+    width: 15px;
+    height: 15px;
+    background-color: var(--color-accent-secondary);
+    border: 3px solid var(--color-background); /* Match section background for cutout effect */
+    border-radius: 50%;
+    transform: translateY(-50%); /* Precise vertical centering */
+    z-index: 1;
+}
+/* Dot positioning based on odd/even item */
+.timeline-item:nth-child(odd) .timeline-date::after { 
+    left: -7.5px; /* Half of dot width to align with center line from right */
+    transform: translate(-100%, -50%); /* Move left by its own width then center */
+}
+.timeline-item:nth-child(even) .timeline-date::after { 
+    right: -7.5px; /* Half of dot width to align with center line from left */
+    transform: translate(100%, -50%); /* Move right by its own width then center */
 }
 
-/* Our Vision Section */
-.vision-layout {
-    display: flex;
-    gap: 40px;
-    align-items: flex-start;
+body.dark-mode .timeline-date::after {
+    background-color: var(--color-glow);
+    box-shadow: 0 0 8px var(--color-glow);
 }
-.vision-text { flex: 1; }
-#vision-timeline-container {
+.timeline-content { /* This is a .card-style */
     flex: 1;
-    min-height: 300px; /* Placeholder */
-    background-color: var(--color-beige); /* Placeholder */
-    border-radius: 8px;
-    padding: 20px;
+    /* padding is handled by .card-style */
+    margin: 0 20px; /* Space from timeline line */
 }
-.placeholder-text { color: var(--color-gray-medium); text-align: center; }
+.timeline-item:nth-child(odd) .timeline-content { 
+    margin-left: 40px; /* Ensure space from dot/line */
+    margin-right: 0; 
+}
+.timeline-item:nth-child(even) .timeline-content { 
+    margin-right: 40px; /* Ensure space from dot/line */
+    margin-left: 0; 
+}
 
-
-/* Our Team Section */
-.team-grid {
+/* Core Focus Section */
+.focus-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
 }
-.team-card {
-    background-color: var(--color-white);
-    border: 1px solid var(--color-gray-medium);
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    opacity: 0; /* For scroll animation */
-    transform: scale(0.9); /* For scroll animation */
+.focus-item { /* This is a .card-style */
+    text-align: center; 
 }
-.team-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(0,75,58,0.1); /* Greenish shadow */
+.focus-icon { 
+    width: 60px; 
+    height: 60px; 
+    margin-bottom: 15px; 
+    color: var(--color-accent-secondary); /* If SVGs use currentColor */
+}
+
+/* Products Section */
+#products .product-intro, 
+#products .product-feature, 
+#products .product-highlight { /* These are .card-style */
+    margin-bottom: 30px;
+}
+#products h5 { margin-top: 1.5em; }
+
+/* Team Section - Auto Scroll */
+.team-scroller-wrapper {
+    /* Section padding handled by .content-section or specific header container */
+    overflow: hidden;
+    width: 100%; 
+    /* Add perspective if you want 3D tilt on card hover (requires JS changes) */
+    /* perspective: 1000px;  */
+}
+/* #our-team h2 is inside .section-header-container */
+
+#team-grid.team-flex-container {
+    display: flex;
+    flex-wrap: nowrap; /* Essential for horizontal scroll */
+    gap: 25px; 
+    width: max-content; /* Critical for scroller to determine its full width */
+    will-change: transform; /* Hint to browser for smoother animation */
+    transform: translateX(0); /* Initial position for JS animation */
+    padding: 20px 0; /* Vertical padding for the track, allows cards to "float" */
+    /* No horizontal padding here, let cards align to edges for seamless scroll */
+}
+.team-card { /* This is a .card-style */
+    flex: 0 0 auto; /* Don't grow or shrink, use base width */
+    width: clamp(280px, 22vw, 320px); 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+    /* padding is from .card-style, but can be overridden */
+    /* padding: 20px; */
 }
 .team-card img.team-member-photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 auto 15px auto;
+    width: 110px; 
+    height: 110px; 
+    border-radius: 50%; 
+    object-fit: cover; /* Ensure image covers space without distortion */
+    margin: 0 auto 20px auto; /* Center image and add bottom margin */
     display: block;
-    border: 3px solid var(--color-green-light);
+    border: 3px solid var(--color-accent-secondary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
-.team-card h3 {
-    font-size: 1.3rem;
-    color: var(--color-green-medium);
-    margin-bottom: 5px;
+body.dark-mode .team-card img.team-member-photo {
+    border-color: var(--color-glow);
+    box-shadow: 0 0 10px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.6);
 }
-.team-card .position {
-    font-style: italic;
-    color: var(--color-gray-dark);
-    margin-bottom: 10px;
-    font-size: 0.9rem;
+.team-card h3 { 
+    margin-top: 0; /* Reset if needed */
+    margin-bottom: 5px; 
+    font-size: 1.25rem; 
 }
-.team-card .bio, .team-card .responsibilities {
-    font-size: 0.9rem;
+.team-card .position { 
+    font-size: 0.85rem; 
+    margin-bottom: 10px; 
+    font-style: italic; 
+    color: var(--color-text-secondary); 
+}
+.team-card .bio { 
+    font-size: 0.8rem; 
+    margin-bottom: 12px; 
+    line-height: 1.5; /* Improve readability of smaller text */
+}
+.team-card .responsibilities {
+    font-size: 0.8rem; 
     margin-bottom: 8px;
+    line-height: 1.5;
 }
-.team-card .contact-link {
-    font-size: 0.9rem;
-    color: var(--color-green-medium);
-    word-break: break-all;
+.team-card .contact-link { 
+    font-size: 0.85rem; 
+    word-break: break-all; /* Prevent long emails from breaking layout */
 }
 
-/* Awards Section */
-.awards-carousel { /* Simple layout for now, can be enhanced with JS carousel */
-    display: flex;
-    flex-direction: column; /* Stack items, or use a library for carousel */
+/* Advisors Section */
+.advisor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
 }
-.award-item {
-    background-color: var(--color-white);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    opacity: 0; /* For scroll animation */
-    transform: translateX(-30px); /* For scroll animation */
-}
-.award-item img { /* Placeholder for trophy/plaque icon */
-    width: 50px; height: 50px;
-    flex-shrink: 0;
-}
-.award-item h3 { font-size: 1.2rem; margin-bottom: 5px; }
-
-
-/* Contact Us Section */
-#contact-form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: var(--color-white);
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-.form-group {
-    margin-bottom: 20px;
-}
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: var(--color-green-dark);
-}
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--color-gray-medium);
-    border-radius: 4px;
-    font-family: var(--font-secondary);
-}
-.form-group textarea {
-    resize: vertical;
-}
-.submit-button {
-    display: block;
-    width: auto;
-    padding: 12px 25px;
-    background-color: var(--color-green-medium);
-    color: var(--color-white);
-    border: none;
-    border-radius: 4px;
-    font-family: var(--font-primary);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-    position: relative; /* For ripple */
-    overflow: hidden; /* For ripple */
-}
-.submit-button:hover {
-    background-color: var(--color-green-dark);
-}
-.submit-button:active {
-    transform: scale(0.98);
-}
-/* Ripple effect for button */
-.ripple {
-    position: absolute;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.7);
-    transform: scale(0);
-    animation: ripple-animation 0.6s linear;
-}
-@keyframes ripple-animation {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
-}
-
-#form-confirmation {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: var(--color-green-light);
-    color: var(--color-green-dark);
-    border-radius: 4px;
-    text-align: center;
-}
-
-/* Footer */
-#footer {
-    background-color: var(--color-green-dark);
-    color: var(--color-beige);
-    padding: 30px 0;
-    text-align: center;
-}
-#footer p {
+.advisor-card .advisor-role { /* .advisor-card is a .card-style */
+    font-style: italic;
+    color: var(--color-text-secondary);
     margin-bottom: 0.5em;
     font-size: 0.9rem;
 }
 
-/* Theme Switcher */
-.theme-switcher {
+/* Contact Section */
+.contact-layout {
     display: flex;
-    align-items: center;
-    margin-left: auto; /* Push to the right if other nav items are left-aligned */
-    padding-right: 20px; /* Or adjust layout as needed */
+    gap: 40px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+.contact-info { /* This is a .card-style */
+    flex: 1; 
+    min-width: 300px; /* Ensure it doesn't get too squished */
+}
+#contact-form-container { /* This is a .card-style */
+    flex: 1.5; 
+    min-width: 320px; 
 }
 
-.theme-toggle-checkbox {
-    display: none; /* Hide the actual checkbox */
+/* Contact Form Styling */
+#contact-form .form-group {
+    margin-bottom: 25px; 
+    position: relative; /* For floating labels */
 }
-
-.theme-toggle-label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Space out icons if you want them inside */
-    background-color: var(--color-gray-medium); /* Light mode track */
-    width: 50px;
-    height: 26px;
-    border-radius: 13px;
-    cursor: pointer;
+/* Floating Label Styling */
+.floating-label-group {
     position: relative;
-    transition: background-color 0.3s ease;
 }
-
-.theme-toggle-label .toggle-ball {
-    background-color: var(--color-white);
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
-.theme-toggle-checkbox:checked + .theme-toggle-label {
-    background-color: var(--color-green-medium); /* Dark mode track color */
-}
-
-.theme-toggle-checkbox:checked + .theme-toggle-label .toggle-ball {
-    transform: translateX(24px);
-    background-color: var(--color-gray-dark); /* Dark mode ball color */
-}
-
-.theme-toggle-label .icon {
-    font-size: 0.9rem; /* Adjust as needed */
-    line-height: 26px; /* Align vertically */
-}
-.sun-icon { padding-left: 4px; color: #f39c12; }
-.moon-icon { padding-right: 4px; color: #f1c40f; }
-
-/* Hide one icon based on theme */
-.theme-toggle-checkbox:checked + .theme-toggle-label .sun-icon { display: none; }
-.theme-toggle-checkbox:not(:checked) + .theme-toggle-label .moon-icon { display: none; }
-
-
-
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    #navbar .nav-links {
-        display: none; /* Hide links, show hamburger */
-        flex-direction: column;
-        position: absolute;
-        top: 70px; /* Adjust based on navbar height */
-        left: 0;
-        width: 100%;
-        background-color: rgba(255, 255, 255, 0.98); /* Solid background for mobile menu */
-        padding: 1rem 0;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    #navbar .nav-links.active { /* JS will toggle this class */
-        display: flex;
-    }
-    #navbar .nav-links a {
-        margin: 10px 20px;
-        color: var(--color-text); /* Ensure text is visible on white bg */
-    }
-    #navbar #hamburger-menu {
-        display: block;
-    }
-    #navbar.scrolled #hamburger-menu span { background-color: var(--color-text); }
-    #navbar #hamburger-menu.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    #navbar #hamburger-menu.active span:nth-child(2) { opacity: 0; }
-    #navbar #hamburger-menu.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
-
-
-    .hero-text-area h1 { font-size: 2rem; }
-    .hero-text-area p { font-size: 1.1rem; }
-
-    .vision-layout { flex-direction: column; }
-    #vision-timeline-container { width: 100%; }
-
-    .goals-icons { justify-content: center; }
-    .goal-item { flex-basis: 150px; }
-}
-
-/* src/css/styles.css - Navbar section */
-#navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
+.floating-label-group input,
+.floating-label-group textarea {
     width: 100%;
-    padding: 0.8rem 0; /* Adjust padding */
-    z-index: 1000;
-    transition: background-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
-    background-color: transparent; /* Initially fully transparent */
+    padding: 18px 15px 10px 15px; /* Top padding for label when not floated */
+    border: 1px solid var(--color-card-border); /* Use themed border */
+    border-radius: 8px; 
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    background-color: transparent; /* Essential for glassmorphism */
+    color: var(--color-text-primary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none; /* Remove default outline */
+    -webkit-appearance: none; /* Remove default browser styling on iOS */
+    appearance: none;
+}
+/* Placeholder color (hidden by floating label logic but good fallback) */
+.floating-label-group input::placeholder,
+.floating-label-group textarea::placeholder {
+    color: transparent; /* Make actual placeholder invisible */
 }
 
-body.dark-mode #navbar {
-    /* Initial dark mode navbar style before scroll */
-    background-color: rgba(20, 22, 28, 0.3); /* Very faint dark glass */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+body.dark-mode .floating-label-group input,
+body.dark-mode .floating-label-group textarea {
+    background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.3); /* Subtle dark input bg */
+    border-color: rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.2);
 }
 
-#navbar.scrolled {
-    background-color: var(--navbar-bg); /* Uses theme variable */
-    box-shadow: 0 2px 10px var(--shadow-color);
+.floating-label-group label {
+    position: absolute;
+    top: 15px; 
+    left: 15px;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    pointer-events: none; 
+    transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease, background-color 0.2s ease, padding 0.2s ease;
+    background-color: transparent; /* Start transparent */
+    padding: 0;
 }
-body.dark-mode #navbar.scrolled {
-    backdrop-filter: blur(var(--backdrop-filter-blur));
-    -webkit-backdrop-filter: blur(var(--backdrop-filter-blur));
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 10px var(--glow-color); /* Glow on scrolled navbar */
+/* Label background needs to match card background when floated for clean effect */
+/* This is applied when label floats up */
+.floating-label-group input:focus + label,
+.floating-label-group input:not(:placeholder-shown) + label,
+.floating-label-group textarea:focus + label,
+.floating-label-group textarea:not(:placeholder-shown) + label {
+    background-color: var(--color-background-card); /* Match card bg for clean float */
+    padding: 0 5px; /* Create a small gap around the text when floated */
+}
+body.dark-mode .floating-label-group input:focus + label,
+body.dark-mode .floating-label-group input:not(:placeholder-shown) + label,
+body.dark-mode .floating-label-group textarea:focus + label,
+body.dark-mode .floating-label-group textarea:not(:placeholder-shown) + label {
+    background-color: rgba(var(--dm-bg-medium-rgb, 39, 57, 28), 0.6); /* Match dark mode card-style bg */
 }
 
+/* Animation for floating label */
+.floating-label-group input:focus + label,
+.floating-label-group input:not(:placeholder-shown) + label, 
+.floating-label-group textarea:focus + label,
+.floating-label-group textarea:not(:placeholder-shown) + label {
+    top: -10px; /* Float above the input field */
+    font-size: 0.8rem;
+    color: var(--color-accent-secondary);
+}
 
-#navbar .container {
-    display: flex;
-    justify-content: space-between;
+/* Input focus styles */
+.floating-label-group input:focus,
+.floating-label-group textarea:focus {
+    border-color: var(--color-accent-secondary);
+    box-shadow: 0 0 0 2px rgba(var(--color-accent-rgb-values, 50, 142, 110), 0.2); /* Focus ring */
+}
+body.dark-mode .floating-label-group input:focus,
+body.dark-mode .floating-label-group textarea:focus {
+    border-color: var(--color-glow);
+    box-shadow: 0 0 8px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.3);
+}
+
+/* Modern Submit Button */
+.submit-button.modern-submit {
+    display: flex; 
     align-items: center;
-    /* Add some padding to container if navbar padding is reduced */
-    padding: 0 25px; 
-}
-
-#navbar .logo {
+    justify-content: center;
+    width: 100%; 
+    padding: 14px 25px;
+    background-color: var(--color-accent-secondary);
+    color: var(--lm-bg-deep); /* High contrast text for light mode */
+    border: none;
+    border-radius: 8px;
     font-family: var(--font-primary);
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--hero-text-color); /* Adapts to theme */
-    text-shadow: body.dark-mode ? 0 0 8px var(--glow-color) : none; /* Subtle glow on logo in dark mode */
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-#navbar.scrolled .logo { 
-    color: var(--color-green-medium); 
-}
-body.dark-mode #navbar.scrolled .logo {
-    color: var(--color-green-light);
-}
-
-
-#navbar .nav-links a {
-    margin-left: 30px; /* Increased spacing */
-    font-family: var(--font-primary);
-    font-weight: 400;
-    color: var(--hero-text-color); /* Adapts to theme */
-    position: relative;
-    padding: 8px 0; /* More clickable area */
+    font-size: 1.05rem;
+    font-weight: 600;
     letter-spacing: 0.5px;
-    transition: color 0.3s ease;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    position: relative; /* For ripple or other pseudo-elements */
+    overflow: hidden; 
+    -webkit-appearance: none;
+    appearance: none;
 }
-#navbar.scrolled .nav-links a { color: var(--color-text); }
-body.dark-mode #navbar .nav-links a, body.dark-mode #navbar.scrolled .nav-links a {
-    color: var(--color-text); /* Use themed text color for dark mode */
+body.dark-mode .submit-button.modern-submit {
+    background-color: var(--color-glow);
+    color: var(--dm-bg-deep); /* High contrast text for dark mode */
+    box-shadow: 0 0 10px 0px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.4);
 }
 
+.submit-button.modern-submit:hover:not(:disabled), /* Added :not(:disabled) */
+.submit-button.modern-submit:focus:not(:disabled) {
+    background-color: var(--color-accent-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(var(--color-accent-rgb-values, 50, 142, 110), 0.3); 
+    outline: none;
+}
+body.dark-mode .submit-button.modern-submit:hover:not(:disabled),
+body.dark-mode .submit-button.modern-submit:focus:not(:disabled) {
+    background-color: var(--dm-accent-secondary); 
+    box-shadow: 0 0 15px 2px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.6);
+}
+.submit-button.modern-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
 
-/* New Hover Animation for Nav Links */
-#navbar .nav-links a::before,
-#navbar .nav-links a::after {
-    content: '';
+.submit-button.modern-submit .submit-icon {
+    margin-left: 10px;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+.submit-button.modern-submit:hover .submit-icon {
+    transform: translateX(5px);
+}
+
+/* Loading dots for submit button */
+.submit-button.is-submitting .submit-icon {
+    display: none; 
+}
+.loader-dots span {
+    animation: blink 1.4s infinite both;
+    font-size: 1.5em; 
+    line-height: 1; /* Ensure dots are vertically centered */
+    display: inline-block; /* Needed for animation to work as expected with text */
+}
+.loader-dots span:nth-child(2) { animation-delay: .2s; }
+.loader-dots span:nth-child(3) { animation-delay: .4s; }
+
+@keyframes blink {
+    0% { opacity: .2; }
+    20% { opacity: 1; }
+    100% { opacity: .2; }
+}
+
+/* Ripple effect for button (add if desired, ensure JS handles it) */
+.ripple {
     position: absolute;
-    width: 0;
-    height: 2px;
-    background-color: var(--color-green-medium);
-    transition: width 0.3s cubic-bezier(0.42, 0, 0.58, 1); /* Smoother ease */
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6); 
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none; 
 }
-body.dark-mode #navbar .nav-links a::before,
-body.dark-mode #navbar .nav-links a::after {
-    background-color: var(--color-green-light); /* Neon green for underline */
-    box-shadow: 0 0 5px var(--color-green-light); /* Glow for underline */
+body.dark-mode .submit-button .ripple { 
+    background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.4); 
 }
-
-#navbar .nav-links a::before {
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-}
-#navbar .nav-links a::after {
-    right: 50%;
-    top: 0; /* Top line */
-    transform: translateX(50%);
+@keyframes ripple-animation {
+    to {
+        transform: scale(4); 
+        opacity: 0; 
+    }
 }
 
-#navbar .nav-links a:hover::before,
-#navbar .nav-links a:hover::after {
-    width: 100%;
-    left: 0; /* Expand from center */
-    right: 0;
-    transform: translateX(0%);
+/* Confirmation Message Styling */
+#form-confirmation {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background-color: var(--color-accent-secondary); 
+    color: var(--lm-bg-deep); 
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    display: none; /* Hidden initially */
+}
+body.dark-mode #form-confirmation {
+    background-color: var(--color-glow);
+    color: var(--dm-bg-deep);
 }
 
-/* Hamburger styling update for dark mode if needed */
-#hamburger-menu span {
-    background-color: var(--hero-text-color); /* Adapts to theme */
-    transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+/* Footer */
+#footer {
+    background-color: var(--color-accent-primary); 
+    color: var(--lm-bg-deep); 
+    padding: 40px 0;
+    text-align: center;
 }
-#navbar.scrolled #hamburger-menu span { background-color: var(--color-text); }
-/* Active state for hamburger (X) */
-#navbar #hamburger-menu.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-#navbar #hamburger-menu.active span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
-#navbar #hamburger-menu.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+body.dark-mode #footer {
+    background-color: var(--dm-bg-medium);
+    color: var(--dm-text-secondary);
+}
+#footer p { 
+    font-size: 0.9rem; 
+    margin-bottom: 0.3em; 
+}
+#footer a { /* Ensure footer links are also themed */
+    color: var(--lm-bg-medium); /* Light color for light mode footer */
+}
+body.dark-mode #footer a {
+    color: var(--dm-text-primary); /* Lighter color for dark mode footer */
+}
+#footer a:hover, #footer a:focus {
+    color: #fff; /* Brighter hover for both modes */
+    text-decoration: underline;
+}
 
-/* Mobile Nav Menu styling (glassmorphic for dark mode) */
+
+/* --- Responsive Design Adjustments (other than Navbar FAB mode) --- */
 @media (max-width: 768px) {
-    #navbar .nav-links {
-        /* ... existing styles ... */
-        background-color: rgba(250, 250, 250, 0.95); /* Light mode */
+    /* General typography adjustments for mobile */
+    h1 { font-size: clamp(1.8rem, 7vw, 2.5rem); }
+    h2 { font-size: clamp(1.5rem, 6vw, 2rem); margin-bottom: 30px; }
+    h3 { font-size: clamp(1.2rem, 5vw, 1.6rem); }
+
+    .content-section {
+        padding: 60px 0; /* Reduce padding on smaller screens */
     }
-    body.dark-mode #navbar .nav-links {
-        background-color: rgba(28, 30, 36, 0.85);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border-top: 1px solid var(--color-border);
+
+    /* Journey Timeline on Mobile */
+    .journey-timeline::before { 
+        left: 20px; /* Move line to the left */
+        transform: translateX(0); /* Reset horizontal transform */
+    } 
+    .timeline-item, 
+    .timeline-item:nth-child(odd) { /* Stack all items vertically */
+        flex-direction: column; 
     }
-    body.dark-mode #navbar .nav-links a {
-        color: var(--color-text);
+    .timeline-date { 
+        text-align: left !important; /* Align date to left */
+        flex-basis: auto; /* Allow date to take natural width */
+        margin-bottom: 10px; 
+        padding-left: 35px; /* Space for dot from the left */
+    }
+    .timeline-item .timeline-date::after,
+    .timeline-item:nth-child(odd) .timeline-date::after { /* Dot position for all items on mobile */
+        left: 0; /* Align dot to the very left of the date container */
+        transform: translateY(-50%) translateX(calc(20px - 50% + 1.5px)); /* Align with timeline central line: 20px (line offset) - 50% (half dot) + 1.5px (half line width) */
+        /* Remove right/left specific transforms from desktop */
+    }
+    .timeline-content { 
+        margin: 0 0 0 35px !important; /* Align content with date text, remove side margins */
+        padding: 20px !important; /* Slightly reduce padding in cards on mobile */
+    }
+
+    /* Contact Layout on Mobile */
+    .contact-layout { 
+        flex-direction: column; 
+        gap: 30px; /* Reduce gap */
+    }
+    .card-style { /* General card padding reduction on mobile */
+        padding: 20px 25px;
+    }
+
+    /* Team scroller might need adjustments if cards are too wide */
+    .team-card {
+        width: clamp(260px, 65vw, 300px); /* Allow cards to be a bit narrower on mobile */
     }
 }
+
+@media (max-width: 480px) {
+    /* Further adjustments for very small screens */
+    .container, .section-header-container {
+        padding: 0 15px; /* Reduce side padding */
+    }
+    #homepage-hero {
+        padding-top: 70px;
+        padding-bottom: 50px;
+    }
+    .hero-text-area h1 { font-size: clamp(1.6rem, 8vw, 2rem); }
+    .hero-text-area p { font-size: clamp(0.9rem, 4vw, 1.1rem); }
+
+    .focus-grid {
+        grid-template-columns: 1fr; /* Stack focus items */
+    }
+     #navbar .nav-links.mobile-menu a {
+        font-size: 1.5rem; /* Slightly smaller font for mobile menu links */
+        padding: 12px 15px;
+    }
+}
+
+/* Utility for debugging layout issues */
+/* .debug-border { border: 1px solid red !important; } */
+/* * > .debug-border { border: 1px solid blue !important; } */

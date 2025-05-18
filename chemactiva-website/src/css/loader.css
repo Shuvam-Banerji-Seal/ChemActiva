@@ -9,7 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Important for fragment animations */
+    overflow: hidden;
 }
 
 #loader-background {
@@ -18,22 +18,42 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #000000; /* Starts black */
+    /* Will be themed by body class, but default to dark for loader */
+    background-color: #18230F; /* --dm-bg-deep as a fallback if JS theme toggle hasn't run */
     opacity: 1;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 0.8s ease-out; /* For fade out */
 }
 
-/* src/css/loader.css */
+/* Theme application for loader background */
+body.dark-mode #loader-background {
+    background-color: var(--dm-bg-deep, #18230F);
+}
+body:not(.dark-mode) #loader-background {
+    background-color: var(--lm-bg-deep, #E1EEBC); 
+}
+
+
 #loader-content {
-    /* ... other styles ... */
-    width: 80vw; /* Example: 80% of viewport width */
-    height: 80vh; /* Example: 80% of viewport height */
-    max-width: 500px; /* Limit size */
-    max-height: 500px; /* Limit size */
-    /* border: 1px dashed white; */ /* For debugging: see if it's there */
+    position: relative;
+    z-index: 1;
+    width: 80vw;
+    height: 80vh;
+    max-width: 600px;
+    max-height: 600px;
+    opacity: 0; /* Faded in by JS */
+    transition: opacity 0.5s ease-in; /* For fade in/out of particles container */
 }
 
-/* For cellulose chain explosion (if using DOM elements for fragments) */
+#loader-content canvas { /* Ensure canvas fills its container */
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* No .cellulose-fragment needed for particle loader by default */
+
+/* For cellulose chain explosion (if using DOM elements for fragments - not currently used) */
 .cellulose-fragment {
     position: absolute;
     width: 10px;

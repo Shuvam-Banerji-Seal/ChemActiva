@@ -6,149 +6,201 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default class ScrollAnimations {
     constructor() {
-        // Reference to SceneManager needed if Three.js elements are animated by scroll
-        // This can be passed in init or constructor
-        this.sceneManager = null; // Will be set by App.js or main if needed for lighting
+        this.sceneManager = null;
+        this.teamScrollTween = null; 
     }
 
     init(sceneManagerInstance) {
-        this.sceneManager = sceneManagerInstance; // If App.js passes it
+        this.sceneManager = sceneManagerInstance;
+        // console.log("[ScrollAnimations] Initializing scroll effects...");
 
-        // Navbar scroll effect
+        this.initNavbarScroll();
+        this.initHeroTextFade();
+        this.initLightingScroll();
+        // initJourneyTimelineAnimations is called by App.js after JourneyManager populates DOM
+        this.initCoreFocusAnimations();
+        // initTeamAutoScroll is called by App.js AFTER TeamManager populates DOM
+        this.initGenericCardAnimations();
+        
+        // console.log("Scroll animations setup complete.");
+    }
+
+    initNavbarScroll() {
         const navbar = document.getElementById('navbar');
+        if (!navbar) return;
         ScrollTrigger.create({
-            start: "top top",
-            end: 99999,
+            start: "top top", end: 99999, // Effectively always active
             onUpdate: (self) => {
-                if (self.scroll() > 50) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
+                const isScrolled = self.scroll() > 50;
+                navbar.classList.toggle('scrolled', isScrolled);
             }
         });
+    }
 
-        // Hero Text Fade-in (triggered slightly after scroll starts or on load if visible)
+    initHeroTextFade() {
         gsap.to(".hero-text-area", {
-            opacity: 1,
-            y: 0,
-            duration: 1,
+            opacity: 1, y: 0, duration: 1, delay: 0.3, // Delay after loader
             scrollTrigger: {
-                trigger: "#homepage-hero",
-                start: "top 80%", // Start when 80% of hero is visible
+                trigger: "#homepage-hero", start: "top 70%",
                 toggleActions: "play none none none"
             }
         });
-        
-        // Lighting Theme Scroll (affecting Three.js scene and CSS vars)
-        // This assumes the main scrollable content determines the "time of day"
-        if (this.sceneManager && typeof this.sceneManager.updateLighting === 'function') {
-            ScrollTrigger.create({
-                trigger: "body", // Whole page scroll
-                start: "top top",
-                end: "bottom bottom", // Entire scroll length
-                scrub: 1, // Smooth scrubbing
-                onUpdate: (self) => {
-                    this.sceneManager.updateLighting(self.progress);
-                    // Also update CSS variables for background gradient on #homepage-hero
-                    const heroSection = document.getElementById('homepage-hero');
-                    if(heroSection) {
-                        // This logic is simplified from SceneManager's updateLighting
-                        // You may want to consolidate it
-                        let startColor, endColor;
-                        if (self.progress < 0.33) { 
-                            startColor = '#FFFACD'; endColor = '#F0E68C';
-                        } else if (self.progress < 0.66) {
-                            startColor = '#FFFFFF'; endColor = '#E0FFFF';
-                        } else {
-                            startColor = '#90EE90'; endColor = '#FFD700';
-                        }
-                        heroSection.style.background = `linear-gradient(135deg, ${startColor}, ${endColor})`;
-                    }
-                }
-            });
-        }
-
-
-        // "Our Goals" icons animation
-        gsap.utils.toArray('.goal-item').forEach(item => {
-            gsap.fromTo(item, 
-                { opacity: 0, y: 50 },
-                { 
-                    opacity: 1, y: 0, duration: 0.8, stagger: 0.2,
-                    scrollTrigger: {
-                        trigger: item,
-                        start: "top 85%",
-                        toggleActions: "play none none none"
-                    }
-                }
-            );
-        });
-
-        // "Our Team" cards animation
-        // This will be triggered after TeamManager loads cards.
-        // We can set up a generic trigger for elements with a class like .animate-on-scroll
-        // Or call this after team cards are added to DOM.
-        // For now, let's assume cards will be there. TeamManager can call a method here.
-        // See TeamManager for actual triggering.
-
-        // "Awards" items animation
-        gsap.utils.toArray('.award-item').forEach(item => {
-            gsap.fromTo(item,
-                { opacity: 0, x: -50, scale: 0.9 },
-                {
-                    opacity: 1, x: 0, scale: 1, duration: 0.8,
-                    ease: "back.out(1.7)", // Bounce effect
-                    scrollTrigger: {
-                        trigger: item,
-                        start: "top 85%",
-                        toggleActions: "play none none none"
-                    }
-                }
-            );
-        });
-
-        // Parallax effect for backgrounds (Example for #goals section)
-        // Add a background element inside #goals: <div class="parallax-bg"></div>
-        // Style .parallax-bg: position: absolute, background-image, z-index: -1, etc.
-        /*
-        gsap.to("#goals .parallax-bg", { // Assuming #goals has a child with class .parallax-bg
-            backgroundPosition: "50% 100px", // Move background slower than scroll
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#goals",
-                start: "top bottom", // When top of #goals hits bottom of viewport
-                end: "bottom top",   // When bottom of #goals hits top of viewport
-                scrub: true
-            }
-        });
-        */
-
-        // "Our Vision" - 3D Timeline: This is very advanced.
-        // For a 2D timeline with ScrollTrigger:
-        // Create HTML for milestones. Animate them based on scroll position within #vision-timeline-container.
-        // Example: Line drawing animation for connections, items fading/sliding in.
-        // If using Three.js: camera moves along a path, highlighting 3D objects representing milestones.
-        // This would need significant dedicated code in SceneManager or a new VisionTimeline.js module.
-        // For now, placeholder in HTML.
-        console.log("Scroll animations initialized.");
     }
 
-    animateInTeamCards() {
-        gsap.utils.toArray('.team-card').forEach((card, index) => {
-            gsap.fromTo(card,
-                { opacity: 0, scale: 0.8, y: 50 },
+    initLightingScroll() {
+        if (this.sceneManager && typeof this.sceneManager.updateLighting === 'function') {
+            ScrollTrigger.create({
+                trigger: "body", start: "top top", end: "bottom bottom", scrub: 1.2,
+                onUpdate: (self) => this.sceneManager.updateLighting(self.progress)
+            });
+        }
+    }
+
+    initJourneyTimelineAnimations() {
+        const timelineItems = gsap.utils.toArray('.timeline-item');
+        if(timelineItems.length === 0) return;
+        // console.log(`[ScrollAnimations] Animating ${timelineItems.length} journey items.`);
+        timelineItems.forEach(item => {
+            // Determine if item is odd/even for staggered animation direction
+            const isOdd = Array.from(item.parentElement.children).indexOf(item) % 2 === 0; 
+            gsap.fromTo(item,
+                { opacity: 0, y: 50, x: isOdd ? 50 : -50 },
                 {
-                    opacity: 1, scale: 1, y: 0, duration: 0.6,
-                    delay: index * 0.1, // Staggered animation
+                    opacity: 1, y: 0, x: 0, duration: 0.8, ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: item, start: "top 90%", 
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+    }
+
+    initCoreFocusAnimations() {
+        gsap.utils.toArray('.focus-item.card-style').forEach((item, index) => {
+            gsap.fromTo(item, 
+                { opacity: 0, y: 50, scale: 0.9 },
+                { 
+                    opacity: 1, y: 0, scale: 1, duration: 0.7, delay: index * 0.1,
+                    scrollTrigger: {
+                        trigger: item, start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+    }
+
+    initTeamAutoScroll() {
+        const teamGrid = document.querySelector('#team-grid.team-flex-container');
+        const teamScrollerWrapper = document.querySelector('.team-scroller-wrapper');
+
+        if (!teamGrid || !teamScrollerWrapper || teamGrid.children.length === 0) {
+            // console.warn('[TeamAutoScroll] Team grid/wrapper not found or empty. Attempting fallback animation.');
+            this.animateInTeamCards(); 
+            return;
+        }
+        
+        ScrollTrigger.getAll().forEach(st => {
+            if (st.vars.trigger === teamScrollerWrapper || st.vars.trigger === teamGrid) {
+                st.kill();
+            }
+        });
+        if (this.teamScrollTween) {
+            this.teamScrollTween.kill();
+        }
+
+        let originalCards = gsap.utils.toArray(teamGrid.children);
+        if (originalCards.length === 0) {
+             this.animateInTeamCards(); // Fallback if somehow cards array is empty after checks
+             return;
+        }
+
+        // Ensure images are loaded or have dimensions before calculating cardWidth
+        // This is a common pitfall. For simplicity, we assume CSS sets a fixed/min-width on cards.
+        let cardWidth = originalCards[0].offsetWidth; 
+        const gap = parseFloat(getComputedStyle(teamGrid).gap) || 25; // Use gap from CSS
+        let oneSetWidth = (cardWidth + gap) * originalCards.length - gap; 
+
+        const viewportWidth = teamScrollerWrapper.clientWidth;
+
+        if (oneSetWidth <= viewportWidth || originalCards.length < 3) { // Don't scroll if not enough content or too few cards
+            // console.log('[TeamAutoScroll] Not enough card width or too few cards to scroll. Centering content.');
+            teamGrid.style.justifyContent = 'center';
+            this.animateInTeamCards(); // Apply simple fade-in for cards if not scrolling
+            return;
+        }
+        teamGrid.style.justifyContent = 'flex-start'; // Ensure left alignment for scrolling
+
+        // Clone cards for seamless loop
+        const fragment = document.createDocumentFragment();
+        originalCards.forEach(card => {
+            const clone = card.cloneNode(true);
+            fragment.appendChild(clone);
+        });
+        teamGrid.appendChild(fragment); // Append all clones at once
+
+        const scrollSpeed = 40; // pixels per second
+
+        this.teamScrollTween = gsap.to(teamGrid, {
+            x: `-=${oneSetWidth + gap}`, 
+            duration: (oneSetWidth + gap) / scrollSpeed,
+            ease: "none",
+            repeat: -1,
+            modifiers: {
+                x: gsap.utils.unitize(x => parseFloat(x) % (oneSetWidth + gap))
+            }
+        });
+
+        teamScrollerWrapper.addEventListener('mouseenter', () => { if(this.teamScrollTween) this.teamScrollTween.pause() });
+        teamScrollerWrapper.addEventListener('mouseleave', () => { if(this.teamScrollTween) this.teamScrollTween.play() });
+
+        // console.log('[TeamAutoScroll] Auto-scroll initialized.');
+         gsap.fromTo(gsap.utils.toArray(teamGrid.children), // Animate all children (originals + clones)
+            { opacity: 0, scale: 0.95 }, // Start more transparent for a nicer fade-in
+            { opacity: 1, scale: 1, duration: 0.8, stagger:0.08, ease: 'power1.out',
+              scrollTrigger: {trigger: teamScrollerWrapper, start: "top 88%", toggleActions: "play none none none"}
+            }
+        );
+    }
+
+    initGenericCardAnimations() {
+        const genericCards = gsap.utils.toArray('.card-style:not(.team-card):not(.focus-item):not(.timeline-content)');
+        genericCards.forEach((card, index) => {
+             gsap.fromTo(card,
+                { opacity: 0, y: 40, scale:0.95 },
+                {
+                    opacity: 1, y: 0, scale:1, duration: 0.6, delay: index * 0.05,
                     ease: "power2.out",
                     scrollTrigger: {
                         trigger: card,
-                        start: "top 90%", // Animate when card is 90% into view
+                        start: "top 88%", // Trigger slightly earlier
                         toggleActions: "play none none none",
                     }
                 }
             );
         });
+    }
+
+    animateInTeamCards() { 
+        // console.log("[ScrollAnimations] animateInTeamCards (fallback or non-scrolling team).");
+        const cards = gsap.utils.toArray('.team-card');
+        if (cards.length === 0) return;
+        
+        const triggerElement = cards[0].closest('.team-scroller-wrapper') || cards[0].closest('#our-team') || document.querySelector('#our-team');
+        if (!triggerElement) return; // No valid trigger
+
+        gsap.fromTo(cards,
+            { opacity: 0, scale: 0.85, y: 40 },
+            {
+                opacity: 1, scale: 1, y: 0, duration: 0.6,
+                stagger: 0.1, ease: "power2.out",
+                scrollTrigger: {
+                    trigger: triggerElement,
+                    start: "top 85%",
+                    toggleActions: "play none none none",
+                }
+            }
+        );
     }
 }

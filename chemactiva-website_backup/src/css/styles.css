@@ -1,0 +1,811 @@
+/* src/css/styles.css */
+
+/* --- THEME VARIABLES --- */
+:root {
+    /* Light Mode Palette */
+    --lm-bg-deep: #E1EEBC;
+    --lm-bg-medium: #f4f8ed; /* Lighter than deep for cards */
+    --lm-accent-primary: #328E6E;
+    --lm-accent-primary-rgb-values: 50, 142, 110;
+    --lm-accent-secondary: #67AE6E;
+    --lm-text-primary: #18230F;
+    --lm-text-secondary: #27391C;
+    --lm-glow-color: transparent; /* No distinct glow in light mode */
+    --lm-glow-color-rgb-values: 0,0,0; /* Placeholder */
+    --lm-navbar-bg: rgba(225, 238, 188, 0.8); /* Semi-transparent light */
+    --lm-card-border: rgba(50, 142, 110, 0.3);
+    --lm-shadow-color: rgba(39, 57, 28, 0.15);
+
+    /* Dark Mode Palette */
+    --dm-bg-deep: #18230F;
+    --dm-bg-medium: #27391C;
+    --dm-accent-primary: #255F38; /* #67AE6E; /* Brighter green */
+    --dm-accent-secondary: #328E6E; /* #90C67C; /* Secondary brighter green */
+    --dm-text-primary: #E1EEBC;
+    --dm-text-secondary: #90C67C;
+    --dm-glow-color: #328E6E; /* Primary light green for glow */
+    --dm-glow-color-rgb-values: 50, 142, 110; /* RGB for #328E6E */
+    --dm-navbar-bg: rgba(24, 35, 15, 0.6); /* Semi-transparent dark */
+    --dm-card-border: rgba(50, 142, 110, 0.4);
+    --dm-shadow-color: rgba(0,0,0,0.25);
+    --dm-backdrop-filter-blur: 8px;
+
+    /* Font Stacks */
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Lato', sans-serif;
+    --font-title: 'Stix Two Text', serif;
+
+    /* Default to Light Mode Variables */
+    --color-background: var(--lm-bg-deep);
+    --color-background-card: var(--lm-bg-medium);
+    --color-text-primary: var(--lm-text-primary);
+    --color-accent-rgb-values: var(--lm-accent-primary-rgb-values); /* Default to light */
+    --color-text-secondary: var(--lm-text-secondary);
+    --color-accent-primary: var(--lm-accent-primary);
+    --color-accent-secondary: var(--lm-accent-secondary);
+    --color-glow: var(--lm-glow-color);
+    --color-glow-rgb-values: var(--lm-glow-color-rgb-values);
+    --navbar-bg: var(--lm-navbar-bg);
+    --color-card-border: var(--lm-card-border);
+    --color-shadow: var(--lm-shadow-color);
+    --backdrop-filter-blur: 0px; /* No blur in light mode by default */
+    --section-bg-odd: #f0f7e4; /* Slightly different for light mode sections */
+}
+
+body.dark-mode {
+    --color-background: var(--dm-bg-deep);
+    --color-background-card: var(--dm-bg-medium);
+    --color-text-primary: var(--dm-text-primary);
+    --color-text-secondary: var(--dm-text-secondary);
+    --color-accent-primary: var(--dm-accent-primary);
+    --color-accent-rgb-values: var(--dm-glow-color-rgb-values); /* Dark mode uses glow color for this */
+    --color-accent-secondary: var(--dm-accent-secondary);
+    --color-glow: var(--dm-glow-color);
+    --color-glow-rgb-values: var(--dm-glow-color-rgb-values);
+    --navbar-bg: var(--dm-navbar-bg);
+    --color-card-border: var(--dm-card-border);
+    --color-shadow: var(--dm-shadow-color);
+    --backdrop-filter-blur: var(--dm-backdrop-filter-blur);
+    --section-bg-odd: #202d16; /* Darker alternating section bg */
+}
+
+/* Basic Reset & Defaults */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base font size */
+}
+
+body {
+    font-family: var(--font-secondary);
+    color: var(--color-text-primary);
+    background-color: var(--color-background);
+    line-height: 1.7;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px; /* Slightly wider */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.section-header-container { /* For sections with horizontal scrollers */
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto 40px auto; /* Space below header */
+    padding: 0 20px;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    margin-bottom: 0.75em;
+    color: var(--color-accent-primary);
+    line-height: 1.3;
+}
+h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); } /* Title font uses --font-title in HTML */
+h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); text-align: center; margin-bottom: 50px;}
+h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); }
+h4 { font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 600; color: var(--color-accent-secondary); }
+
+p { margin-bottom: 1.2em; font-size: 1rem; }
+a { color: var(--color-accent-secondary); text-decoration: none; transition: color 0.3s ease; }
+a:hover { color: var(--color-accent-primary); text-decoration: underline; }
+
+ul, ol { padding-left: 20px; margin-bottom: 1em; }
+li { margin-bottom: 0.5em; }
+
+/* Card Style (Glassmorphic for Dark Mode) */
+.card-style {
+    background-color: var(--color-background-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px; /* Softer radius */
+    padding: 25px 30px;
+    box-shadow: 0 5px 15px var(--color-shadow);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+body.dark-mode .card-style {
+    background-color: rgba(var(--dm-bg-medium-rgb, 39, 57, 28), 0.6); /* dm-bg-medium as rgba */
+    backdrop-filter: blur(var(--backdrop-filter-blur));
+    -webkit-backdrop-filter: blur(var(--backdrop-filter-blur));
+    border: 1px solid rgba(var(--color-glow-rgb-values), 0.3);
+    box-shadow: 0 0 12px 1px rgba(var(--color-glow-rgb-values), 0.15),
+                0 0 20px 3px rgba(var(--color-glow-rgb-values), 0.1),
+                inset 0 0 3px 0px rgba(var(--color-glow-rgb-values), 0.1);
+}
+.card-style:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px var(--color-shadow);
+}
+body.dark-mode .card-style:hover {
+    box-shadow: 0 0 18px 2px rgba(var(--color-glow-rgb-values), 0.25),
+                0 0 30px 5px rgba(var(--color-glow-rgb-values), 0.15),
+                inset 0 0 5px 0px rgba(var(--color-glow-rgb-values), 0.15);
+    border-color: rgba(var(--color-glow-rgb-values), 0.5);
+}
+
+
+/* --- Navbar --- */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.8rem 0;
+    z-index: 1000;
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+    background-color: transparent;
+}
+body.dark-mode #navbar {
+    background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.3); /* dm-bg-deep as rgba */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+#navbar.scrolled {
+    background-color: var(--navbar-bg);
+    box-shadow: 0 2px 10px var(--color-shadow);
+}
+body.dark-mode #navbar.scrolled {
+    backdrop-filter: blur(var(--backdrop-filter-blur));
+    -webkit-backdrop-filter: blur(var(--backdrop-filter-blur));
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 10px 1px var(--color-glow);
+}
+
+#navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px; 
+}
+#navbar .logo {
+    font-family: var(--font-title);
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+#navbar .logo img {
+    height: 100px; /* Adjust as needed */
+    width: auto;
+    display: block; /* Remove any extra space below */
+    transition: filter 0.3s ease;
+}
+body.dark-mode #navbar .logo {
+    color: var(--dm-text-primary);
+    text-shadow: 0 0 8px var(--color-glow);
+}
+
+body.dark-mode #navbar .logo img:hover {
+    filter: drop-shadow(0 0 12px var(--color-glow));
+}
+body.dark-mode #navbar .logo img:hover {
+    filter: drop-shadow(0 0 12px var(--color-glow));
+}
+#navbar.scrolled .logo { 
+    color: var(--color-accent-primary); 
+}
+
+#navbar .nav-links {
+    display: flex;
+    align-items: center;
+}
+#navbar .nav-links a {
+    margin-left: 28px;
+    font-family: var(--font-primary);
+    font-weight: 400; /* Was 400, make it 500 for a bit more presence */
+    font-size: 0.95rem;
+    color: var(--color-text-primary);
+    position: relative;
+    padding: 8px 4px;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+#navbar.scrolled .nav-links a { color: var(--color-text-primary); }
+
+/* Nav Link Hover Animation */
+#navbar .nav-links a::before,
+#navbar .nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-accent-secondary);
+    transition: width 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+body.dark-mode #navbar .nav-links a::before,
+body.dark-mode #navbar .nav-links a::after {
+    background-color: var(--color-glow);
+    box-shadow: 0 0 4px var(--color-glow);
+}
+#navbar .nav-links a::before { left: 50%; bottom: 0; transform: translateX(-50%); }
+#navbar .nav-links a::after { right: 50%; top: 0; transform: translateX(50%); display:none; } /* Hide top line for now or make optional */
+
+#navbar .nav-links a:hover::before,
+#navbar .nav-links a:hover::after { width: 100%; left: 0; transform: translateX(0%); }
+
+.controls-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between toggle and hamburger */
+}
+#hamburger-menu {
+    display: none;
+    background: none; border: none; cursor: pointer; padding: 0.5rem; z-index: 1001;
+}
+#hamburger-menu span {
+    display: block; width: 25px; height: 2.5px;
+    background-color: var(--color-text-primary);
+    margin: 5px 0;
+    transition: all 0.3s ease-in-out;
+    border-radius: 1px;
+}
+#navbar.scrolled #hamburger-menu span { background-color: var(--color-text-primary); }
+#navbar #hamburger-menu.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+#navbar #hamburger-menu.active span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+#navbar #hamburger-menu.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+
+/* Theme Switcher (already provided, small adjustments if needed) */
+/* src/css/styles.css - Theme Switcher */
+.theme-switcher {
+    display: flex;
+    align-items: center;
+}
+
+.theme-toggle-checkbox {
+    display: none;
+}
+
+.theme-toggle-label {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; /* Icons are now outside */
+    background-color: var(--color-text-secondary); /* Track color in light mode */
+    width: 55px; /* Slightly wider */
+    height: 28px;
+    border-radius: 14px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease;
+    border: 1px solid transparent; /* Placeholder for potential dark mode glow border */
+}
+
+body.dark-mode .theme-toggle-label {
+    background-color: var(--dm-bg-medium); /* Dark mode track */
+    border: 1px solid rgba(var(--color-glow-rgb-values), 0.3);
+}
+
+
+.theme-toggle-label .toggle-ball {
+    background-color: var(--lm-bg-deep); /* Light mode ball */
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease; /* Bouncy ease */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    display: flex; /* For centering icon inside ball */
+    justify-content: center;
+    align-items: center;
+}
+
+body.dark-mode .theme-toggle-label .toggle-ball {
+    background-color: var(--dm-text-primary); /* Dark mode ball - light color */
+}
+
+.theme-toggle-checkbox:checked + .theme-toggle-label .toggle-ball {
+    transform: translateX(27px); /* Adjusted for wider track */
+}
+
+/* Icons within the ball - one visible at a time */
+.theme-toggle-label .icon {
+    font-size: 14px; /* Smaller icons inside ball */
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.theme-toggle-label .sun-icon { color: #f39c12; opacity: 1; }
+.theme-toggle-label .moon-icon { color: #4A5568; opacity: 0; position: absolute; } /* Moon icon starts dark, hidden */
+
+body.dark-mode .theme-toggle-label .moon-icon { color: #f1c40f; } /* Moon icon color for dark mode ball */
+
+
+.theme-toggle-checkbox:checked + .theme-toggle-label .sun-icon {
+    opacity: 0; transform: rotate(90deg);
+}
+.theme-toggle-checkbox:checked + .theme-toggle-label .moon-icon {
+    opacity: 1; transform: rotate(0deg);
+}
+.theme-toggle-checkbox:not(:checked) + .theme-toggle-label .sun-icon {
+    opacity: 1; transform: rotate(0deg);
+}
+.theme-toggle-checkbox:not(:checked) + .theme-toggle-label .moon-icon {
+    opacity: 0; transform: rotate(-90deg);
+}
+
+/* Add icons directly to the ball span in HTML for this to work: */
+/* <span class="toggle-ball">
+       <span class="icon sun-icon">☀️</span>
+       <span class="icon moon-icon">🌙</span>
+   </span>
+*/
+
+/* --- Homepage Hero Section --- */
+#homepage-hero {
+    height: 100vh;
+    min-height: 600px; /* Ensure it's not too small on short viewports */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--color-background); /* Use themed background */
+    color: var(--color-text-primary);
+    text-align: center;
+    padding-top: 100px; /* Increased for navbar */
+}
+body:not(.dark-mode) #homepage-hero { /* Dynamic gradient for light mode only */
+     background: linear-gradient(135deg, var(--lm-bg-deep), var(--lm-bg-medium));
+}
+
+
+#hero-3d-scene-container {
+    width: 100%;
+    height: 55vh; /* Adjust as needed */
+    max-height: 450px;
+    position: relative;
+    margin-bottom: 2.5rem;
+}
+#hero-3d-scene-container canvas {
+    display: block; width: 100% !important; height: 100% !important;
+}
+.hero-text-area {
+    z-index: 10; opacity: 0; transform: translateY(20px);
+    color: var(--color-text-primary);
+}
+.hero-text-area h1 {
+    font-family: var(--font-title); /* Use specific title font */
+    color: var(--color-text-primary); /* Ensure it uses primary text color */
+    margin-bottom: 0.75rem;
+    text-shadow: body.dark-mode ? 0 0 10px rgba(var(--color-glow-rgb-values), 0.5) : none;
+}
+.hero-text-area p {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-family: var(--font-secondary);
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.scroll-down-indicator {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    color: var(--color-accent-secondary); animation: bounce 2s infinite; z-index: 5;
+}
+@keyframes bounce { /* No change needed */ }
+
+/* --- Content Sections --- */
+.content-section {
+    padding: 80px 0;
+    position: relative;
+}
+.content-section:nth-child(even) { /* Use even for odd-like behavior due to hero */
+    background-color: var(--section-bg-odd);
+}
+body.dark-mode .content-section:nth-child(even) {
+    background-color: var(--section-bg-odd); /* Dark mode odd section bg */
+}
+
+/* About Us Section */
+#about-us .about-us-content { max-width: 800px; margin: 0 auto; text-align: left; }
+.mission-vision-list { list-style: none; padding-left: 0; }
+.mission-vision-list li { margin-bottom: 1em; padding-left: 25px; position: relative; }
+.mission-vision-list li::before {
+    content: '✓'; /* Or use an SVG icon */
+    position: absolute;
+    left: 0;
+    color: var(--color-accent-secondary);
+    font-weight: bold;
+}
+
+/* Journey Timeline */
+.journey-timeline { position: relative; max-width: 800px; margin: 0 auto; }
+.journey-timeline::before { /* The central line */
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--color-card-border);
+    border-radius: 2px;
+}
+body.dark-mode .journey-timeline::before {
+    background-image: linear-gradient(to bottom, transparent, var(--color-glow), transparent);
+}
+.timeline-item {
+    display: flex;
+    margin-bottom: 40px;
+    position: relative;
+    opacity: 0; /* For scroll animation */
+    transform: translateY(30px); /* For scroll animation */
+}
+.timeline-item:nth-child(odd) { flex-direction: row-reverse; }
+.timeline-date {
+    flex-basis: 120px; /* Width of date */
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 600;
+    color: var(--color-accent-primary);
+    position: relative; /* For the connecting dot */
+}
+.timeline-item:nth-child(odd) .timeline-date { text-align: center; } /* Adjust if needed for odd items */
+.timeline-item:nth-child(even) .timeline-date { text-align: center; }
+
+.timeline-date::after { /* Dot on the timeline */
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 15px;
+    height: 15px;
+    background-color: var(--color-accent-secondary);
+    border: 3px solid var(--color-background);
+    border-radius: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+.timeline-item:nth-child(odd) .timeline-date::after { left: -7.5px; transform: translate(-100%, -50%); }
+.timeline-item:nth-child(even) .timeline-date::after { right: -7.5px; transform: translate(100%, -50%); }
+
+body.dark-mode .timeline-date::after {
+    background-color: var(--color-glow);
+    box-shadow: 0 0 8px var(--color-glow);
+}
+.timeline-content {
+    flex: 1;
+    padding: 30px;
+    margin: 0 20px; /* Space from timeline */
+}
+.timeline-item:nth-child(odd) .timeline-content { margin-left: 40px; margin-right: 0; }
+.timeline-item:nth-child(even) .timeline-content { margin-right: 40px; margin-left: 0; }
+
+/* Core Focus Section */
+.focus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+.focus-item { text-align: center; }
+.focus-icon { width: 60px; height: 60px; margin-bottom: 15px; color: var(--color-accent-secondary); /* If SVGs are used with currentColor */ }
+/* You'll need actual SVG icons for `src` in HTML */
+
+/* Products Section */
+#products .product-intro, #products .product-feature, #products .product-highlight {
+    margin-bottom: 30px;
+}
+#products h5 { margin-top: 1.5em; }
+
+/* Team Section - Horizontal Scroll */
+.team-scroller-wrapper {
+    padding: 0; /* Remove default section padding if child container has it */
+    overflow: hidden; /* Important for ScrollTrigger pin spacing */
+}
+#our-team h2 { margin-bottom: 0; padding-bottom: 50px; /* Ensure space if team-grid has negative margin for pinning */ }
+
+#team-grid.team-flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 20px 5vw; /* Padding on sides of the flex container */
+    gap: 30px;
+    width: max-content;
+    will-change: transform;
+    transform: translateX(0); /* Ensure initial position is 0 */
+    perspective: 1500px; If doing 3D card tilts
+}
+.team-card {
+    flex: 0 0 auto;
+    width: clamp(280px, 25vw, 340px); /* Responsive card width */
+    /* ... existing card styles ... */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+/* src/css/styles.css */
+.team-card img.team-member-photo {
+    width: 100px; /* Or a responsive unit like 30% of card width if desired */
+    height: 100px; /* Maintain aspect ratio or make it auto if width is % */
+    border-radius: 50%;
+    object-fit: cover; /* Good for ensuring the circle is filled */
+    margin: 0 auto 15px auto; /* Centers it */
+    display: block;
+    border: 3px solid var(--color-accent-secondary); /* Themed border */
+}
+body.dark-mode .team-card img.team-member-photo {
+    border-color: var(--color-glow);
+    box-shadow: 0 0 8px rgba(var(--color-glow-rgb-values), 0.5);
+}
+.team-card h3 { margin-top: 15px; }
+
+
+/* Advisors Section */
+.advisor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+.advisor-card .advisor-role {
+    font-style: italic;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5em;
+    font-size: 0.9rem;
+}
+
+/* Contact Section */
+.contact-layout {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+.contact-info { flex: 1; min-width: 300px; }
+/* src/css/styles.css - Contact Us Section */
+
+/* ... existing #contact-form-container styles (ensure it's a .card-style) ... */
+
+#contact-form .form-group {
+    margin-bottom: 25px; /* Increased spacing */
+    position: relative; /* For floating labels */
+}
+
+/* Floating Label Styling */
+.floating-label-group {
+    position: relative;
+}
+
+.floating-label-group input,
+.floating-label-group textarea {
+    width: 100%;
+    padding: 18px 15px 10px 15px; /* Adjust padding for label space */
+    border: 1px solid var(--color-card-border);
+    border-radius: 8px; /* Softer radius */
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    background-color: transparent; /* Important for glassmorphism */
+    color: var(--color-text-primary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+}
+
+body.dark-mode .floating-label-group input,
+body.dark-mode .floating-label-group textarea {
+    background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.3); /* Subtle dark input bg */
+    border-color: rgba(var(--color-glow-rgb-values), 0.2);
+}
+
+.floating-label-group label {
+    position: absolute;
+    top: 15px; /* Initial vertical position */
+    left: 15px;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    pointer-events: none; /* Allow clicks to pass through to input */
+    transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    background-color: var(--color-background-card); /* Match card bg for clean float */
+    padding: 0 5px; /* Create a small gap around the text when floated */
+}
+body.dark-mode .floating-label-group label {
+    /* For dark mode, ensure label background matches the slightly transparent card background */
+    /* This can be tricky if the card has backdrop-filter.
+       A solid color slice matching card bg is simpler if label floats inside. */
+    background-color: rgba(var(--dm-bg-medium-rgb, 39, 57, 28), 0.6); /* Same as .card-style dark mode bg */
+}
+
+
+/* Animation for floating label */
+.floating-label-group input:focus + label,
+.floating-label-group input:not(:placeholder-shown) + label, /* When there's content */
+.floating-label-group textarea:focus + label,
+.floating-label-group textarea:not(:placeholder-shown) + label {
+    top: -10px; /* Float above */
+    font-size: 0.8rem;
+    color: var(--color-accent-secondary);
+    /* transform: translateY(-100%); /* Alternative floating effect */
+}
+
+/* Input focus styles */
+.floating-label-group input:focus,
+.floating-label-group textarea:focus {
+    border-color: var(--color-accent-secondary);
+}
+body.dark-mode .floating-label-group input:focus,
+body.dark-mode .floating-label-group textarea:focus {
+    border-color: var(--color-glow);
+    box-shadow: 0 0 8px rgba(var(--color-glow-rgb-values), 0.3);
+}
+
+/* Modern Submit Button */
+.submit-button.modern-submit {
+    display: flex; /* For icon alignment */
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Full width or auto as preferred */
+    padding: 14px 25px;
+    background-color: var(--color-accent-secondary);
+    color: var(--lm-bg-deep); /* High contrast text, e.g., light text on accent color */
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-primary);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden; /* For ripple or other effects */
+}
+
+body.dark-mode .submit-button.modern-submit {
+    background-color: var(--color-glow);
+    color: var(--dm-bg-deep);
+    box-shadow: 0 0 10px 0px rgba(var(--color-glow-rgb-values), 0.4);
+}
+
+.submit-button.modern-submit:hover {
+    background-color: var(--color-accent-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(var(--color-accent-rgb-values, 50, 142, 110), 0.3); /* Assuming accent is lm-accent-primary for light mode */
+}
+body.dark-mode .submit-button.modern-submit:hover {
+    background-color: var(--dm-accent-secondary); /* Brighter hover for dark mode */
+    box-shadow: 0 0 15px 2px rgba(var(--color-glow-rgb-values), 0.6);
+}
+
+.submit-button.modern-submit .submit-icon {
+    margin-left: 10px;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.submit-button.modern-submit:hover .submit-icon {
+    transform: translateX(5px);
+}
+/* src/css/styles.css */
+.submit-button.is-submitting .submit-icon {
+    display: none; /* Hide arrow when submitting */
+}
+.loader-dots span {
+    animation: blink 1.4s infinite both;
+    font-size: 1.5em; /* Make dots larger */
+    line-height: 1;
+}
+.loader-dots span:nth-child(2) { animation-delay: .2s; }
+.loader-dots span:nth-child(3) { animation-delay: .4s; }
+
+@keyframes blink {
+    0% { opacity: .2; }
+    20% { opacity: 1; }
+    100% { opacity: .2; }
+}
+/* Ripple (ensure .ripple CSS from previous is present or included) */
+/* ... */
+
+/* Confirmation Message Styling */
+#form-confirmation {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background-color: var(--color-accent-secondary); /* Use accent color */
+    color: var(--lm-bg-deep); /* High contrast text */
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+}
+body.dark-mode #form-confirmation {
+    background-color: var(--color-glow);
+    color: var(--dm-bg-deep);
+}
+
+/* Footer */
+#footer {
+    background-color: var(--color-accent-primary); /* Use a theme color */
+    color: var(--lm-bg-deep); /* Light text on dark bg */
+    padding: 40px 0;
+    text-align: center;
+}
+body.dark-mode #footer {
+    background-color: var(--dm-bg-medium);
+    color: var(--dm-text-secondary);
+}
+#footer p { font-size: 0.9rem; margin-bottom: 0.3em; }
+
+
+/* --- Responsive Design Adjustments --- */
+@media (max-width: 768px) {
+    #navbar .nav-links {
+        display: none; flex-direction: column;
+        position: absolute;
+        top: 100%; /* Position below navbar */
+        left: 0; width: 100%;
+        background-color: var(--navbar-bg); /* Use themed variable */
+        padding: 1rem 0;
+        box-shadow: 0 4px 10px var(--color-shadow);
+        border-top: 1px solid var(--color-card-border);
+    }
+    body.dark-mode #navbar .nav-links {
+        background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.85);
+        backdrop-filter: blur(var(--backdrop-filter-blur));
+        -webkit-backdrop-filter: blur(var(--backdrop-filter-blur));
+    }
+
+    #navbar .nav-links.active { display: flex; }
+    #navbar .nav-links a { margin: 12px 20px; width: calc(100% - 40px); text-align: center; }
+    .controls-container { margin-left: auto; /* Ensure it's to the right of nav links if they were visible */ }
+    #hamburger-menu { display: block; }
+
+    .journey-timeline::before { left: 20px; } /* Move line to the left */
+    .timeline-item, .timeline-item:nth-child(odd) { flex-direction: column; /* Stack date and content */ }
+    .timeline-date { text-align: left !important; flex-basis: auto; margin-bottom: 10px; padding-left: 45px; /* Space for dot */ }
+    .timeline-item:nth-child(odd) .timeline-date::after,
+    .timeline-item:nth-child(even) .timeline-date::after {
+        left: 0; /* Align dot to the left of date text */
+        transform: translateY(-50%); /* Keep vertical centering */
+        /* Remove right/left specific transforms */
+    }
+    .timeline-content { margin: 0 0 0 45px !important; /* Align with date text, remove side margins */ }
+
+    .contact-layout { flex-direction: column; }
+}
+
+/* src/css/styles.css - (Should be already in your file or you need to add it) */
+
+/* Ripple effect for button */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6); /* Light ripple for dark buttons */
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none; /* So it doesn't interfere with button clicks */
+}
+
+body.dark-mode .submit-button .ripple { /* Ripple color for light buttons on dark mode */
+    background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.4); 
+}
+
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4); /* Ripple expands */
+        opacity: 0; /* Ripple fades out */
+    }
+}
+
+/* Utility for debugging */
+/* .debug-border { border: 1px solid red !important; } */

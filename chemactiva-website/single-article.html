@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article – ChemActiva</title> <!-- Title will be updated by JS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Lato:wght@300;400;700&family=Stix+Two+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/styles.css">
+    <link rel="stylesheet" href="src/css/articles.css">
+    <link rel="icon" type="image/png" href="/assets/images/logo-small_size.png">
+</head>
+<body>
+    <div id="main-container">
+        <header id="navbar">
+            <!-- Copy navbar HTML from index.html here -->
+             <div class="container">
+                <a href="/index.html#homepage-hero" class="logo">
+                    <img src="/assets/images/logo.png" alt="ChemActiva Logo" id="navbar-logo-img">
+                </a>
+                <nav class="nav-links">
+                    <a href="/index.html#about-us">About</a>
+                    <a href="/index.html#our-journey">Journey</a>
+                    <a href="/research.html">Research</a> 
+                    <a href="/blog.html">Blog</a> 
+                    <a href="/index.html#products">Products</a>
+                    <a href="/index.html#our-team">Team</a>
+                    <a href="/index.html#contact">Contact</a>
+                     <div class="theme-switcher theme-switcher-mobile">
+                        <input type="checkbox" id="theme-toggle-mobile" class="theme-toggle-checkbox">
+                        <label for="theme-toggle-mobile" class="theme-toggle-label">
+                            <span class="toggle-ball"><span class="icon sun-icon">☀️</span><span class="icon moon-icon">🌙</span></span>
+                        </label>
+                    </div>
+                </nav>
+                <div class="controls-container">
+                    <div class="theme-switcher" id="theme-switcher-desktop">
+                        <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox">
+                        <label for="theme-toggle" class="theme-toggle-label">
+                            <span class="toggle-ball"><span class="icon sun-icon">☀️</span><span class="icon moon-icon">🌙</span></span>
+                        </label>
+                    </div>
+                    <button id="hamburger-menu" aria-label="Open menu"><span></span><span></span><span></span></button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <article id="single-article-content" class="content-section">
+                <div class="container article-container">
+                    <!-- Article content will be injected here -->
+                    <p class="placeholder-text">Loading article...</p>
+                </div>
+            </article>
+        </main>
+
+        <footer id="footer">
+             <div class="container">
+                <p>© <span id="current-year">2024</span> ChemActiva Innovations Pvt Ltd. All rights reserved.</p>
+                <p>Pioneering Sustainable Nano Cellulose</p>
+            </div>
+        </footer>
+    </div>
+    <script type="module" src="src/js/SingleArticleViewer.js"></script>
+    <script type="module">
+        import SingleArticleViewer from './src/js/SingleArticleViewer.js';
+        import UIAnimations from './src/js/UIAnimations.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const uiAnimations = new UIAnimations();
+            uiAnimations.init();
+            
+            const articleViewer = new SingleArticleViewer(
+                '#single-article-content .article-container'
+            );
+            articleViewer.loadArticle();
+
+            const currentYearSpan = document.getElementById('current-year');
+            if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>
