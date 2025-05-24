@@ -36,13 +36,13 @@ export default class UIAnimations {
                 // Animate logo and navbar height changes
                 if (this.isScrolled) {
                     gsap.to(navbar.querySelector('.logo img'), {
-                        scale: 0.9,
+                        scale: 1.5,
                         duration: 0.4,
                         ease: "power2.out"
                     });
                 } else {
                     gsap.to(navbar.querySelector('.logo img'), {
-                        scale: 1,
+                        scale: 1.25,
                         duration: 0.4,
                         ease: "power2.out"
                     });
