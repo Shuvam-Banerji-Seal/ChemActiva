@@ -1,22 +1,11 @@
-// ChemActiva/chemactiva-website/vite.config.js
-import { defineConfig } from 'vite'
-import { resolve } from 'path' // Import resolve from 'path'
+// vite.config.js
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/ChemActiva/', 
-  plugins: [
-    // ...
-  ],
-  build: {
-    outDir: 'dist',
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-        blog: resolve(__dirname, 'blog.html'),
-        research: resolve(__dirname, 'research.html'),
-        singleArticle: resolve(__dirname, 'single-article.html'),
-        // Add any other HTML pages you have at the root of chemactiva-website
-      }
-    }
-  }
-})
+  // No special config needed for this setup yet,
+  // but this ensures it exports an object.
+  // If your index.html is in the project root and main.js is in src/js/main.js
+  // Vite handles this by default.
+  // If index.html were in src/, you'd add: root: 'src',
+  // build: { outDir: '../dist' }
+});
