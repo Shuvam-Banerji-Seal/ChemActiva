@@ -7,130 +7,703 @@ gsap.registerPlugin(ScrollTrigger);
 export default class ScrollAnimations {
     constructor() {
         this.sceneManager = null;
-        this.teamScrollTween = null; 
+        this.teamScrollTween = null;
+        this.teamAnimationConfig = {
+            mobile: {
+                enableAutoScroll: true, // Enable auto-scroll for mobile
+                scrollSpeed: 25, // Slower for mobile
+                pauseOnInteraction: true,
+                snapToCards: true,
+                showScrollbar: false, // Hide scrollbar for cleaner look
+                enableTouchScroll: true, // Allow manual touch scrolling
+                enableTapToEnlarge: true, // Tap to pause and enlarge
+                autoResumeDelay: 3000 // Resume auto-scroll after 3 seconds
+            },
+            desktop: {
+                enableAutoScroll: true,
+                scrollSpeed: 40,
+                pauseOnInteraction: true,
+                snapToCards: false,
+                showScrollbar: false,
+                enableTouchScroll: false,
+                enableTapToEnlarge: false,
+                autoResumeDelay: 2000
+            }
+        };
+        this.isMobile = this.detectMobile();
+        this.animationQuality = this.detectAnimationQuality();
+        
+        // Bind methods for proper context
+        this.handleResize = this.handleResize.bind(this);
+        this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+        
+        // Listen for resize and visibility changes
+        window.addEventListener('resize', this.handleResize);
+        document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    }
+
+    detectMobile() {
+        return window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    detectAnimationQuality() {
+        // Reduce animations on low-end devices or if user prefers reduced motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return 'minimal';
+        }
+        
+        // Simple performance detection
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        const hasWebGL = !!gl;
+        const hardwareConcurrency = navigator.hardwareConcurrency || 2;
+        
+        if (hasWebGL && hardwareConcurrency >= 4) {
+            return 'high';
+        } else if (hardwareConcurrency >= 2) {
+            return 'medium';
+        }
+        return 'low';
+    }
+
+    handleResize() {
+        // Debounce resize events
+        clearTimeout(this.resizeTimeout);
+        this.resizeTimeout = setTimeout(() => {
+            const wasMobile = this.isMobile;
+            this.isMobile = this.detectMobile();
+            
+            if (wasMobile !== this.isMobile) {
+                // Device type changed, reinitialize team animations
+                this.reinitializeTeamAnimations();
+            }
+        }, 250);
+    }
+
+    handleVisibilityChange() {
+        if (document.hidden) {
+            // Pause animations when tab is not visible
+            if (this.teamScrollTween) {
+                this.teamScrollTween.pause();
+            }
+        } else {
+            // Resume animations when tab becomes visible
+            if (this.teamScrollTween && this.getCurrentTeamConfig().enableAutoScroll) {
+                this.teamScrollTween.play();
+            }
+        }
+    }
+
+    getCurrentTeamConfig() {
+        return this.isMobile ? this.teamAnimationConfig.mobile : this.teamAnimationConfig.desktop;
     }
 
     init(sceneManagerInstance) {
         this.sceneManager = sceneManagerInstance;
-        // console.log("[ScrollAnimations] Initializing scroll effects...");
+        console.log(`[ScrollAnimations] Initializing with ${this.animationQuality} quality animations for ${this.isMobile ? 'mobile' : 'desktop'}...`);
 
         this.initNavbarScroll();
         this.initHeroTextFade();
         this.initLightingScroll();
-        // initJourneyTimelineAnimations is called by App.js after JourneyManager populates DOM
         this.initCoreFocusAnimations();
-        // initTeamAutoScroll is called by App.js AFTER TeamManager populates DOM
         this.initGenericCardAnimations();
+        this.initScrollProgress();
+        this.initParallaxElements();
         
-        // console.log("Scroll animations setup complete.");
+        console.log("Enhanced scroll animations setup complete.");
     }
 
     initNavbarScroll() {
         const navbar = document.getElementById('navbar');
         if (!navbar) return;
+
+        // Enhanced navbar with smooth transitions
+        let isScrolled = false;
+        
         ScrollTrigger.create({
-            start: "top top", end: 99999, // Effectively always active
+            start: "top top",
+            end: 99999,
             onUpdate: (self) => {
-                const isScrolled = self.scroll() > 50;
-                navbar.classList.toggle('scrolled', isScrolled);
+                const shouldBeScrolled = self.scroll() > 50;
+                
+                if (shouldBeScrolled !== isScrolled) {
+                    isScrolled = shouldBeScrolled;
+                    
+                    gsap.to(navbar, {
+                        backgroundColor: isScrolled ? 'rgba(0, 0, 0, 0.95)' : 'transparent',
+                        backdropFilter: isScrolled ? 'blur(10px)' : 'blur(0px)',
+                        boxShadow: isScrolled ? '0 2px 20px rgba(0, 0, 0, 0.1)' : '0 0 0 rgba(0, 0, 0, 0)',
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                    
+                    navbar.classList.toggle('scrolled', isScrolled);
+                }
             }
         });
     }
 
     initHeroTextFade() {
-        gsap.to(".hero-text-area", {
-            opacity: 1, y: 0, duration: 1, delay: 0.3, // Delay after loader
+        // Try multiple selectors to find hero text elements
+        const heroTextArea = document.querySelector(".hero-text-area") || 
+                           document.querySelector(".hero-text") ||
+                           document.querySelector("#hero-text") ||
+                           document.querySelector(".hero-content");
+        
+        if (!heroTextArea) {
+            console.warn("[ScrollAnimations] Hero text area not found. Trying direct children approach.");
+            // Fallback: try to find hero section and animate its children
+            const heroSection = document.querySelector("#homepage-hero") || 
+                               document.querySelector(".hero") ||
+                               document.querySelector("#hero");
+            
+            if (heroSection) {
+                const heroElements = gsap.utils.toArray(heroSection.children);
+                if (heroElements.length > 0) {
+                    this.animateHeroElements(heroElements, heroSection);
+                }
+            }
+            return;
+        }
+
+        // Enhanced hero animation with staggered elements
+        const heroElements = gsap.utils.toArray(".hero-text-area > *");
+        
+        if (heroElements.length === 0) {
+            console.warn("[ScrollAnimations] No hero child elements found, animating container directly.");
+            // Animate the container itself if no children found
+            gsap.fromTo(heroTextArea, 
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: this.animationQuality === 'high' ? 1.2 : 0.8,
+                    delay: 0.3,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: "#homepage-hero",
+                        start: "top 70%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        } else {
+            this.animateHeroElements(heroElements, heroTextArea);
+        }
+    }
+
+    animateHeroElements(elements, container) {
+        gsap.set(elements, { opacity: 0, y: 50 });
+        
+        gsap.to(elements, {
+            opacity: 1,
+            y: 0,
+            duration: this.animationQuality === 'high' ? 1.2 : 0.8,
+            stagger: 0.15,
+            delay: 0.3,
+            ease: "power2.out",
             scrollTrigger: {
-                trigger: "#homepage-hero", start: "top 70%",
+                trigger: "#homepage-hero",
+                start: "top 70%",
                 toggleActions: "play none none none"
             }
         });
+
+        // Add floating animation for high-quality mode
+        if (this.animationQuality === 'high' && container) {
+            gsap.to(container, {
+                y: -10,
+                duration: 3,
+                ease: "sine.inOut",
+                repeat: -1,
+                yoyo: true,
+                delay: 1.5
+            });
+        }
     }
 
     initLightingScroll() {
         if (this.sceneManager && typeof this.sceneManager.updateLighting === 'function') {
             ScrollTrigger.create({
-                trigger: "body", start: "top top", end: "bottom bottom", scrub: 1.2,
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: this.animationQuality === 'high' ? 1.2 : 2,
                 onUpdate: (self) => this.sceneManager.updateLighting(self.progress)
             });
         }
     }
 
+    initScrollProgress() {
+        // Add scroll progress indicator
+        const progressBar = document.createElement('div');
+        progressBar.className = 'scroll-progress';
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        `;
+        document.body.appendChild(progressBar);
+
+        ScrollTrigger.create({
+            trigger: "body",
+            start: "top top",
+            end: "bottom bottom",
+            onUpdate: (self) => {
+                gsap.to(progressBar, {
+                    width: `${self.progress * 100}%`,
+                    duration: 0.1,
+                    ease: "none"
+                });
+            }
+        });
+    }
+
+    initParallaxElements() {
+        if (this.animationQuality === 'low') return;
+
+        // Enhanced parallax for various elements
+        const parallaxElements = gsap.utils.toArray('[data-parallax]');
+        
+        parallaxElements.forEach(element => {
+            const speed = element.dataset.parallax || 0.5;
+            
+            gsap.to(element, {
+                yPercent: -50 * speed,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        });
+    }
+
     initJourneyTimelineAnimations() {
         const timelineItems = gsap.utils.toArray('.timeline-item');
-        if(timelineItems.length === 0) return;
-        // console.log(`[ScrollAnimations] Animating ${timelineItems.length} journey items.`);
-        timelineItems.forEach(item => {
-            // Determine if item is odd/even for staggered animation direction
-            const isOdd = Array.from(item.parentElement.children).indexOf(item) % 2 === 0; 
-            gsap.fromTo(item,
-                { opacity: 0, y: 50, x: isOdd ? 50 : -50 },
-                {
-                    opacity: 1, y: 0, x: 0, duration: 0.8, ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: item, start: "top 90%", 
-                        toggleActions: "play none none none"
-                    }
+        if (timelineItems.length === 0) return;
+
+        console.log(`[ScrollAnimations] Animating ${timelineItems.length} journey items with enhanced effects.`);
+
+        timelineItems.forEach((item, index) => {
+            const isOdd = index % 2 === 0;
+            const timeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 90%",
+                    toggleActions: "play none none none"
                 }
-            );
+            });
+
+            // Enhanced timeline animation
+            timeline
+                .fromTo(item, 
+                    { 
+                        opacity: 0, 
+                        y: 60, 
+                        x: isOdd ? 60 : -60,
+                        scale: 0.9,
+                        rotationY: isOdd ? 15 : -15
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        x: 0,
+                        scale: 1,
+                        rotationY: 0,
+                        duration: this.animationQuality === 'high' ? 1 : 0.7,
+                        ease: 'power2.out'
+                    }
+                );
+
+            // Add subtle hover effects for desktop
+            if (!this.isMobile && this.animationQuality !== 'low') {
+                item.addEventListener('mouseenter', () => {
+                    gsap.to(item, {
+                        scale: 1.02,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    gsap.to(item, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            }
         });
     }
 
     initCoreFocusAnimations() {
-        gsap.utils.toArray('.focus-item.card-style').forEach((item, index) => {
-            gsap.fromTo(item, 
-                { opacity: 0, y: 50, scale: 0.9 },
-                { 
-                    opacity: 1, y: 0, scale: 1, duration: 0.7, delay: index * 0.1,
-                    scrollTrigger: {
-                        trigger: item, start: "top 85%",
-                        toggleActions: "play none none none"
-                    }
+        const focusItems = gsap.utils.toArray('.focus-item.card-style');
+        if (focusItems.length === 0) return;
+
+        focusItems.forEach((item, index) => {
+            const timeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
                 }
-            );
+            });
+
+            timeline
+                .fromTo(item, 
+                    { 
+                        opacity: 0, 
+                        y: 60, 
+                        scale: 0.85,
+                        rotationX: 10
+                    },
+                    { 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1,
+                        rotationX: 0,
+                        duration: this.animationQuality === 'high' ? 0.8 : 0.6,
+                        delay: index * 0.1,
+                        ease: "back.out(1.7)"
+                    }
+                );
+
+            // Enhanced hover effects
+            if (!this.isMobile) {
+                this.addCardHoverEffects(item);
+            }
         });
     }
 
     initTeamAutoScroll() {
-        const teamGrid = document.querySelector('#team-grid.team-flex-container');
-        const teamScrollerWrapper = document.querySelector('.team-scroller-wrapper');
+        // Try multiple selectors to find team elements
+        const teamGrid = document.querySelector('#team-grid.team-flex-container') ||
+                        document.querySelector('#team-grid') ||
+                        document.querySelector('.team-grid') ||
+                        document.querySelector('.team-container');
+        
+        const teamScrollerWrapper = document.querySelector('.team-scroller-wrapper') ||
+                                   document.querySelector('.team-wrapper') ||
+                                   document.querySelector('#our-team');
 
-        if (!teamGrid || !teamScrollerWrapper || teamGrid.children.length === 0) {
-            // console.warn('[TeamAutoScroll] Team grid/wrapper not found or empty. Attempting fallback animation.');
-            this.animateInTeamCards(); 
+        if (!teamGrid || teamGrid.children.length === 0) {
+            console.warn('[TeamAutoScroll] Team grid not found or empty. Searching for team cards globally.');
+            this.animateInTeamCards();
             return;
         }
+
+        if (!teamScrollerWrapper) {
+            console.warn('[TeamAutoScroll] Team wrapper not found. Using team grid as wrapper.');
+            // Use the team grid's parent or the grid itself as wrapper
+            const wrapper = teamGrid.parentElement || teamGrid;
+            this.setupTeamGrid(teamGrid, wrapper, gsap.utils.toArray(teamGrid.children), this.getCurrentTeamConfig());
+            return;
+        }
+
+        this.cleanupTeamAnimations();
         
-        ScrollTrigger.getAll().forEach(st => {
-            if (st.vars.trigger === teamScrollerWrapper || st.vars.trigger === teamGrid) {
-                st.kill();
+        const config = this.getCurrentTeamConfig();
+        
+        // Get ALL children of team grid, including those without photos
+        const allCards = Array.from(teamGrid.children);
+        const originalCards = allCards.filter(card => {
+            // Include all cards, not just those with images
+            // This ensures cards without photos are also included
+            return card.classList.contains('team-card') || 
+                   card.querySelector('.team-member') ||
+                   card.querySelector('[class*="team"]') ||
+                   // Fallback: if it's a direct child of team grid, it's probably a team card
+                   true;
+        });
+        
+        console.log(`[TeamAutoScroll] Found ${originalCards.length} team cards (including those without photos).`);
+        
+        if (originalCards.length === 0) {
+            console.warn('[TeamAutoScroll] No team cards found after filtering. Using all children.');
+            // Use all children as team cards
+            this.setupTeamGrid(teamGrid, teamScrollerWrapper, allCards, config);
+            return;
+        }
+
+        // Enhanced team grid setup
+        this.setupTeamGrid(teamGrid, teamScrollerWrapper, originalCards, config);
+    }
+
+    setupTeamGrid(teamGrid, wrapper, originalCards, config) {
+        const cardWidth = originalCards[0].offsetWidth;
+        const gap = parseFloat(getComputedStyle(teamGrid).gap) || 25;
+        const oneSetWidth = (cardWidth + gap) * originalCards.length - gap;
+        const viewportWidth = wrapper.clientWidth;
+
+        // Mobile-specific setup
+        if (this.isMobile) {
+            this.setupMobileTeamGrid(teamGrid, wrapper, originalCards, config);
+            return;
+        }
+
+        // Desktop setup
+        if (oneSetWidth <= viewportWidth || originalCards.length < 3) {
+            teamGrid.style.justifyContent = 'center';
+            this.animateInTeamCards();
+            return;
+        }
+
+        this.setupDesktopTeamScroll(teamGrid, wrapper, originalCards, config, oneSetWidth, gap);
+    }
+
+    setupMobileTeamGrid(teamGrid, wrapper, originalCards, config) {
+        // Set up container for both auto-scroll and manual scrolling
+        teamGrid.style.display = 'flex';
+        teamGrid.style.overflowX = config.enableTouchScroll ? 'auto' : 'hidden';
+        teamGrid.style.scrollSnapType = config.snapToCards ? 'x mandatory' : 'none';
+        teamGrid.style.scrollBehavior = 'smooth';
+        teamGrid.style.scrollbarWidth = config.showScrollbar ? 'thin' : 'none';
+        teamGrid.style.msOverflowStyle = config.showScrollbar ? 'auto' : 'none';
+        
+        if (!config.showScrollbar) {
+            teamGrid.style.setProperty('scrollbar-width', 'none');
+            const style = document.createElement('style');
+            style.textContent = `
+                #team-grid::-webkit-scrollbar { display: none; }
+            `;
+            if (!document.head.querySelector('style[data-team-scrollbar]')) {
+                style.setAttribute('data-team-scrollbar', 'true');
+                document.head.appendChild(style);
+            }
+        }
+
+        // Add scroll snap to cards if enabled
+        if (config.snapToCards) {
+            originalCards.forEach(card => {
+                card.style.scrollSnapAlign = 'start';
+                card.style.flexShrink = '0'; // Prevent cards from shrinking
+            });
+        }
+
+        // Set up auto-scroll if enabled
+        if (config.enableAutoScroll) {
+            this.setupMobileAutoScroll(teamGrid, wrapper, originalCards, config);
+        }
+
+        // Set up tap-to-enlarge functionality
+        if (config.enableTapToEnlarge) {
+            this.setupTapToEnlarge(originalCards, config);
+        }
+
+        // Add scroll indicators for mobile
+        this.addMobileScrollIndicators(wrapper, teamGrid, originalCards);
+        
+        // Set up touch interaction handling
+        this.setupMobileTouchHandling(teamGrid, config);
+        
+        // Animate cards in
+        this.animateInTeamCards();
+
+        console.log('[TeamAutoScroll] Mobile configuration applied with auto-scroll and touch interaction.');
+    }
+
+    setupMobileAutoScroll(teamGrid, wrapper, originalCards, config) {
+        // Calculate dimensions
+        const cardWidth = originalCards[0].offsetWidth || 280;
+        const gap = parseFloat(getComputedStyle(teamGrid).gap) || 20;
+        const totalWidth = (cardWidth + gap) * originalCards.length;
+        const containerWidth = teamGrid.offsetWidth;
+
+        // Only set up auto-scroll if content is wider than container
+        if (totalWidth <= containerWidth) {
+            console.log('[MobileAutoScroll] Content fits in container, auto-scroll not needed.');
+            return;
+        }
+
+        // Clone cards for seamless loop
+        const fragment = document.createDocumentFragment();
+        originalCards.forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.classList.add('team-card-clone');
+            fragment.appendChild(clone);
+        });
+        teamGrid.appendChild(fragment);
+
+        // Create auto-scroll animation
+        const scrollDistance = (cardWidth + gap) * originalCards.length;
+        
+        this.teamScrollTween = gsap.to(teamGrid, {
+            x: `-=${scrollDistance}`,
+            duration: scrollDistance / config.scrollSpeed,
+            ease: "none",
+            repeat: -1,
+            modifiers: {
+                x: gsap.utils.unitize(x => parseFloat(x) % scrollDistance)
             }
         });
-        if (this.teamScrollTween) {
-            this.teamScrollTween.kill();
-        }
 
-        let originalCards = gsap.utils.toArray(teamGrid.children);
-        if (originalCards.length === 0) {
-             this.animateInTeamCards(); // Fallback if somehow cards array is empty after checks
-             return;
-        }
+        console.log('[MobileAutoScroll] Auto-scroll initialized.');
+    }
 
-        // Ensure images are loaded or have dimensions before calculating cardWidth
-        // This is a common pitfall. For simplicity, we assume CSS sets a fixed/min-width on cards.
-        let cardWidth = originalCards[0].offsetWidth; 
-        const gap = parseFloat(getComputedStyle(teamGrid).gap) || 25; // Use gap from CSS
-        let oneSetWidth = (cardWidth + gap) * originalCards.length - gap; 
+    setupTapToEnlarge(cards, config) {
+        cards.forEach((card, index) => {
+            let isEnlarged = false;
+            let enlargeTimeout;
 
-        const viewportWidth = teamScrollerWrapper.clientWidth;
+            const enlargeCard = () => {
+                if (isEnlarged) return;
+                
+                isEnlarged = true;
+                
+                // Pause auto-scroll
+                if (this.teamScrollTween) {
+                    this.teamScrollTween.pause();
+                }
 
-        if (oneSetWidth <= viewportWidth || originalCards.length < 3) { // Don't scroll if not enough content or too few cards
-            // console.log('[TeamAutoScroll] Not enough card width or too few cards to scroll. Centering content.');
-            teamGrid.style.justifyContent = 'center';
-            this.animateInTeamCards(); // Apply simple fade-in for cards if not scrolling
-            return;
-        }
-        teamGrid.style.justifyContent = 'flex-start'; // Ensure left alignment for scrolling
+                // Enlarge the card
+                gsap.to(card, {
+                    scale: 1.1,
+                    zIndex: 10,
+                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+
+                // Auto-shrink after delay
+                clearTimeout(enlargeTimeout);
+                enlargeTimeout = setTimeout(() => {
+                    shrinkCard();
+                }, config.autoResumeDelay);
+            };
+
+            const shrinkCard = () => {
+                if (!isEnlarged) return;
+                
+                isEnlarged = false;
+                
+                // Shrink the card back
+                gsap.to(card, {
+                    scale: 1,
+                    zIndex: 1,
+                    boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)",
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+
+                // Resume auto-scroll after a short delay
+                setTimeout(() => {
+                    if (this.teamScrollTween && config.enableAutoScroll) {
+                        this.teamScrollTween.play();
+                    }
+                }, 500);
+            };
+
+            // Touch events for tap functionality
+            let touchStartTime;
+            let touchMoved = false;
+
+            card.addEventListener('touchstart', (e) => {
+                touchStartTime = Date.now();
+                touchMoved = false;
+            });
+
+            card.addEventListener('touchmove', (e) => {
+                touchMoved = true;
+            });
+
+            card.addEventListener('touchend', (e) => {
+                const touchDuration = Date.now() - touchStartTime;
+                
+                // Only trigger on quick taps (not drags)
+                if (!touchMoved && touchDuration < 300) {
+                    e.preventDefault();
+                    
+                    if (isEnlarged) {
+                        shrinkCard();
+                    } else {
+                        enlargeCard();
+                    }
+                }
+            });
+
+            // Click event for mouse users (fallback)
+            card.addEventListener('click', (e) => {
+                if (this.isMobile) return; // Only handle for desktop fallback
+                
+                if (isEnlarged) {
+                    shrinkCard();
+                } else {
+                    enlargeCard();
+                }
+            });
+        });
+    }
+
+    setupMobileTouchHandling(teamGrid, config) {
+        let isUserScrolling = false;
+        let scrollTimeout;
+        let touchStartX = 0;
+        let initialScrollLeft = 0;
+
+        // Handle manual scrolling
+        teamGrid.addEventListener('scroll', () => {
+            isUserScrolling = true;
+            
+            // Pause auto-scroll when user manually scrolls
+            if (this.teamScrollTween && config.pauseOnInteraction) {
+                this.teamScrollTween.pause();
+            }
+
+            // Clear existing timeout
+            clearTimeout(scrollTimeout);
+            
+            // Resume auto-scroll after user stops scrolling
+            scrollTimeout = setTimeout(() => {
+                isUserScrolling = false;
+                if (this.teamScrollTween && config.enableAutoScroll) {
+                    this.teamScrollTween.play();
+                }
+            }, config.autoResumeDelay);
+        });
+
+        // Enhanced touch handling for better responsiveness
+        teamGrid.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            initialScrollLeft = teamGrid.scrollLeft;
+            
+            // Pause auto-scroll immediately on touch
+            if (this.teamScrollTween && config.pauseOnInteraction) {
+                this.teamScrollTween.pause();
+            }
+        });
+
+        teamGrid.addEventListener('touchmove', (e) => {
+            if (!touchStartX) return;
+            
+            const touchCurrentX = e.touches[0].clientX;
+            const touchDiffX = touchStartX - touchCurrentX;
+            
+            // Manual scroll during touch move
+            teamGrid.scrollLeft = initialScrollLeft + touchDiffX;
+        });
+
+        teamGrid.addEventListener('touchend', () => {
+            touchStartX = 0;
+            
+            // Resume auto-scroll after touch ends (with delay)
+            setTimeout(() => {
+                if (this.teamScrollTween && config.enableAutoScroll && !isUserScrolling) {
+                    this.teamScrollTween.play();
+                }
+            }, 1000);
+        });
+    }
+
+    setupDesktopTeamScroll(teamGrid, wrapper, originalCards, config, oneSetWidth, gap) {
+        teamGrid.style.justifyContent = 'flex-start';
 
         // Clone cards for seamless loop
         const fragment = document.createDocumentFragment();
@@ -138,13 +711,12 @@ export default class ScrollAnimations {
             const clone = card.cloneNode(true);
             fragment.appendChild(clone);
         });
-        teamGrid.appendChild(fragment); // Append all clones at once
+        teamGrid.appendChild(fragment);
 
-        const scrollSpeed = 40; // pixels per second
-
+        // Create scroll animation
         this.teamScrollTween = gsap.to(teamGrid, {
-            x: `-=${oneSetWidth + gap}`, 
-            duration: (oneSetWidth + gap) / scrollSpeed,
+            x: `-=${oneSetWidth + gap}`,
+            duration: (oneSetWidth + gap) / config.scrollSpeed,
             ease: "none",
             repeat: -1,
             modifiers: {
@@ -152,49 +724,262 @@ export default class ScrollAnimations {
             }
         });
 
-        teamScrollerWrapper.addEventListener('mouseenter', () => { if(this.teamScrollTween) this.teamScrollTween.pause() });
-        teamScrollerWrapper.addEventListener('mouseleave', () => { if(this.teamScrollTween) this.teamScrollTween.play() });
+        // Interaction controls
+        if (config.pauseOnInteraction) {
+            this.addTeamInteractionControls(wrapper);
+        }
 
-        // console.log('[TeamAutoScroll] Auto-scroll initialized.');
-         gsap.fromTo(gsap.utils.toArray(teamGrid.children), // Animate all children (originals + clones)
-            { opacity: 0, scale: 0.95 }, // Start more transparent for a nicer fade-in
-            { opacity: 1, scale: 1, duration: 0.8, stagger:0.08, ease: 'power1.out',
-              scrollTrigger: {trigger: teamScrollerWrapper, start: "top 88%", toggleActions: "play none none none"}
+        // Animate all cards (originals + clones)
+        gsap.fromTo(gsap.utils.toArray(teamGrid.children),
+            { opacity: 0, scale: 0.9, y: 20 },
+            {
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.08,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: wrapper,
+                    start: "top 88%",
+                    toggleActions: "play none none none"
+                }
             }
         );
+
+        console.log('[TeamAutoScroll] Desktop auto-scroll initialized.');
+    }
+
+    addMobileScrollIndicators(wrapper, teamGrid, originalCards) {
+        const indicatorContainer = document.createElement('div');
+        indicatorContainer.className = 'team-scroll-indicators';
+        indicatorContainer.style.cssText = `
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            opacity: 0.7;
+        `;
+
+        // Use original cards for indicator count (not clones)
+        const cardCount = originalCards ? originalCards.length : teamGrid.children.length;
+        
+        for (let i = 0; i < cardCount; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'scroll-indicator';
+            dot.style.cssText = `
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #ccc;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            `;
+            
+            dot.addEventListener('click', () => {
+                // Pause auto-scroll
+                if (this.teamScrollTween) {
+                    this.teamScrollTween.pause();
+                }
+                
+                // Scroll to specific card
+                const targetCard = originalCards ? originalCards[i] : teamGrid.children[i];
+                if (targetCard) {
+                    targetCard.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        inline: 'start',
+                        block: 'nearest'
+                    });
+                }
+                
+                // Resume auto-scroll after delay
+                setTimeout(() => {
+                    if (this.teamScrollTween && this.getCurrentTeamConfig().enableAutoScroll) {
+                        this.teamScrollTween.play();
+                    }
+                }, this.getCurrentTeamConfig().autoResumeDelay);
+            });
+            
+            indicatorContainer.appendChild(dot);
+        }
+
+        wrapper.appendChild(indicatorContainer);
+
+        // Update active indicator on scroll with improved logic
+        let scrollTimeout;
+        const updateIndicators = () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const scrollLeft = teamGrid.scrollLeft;
+                const cardWidth = originalCards && originalCards[0] ? 
+                    originalCards[0].offsetWidth : 
+                    teamGrid.children[0]?.offsetWidth || 280;
+                
+                const gap = parseFloat(getComputedStyle(teamGrid).gap) || 20;
+                const activeIndex = Math.round(scrollLeft / (cardWidth + gap));
+                const clampedIndex = Math.max(0, Math.min(activeIndex, cardCount - 1));
+                
+                indicatorContainer.children.forEach((dot, index) => {
+                    const isActive = index === clampedIndex;
+                    dot.style.background = isActive ? '#667eea' : '#ccc';
+                    dot.style.transform = isActive ? 'scale(1.2)' : 'scale(1)';
+                });
+            }, 50);
+        };
+
+        teamGrid.addEventListener('scroll', updateIndicators);
+        
+        // Also listen for GSAP transforms (for auto-scroll)
+        if (this.teamScrollTween) {
+            this.teamScrollTween.eventCallback('onUpdate', updateIndicators);
+        }
+    }
+
+    addTeamInteractionControls(wrapper) {
+        let isPaused = false;
+
+        const pausePlay = () => {
+            if (!this.teamScrollTween) return;
+            isPaused = true;
+            this.teamScrollTween.pause();
+        };
+
+        const resume = () => {
+            if (!this.teamScrollTween || !this.getCurrentTeamConfig().enableAutoScroll) return;
+            isPaused = false;
+            this.teamScrollTween.play();
+        };
+
+        // Mouse events
+        wrapper.addEventListener('mouseenter', pausePlay);
+        wrapper.addEventListener('mouseleave', resume);
+
+        // Touch events for mobile/tablet
+        wrapper.addEventListener('touchstart', pausePlay);
+        wrapper.addEventListener('touchend', () => {
+            setTimeout(resume, 2000); // Resume after 2 seconds
+        });
+
+        // Focus events for accessibility
+        wrapper.addEventListener('focusin', pausePlay);
+        wrapper.addEventListener('focusout', resume);
+    }
+
+    addCardHoverEffects(card) {
+        if (this.animationQuality === 'low') return;
+
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card, {
+                scale: 1.05,
+                y: -10,
+                boxShadow: "0 15px 35px rgba(0, 0, 0, 0.15)",
+                duration: 0.4,
+                ease: "power2.out"
+            });
+        });
+
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                scale: 1,
+                y: 0,
+                boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)",
+                duration: 0.4,
+                ease: "power2.out"
+            });
+        });
     }
 
     initGenericCardAnimations() {
         const genericCards = gsap.utils.toArray('.card-style:not(.team-card):not(.focus-item):not(.timeline-content)');
+        
         genericCards.forEach((card, index) => {
-             gsap.fromTo(card,
-                { opacity: 0, y: 40, scale:0.95 },
+            const timeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 88%",
+                    toggleActions: "play none none none",
+                }
+            });
+
+            timeline.fromTo(card,
+                { 
+                    opacity: 0, 
+                    y: 50, 
+                    scale: 0.9,
+                    rotationY: 5
+                },
                 {
-                    opacity: 1, y: 0, scale:1, duration: 0.6, delay: index * 0.05,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top 88%", // Trigger slightly earlier
-                        toggleActions: "play none none none",
-                    }
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    rotationY: 0,
+                    duration: this.animationQuality === 'high' ? 0.7 : 0.5,
+                    delay: index * 0.05,
+                    ease: "power2.out"
                 }
             );
+
+            if (!this.isMobile) {
+                this.addCardHoverEffects(card);
+            }
         });
     }
 
-    animateInTeamCards() { 
-        // console.log("[ScrollAnimations] animateInTeamCards (fallback or non-scrolling team).");
-        const cards = gsap.utils.toArray('.team-card');
-        if (cards.length === 0) return;
+    animateInTeamCards() {
+        console.log("[ScrollAnimations] Applying team card animations (fallback or static mode).");
         
-        const triggerElement = cards[0].closest('.team-scroller-wrapper') || cards[0].closest('#our-team') || document.querySelector('#our-team');
-        if (!triggerElement) return; // No valid trigger
+        // Try multiple selectors to find team cards
+        let cards = gsap.utils.toArray('.team-card');
+        
+        if (cards.length === 0) {
+            console.warn("[ScrollAnimations] No .team-card elements found. Trying alternative selectors.");
+            // Try alternative selectors for team cards
+            cards = gsap.utils.toArray([
+                '.team-member',
+                '[class*="team-"]',
+                '#team-grid > *',
+                '.team-container > *',
+                '.team-wrapper > *'
+            ].join(', '));
+        }
+        
+        if (cards.length === 0) {
+            console.warn("[ScrollAnimations] No team cards found with any selector. Skipping team animations.");
+            return;
+        }
 
+        console.log(`[ScrollAnimations] Found ${cards.length} team cards to animate.`);
+
+        // Find the best trigger element
+        const triggerElement = cards[0].closest('.team-scroller-wrapper') || 
+                              cards[0].closest('.team-wrapper') ||
+                              cards[0].closest('#our-team') || 
+                              cards[0].closest('.team-section') ||
+                              cards[0].closest('#team-grid') ||
+                              document.querySelector('#our-team') ||
+                              document.querySelector('.team-section');
+        
+        if (!triggerElement) {
+            console.warn("[ScrollAnimations] No suitable trigger element found for team animations.");
+            return;
+        }
+
+        // Enhanced animation for all team cards (with and without photos)
         gsap.fromTo(cards,
-            { opacity: 0, scale: 0.85, y: 40 },
+            { 
+                opacity: 0, 
+                scale: 0.8, 
+                y: 50,
+                rotationY: 10
+            },
             {
-                opacity: 1, scale: 1, y: 0, duration: 0.6,
-                stagger: 0.1, ease: "power2.out",
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                rotationY: 0,
+                duration: this.animationQuality === 'high' ? 0.8 : 0.6,
+                stagger: 0.1,
+                ease: "back.out(1.7)",
                 scrollTrigger: {
                     trigger: triggerElement,
                     start: "top 85%",
@@ -202,5 +987,142 @@ export default class ScrollAnimations {
                 }
             }
         );
+
+        // Add hover effects for non-mobile
+        if (!this.isMobile) {
+            cards.forEach(card => this.addCardHoverEffects(card));
+        }
+    }
+
+    reinitializeTeamAnimations() {
+        console.log('[ScrollAnimations] Reinitializing team animations for device change.');
+        this.cleanupTeamAnimations();
+        setTimeout(() => {
+            this.initTeamAutoScroll();
+        }, 100);
+    }
+
+    cleanupTeamAnimations() {
+        // Kill existing ScrollTriggers for team elements (more comprehensive)
+        ScrollTrigger.getAll().forEach(st => {
+            const trigger = st.vars.trigger;
+            if (trigger && (
+                (typeof trigger === 'string' && (
+                    trigger.includes('team') || 
+                    trigger.includes('Team')
+                )) ||
+                (trigger.classList && (
+                    trigger.classList.contains('team-scroller-wrapper') ||
+                    trigger.classList.contains('team-wrapper') ||
+                    trigger.classList.contains('team-section') ||
+                    trigger.id === 'team-grid' ||
+                    trigger.id === 'our-team' ||
+                    trigger.classList.contains('team-container')
+                )) ||
+                (trigger.id && (
+                    trigger.id.includes('team') ||
+                    trigger.id.includes('Team')
+                ))
+            )) {
+                st.kill();
+            }
+        });
+
+        // Kill team scroll tween
+        if (this.teamScrollTween) {
+            this.teamScrollTween.kill();
+            this.teamScrollTween = null;
+        }
+
+        // Remove cloned cards more safely
+        const teamGrid = document.querySelector('#team-grid.team-flex-container') ||
+                        document.querySelector('#team-grid') ||
+                        document.querySelector('.team-grid');
+        
+        if (teamGrid) {
+            // Remove elements with clone class
+            const clones = teamGrid.querySelectorAll('.team-card-clone');
+            clones.forEach(clone => {
+                if (clone.parentNode) {
+                    clone.parentNode.removeChild(clone);
+                }
+            });
+            
+            // Fallback: remove duplicate elements (more conservative approach)
+            const children = Array.from(teamGrid.children);
+            const seenContent = new Set();
+            const toRemove = [];
+            
+            children.forEach((child, index) => {
+                const content = child.textContent?.trim() || child.innerHTML;
+                if (seenContent.has(content) && index >= children.length / 2) {
+                    toRemove.push(child);
+                } else {
+                    seenContent.add(content);
+                }
+            });
+            
+            toRemove.forEach(element => {
+                if (element.parentNode) {
+                    element.parentNode.removeChild(element);
+                }
+            });
+        }
+
+        // Remove scroll indicators
+        const indicators = document.querySelector('.team-scroll-indicators');
+        if (indicators) {
+            indicators.remove();
+        }
+
+        // Clean up any touch event listeners by removing and re-adding the team grid
+        // This is a more aggressive cleanup but ensures no leftover listeners
+        if (teamGrid) {
+            const parent = teamGrid.parentNode;
+            const nextSibling = teamGrid.nextSibling;
+            const clonedGrid = teamGrid.cloneNode(true);
+            
+            // Remove old grid
+            parent.removeChild(teamGrid);
+            
+            // Insert cleaned grid
+            if (nextSibling) {
+                parent.insertBefore(clonedGrid, nextSibling);
+            } else {
+                parent.appendChild(clonedGrid);
+            }
+        }
+    }
+
+    // Public method to update team animation configuration
+    updateTeamConfig(device, newConfig) {
+        this.teamAnimationConfig[device] = { ...this.teamAnimationConfig[device], ...newConfig };
+        if ((device === 'mobile' && this.isMobile) || (device === 'desktop' && !this.isMobile)) {
+            this.reinitializeTeamAnimations();
+        }
+    }
+
+    // Public method to refresh all animations
+    refresh() {
+        ScrollTrigger.refresh();
+    }
+
+    // Cleanup method
+    destroy() {
+        window.removeEventListener('resize', this.handleResize);
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+        
+        this.cleanupTeamAnimations();
+        ScrollTrigger.getAll().forEach(st => st.kill());
+        
+        if (this.teamScrollTween) {
+            this.teamScrollTween.kill();
+        }
+
+        // Remove scroll progress bar
+        const progressBar = document.querySelector('.scroll-progress');
+        if (progressBar) {
+            progressBar.remove();
+        }
     }
 }

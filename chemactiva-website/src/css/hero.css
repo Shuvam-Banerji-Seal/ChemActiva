@@ -1,0 +1,90 @@
+/* src/css/hero.css */
+
+#homepage-hero {
+    height: 100vh;
+    min-height: 600px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden; /* Clip 3D scene if it overflows */
+    background: var(--color-background); 
+    color: var(--color-text-primary);
+    text-align: center;
+    padding-bottom: 30px; /* Space for scroll indicator */
+    /* Navbar height is handled by main element's padding-top in sections.css for homepage */
+}
+
+#hero-3d-scene-container {
+    width: 100%;
+    height: 55vh; 
+    max-height: 550px; /* Max size for the 3D model viewport */
+    min-height: 250px; 
+    position: relative;
+    margin-bottom: 2.5rem; /* Space between 3D scene and text */
+    will-change: transform; 
+}
+#hero-3d-scene-container canvas {
+    display: block; 
+    width: 100% !important; 
+    height: 100% !important;
+}
+
+.hero-text-area {
+    z-index: 10; 
+    opacity: 0; 
+    transform: translateY(20px); 
+    color: var(--color-text-primary);
+    margin-top: 1rem; /* Ensure some space if 3D scene height shrinks */
+}
+.hero-text-area h1 {
+    font-family: var(--font-title); 
+    color: var(--color-text-primary); 
+    margin-bottom: 0.75rem;
+    text-shadow: var(--color-glow) 0 0 10px; 
+}
+.hero-text-area p {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-family: var(--font-secondary);
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.scroll-down-indicator {
+    position: absolute; 
+    bottom: 40px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    color: var(--color-accent-secondary); 
+    animation: bounce 2s infinite; 
+    z-index: 5;
+    opacity: 0.7;
+}
+@keyframes bounce { 
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-10px); }
+    60% { transform: translateX(-50%) translateY(-5px); }
+}
+
+/* Responsive Adjustments for Hero */
+@media (max-width: 768px) {
+    #homepage-hero {
+        min-height: 550px; /* Ensure enough space on mobile */
+    }
+    #hero-3d-scene-container {
+        height: 50vh;
+        max-height: 400px;
+    }
+}
+@media (max-width: 480px) {
+    #hero-3d-scene-container {
+        height: 45vh;
+        max-height: 300px;
+    }
+    .hero-text-area h1 { font-size: clamp(1.6rem, 8vw, 2rem); }
+    .hero-text-area p { font-size: clamp(0.9rem, 4vw, 1.1rem); }
+    .scroll-down-indicator { bottom: 20px; }
+}

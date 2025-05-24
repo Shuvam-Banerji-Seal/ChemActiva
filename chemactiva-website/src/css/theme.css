@@ -1,0 +1,149 @@
+/* src/css/theme.css */
+
+/* --- THEME VARIABLES --- */
+:root {
+    /* Light Mode Palette */
+    --lm-bg-deep: #E1EEBC;
+    --lm-bg-medium: #f4f8ed;
+    --lm-accent-primary: #328E6E;
+    --lm-accent-primary-rgb-values: 50, 142, 110; /* Populated by JS */
+    --lm-accent-secondary: #67AE6E;
+    --lm-text-primary: #18230F;
+    --lm-text-secondary: #27391C;
+    --lm-glow-color: transparent; 
+    --lm-glow-color-rgb-values: 0,0,0; /* Populated by JS, will be transparent for light */
+    --lm-navbar-bg: rgba(225, 238, 188, 0.85); 
+    --lm-card-border: rgba(50, 142, 110, 0.25); 
+    --lm-shadow-color: rgba(39, 57, 28, 0.1);  
+
+    /* Dark Mode Palette */
+    --dm-bg-deep: #18230F;
+    --dm-bg-medium: #27391C;
+    --dm-bg-deep-rgb: 24, 35, 15;   /* Populated by JS */
+    --dm-bg-medium-rgb: 39, 57, 28; /* Populated by JS */
+    --dm-accent-primary: #255F38;
+    --dm-accent-secondary: #328E6E;
+    --dm-text-primary: #E1EEBC;
+    --dm-text-secondary: #90C67C;
+    --dm-glow-color: #328E6E;
+    --dm-glow-color-rgb-values: 50, 142, 110; /* Populated by JS */
+    --dm-navbar-bg: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.65); /* Fallback for dm-bg-deep-rgb */
+    --dm-card-border: rgba(var(--dm-glow-color-rgb-values, 50, 142, 110), 0.3); /* Fallback */
+    --dm-shadow-color: rgba(0,0,0,0.3);
+    --dm-backdrop-filter-blur: 10px;
+
+    /* Font Stacks */
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Lato', sans-serif;
+    --font-title: 'Stix Two Text', serif;
+
+    /* Default to Light Mode Variables (Semantic Variables) */
+    --color-background: var(--lm-bg-deep);
+    --color-background-card: var(--lm-bg-medium);
+    --color-text-primary: var(--lm-text-primary);
+    --color-accent-rgb-values: var(--lm-accent-primary-rgb-values); /* Will be updated by JS */
+    --color-text-secondary: var(--lm-text-secondary);
+    --color-accent-primary: var(--lm-accent-primary);
+    --color-accent-secondary: var(--lm-accent-secondary);
+    --color-glow: var(--lm-glow-color);
+    --color-glow-rgb-values: var(--lm-glow-color-rgb-values); /* Will be updated by JS */
+    --navbar-bg: var(--lm-navbar-bg);
+    --color-card-border: var(--lm-card-border);
+    --color-shadow: var(--lm-shadow-color);
+    --backdrop-filter-blur: 0px; 
+    --section-bg-odd: #f0f7e4; 
+}
+
+body.dark-mode {
+    --color-background: var(--dm-bg-deep);
+    --color-background-card: rgba(var(--dm-bg-medium-rgb, 39, 57, 28), 0.6); 
+    --color-text-primary: var(--dm-text-primary);
+    --color-text-secondary: var(--dm-text-secondary);
+    --color-accent-primary: var(--dm-accent-primary);
+    --color-accent-rgb-values: var(--dm-glow-color-rgb-values); 
+    --color-accent-secondary: var(--dm-accent-secondary);
+    --color-glow: var(--dm-glow-color);
+    --color-glow-rgb-values: var(--dm-glow-color-rgb-values); 
+    --navbar-bg: var(--dm-navbar-bg);
+    --color-card-border: var(--dm-card-border);
+    --color-shadow: var(--dm-shadow-color);
+    --backdrop-filter-blur: var(--dm-backdrop-filter-blur);
+    --section-bg-odd: #202d16;
+}
+
+/* Theme Switcher Styling */
+.theme-switcher {
+    display: flex;
+    align-items: center;
+}
+.theme-toggle-checkbox { 
+    display: none; 
+}
+.theme-toggle-label {
+    display: flex; 
+    align-items: center;
+    background-color: var(--color-text-secondary); 
+    width: 55px; 
+    height: 28px; 
+    border-radius: 14px;
+    cursor: pointer; 
+    position: relative;
+    transition: background-color 0.3s ease;
+    border: 1px solid transparent; 
+}
+body.dark-mode .theme-toggle-label {
+    background-color: var(--dm-bg-medium); 
+    border: 1px solid rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.3);
+}
+.theme-toggle-label .toggle-ball {
+    background-color: var(--lm-bg-deep); 
+    width: 22px; 
+    height: 22px; 
+    border-radius: 50%;
+    position: absolute; 
+    top: 2px; 
+    left: 3px;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    overflow: hidden; /* Clip icons within the ball */
+}
+body.dark-mode .theme-toggle-label .toggle-ball { 
+    background-color: var(--dm-text-primary); 
+}
+.theme-toggle-checkbox:checked + .theme-toggle-label .toggle-ball { 
+    transform: translateX(27px); 
+}
+
+/* Icons inside toggle ball */
+.theme-toggle-label .icon {
+    font-size: 14px; 
+    line-height: 1; /* Ensure icon is vertically centered in its linebox */
+    position: absolute; /* Both icons occupy same space, toggle opacity */
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.theme-toggle-label .sun-icon { 
+    color: #f39c12; 
+    opacity: 1; /* Visible by default (light mode) */
+    transform: rotate(0deg);
+}
+.theme-toggle-label .moon-icon { 
+    color: #f1c40f; /* Color for when it's active (dark mode) */
+    opacity: 0; /* Hidden by default */
+    transform: rotate(-90deg); /* Start rotated out */
+}
+/* Toggle visibility and rotation based on checkbox state */
+.theme-toggle-checkbox:checked + .theme-toggle-label .sun-icon { 
+    opacity: 0; 
+    transform: rotate(90deg); 
+}
+.theme-toggle-checkbox:checked + .theme-toggle-label .moon-icon { 
+    opacity: 1; 
+    transform: rotate(0deg); 
+}
+/* Not needed due to default state:
+.theme-toggle-checkbox:not(:checked) + .theme-toggle-label .sun-icon { opacity: 1; transform: rotate(0deg); }
+.theme-toggle-checkbox:not(:checked) + .theme-toggle-label .moon-icon { opacity: 0; transform: rotate(-90deg); }
+*/

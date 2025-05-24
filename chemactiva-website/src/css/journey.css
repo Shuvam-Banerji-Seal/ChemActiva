@@ -1,0 +1,103 @@
+/* src/css/journey.css */
+
+.journey-timeline { 
+    position: relative; 
+    max-width: 800px; 
+    margin: 50px auto 0 auto; 
+}
+.journey-timeline::before { /* The central line */
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--color-card-border);
+    border-radius: 2px;
+}
+body.dark-mode .journey-timeline::before {
+    background-image: linear-gradient(to bottom, transparent, var(--color-glow), transparent);
+}
+.timeline-item {
+    display: flex;
+    margin-bottom: 40px;
+    position: relative;
+    opacity: 0; /* For scroll animation */
+    transform: translateY(30px); /* For scroll animation */
+}
+.timeline-item:nth-child(odd) { 
+    flex-direction: row-reverse; 
+}
+.timeline-date {
+    flex-basis: 120px; 
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 600;
+    color: var(--color-accent-primary);
+    position: relative; 
+    flex-shrink: 0; /* Prevent date from shrinking */
+}
+.timeline-date::after { /* Dot on the timeline */
+    content: '';
+    position: absolute;
+    top: 50%; 
+    width: 15px;
+    height: 15px;
+    background-color: var(--color-accent-secondary);
+    border: 3px solid var(--color-background); 
+    border-radius: 50%;
+    transform: translateY(-50%); 
+    z-index: 1;
+}
+.timeline-item:nth-child(odd) .timeline-date::after { 
+    left: -7.5px; 
+    transform: translate(-100%, -50%); 
+}
+.timeline-item:nth-child(even) .timeline-date::after { 
+    right: -7.5px; 
+    transform: translate(100%, -50%); 
+}
+body.dark-mode .timeline-date::after {
+    background-color: var(--color-glow);
+    box-shadow: 0 0 8px var(--color-glow);
+}
+.timeline-content { /* This is a .card-style */
+    flex: 1;
+    margin: 0 20px; 
+}
+.timeline-item:nth-child(odd) .timeline-content { 
+    margin-left: 40px; 
+    margin-right: 0; 
+}
+.timeline-item:nth-child(even) .timeline-content { 
+    margin-right: 40px; 
+    margin-left: 0; 
+}
+
+/* Responsive Journey Timeline */
+@media (max-width: 768px) {
+    .journey-timeline::before { 
+        left: 20px; 
+        transform: translateX(0); 
+    } 
+    .timeline-item, 
+    .timeline-item:nth-child(odd) { 
+        flex-direction: column; 
+    }
+    .timeline-date { 
+        text-align: left !important; 
+        flex-basis: auto; 
+        margin-bottom: 10px; 
+        padding-left: 35px; 
+    }
+    .timeline-item .timeline-date::after,
+    .timeline-item:nth-child(odd) .timeline-date::after { 
+        left: 0; 
+        transform: translateY(-50%) translateX(calc(20px - 50% + 1.5px)); 
+    }
+    .timeline-content { 
+        margin: 0 0 0 35px !important; 
+        padding: 20px !important; 
+    }
+}

@@ -240,8 +240,7 @@ export default class SceneManager {
         if (this.renderer) this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
 
-// src/js/SceneManager.js
-// ... (keep everything else the same)
+
 
     updateLighting(progress) {
         if (!this.directionalLight || !this.renderer) return; 

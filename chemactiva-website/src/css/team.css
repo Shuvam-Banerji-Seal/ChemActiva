@@ -1,0 +1,79 @@
+/* src/css/team.css */
+
+.team-scroller-wrapper {
+    overflow: hidden;
+    width: 100%; 
+    padding: 0; /* Section vertical padding applied by #our-team */
+}
+#our-team { /* This is the <section> tag */
+    padding-top: 80px; 
+    /* padding-bottom is removed as scroller might define its own visual end */
+}
+#our-team .section-header-container {
+    margin-bottom: 0; /* Header is directly above the scroller */
+    padding-bottom: 30px; /* Space between h2 and start of scrolling cards */
+}
+
+#team-grid.team-flex-container {
+    display: flex;
+    flex-wrap: nowrap; 
+    gap: 25px; 
+    width: max-content; 
+    will-change: transform;
+    transform: translateX(0);
+    padding: 20px 0; /* Vertical padding for the track itself */
+    /* Horizontal padding applied dynamically in JS if not enough content to scroll */
+}
+.team-card { /* This is a .card-style */
+    flex: 0 0 auto;
+    width: clamp(280px, 22vw, 320px); 
+    min-height: 400px; /* Minimum height for consistency */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+}
+.team-card img.team-member-photo {
+    width: 110px; 
+    height: 110px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    margin: 0 auto 20px auto; 
+    display: block;
+    border: 3px solid var(--color-accent-secondary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+body.dark-mode .team-card img.team-member-photo {
+    border-color: var(--color-glow);
+    box-shadow: 0 0 10px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.6);
+}
+.team-card h3 { 
+    margin-top: 0; 
+    margin-bottom: 5px; 
+    font-size: 1.25rem; 
+}
+.team-card .position { 
+    font-size: 0.85rem; 
+    margin-bottom: 10px; 
+    font-style: italic; 
+    color: var(--color-text-secondary); 
+}
+.team-card .bio,
+.team-card .responsibilities { 
+    font-size: 0.8rem; 
+    margin-bottom: 12px; 
+    line-height: 1.5; 
+    flex-grow: 1; /* Allows bio/responsibilities to push contact to bottom */
+}
+.team-card .contact-link { 
+    font-size: 0.85rem; 
+    word-break: break-all; 
+    margin-top: auto; /* Pushes contact link to bottom if bio/resp are short */
+}
+
+@media (max-width: 768px) {
+    .team-card {
+        width: clamp(260px, 65vw, 300px); 
+        min-height: 380px;
+    }
+}

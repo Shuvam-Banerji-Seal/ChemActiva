@@ -1,0 +1,180 @@
+/* src/css/components.css */
+
+/* Card Style (Glassmorphic for Dark Mode) */
+.card-style {
+    background-color: var(--color-background-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px; 
+    padding: 25px 30px;
+    box-shadow: 0 5px 15px var(--color-shadow);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+body.dark-mode .card-style {
+    background-color: var(--color-background-card); /* Uses rgba from theme vars */
+    backdrop-filter: blur(var(--backdrop-filter-blur));
+    -webkit-backdrop-filter: blur(var(--backdrop-filter-blur)); 
+    border: 1px solid rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.3); 
+    box-shadow: 0 0 12px 1px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.15),
+                0 0 20px 3px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.1),
+                inset 0 0 3px 0px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.1);
+}
+.card-style:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 25px var(--color-shadow); 
+}
+body.dark-mode .card-style:hover {
+    box-shadow: 0 0 18px 2px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.25),
+                0 0 30px 5px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.15),
+                inset 0 0 5px 0px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.15);
+    border-color: rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.5);
+}
+
+/* Form Styling */
+#contact-form .form-group { /* Assumes contact form has specific ID */
+    margin-bottom: 25px; 
+    position: relative; 
+}
+.floating-label-group {
+    position: relative;
+}
+.floating-label-group input,
+.floating-label-group textarea {
+    width: 100%;
+    padding: 18px 15px 10px 15px; 
+    border: 1px solid var(--color-card-border); 
+    border-radius: 8px; 
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    background-color: transparent; 
+    color: var(--color-text-primary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none; 
+    -webkit-appearance: none; 
+    appearance: none;
+}
+.floating-label-group input::placeholder,
+.floating-label-group textarea::placeholder {
+    color: transparent; 
+}
+body.dark-mode .floating-label-group input,
+body.dark-mode .floating-label-group textarea {
+    background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.3); 
+    border-color: rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.2);
+}
+.floating-label-group label {
+    position: absolute;
+    top: 15px; 
+    left: 15px;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    pointer-events: none; 
+    transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease, background-color 0.2s ease, padding 0.2s ease;
+    background-color: transparent; 
+    padding: 0;
+}
+.floating-label-group input:focus + label,
+.floating-label-group input:not(:placeholder-shown) + label,
+.floating-label-group textarea:focus + label,
+.floating-label-group textarea:not(:placeholder-shown) + label {
+    background-color: var(--color-background-card); 
+    padding: 0 5px; 
+    top: -10px; 
+    font-size: 0.8rem;
+    color: var(--color-accent-secondary);
+}
+body.dark-mode .floating-label-group input:focus + label,
+body.dark-mode .floating-label-group input:not(:placeholder-shown) + label,
+body.dark-mode .floating-label-group textarea:focus + label,
+body.dark-mode .floating-label-group textarea:not(:placeholder-shown) + label {
+    background-color: rgba(var(--dm-bg-medium-rgb, 39, 57, 28), 0.6); /* Match dark mode card bg */
+}
+.floating-label-group input:focus,
+.floating-label-group textarea:focus {
+    border-color: var(--color-accent-secondary);
+    box-shadow: 0 0 0 2px rgba(var(--color-accent-rgb-values, 50, 142, 110), 0.2);
+}
+body.dark-mode .floating-label-group input:focus,
+body.dark-mode .floating-label-group textarea:focus {
+    border-color: var(--color-glow);
+    box-shadow: 0 0 8px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.3);
+}
+
+/* Submit Button */
+.submit-button.modern-submit {
+    display: flex; 
+    align-items: center; justify-content: center;
+    width: 100%; 
+    padding: 14px 25px;
+    background-color: var(--color-accent-secondary);
+    color: var(--lm-bg-deep); 
+    border: none; border-radius: 8px;
+    font-family: var(--font-primary); font-size: 1.05rem; font-weight: 600;
+    letter-spacing: 0.5px; cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    position: relative; overflow: hidden; 
+    -webkit-appearance: none; appearance: none;
+}
+body.dark-mode .submit-button.modern-submit {
+    background-color: var(--color-glow);
+    color: var(--dm-bg-deep); 
+    box-shadow: 0 0 10px 0px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.4);
+}
+.submit-button.modern-submit:hover:not(:disabled),
+.submit-button.modern-submit:focus:not(:disabled) {
+    background-color: var(--color-accent-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(var(--color-accent-rgb-values, 50, 142, 110), 0.3); 
+    outline: none;
+}
+body.dark-mode .submit-button.modern-submit:hover:not(:disabled),
+body.dark-mode .submit-button.modern-submit:focus:not(:disabled) {
+    background-color: var(--dm-accent-secondary); 
+    box-shadow: 0 0 15px 2px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.6);
+}
+.submit-button.modern-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+.submit-button.modern-submit .submit-icon { margin-left: 10px; font-size: 1.2rem; transition: transform 0.3s ease; }
+.submit-button.modern-submit:hover .submit-icon { transform: translateX(5px); }
+
+/* Ripple Effect for Buttons */
+.ripple {
+    position: absolute; border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6); 
+    transform: scale(0); animation: ripple-animation 0.6s linear;
+    pointer-events: none; 
+}
+body.dark-mode .submit-button .ripple { 
+    background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.4); 
+}
+@keyframes ripple-animation {
+    to { transform: scale(4); opacity: 0; }
+}
+
+/* Loading Dots for Submit Button */
+.submit-button.is-submitting .submit-icon { display: none; }
+.loader-dots span {
+    animation: blink 1.4s infinite both;
+    font-size: 1.5em; line-height: 1; 
+    display: inline-block; 
+}
+.loader-dots span:nth-child(2) { animation-delay: .2s; }
+.loader-dots span:nth-child(3) { animation-delay: .4s; }
+@keyframes blink {
+    0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; }
+}
+
+/* Form Confirmation Message */
+#form-confirmation {
+    margin-top: 20px; padding: 15px 20px;
+    background-color: var(--color-accent-secondary); 
+    color: var(--lm-bg-deep); 
+    border-radius: 8px; text-align: center; font-weight: 500;
+    display: none; /* Hidden initially */
+}
+body.dark-mode #form-confirmation {
+    background-color: var(--color-glow);
+    color: var(--dm-bg-deep);
+}
+
+@media (max-width: 480px) {
+    .card-style { padding: 20px 25px; }
+}

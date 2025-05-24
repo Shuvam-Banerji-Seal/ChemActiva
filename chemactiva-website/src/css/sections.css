@@ -1,0 +1,93 @@
+/* src/css/sections.css */
+
+/* Padding for first section on homepage to account for navbar */
+body.homepage #main-container > main > .content-section:first-of-type {
+    padding-top: calc(var(--navbar-height, 85px) + 40px); /* navbar-height + desired extra space */
+}
+
+/* Padding for first section on sub-pages */
+body:not(.homepage) #main-container > main > .content-section:first-child,
+body:not(.homepage) #main-container > main > .article-listing-section:first-child,
+body:not(.homepage) #main-container > main > article#single-article-content:first-child {
+    padding-top: calc(var(--navbar-height, 85px) + 40px); 
+}
+/* Note: --navbar-height should be defined in :root or updated dynamically by JS if navbar height changes.
+   For now, a fixed fallback like 85px is used in the calc(). */
+
+
+/* About Us Section Specifics */
+#about-us .about-us-content { 
+    max-width: 800px; 
+    margin: 0 auto; 
+    text-align: left; 
+}
+.mission-vision-list { 
+    list-style: none; 
+    padding-left: 0; 
+}
+.mission-vision-list li { 
+    margin-bottom: 1em; 
+    padding-left: 25px; 
+    position: relative; 
+}
+.mission-vision-list li::before {
+    content: '✓'; 
+    position: absolute;
+    left: 0;
+    color: var(--color-accent-secondary);
+    font-weight: bold;
+}
+
+/* Core Focus Section Specifics */
+.focus-item { /* This is a .card-style */
+    text-align: center; 
+}
+.focus-icon { 
+    width: 60px; 
+    height: 60px; 
+    margin-bottom: 15px; 
+    color: var(--color-accent-secondary); 
+    /* Ensure SVGs are styled to use currentColor or have appropriate fill */
+}
+
+/* Products Section Specifics */
+#products .product-intro, 
+#products .product-feature, 
+#products .product-highlight { /* These are .card-style */
+    margin-bottom: 30px;
+}
+#products h5 { margin-top: 1.5em; }
+
+/* Advisors Section Specifics */
+.advisor-card .advisor-role { /* .advisor-card is a .card-style */
+    font-style: italic;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5em;
+    font-size: 0.9rem;
+}
+
+/* Footer Styling */
+#footer {
+    background-color: var(--color-accent-primary); 
+    color: var(--lm-bg-deep); 
+    padding: 40px 0;
+    text-align: center;
+}
+body.dark-mode #footer {
+    background-color: var(--dm-bg-medium);
+    color: var(--dm-text-secondary);
+}
+#footer p { 
+    font-size: 0.9rem; 
+    margin-bottom: 0.3em; 
+}
+#footer a { 
+    color: var(--lm-bg-medium); 
+}
+body.dark-mode #footer a {
+    color: var(--dm-text-primary); 
+}
+#footer a:hover, #footer a:focus {
+    color: #fff; 
+    text-decoration: underline;
+}
