@@ -17,12 +17,12 @@
     --lm-shadow-color: rgba(39, 57, 28, 0.1);  
 
     /* Dark Mode Palette */
-    --dm-bg-deep: #18230F;
+    --dm-bg-deep: #18230f;
     --dm-bg-medium: #27391C;
     --dm-bg-deep-rgb: 24, 35, 15;   /* Populated by JS */
     --dm-bg-medium-rgb: 39, 57, 28; /* Populated by JS */
-    --dm-accent-primary: #255F38;
-    --dm-accent-secondary: #328E6E;
+    --dm-accent-primary: #258F38;
+    --dm-accent-secondary: #32DF6E;
     --dm-text-primary: #E1EEBC;
     --dm-text-secondary: #90C67C;
     --dm-glow-color: #328E6E;
