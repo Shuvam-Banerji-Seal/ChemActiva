@@ -18,20 +18,10 @@
     left: 0;
     width: 100%;
     height: 100%;
-    /* Will be themed by body class, but default to dark for loader */
-    background-color: #18230F; /* --dm-bg-deep as a fallback if JS theme toggle hasn't run */
+    background-color: var(--color-background);
     opacity: 1;
-    transition: opacity 0.8s ease-out; /* For fade out */
+    transition: opacity 0.8s ease-out;
 }
-
-/* Theme application for loader background */
-body.dark-mode #loader-background {
-    background-color: var(--dm-bg-deep, #18230F);
-}
-body:not(.dark-mode) #loader-background {
-    background-color: var(--lm-bg-deep, #E1EEBC); 
-}
-
 
 #loader-content {
     position: relative;
@@ -40,25 +30,12 @@ body:not(.dark-mode) #loader-background {
     height: 80vh;
     max-width: 600px;
     max-height: 600px;
-    opacity: 0; /* Faded in by JS */
-    transition: opacity 0.5s ease-in; /* For fade in/out of particles container */
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
 }
 
-#loader-content canvas { /* Ensure canvas fills its container */
+#loader-content canvas {
     display: block;
     width: 100% !important;
     height: 100% !important;
-}
-
-
-/* No .cellulose-fragment needed for particle loader by default */
-
-/* For cellulose chain explosion (if using DOM elements for fragments - not currently used) */
-.cellulose-fragment {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #A8D5BA; /* A green shade */
-    border-radius: 50%;
-    opacity: 0; /* Initially hidden */
 }

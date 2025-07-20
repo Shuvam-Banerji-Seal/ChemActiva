@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Browser Compatibility Test - Product Page Components</title>
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/components.css">
+    <link rel="stylesheet" href="src/css/products.css">
+    <link rel="stylesheet" href="src/css/error-handling.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 1rem;
+            background: #f8f9fa;
+        }
+        
+        .test-header {
+            background: #6f42c1;
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .browser-info {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .compatibility-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-test {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .feature-test h3 {
+            margin: 0 0 1rem 0;
+            color: #495057;
+        }
+        
+        .test-result {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .test-result.supported {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .test-result.not-supported {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .test-result.partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-icon {
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .polyfill-info {
+            background: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .test-controls {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .test-controls button {
+            margin: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: #212529; }
+        
+        .demo-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .log-output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1>Cross-Browser Compatibility Test</h1>
+        <p>Testing product page components across different browsers and devices</p>
+    </div>
+
+    <div class="browser-info" id="browser-info">
+        <h2>Browser Information</h2>
+        <div id="browser-details">Loading browser information...</div>
+    </div>
+
+    <div class="test-controls">
+        <h3>Test Controls</h3>
+        <button class="btn-primary" onclick="runCompatibilityTests()">Run All Tests</button>
+        <button class="btn-success" onclick="testPolyfills()">Test Polyfills</button>
+        <button class="btn-warning" onclick="testFallbacks()">Test Fallbacks</button>
+        <button class="btn-primary" onclick="generateReport()">Generate Report</button>
+    </div>
+
+    <div class="compatibility-grid" id="compatibility-results">
+        <!-- Test results will be populated here -->
+    </div>
+
+    <div class="demo-section">
+        <h2>Component Demonstration</h2>
+        <p>The components below will demonstrate cross-browser compatibility:</p>
+        
+        <!-- Sample Product Card for Testing -->
+        <div class="product-card-enhanced" data-product="test-product">
+            <div class="product-image-carousel-enhanced">
+                <img src="public/assets/images/products/Domestic_oil_spill_kit_1.jpeg" alt="Test Product Image 1">
+                <img src="public/assets/images/products/Domestic_oil_spill_kit_collage_1.jpeg" alt="Test Product Image 2">
+            </div>
+            <div class="product-info-enhanced">
+                <h3>Cross-Browser Test Product</h3>
+                <div class="key-benefit-item">Feature compatibility testing</div>
+                <div class="key-benefit-item">Polyfill validation</div>
+                <div class="key-benefit-item">Fallback mechanisms</div>
+            </div>
+            <div class="product-specs-accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header" aria-expanded="false">
+                        <span>Browser Compatibility</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content" aria-hidden="true">
+                        <p>This accordion tests cross-browser JavaScript functionality and CSS animations.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="product-contact-section">
+                <button class="contact-button primary" data-action="test" data-product="test-product">
+                    Test Contact
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="log-output" id="test-log">
+        <strong>Test Log:</strong><br>
+        Ready for cross-browser testing...
+    </div>
+
+    <script type="module">
+        import App from './src/js/App.js';
+        import ProductImageGallery from './src/js/ProductImageGallery.js';
+        import ProductManager from './src/js/ProductManager.js';
+        import ErrorHandler from './src/js/ErrorHandler.js';
+
+        // Global test state
+        window.compatibilityResults = {
+            browserInfo: {},
+            featureSupport: {},
+            componentTests: {},
+            polyfillTests: {},
+            performanceTests: {}
+        };
+
+        // Initialize browser detection
+        function detectBrowser() {
+            const ua = navigator.userAgent;
+            const browserInfo = {
+                userAgent: ua,
+                platform: navigator.platform,
+                language: navigator.language,
+                cookieEnabled: navigator.cookieEnabled,
+                onLine: navigator.onLine,
+                viewport: {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    devicePixelRatio: window.devicePixelRatio
+                }
+            };
+
+            // Detect browser type
+            if (ua.includes('Chrome') && !ua.includes('Edg')) {
+                browserInfo.name = 'Chrome';
+                browserInfo.engine = 'Blink';
+            } else if (ua.includes('Firefox')) {
+                browserInfo.name = 'Firefox';
+                browserInfo.engine = 'Gecko';
+            } else if (ua.includes('Safari') && !ua.includes('Chrome')) {
+                browserInfo.name = 'Safari';
+                browserInfo.engine = 'WebKit';
+            } else if (ua.includes('Edg')) {
+                browserInfo.name = 'Edge';
+                browserInfo.engine = 'Blink';
+            } else if (ua.includes('MSIE') || ua.includes('Trident')) {
+                browserInfo.name = 'Internet Explorer';
+                browserInfo.engine = 'Trident';
+            } else {
+                browserInfo.name = 'Unknown';
+                browserInfo.engine = 'Unknown';
+            }
+
+            // Detect mobile
+            browserInfo.isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+            
+            // Detect touch support
+            browserInfo.touchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+            return browserInfo;
+        }
+
+        // Test modern JavaScript features
+        function testJavaScriptFeatures() {
+            const features = {
+                'ES6 Classes': () => {
+                    try {
+                        eval('class TestClass {}');
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                'Arrow Functions': () => {
+                    try {
+                        eval('(() => {})');
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                'Template Literals': () => {
+                    try {
+                        eval('`template`');
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                'Destructuring': () => {
+                    try {
+                        eval('const {a} = {a: 1}');
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                'Async/Await': () => {
+                    try {
+                        eval('async function test() { await Promise.resolve(); }');
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                'Modules': () => {
+                    return 'noModule' in HTMLScriptElement.prototype;
+                },
+                'Fetch API': () => {
+                    return typeof fetch !== 'undefined';
+                },
+                'Promises': () => {
+                    return typeof Promise !== 'undefined';
+                }
+            };
+
+            const results = {};
+            for (const [feature, test] of Object.entries(features)) {
+                try {
+                    results[feature] = test();
+                } catch (e) {
+                    results[feature] = false;
+                }
+            }
+
+            return results;
+        }
+
+        // Test CSS features
+        function testCSSFeatures() {
+            const features = {
+                'CSS Grid': () => {
+                    return CSS.supports('display', 'grid');
+                },
+                'CSS Flexbox': () => {
+                    return CSS.supports('display', 'flex');
+                },
+                'CSS Custom Properties': () => {
+                    return CSS.supports('--custom-property', 'value');
+                },
+                'CSS Transforms': () => {
+                    return CSS.supports('transform', 'translateX(1px)');
+                },
+                'CSS Transitions': () => {
+                    return CSS.supports('transition', 'all 1s');
+                },
+                'CSS Animations': () => {
+                    return CSS.supports('animation', 'test 1s');
+                },
+                'CSS Calc': () => {
+                    return CSS.supports('width', 'calc(100% - 10px)');
+                },
+                'CSS Object-fit': () => {
+                    return CSS.supports('object-fit', 'cover');
+                }
+            };
+
+            const results = {};
+            for (const [feature, test] of Object.entries(features)) {
+                try {
+                    results[feature] = test();
+                } catch (e) {
+                    results[feature] = false;
+                }
+            }
+
+            return results;
+        }
+
+        // Test Web APIs
+        function testWebAPIs() {
+            const apis = {
+                'IntersectionObserver': () => typeof IntersectionObserver !== 'undefined',
+                'PerformanceObserver': () => typeof PerformanceObserver !== 'undefined',
+                'ResizeObserver': () => typeof ResizeObserver !== 'undefined',
+                'MutationObserver': () => typeof MutationObserver !== 'undefined',
+                'requestAnimationFrame': () => typeof requestAnimationFrame !== 'undefined',
+                'localStorage': () => {
+                    try {
+                        localStorage.setItem('test', 'test');
+                        localStorage.removeItem('test');
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                'sessionStorage': () => {
+                    try {
+                        sessionStorage.setItem('test', 'test');
+                        sessionStorage.removeItem('test');
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                'WebGL': () => {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        return !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                'Service Workers': () => 'serviceWorker' in navigator,
+                'Web Workers': () => typeof Worker !== 'undefined',
+                'Geolocation': () => 'geolocation' in navigator,
+                'Touch Events': () => 'ontouchstart' in window
+            };
+
+            const results = {};
+            for (const [api, test] of Object.entries(apis)) {
+                try {
+                    results[api] = test();
+                } catch (e) {
+                    results[api] = false;
+                }
+            }
+
+            return results;
+        }
+
+        // Test component functionality
+        async function testComponents() {
+            const results = {};
+
+            try {
+                // Test ProductImageGallery
+                const galleryContainer = document.querySelector('.product-image-carousel-enhanced');
+                const gallery = new ProductImageGallery(galleryContainer);
+                
+                results.ProductImageGallery = {
+                    initialization: true,
+                    imageCount: gallery.getTotalImages(),
+                    navigation: gallery.getCurrentIndex() !== undefined,
+                    cleanup: (() => {
+                        try {
+                            gallery.cleanup();
+                            return true;
+                        } catch (e) {
+                            return false;
+                        }
+                    })()
+                };
+
+            } catch (e) {
+                results.ProductImageGallery = {
+                    initialization: false,
+                    error: e.message
+                };
+            }
+
+            try {
+                // Test ProductManager
+                const manager = new ProductManager();
+                manager.init();
+                
+                results.ProductManager = {
+                    initialization: true,
+                    cardCount: manager.productCards.length,
+                    eventHandling: manager.eventListeners.size > 0,
+                    cleanup: (() => {
+                        try {
+                            manager.cleanup();
+                            return true;
+                        } catch (e) {
+                            return false;
+                        }
+                    })()
+                };
+
+            } catch (e) {
+                results.ProductManager = {
+                    initialization: false,
+                    error: e.message
+                };
+            }
+
+            try {
+                // Test ErrorHandler
+                const errorHandler = new ErrorHandler();
+                
+                results.ErrorHandler = {
+                    initialization: true,
+                    errorLogging: (() => {
+                        try {
+                            errorHandler.logError('Test Error', { test: true });
+                            return errorHandler.getErrorLog().length > 0;
+                        } catch (e) {
+                            return false;
+                        }
+                    })(),
+                    networkHandling: typeof errorHandler.handleNetworkError === 'function',
+                    imageHandling: typeof errorHandler.handleImageError === 'function'
+                };
+
+            } catch (e) {
+                results.ErrorHandler = {
+                    initialization: false,
+                    error: e.message
+                };
+            }
+
+            return results;
+        }
+
+        // Test polyfills
+        function testPolyfills() {
+            logMessage('Testing polyfill functionality...');
+            
+            const polyfillTests = {};
+
+            // Test IntersectionObserver polyfill
+            if (typeof IntersectionObserver === 'undefined') {
+                // Load polyfill
+                window.IntersectionObserver = class {
+                    constructor(callback) {
+                        this.callback = callback;
+                    }
+                    observe() {}
+                    unobserve() {}
+                    disconnect() {}
+                };
+                polyfillTests.IntersectionObserver = 'polyfilled';
+            } else {
+                polyfillTests.IntersectionObserver = 'native';
+            }
+
+            // Test other polyfills
+            polyfillTests.Promise = typeof Promise !== 'undefined' ? 'native' : 'needed';
+            polyfillTests.fetch = typeof fetch !== 'undefined' ? 'native' : 'needed';
+            polyfillTests.CustomEvent = typeof CustomEvent !== 'undefined' ? 'native' : 'needed';
+
+            window.compatibilityResults.polyfillTests = polyfillTests;
+            
+            logMessage('Polyfill tests completed');
+            updateResultsDisplay();
+        }
+
+        // Test fallback mechanisms
+        function testFallbacks() {
+            logMessage('Testing fallback mechanisms...');
+            
+            const fallbackTests = {};
+
+            // Test CSS fallbacks
+            const testElement = document.createElement('div');
+            testElement.style.display = 'grid';
+            fallbackTests.cssGrid = testElement.style.display === 'grid' ? 'supported' : 'fallback-needed';
+
+            // Test JavaScript fallbacks
+            try {
+                eval('const test = () => {}');
+                fallbackTests.arrowFunctions = 'supported';
+            } catch (e) {
+                fallbackTests.arrowFunctions = 'fallback-needed';
+            }
+
+            // Test API fallbacks
+            fallbackTests.localStorage = (() => {
+                try {
+                    localStorage.setItem('test', 'test');
+                    localStorage.removeItem('test');
+                    return 'supported';
+                } catch (e) {
+                    return 'fallback-needed';
+                }
+            })();
+
+            window.compatibilityResults.fallbackTests = fallbackTests;
+            
+            logMessage('Fallback tests completed');
+            updateResultsDisplay();
+        }
+
+        // Run all compatibility tests
+        window.runCompatibilityTests = async function() {
+            logMessage('Starting comprehensive compatibility tests...');
+            
+            // Detect browser
+            window.compatibilityResults.browserInfo = detectBrowser();
+            
+            // Test features
+            window.compatibilityResults.featureSupport = {
+                javascript: testJavaScriptFeatures(),
+                css: testCSSFeatures(),
+                webAPIs: testWebAPIs()
+            };
+            
+            // Test components
+            window.compatibilityResults.componentTests = await testComponents();
+            
+            // Update display
+            updateBrowserInfo();
+            updateResultsDisplay();
+            
+            logMessage('Compatibility tests completed');
+        };
+
+        // Update browser information display
+        function updateBrowserInfo() {
+            const browserDetails = document.getElementById('browser-details');
+            const info = window.compatibilityResults.browserInfo;
+            
+            browserDetails.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div>
+                        <strong>Browser:</strong> ${info.name}<br>
+                        <strong>Engine:</strong> ${info.engine}<br>
+                        <strong>Platform:</strong> ${info.platform}
+                    </div>
+                    <div>
+                        <strong>Mobile:</strong> ${info.isMobile ? 'Yes' : 'No'}<br>
+                        <strong>Touch:</strong> ${info.touchSupport ? 'Yes' : 'No'}<br>
+                        <strong>Online:</strong> ${info.onLine ? 'Yes' : 'No'}
+                    </div>
+                    <div>
+                        <strong>Viewport:</strong> ${info.viewport.width}x${info.viewport.height}<br>
+                        <strong>DPR:</strong> ${info.viewport.devicePixelRatio}<br>
+                        <strong>Language:</strong> ${info.language}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update results display
+        function updateResultsDisplay() {
+            const resultsContainer = document.getElementById('compatibility-results');
+            resultsContainer.innerHTML = '';
+
+            // JavaScript Features
+            if (window.compatibilityResults.featureSupport?.javascript) {
+                resultsContainer.appendChild(createFeatureTestCard('JavaScript Features', window.compatibilityResults.featureSupport.javascript));
+            }
+
+            // CSS Features
+            if (window.compatibilityResults.featureSupport?.css) {
+                resultsContainer.appendChild(createFeatureTestCard('CSS Features', window.compatibilityResults.featureSupport.css));
+            }
+
+            // Web APIs
+            if (window.compatibilityResults.featureSupport?.webAPIs) {
+                resultsContainer.appendChild(createFeatureTestCard('Web APIs', window.compatibilityResults.featureSupport.webAPIs));
+            }
+
+            // Component Tests
+            if (window.compatibilityResults.componentTests) {
+                resultsContainer.appendChild(createComponentTestCard('Component Tests', window.compatibilityResults.componentTests));
+            }
+
+            // Polyfill Tests
+            if (window.compatibilityResults.polyfillTests) {
+                resultsContainer.appendChild(createFeatureTestCard('Polyfill Status', window.compatibilityResults.polyfillTests));
+            }
+
+            // Fallback Tests
+            if (window.compatibilityResults.fallbackTests) {
+                resultsContainer.appendChild(createFeatureTestCard('Fallback Tests', window.compatibilityResults.fallbackTests));
+            }
+        }
+
+        // Create feature test card
+        function createFeatureTestCard(title, features) {
+            const card = document.createElement('div');
+            card.className = 'feature-test';
+            
+            let html = `<h3>${title}</h3>`;
+            
+            for (const [feature, supported] of Object.entries(features)) {
+                const status = getFeatureStatus(supported);
+                html += `
+                    <div class="test-result ${status.class}">
+                        <span class="status-icon">${status.icon}</span>
+                        <span>${feature}: ${status.text}</span>
+                    </div>
+                `;
+            }
+            
+            card.innerHTML = html;
+            return card;
+        }
+
+        // Create component test card
+        function createComponentTestCard(title, components) {
+            const card = document.createElement('div');
+            card.className = 'feature-test';
+            
+            let html = `<h3>${title}</h3>`;
+            
+            for (const [component, tests] of Object.entries(components)) {
+                html += `<h4>${component}</h4>`;
+                
+                if (tests.error) {
+                    html += `
+                        <div class="test-result not-supported">
+                            <span class="status-icon">✗</span>
+                            <span>Error: ${tests.error}</span>
+                        </div>
+                    `;
+                } else {
+                    for (const [test, result] of Object.entries(tests)) {
+                        if (test !== 'error') {
+                            const status = getFeatureStatus(result);
+                            html += `
+                                <div class="test-result ${status.class}">
+                                    <span class="status-icon">${status.icon}</span>
+                                    <span>${test}: ${status.text}</span>
+                                </div>
+                            `;
+                        }
+                    }
+                }
+            }
+            
+            card.innerHTML = html;
+            return card;
+        }
+
+        // Get feature status
+        function getFeatureStatus(value) {
+            if (value === true || value === 'supported' || value === 'native') {
+                return { class: 'supported', icon: '✓', text: 'Supported' };
+            } else if (value === 'polyfilled' || value === 'fallback-needed') {
+                return { class: 'partial', icon: '⚠', text: 'Polyfill/Fallback' };
+            } else if (typeof value === 'number') {
+                return { class: 'supported', icon: '✓', text: value.toString() };
+            } else {
+                return { class: 'not-supported', icon: '✗', text: 'Not Supported' };
+            }
+        }
+
+        // Generate compatibility report
+        window.generateReport = function() {
+            const report = {
+                timestamp: new Date().toISOString(),
+                testResults: window.compatibilityResults,
+                recommendations: generateRecommendations()
+            };
+            
+            const dataStr = JSON.stringify(report, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `compatibility-report-${Date.now()}.json`;
+            link.click();
+            
+            logMessage('Compatibility report exported');
+        };
+
+        // Generate recommendations
+        function generateRecommendations() {
+            const recommendations = [];
+            const results = window.compatibilityResults;
+            
+            if (results.featureSupport?.javascript) {
+                const jsFeatures = results.featureSupport.javascript;
+                if (!jsFeatures['ES6 Classes']) {
+                    recommendations.push('Consider using Babel to transpile ES6 classes for older browsers');
+                }
+                if (!jsFeatures['Fetch API']) {
+                    recommendations.push('Include a fetch polyfill for older browsers');
+                }
+            }
+            
+            if (results.featureSupport?.css) {
+                const cssFeatures = results.featureSupport.css;
+                if (!cssFeatures['CSS Grid']) {
+                    recommendations.push('Provide flexbox fallbacks for CSS Grid layouts');
+                }
+                if (!cssFeatures['CSS Custom Properties']) {
+                    recommendations.push('Use Sass/Less variables as fallback for CSS custom properties');
+                }
+            }
+            
+            if (results.featureSupport?.webAPIs) {
+                const apiFeatures = results.featureSupport.webAPIs;
+                if (!apiFeatures['IntersectionObserver']) {
+                    recommendations.push('Include IntersectionObserver polyfill for lazy loading');
+                }
+                if (!apiFeatures['localStorage']) {
+                    recommendations.push('Implement cookie-based fallback for localStorage');
+                }
+            }
+            
+            return recommendations;
+        }
+
+        // Utility function for logging
+        function logMessage(message, type = 'info') {
+            const logElement = document.getElementById('test-log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logClass = type === 'error' ? 'color: #dc3545' : type === 'warning' ? 'color: #ffc107' : 'color: #28a745';
+            
+            logElement.innerHTML += `<br><span style="${logClass}">[${timestamp}] ${message}</span>`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        // Auto-run basic tests on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            logMessage('Cross-browser compatibility testing ready');
+            
+            // Run basic detection
+            window.compatibilityResults.browserInfo = detectBrowser();
+            updateBrowserInfo();
+        });
+
+        // Expose test functions globally
+        window.testPolyfills = testPolyfills;
+        window.testFallbacks = testFallbacks;
+    </script>
+</body>
+</html>

@@ -20,59 +20,60 @@ body.dark-mode .journey-timeline::before {
     background-image: linear-gradient(to bottom, transparent, var(--color-glow), transparent);
 }
 .timeline-item {
-    display: flex;
-    margin-bottom: 40px;
+    padding: 10px 0;
     position: relative;
-    opacity: 0; /* For scroll animation */
-    transform: translateY(30px); /* For scroll animation */
+    width: 50%;
 }
 .timeline-item:nth-child(odd) { 
-    flex-direction: row-reverse; 
+    left: 0; 
+    padding-right: 40px;
+    text-align: right;
 }
-.timeline-date {
-    flex-basis: 120px; 
-    text-align: center;
-    padding: 10px 0;
-    font-weight: 600;
-    color: var(--color-accent-primary);
-    position: relative; 
-    flex-shrink: 0; /* Prevent date from shrinking */
+.timeline-item:nth-child(even) { 
+    left: 50%;
+    padding-left: 40px;
+    text-align: left;
 }
-.timeline-date::after { /* Dot on the timeline */
+.timeline-item::after { /* Dot on the timeline */
     content: '';
     position: absolute;
     top: 50%; 
+    transform: translateY(-50%);
     width: 15px;
     height: 15px;
     background-color: var(--color-accent-secondary);
     border: 3px solid var(--color-background); 
     border-radius: 50%;
-    transform: translateY(-50%); 
     z-index: 1;
 }
-.timeline-item:nth-child(odd) .timeline-date::after { 
+.timeline-item:nth-child(odd)::after { 
+    right: -7.5px;
+}
+.timeline-item:nth-child(even)::after { 
     left: -7.5px; 
-    transform: translate(-100%, -50%); 
 }
-.timeline-item:nth-child(even) .timeline-date::after { 
-    right: -7.5px; 
-    transform: translate(100%, -50%); 
-}
-body.dark-mode .timeline-date::after {
+body.dark-mode .timeline-item::after {
     background-color: var(--color-glow);
     box-shadow: 0 0 8px var(--color-glow);
 }
-.timeline-content { /* This is a .card-style */
-    flex: 1;
-    margin: 0 20px; 
+
+.timeline-content {
+    position: relative;
 }
-.timeline-item:nth-child(odd) .timeline-content { 
-    margin-left: 40px; 
-    margin-right: 0; 
+.timeline-date {
+    font-weight: 600;
+    color: var(--color-accent-primary);
+    font-size: 1.1rem;
 }
-.timeline-item:nth-child(even) .timeline-content { 
-    margin-right: 40px; 
-    margin-left: 0; 
+.timeline-content h4 {
+    margin-top: 0.5em;
+    margin-bottom: 0.3em;
+    color: var(--color-text-primary);
+}
+.timeline-content p {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
 }
 
 /* Responsive Journey Timeline */
@@ -81,23 +82,22 @@ body.dark-mode .timeline-date::after {
         left: 20px; 
         transform: translateX(0); 
     } 
-    .timeline-item, 
-    .timeline-item:nth-child(odd) { 
-        flex-direction: column; 
+    .timeline-item,
+    .timeline-item:nth-child(even) { 
+        width: 100%;
+        left: 0;
+        padding-left: 45px;
+        padding-right: 15px;
+        text-align: left;
     }
-    .timeline-date { 
-        text-align: left !important; 
-        flex-basis: auto; 
-        margin-bottom: 10px; 
-        padding-left: 45px; 
+    .timeline-item:nth-child(odd) {
+        padding-right: 15px;
+        text-align: left;
     }
-    .timeline-item .timeline-date::after,
-    .timeline-item:nth-child(odd) .timeline-date::after { 
-        left: 0; 
-        transform: translateY(-50%) translateX(calc(20px - 50% + 1.5px)); 
-    }
-    .timeline-content { 
-        margin: 0 0 0 35px !important; 
-        padding: 20px !important; 
+
+    .timeline-item::after,
+    .timeline-item:nth-child(odd)::after,
+    .timeline-item:nth-child(even)::after { 
+        left: 12.5px; /* 20px (line offset) - 7.5px (half dot width) */
     }
 }

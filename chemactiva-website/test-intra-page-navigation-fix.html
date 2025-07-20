@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intra-Page Navigation Fix Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        
+        .navigation-links {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .navigation-links a {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .navigation-links a:hover {
+            background: #0056b3;
+        }
+        
+        .section-content {
+            min-height: 200px;
+            padding: 20px;
+            margin: 20px 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        #hero-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-size: 24px;
+        }
+        
+        .loader-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 10000;
+        }
+    </style>
+</head>
+<body class="homepage">
+    <div id="hero-loader">
+        <div>HeroLoader Active - This should NOT appear during section navigation!</div>
+    </div>
+    
+    <div class="loader-status" id="loader-status">
+        Loader Status: Ready
+    </div>
+
+    <div class="test-container">
+        <h1>Intra-Page Navigation Fix Test</h1>
+        <p>This test verifies that the HeroLoader does not trigger when navigating between sections on the same page.</p>
+        
+        <div class="test-section">
+            <h2>Test Instructions</h2>
+            <ol>
+                <li>Click the navigation links below to simulate section navigation</li>
+                <li>Watch the loader status indicator in the top-right corner</li>
+                <li>The HeroLoader should NOT appear when clicking between sections</li>
+                <li>Check the console for detailed navigation tracking logs</li>
+            </ol>
+        </div>
+
+        <div class="navigation-links">
+            <a href="#hero" onclick="testNavigation('hero')">Hero Section</a>
+            <a href="#about-us" onclick="testNavigation('about-us')">About Us</a>
+            <a href="#our-journey" onclick="testNavigation('our-journey')">Our Journey</a>
+            <a href="#products" onclick="testNavigation('products')">Products</a>
+            <a href="#our-team" onclick="testNavigation('our-team')">Our Team</a>
+            <a href="#contact" onclick="testNavigation('contact')">Contact</a>
+        </div>
+
+        <div class="test-section">
+            <h2>Test Results</h2>
+            <div id="test-results"></div>
+        </div>
+
+        <!-- Simulated page sections -->
+        <div id="hero" class="section-content">
+            <h2>Hero Section</h2>
+            <p>This is the hero section of the homepage.</p>
+        </div>
+
+        <div id="about-us" class="section-content">
+            <h2>About Us Section</h2>
+            <p>This is the about us section of the homepage.</p>
+        </div>
+
+        <div id="our-journey" class="section-content">
+            <h2>Our Journey Section</h2>
+            <p>This is the journey section of the homepage.</p>
+        </div>
+
+        <div id="products" class="section-content">
+            <h2>Products Section</h2>
+            <p>This is the products section of the homepage.</p>
+        </div>
+
+        <div id="our-team" class="section-content">
+            <h2>Our Team Section</h2>
+            <p>This is the team section of the homepage.</p>
+        </div>
+
+        <div id="contact" class="section-content">
+            <h2>Contact Section</h2>
+            <p>This is the contact section of the homepage.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import NavigationStateManager from './src/js/NavigationStateManager.js';
+        
+        // Initialize the navigation state manager
+        const navigationManager = new NavigationStateManager();
+        let testCount = 0;
+        let passedTests = 0;
+        
+        // Mock App class for testing
+        class MockApp {
+            constructor() {
+                this.isHomepage = true;
+                this.heroLoader = { start: () => Promise.resolve() };
+                this.navigationStateManager = navigationManager;
+            }
+            
+            async initSmartHeroLoader() {
+                const navigationContext = this.navigationStateManager.getNavigationContext();
+                const shouldSkipLoader = this.navigationStateManager.shouldSkipLoader();
+                
+                console.log('[MockApp] Navigation context:', navigationContext);
+                console.log('[MockApp] Should skip HeroLoader:', shouldSkipLoader);
+                
+                const loaderDecision = this.makeHeroLoaderDecision(navigationContext, shouldSkipLoader);
+                
+                // Update loader status
+                const loaderStatus = document.getElementById('loader-status');
+                if (loaderDecision.shouldShow) {
+                    loaderStatus.textContent = 'Loader Status: SHOWING (❌ FAIL)';
+                    loaderStatus.style.background = '#dc3545';
+                    document.getElementById('hero-loader').style.display = 'flex';
+                    
+                    // Hide after 2 seconds for testing
+                    setTimeout(() => {
+                        document.getElementById('hero-loader').style.display = 'none';
+                    }, 2000);
+                } else {
+                    loaderStatus.textContent = 'Loader Status: SKIPPED (✅ PASS)';
+                    loaderStatus.style.background = '#28a745';
+                }
+                
+                return loaderDecision;
+            }
+            
+            makeHeroLoaderDecision(navigationContext, shouldSkipLoader) {
+                const { navigationMethod } = navigationContext;
+                
+                const factors = {
+                    isHomepage: this.isHomepage,
+                    hasHeroLoader: !!this.heroLoader,
+                    navigationMethod: navigationMethod,
+                    basicSkipRecommendation: shouldSkipLoader
+                };
+
+                let shouldShow = false;
+                let reasoning = [];
+
+                if (!factors.isHomepage || !factors.hasHeroLoader) {
+                    reasoning.push('Not homepage or HeroLoader not available');
+                    return { shouldShow: false, reasoning: reasoning.join('; '), factors };
+                }
+
+                if (factors.navigationMethod === 'direct') {
+                    shouldShow = true;
+                    reasoning.push('Direct access to homepage - showing loader for branding');
+                } else if (factors.navigationMethod === 'link' || factors.navigationMethod === 'back') {
+                    if (factors.basicSkipRecommendation) {
+                        shouldShow = false;
+                        reasoning.push('Basic skip recommendation (likely intra-page navigation) - skipping loader');
+                    } else {
+                        shouldShow = true;
+                        reasoning.push('Internal navigation but showing optimized loader');
+                    }
+                } else {
+                    shouldShow = !factors.basicSkipRecommendation;
+                    reasoning.push(`Unknown navigation method (${factors.navigationMethod}) - using basic recommendation`);
+                }
+
+                return {
+                    shouldShow,
+                    reasoning: reasoning.join('; '),
+                    factors
+                };
+            }
+        }
+        
+        const mockApp = new MockApp();
+        
+        // Global function for testing navigation
+        window.testNavigation = async function(sectionId) {
+            testCount++;
+            console.log(`\n=== Test ${testCount}: Navigation to ${sectionId} ===`);
+            
+            // Simulate a small delay to allow hash change to be processed
+            setTimeout(async () => {
+                try {
+                    const decision = await mockApp.initSmartHeroLoader();
+                    
+                    const testResult = document.createElement('div');
+                    testResult.className = decision.shouldShow ? 'test-result error' : 'test-result success';
+                    
+                    if (!decision.shouldShow) {
+                        passedTests++;
+                        testResult.innerHTML = `
+                            <strong>✅ Test ${testCount} PASSED</strong><br>
+                            Section: ${sectionId}<br>
+                            Decision: ${decision.reasoning}<br>
+                            Navigation Method: ${decision.factors.navigationMethod}
+                        `;
+                    } else {
+                        testResult.innerHTML = `
+                            <strong>❌ Test ${testCount} FAILED</strong><br>
+                            Section: ${sectionId}<br>
+                            Decision: ${decision.reasoning}<br>
+                            Navigation Method: ${decision.factors.navigationMethod}<br>
+                            <em>HeroLoader should NOT show for intra-page navigation!</em>
+                        `;
+                    }
+                    
+                    document.getElementById('test-results').appendChild(testResult);
+                    
+                    // Update summary
+                    updateTestSummary();
+                    
+                } catch (error) {
+                    console.error('Test failed:', error);
+                    const errorResult = document.createElement('div');
+                    errorResult.className = 'test-result error';
+                    errorResult.innerHTML = `<strong>❌ Test ${testCount} ERROR:</strong> ${error.message}`;
+                    document.getElementById('test-results').appendChild(errorResult);
+                }
+            }, 100);
+        };
+        
+        function updateTestSummary() {
+            const existingSummary = document.getElementById('test-summary');
+            if (existingSummary) {
+                existingSummary.remove();
+            }
+            
+            const summary = document.createElement('div');
+            summary.id = 'test-summary';
+            summary.className = 'test-result info';
+            summary.innerHTML = `
+                <strong>Test Summary:</strong> ${passedTests}/${testCount} tests passed<br>
+                <em>Expected behavior: All section navigation should skip HeroLoader</em>
+            `;
+            
+            document.getElementById('test-results').insertBefore(summary, document.getElementById('test-results').firstChild);
+        }
+        
+        // Initial test on page load
+        console.log('=== Initial Page Load Test ===');
+        setTimeout(() => {
+            mockApp.initSmartHeroLoader().then(decision => {
+                const initialResult = document.createElement('div');
+                initialResult.className = 'test-result info';
+                initialResult.innerHTML = `
+                    <strong>Initial Page Load:</strong><br>
+                    Decision: ${decision.reasoning}<br>
+                    Should Show Loader: ${decision.shouldShow}<br>
+                    <em>This is expected to show loader on direct access</em>
+                `;
+                document.getElementById('test-results').appendChild(initialResult);
+            });
+        }, 500);
+        
+        // Add instructions
+        const instructions = document.createElement('div');
+        instructions.className = 'test-result warning';
+        instructions.innerHTML = `
+            <strong>How to Test:</strong><br>
+            1. Click different section links above<br>
+            2. Watch for the black overlay (HeroLoader) - it should NOT appear<br>
+            3. Check the loader status indicator in top-right corner<br>
+            4. Review console logs for detailed navigation tracking<br>
+            5. All section navigation tests should PASS (show ✅)
+        `;
+        document.getElementById('test-results').appendChild(instructions);
+    </script>
+</body>
+</html>

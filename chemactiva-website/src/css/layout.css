@@ -20,7 +20,6 @@
     padding: 80px 0;
     position: relative; 
 }
-/* Alternating background for sections - applies to even children of <main> */
 main > .content-section:nth-child(even) { 
     background-color: var(--section-bg-odd); 
 }
@@ -29,26 +28,26 @@ main > .content-section:nth-child(even) {
 .focus-grid,
 .advisor-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive columns */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
 }
 
 .contact-layout {
     display: flex;
     gap: 40px;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap;
 }
 .contact-info { 
     flex: 1; 
     min-width: 300px; 
 }
-#contact-form-container { /* This is also a .card-style */
+#contact-form-container {
     flex: 1.5; 
     min-width: 320px; 
 }
 
 
-/* Responsive adjustments for layout containers */
+/* Responsive adjustments */
 @media (max-width: 768px) {
     .content-section {
         padding: 60px 0; 
@@ -64,6 +63,6 @@ main > .content-section:nth-child(even) {
         padding: 0 15px; 
     }
     .focus-grid, .advisor-grid {
-        grid-template-columns: 1fr; /* Stack items on very small screens */
+        grid-template-columns: 1fr;
     }
 }

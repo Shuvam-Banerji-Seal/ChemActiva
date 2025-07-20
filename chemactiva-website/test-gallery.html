@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Test</title>
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/theme.css">
+    <link rel="stylesheet" href="src/css/products.css">
+</head>
+<body>
+    <div class="container" style="padding: 2rem;">
+        <h1>ProductImageGallery Test</h1>
+        
+        <div class="product-card-enhanced card-style" style="max-width: 400px;">
+            <div class="product-image-carousel-enhanced">
+                <img src="/assets/images/products/Domestic_oil_spill_kit_1.webp" alt="Image 1" loading="lazy">
+                <img src="/assets/images/products/Domestic_oil_spill_kit_collage_1.webp" alt="Image 2" loading="lazy">
+                <img src="/assets/images/products/Domestic_oil_spill_kit_collage_2.webp" alt="Image 3" loading="lazy">
+            </div>
+            <div class="product-info-enhanced">
+                <h3>Test Product</h3>
+                <p>Testing the gallery functionality</p>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import ProductImageGallery from './src/js/ProductImageGallery.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.querySelector('.product-image-carousel-enhanced');
+            if (container) {
+                console.log('Initializing gallery...');
+                const gallery = new ProductImageGallery(container, {
+                    autoPlay: true,
+                    autoPlayDelay: 3000,
+                    showThumbnails: true,
+                    enableKeyboard: true,
+                    enableTouch: true
+                });
+                console.log('Gallery initialized:', gallery);
+            }
+        });
+    </script>
+</body>
+</html>

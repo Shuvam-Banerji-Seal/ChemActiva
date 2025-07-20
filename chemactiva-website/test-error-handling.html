@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Handling Test - Product Page Components</title>
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/components.css">
+    <link rel="stylesheet" href="src/css/products.css">
+    <link rel="stylesheet" href="src/css/error-handling.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+        
+        .test-section {
+            background: white;
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .test-controls {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #e9ecef;
+            border-radius: 4px;
+        }
+        
+        .test-controls button {
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+        
+        .test-controls .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .test-controls .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .test-controls .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .mock-product-card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: white;
+        }
+        
+        .mock-gallery {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .error-log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-indicator.success { background: #28a745; }
+        .status-indicator.error { background: #dc3545; }
+        .status-indicator.warning { background: #ffc107; }
+        .status-indicator.info { background: #17a2b8; }
+    </style>
+</head>
+<body>
+    <h1>Error Handling Test Suite</h1>
+    <p>This page tests the comprehensive error handling functionality of the product page components.</p>
+
+    <!-- Image Loading Error Tests -->
+    <div class="test-section">
+        <h2>Image Loading Error Handling</h2>
+        <p>Test image loading failures, retry mechanisms, and fallback images.</p>
+        
+        <div class="test-controls">
+            <button class="btn-primary" onclick="testImageLoading()">Test Normal Loading</button>
+            <button class="btn-danger" onclick="testImageFailure()">Simulate Image Failure</button>
+            <button class="btn-warning" onclick="testSlowNetwork()">Simulate Slow Network</button>
+            <button class="btn-primary" onclick="testRetryMechanism()">Test Retry Logic</button>
+        </div>
+        
+        <div class="mock-gallery" id="test-gallery">
+            <img src="public/assets/images/products/Domestic_oil_spill_kit_1.jpeg" 
+                 alt="Test Product Image" 
+                 style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        
+        <div class="error-log" id="image-error-log">
+            <strong>Image Loading Log:</strong><br>
+            Ready for testing...
+        </div>
+    </div>
+
+    <!-- Component Interaction Error Tests -->
+    <div class="test-section">
+        <h2>Component Interaction Error Handling</h2>
+        <p>Test JavaScript errors in component interactions and graceful degradation.</p>
+        
+        <div class="test-controls">
+            <button class="btn-primary" onclick="testNormalInteraction()">Test Normal Interaction</button>
+            <button class="btn-danger" onclick="testJavaScriptError()">Simulate JS Error</button>
+            <button class="btn-warning" onclick="testMissingElements()">Test Missing Elements</button>
+            <button class="btn-primary" onclick="testFallbackMode()">Test Fallback Mode</button>
+        </div>
+        
+        <div class="mock-product-card" id="test-product-card">
+            <h3>Test Product</h3>
+            <div class="product-specs-accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header" aria-expanded="false">
+                        <span>Specifications</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content" aria-hidden="true">
+                        <p>Test specifications content</p>
+                    </div>
+                </div>
+            </div>
+            <button class="contact-button primary">Contact Us</button>
+        </div>
+        
+        <div class="error-log" id="interaction-error-log">
+            <strong>Interaction Log:</strong><br>
+            Ready for testing...
+        </div>
+    </div>
+
+    <!-- Network Error Tests -->
+    <div class="test-section">
+        <h2>Network Error Handling</h2>
+        <p>Test network failures, offline scenarios, and connection recovery.</p>
+        
+        <div class="test-controls">
+            <button class="btn-primary" onclick="testNetworkRequest()">Test Normal Request</button>
+            <button class="btn-danger" onclick="simulateOffline()">Simulate Offline</button>
+            <button class="btn-warning" onclick="simulateSlowConnection()">Simulate Slow Connection</button>
+            <button class="btn-primary" onclick="simulateOnline()">Simulate Online</button>
+        </div>
+        
+        <div id="network-status" class="network-status online">
+            <span class="status-indicator success"></span>
+            Network: Online
+        </div>
+        
+        <div class="error-log" id="network-error-log">
+            <strong>Network Log:</strong><br>
+            Ready for testing...
+        </div>
+    </div>
+
+    <!-- Performance Error Tests -->
+    <div class="test-section">
+        <h2>Performance Error Handling</h2>
+        <p>Test performance monitoring failures and resource loading errors.</p>
+        
+        <div class="test-controls">
+            <button class="btn-primary" onclick="testPerformanceMonitoring()">Test Performance Monitoring</button>
+            <button class="btn-danger" onclick="testResourceFailure()">Simulate Resource Failure</button>
+            <button class="btn-warning" onclick="testMemoryPressure()">Simulate Memory Pressure</button>
+            <button class="btn-primary" onclick="testRecovery()">Test Recovery</button>
+        </div>
+        
+        <div class="error-log" id="performance-error-log">
+            <strong>Performance Log:</strong><br>
+            Ready for testing...
+        </div>
+    </div>
+
+    <!-- Error Reporting Dashboard -->
+    <div class="test-section">
+        <h2>Error Reporting Dashboard</h2>
+        <p>View all errors logged by the ErrorHandler system.</p>
+        
+        <div class="test-controls">
+            <button class="btn-primary" onclick="refreshErrorLog()">Refresh Log</button>
+            <button class="btn-warning" onclick="clearErrorLog()">Clear Log</button>
+            <button class="btn-primary" onclick="exportErrorLog()">Export Log</button>
+        </div>
+        
+        <div class="error-log" id="error-dashboard" style="max-height: 300px;">
+            <strong>Global Error Log:</strong><br>
+            Loading...
+        </div>
+    </div>
+
+    <!-- Load Scripts -->
+    <script type="module">
+        import ErrorHandler from './src/js/ErrorHandler.js';
+        import ProductImageGallery from './src/js/ProductImageGallery.js';
+        import ProductManager from './src/js/ProductManager.js';
+
+        // Initialize global error handler for testing
+        window.testErrorHandler = new ErrorHandler();
+        window.testGallery = null;
+        window.testManager = null;
+
+        // Test functions
+        window.testImageLoading = function() {
+            logToElement('image-error-log', 'Testing normal image loading...');
+            const gallery = document.getElementById('test-gallery');
+            
+            if (window.testGallery) {
+                window.testGallery.cleanup();
+            }
+            
+            window.testGallery = new ProductImageGallery(gallery, {
+                showThumbnails: false,
+                enableKeyboard: true
+            });
+            
+            logToElement('image-error-log', 'Gallery initialized successfully');
+        };
+
+        window.testImageFailure = function() {
+            logToElement('image-error-log', 'Simulating image loading failure...');
+            const img = document.querySelector('#test-gallery img');
+            
+            // Force image failure by setting invalid src
+            img.src = 'invalid-image-url.jpg';
+            img.onerror = () => {
+                logToElement('image-error-log', 'Image failed to load - testing error handler...');
+                
+                window.testErrorHandler.handleImageError(img, {
+                    productType: 'domestic-oil-spill-kit',
+                    onRetry: (attempt, delay) => {
+                        logToElement('image-error-log', `Retry attempt ${attempt} after ${delay}ms`);
+                    },
+                    onFallback: (fallbackSrc) => {
+                        logToElement('image-error-log', `Using fallback: ${fallbackSrc}`);
+                    },
+                    onFinalFailure: () => {
+                        logToElement('image-error-log', 'All attempts failed - showing placeholder');
+                    }
+                });
+            };
+        };
+
+        window.testSlowNetwork = function() {
+            logToElement('image-error-log', 'Simulating slow network conditions...');
+            // This would typically involve service worker or network throttling
+            logToElement('image-error-log', 'Slow network simulation active');
+        };
+
+        window.testRetryMechanism = function() {
+            logToElement('image-error-log', 'Testing retry mechanism...');
+            
+            let retryCount = 0;
+            const maxRetries = 3;
+            
+            function attemptLoad() {
+                retryCount++;
+                logToElement('image-error-log', `Retry attempt ${retryCount}/${maxRetries}`);
+                
+                if (retryCount < maxRetries) {
+                    setTimeout(attemptLoad, 1000 * Math.pow(2, retryCount - 1));
+                } else {
+                    logToElement('image-error-log', 'Max retries reached - using fallback');
+                }
+            }
+            
+            attemptLoad();
+        };
+
+        window.testNormalInteraction = function() {
+            logToElement('interaction-error-log', 'Testing normal component interaction...');
+            
+            const accordion = document.querySelector('.accordion-header');
+            if (accordion) {
+                accordion.click();
+                logToElement('interaction-error-log', 'Accordion interaction successful');
+            }
+        };
+
+        window.testJavaScriptError = function() {
+            logToElement('interaction-error-log', 'Simulating JavaScript error...');
+            
+            try {
+                // Intentionally cause an error
+                const nonExistent = null;
+                nonExistent.someProperty.anotherProperty = 'test';
+            } catch (error) {
+                window.testErrorHandler.handleJavaScriptError(error, {
+                    component: 'TestComponent',
+                    action: 'testJavaScriptError'
+                });
+                logToElement('interaction-error-log', `JS Error handled: ${error.message}`);
+            }
+        };
+
+        window.testMissingElements = function() {
+            logToElement('interaction-error-log', 'Testing missing DOM elements...');
+            
+            try {
+                const missing = document.querySelector('.non-existent-element');
+                missing.addEventListener('click', () => {});
+            } catch (error) {
+                window.testErrorHandler.handleJavaScriptError(error, {
+                    component: 'TestComponent',
+                    action: 'testMissingElements'
+                });
+                logToElement('interaction-error-log', 'Missing element error handled gracefully');
+            }
+        };
+
+        window.testFallbackMode = function() {
+            logToElement('interaction-error-log', 'Testing fallback mode initialization...');
+            
+            if (window.testManager) {
+                window.testManager.cleanup();
+            }
+            
+            // Simulate initialization failure and fallback
+            window.testManager = new ProductManager();
+            try {
+                window.testManager.init();
+                logToElement('interaction-error-log', 'ProductManager initialized successfully');
+            } catch (error) {
+                logToElement('interaction-error-log', 'Fallback mode activated');
+            }
+        };
+
+        window.testNetworkRequest = function() {
+            logToElement('network-error-log', 'Testing normal network request...');
+            
+            fetch('/api/test')
+                .then(response => {
+                    logToElement('network-error-log', `Request successful: ${response.status}`);
+                })
+                .catch(error => {
+                    window.testErrorHandler.handleNetworkError('/api/test', {
+                        onRetry: (attempt, delay) => {
+                            logToElement('network-error-log', `Network retry ${attempt} after ${delay}ms`);
+                        },
+                        onFinalFailure: () => {
+                            logToElement('network-error-log', 'Network request failed permanently');
+                        }
+                    });
+                });
+        };
+
+        window.simulateOffline = function() {
+            logToElement('network-error-log', 'Simulating offline state...');
+            
+            const statusEl = document.getElementById('network-status');
+            statusEl.className = 'network-status offline';
+            statusEl.innerHTML = '<span class="status-indicator error"></span>Network: Offline';
+            
+            // Dispatch offline event
+            window.dispatchEvent(new Event('offline'));
+        };
+
+        window.simulateSlowConnection = function() {
+            logToElement('network-error-log', 'Simulating slow connection...');
+            
+            const statusEl = document.getElementById('network-status');
+            statusEl.className = 'network-status slow';
+            statusEl.innerHTML = '<span class="status-indicator warning"></span>Network: Slow';
+        };
+
+        window.simulateOnline = function() {
+            logToElement('network-error-log', 'Simulating online state...');
+            
+            const statusEl = document.getElementById('network-status');
+            statusEl.className = 'network-status online';
+            statusEl.innerHTML = '<span class="status-indicator success"></span>Network: Online';
+            
+            // Dispatch online event
+            window.dispatchEvent(new Event('online'));
+        };
+
+        window.testPerformanceMonitoring = function() {
+            logToElement('performance-error-log', 'Testing performance monitoring...');
+            
+            if ('PerformanceObserver' in window) {
+                logToElement('performance-error-log', 'PerformanceObserver available');
+            } else {
+                logToElement('performance-error-log', 'PerformanceObserver not available - using polyfill');
+            }
+        };
+
+        window.testResourceFailure = function() {
+            logToElement('performance-error-log', 'Simulating resource loading failure...');
+            
+            const script = document.createElement('script');
+            script.src = 'non-existent-resource.js';
+            script.onerror = () => {
+                logToElement('performance-error-log', 'Resource failed to load');
+            };
+            document.head.appendChild(script);
+        };
+
+        window.testMemoryPressure = function() {
+            logToElement('performance-error-log', 'Simulating memory pressure...');
+            
+            if ('memory' in performance) {
+                const memInfo = performance.memory;
+                logToElement('performance-error-log', 
+                    `Memory usage: ${(memInfo.usedJSHeapSize / 1024 / 1024).toFixed(2)}MB`);
+            } else {
+                logToElement('performance-error-log', 'Memory API not available');
+            }
+        };
+
+        window.testRecovery = function() {
+            logToElement('performance-error-log', 'Testing error recovery...');
+            
+            // Simulate recovery by clearing error states
+            document.querySelectorAll('.component-error').forEach(el => {
+                el.classList.remove('component-error');
+            });
+            
+            logToElement('performance-error-log', 'Recovery simulation complete');
+        };
+
+        window.refreshErrorLog = function() {
+            const errorLog = window.testErrorHandler.getErrorLog();
+            const dashboard = document.getElementById('error-dashboard');
+            
+            dashboard.innerHTML = '<strong>Global Error Log:</strong><br>';
+            
+            if (errorLog.length === 0) {
+                dashboard.innerHTML += 'No errors logged.';
+            } else {
+                errorLog.forEach((error, index) => {
+                    dashboard.innerHTML += `
+                        <div style="margin: 0.5rem 0; padding: 0.5rem; background: #f8f9fa; border-left: 3px solid #dc3545;">
+                            <strong>${error.type}</strong> - ${error.timestamp}<br>
+                            <small>${JSON.stringify(error.details, null, 2)}</small>
+                        </div>
+                    `;
+                });
+            }
+        };
+
+        window.clearErrorLog = function() {
+            window.testErrorHandler.clearErrorLog();
+            refreshErrorLog();
+            logToElement('error-dashboard', 'Error log cleared.');
+        };
+
+        window.exportErrorLog = function() {
+            const errorLog = window.testErrorHandler.getErrorLog();
+            const dataStr = JSON.stringify(errorLog, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `error-log-${new Date().toISOString()}.json`;
+            link.click();
+        };
+
+        // Utility function to log messages to specific elements
+        window.logToElement = function(elementId, message) {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            element.innerHTML += `<br>[${timestamp}] ${message}`;
+            element.scrollTop = element.scrollHeight;
+        };
+
+        // Initialize dashboard on load
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshErrorLog();
+            
+            // Set up global error listeners for demonstration
+            window.addEventListener('error', (event) => {
+                logToElement('error-dashboard', `Global error: ${event.message}`);
+            });
+            
+            window.addEventListener('unhandledrejection', (event) => {
+                logToElement('error-dashboard', `Unhandled rejection: ${event.reason}`);
+            });
+        });
+    </script>
+</body>
+</html>

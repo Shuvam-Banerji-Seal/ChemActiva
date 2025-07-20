@@ -38,6 +38,21 @@ export default class SceneManager {
     initMainScene() {
         if (!this.container) return;
 
+        // Detect slow network connection (2G/3G)
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const isSlowNetwork = connection ? 
+            (connection.effectiveType === 'slow-2g' || 
+             connection.effectiveType === '2g' || 
+             connection.effectiveType === '3g') : 
+            false;
+
+        // Skip 3D rendering on slow networks
+        if (isSlowNetwork) {
+            console.log('[SceneManager] Skipping 3D rendering on slow network');
+            this.container.style.display = 'none';
+            return;
+        }
+
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.shadowMap.enabled = !IS_MOBILE; 
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;

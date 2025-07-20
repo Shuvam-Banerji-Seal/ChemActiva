@@ -1,0 +1,603 @@
+{
+  "timestamp": "2025-07-20T10:02:02.951Z",
+  "summary": {
+    "totalFiles": 49,
+    "bundleSize": {
+      "javascript": 658924,
+      "css": 180136,
+      "total": 839060
+    },
+    "optimizationOpportunities": {
+      "currentSize": 839060,
+      "potentialSavings": {
+        "codeElimination": 125859,
+        "assetOptimization": 209765,
+        "compression": 251718
+      },
+      "optimizedSize": 251718
+    }
+  },
+  "details": {
+    "bundleSize": {
+      "AdaptiveLoadingManager.js": {
+        "size": 24817,
+        "formattedSize": "24.24 KB",
+        "type": "javascript"
+      },
+      "App copy.js": {
+        "size": 3762,
+        "formattedSize": "3.67 KB",
+        "type": "javascript"
+      },
+      "App.js": {
+        "size": 64937,
+        "formattedSize": "63.42 KB",
+        "type": "javascript"
+      },
+      "ArticleManager.js": {
+        "size": 4781,
+        "formattedSize": "4.67 KB",
+        "type": "javascript"
+      },
+      "AssetLoadingManager.js": {
+        "size": 18573,
+        "formattedSize": "18.14 KB",
+        "type": "javascript"
+      },
+      "AssetOptimizer.js": {
+        "size": 17356,
+        "formattedSize": "16.95 KB",
+        "type": "javascript"
+      },
+      "AssetPreloader.js": {
+        "size": 24362,
+        "formattedSize": "23.79 KB",
+        "type": "javascript"
+      },
+      "CacheManager.js": {
+        "size": 18077,
+        "formattedSize": "17.65 KB",
+        "type": "javascript"
+      },
+      "ComponentRegistry.js": {
+        "size": 13087,
+        "formattedSize": "12.78 KB",
+        "type": "javascript"
+      },
+      "ContactManager.js": {
+        "size": 16610,
+        "formattedSize": "16.22 KB",
+        "type": "javascript"
+      },
+      "ErrorHandler.js": {
+        "size": 31366,
+        "formattedSize": "30.63 KB",
+        "type": "javascript"
+      },
+      "ErrorRecoveryManager.js": {
+        "size": 33551,
+        "formattedSize": "32.76 KB",
+        "type": "javascript"
+      },
+      "HeroLoader copy.js": {
+        "size": 5330,
+        "formattedSize": "5.21 KB",
+        "type": "javascript"
+      },
+      "HeroLoader.js": {
+        "size": 47764,
+        "formattedSize": "46.64 KB",
+        "type": "javascript"
+      },
+      "HeroLoader_old.js": {
+        "size": 12528,
+        "formattedSize": "12.23 KB",
+        "type": "javascript"
+      },
+      "HeroLoader_try.js": {
+        "size": 15204,
+        "formattedSize": "14.85 KB",
+        "type": "javascript"
+      },
+      "JourneyManager.js": {
+        "size": 3327,
+        "formattedSize": "3.25 KB",
+        "type": "javascript"
+      },
+      "LoadingInfrastructureExample.js": {
+        "size": 8840,
+        "formattedSize": "8.63 KB",
+        "type": "javascript"
+      },
+      "LoadingStateManager.js": {
+        "size": 10179,
+        "formattedSize": "9.94 KB",
+        "type": "javascript"
+      },
+      "NavigationStateManager.js": {
+        "size": 13179,
+        "formattedSize": "12.87 KB",
+        "type": "javascript"
+      },
+      "PerformanceManager.js": {
+        "size": 46574,
+        "formattedSize": "45.48 KB",
+        "type": "javascript"
+      },
+      "ProductImageGallery.js": {
+        "size": 42899,
+        "formattedSize": "41.89 KB",
+        "type": "javascript"
+      },
+      "ProductManager.js": {
+        "size": 26671,
+        "formattedSize": "26.05 KB",
+        "type": "javascript"
+      },
+      "SceneManager.js": {
+        "size": 17085,
+        "formattedSize": "16.68 KB",
+        "type": "javascript"
+      },
+      "ScrollAnimations.js": {
+        "size": 23780,
+        "formattedSize": "23.22 KB",
+        "type": "javascript"
+      },
+      "ServiceWorkerManager.js": {
+        "size": 20110,
+        "formattedSize": "19.64 KB",
+        "type": "javascript"
+      },
+      "SingleArticleViewer.js": {
+        "size": 10422,
+        "formattedSize": "10.18 KB",
+        "type": "javascript"
+      },
+      "TeamManager.js": {
+        "size": 5269,
+        "formattedSize": "5.15 KB",
+        "type": "javascript"
+      },
+      "UIAnimations.js": {
+        "size": 11045,
+        "formattedSize": "10.79 KB",
+        "type": "javascript"
+      },
+      "UserFeedbackManager.js": {
+        "size": 31946,
+        "formattedSize": "31.2 KB",
+        "type": "javascript"
+      },
+      "cross-browser-tester.js": {
+        "size": 28665,
+        "formattedSize": "27.99 KB",
+        "type": "javascript"
+      },
+      "main.js": {
+        "size": 144,
+        "formattedSize": "144 Bytes",
+        "type": "javascript"
+      },
+      "products.js": {
+        "size": 6684,
+        "formattedSize": "6.53 KB",
+        "type": "javascript"
+      },
+      "articles.css": {
+        "size": 9102,
+        "formattedSize": "8.89 KB",
+        "type": "css"
+      },
+      "base.css": {
+        "size": 1736,
+        "formattedSize": "1.7 KB",
+        "type": "css"
+      },
+      "components.css": {
+        "size": 6354,
+        "formattedSize": "6.21 KB",
+        "type": "css"
+      },
+      "error-handling.css": {
+        "size": 7957,
+        "formattedSize": "7.77 KB",
+        "type": "css"
+      },
+      "fab-mobile-menu.css": {
+        "size": 4963,
+        "formattedSize": "4.85 KB",
+        "type": "css"
+      },
+      "hero.css": {
+        "size": 2395,
+        "formattedSize": "2.34 KB",
+        "type": "css"
+      },
+      "journey.css": {
+        "size": 2372,
+        "formattedSize": "2.32 KB",
+        "type": "css"
+      },
+      "layout.css": {
+        "size": 1258,
+        "formattedSize": "1.23 KB",
+        "type": "css"
+      },
+      "loader.css": {
+        "size": 746,
+        "formattedSize": "746 Bytes",
+        "type": "css"
+      },
+      "navbar.css": {
+        "size": 7274,
+        "formattedSize": "7.1 KB",
+        "type": "css"
+      },
+      "products.css": {
+        "size": 79472,
+        "formattedSize": "77.61 KB",
+        "type": "css"
+      },
+      "sections.css": {
+        "size": 3618,
+        "formattedSize": "3.53 KB",
+        "type": "css"
+      },
+      "sidebar-nav.css": {
+        "size": 8328,
+        "formattedSize": "8.13 KB",
+        "type": "css"
+      },
+      "styles.css": {
+        "size": 37429,
+        "formattedSize": "36.55 KB",
+        "type": "css"
+      },
+      "team.css": {
+        "size": 2723,
+        "formattedSize": "2.66 KB",
+        "type": "css"
+      },
+      "theme.css": {
+        "size": 4409,
+        "formattedSize": "4.31 KB",
+        "type": "css"
+      },
+      "totals": {
+        "javascript": 658924,
+        "css": 180136,
+        "total": 839060
+      }
+    },
+    "codeElimination": {
+      "unusedFunctions": 28,
+      "unusedCSS": 0,
+      "optimizedFiles": []
+    },
+    "assetOptimization": {
+      "images": [
+        {
+          "file": "assets/images/logo-small_size.png",
+          "size": 6861,
+          "formattedSize": "6.7 KB",
+          "optimization": [
+            "Image size is acceptable"
+          ]
+        },
+        {
+          "file": "assets/images/logo.png",
+          "size": 140587,
+          "formattedSize": "137.29 KB",
+          "optimization": [
+            "Consider converting PNG to WebP"
+          ]
+        },
+        {
+          "file": "assets/images/products/Domestic_oil_spill_kit_1.jpeg",
+          "size": 810640,
+          "formattedSize": "791.64 KB",
+          "optimization": [
+            "Consider compressing large image",
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/images/products/Domestic_oil_spill_kit_1.webp",
+          "size": 145420,
+          "formattedSize": "142.01 KB",
+          "optimization": [
+            "Image size is acceptable"
+          ]
+        },
+        {
+          "file": "assets/images/products/Domestic_oil_spill_kit_collage_1.jpeg",
+          "size": 1740628,
+          "formattedSize": "1.66 MB",
+          "optimization": [
+            "Consider compressing large image",
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/images/products/Domestic_oil_spill_kit_collage_1.webp",
+          "size": 486134,
+          "formattedSize": "474.74 KB",
+          "optimization": [
+            "Image size is acceptable"
+          ]
+        },
+        {
+          "file": "assets/images/products/Domestic_oil_spill_kit_collage_2.jpeg",
+          "size": 1571546,
+          "formattedSize": "1.5 MB",
+          "optimization": [
+            "Consider compressing large image",
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/images/products/Domestic_oil_spill_kit_collage_2.webp",
+          "size": 416428,
+          "formattedSize": "406.67 KB",
+          "optimization": [
+            "Image size is acceptable"
+          ]
+        },
+        {
+          "file": "assets/images/products/Domestic_oil_spill_kit_collage_3.jpeg",
+          "size": 1703461,
+          "formattedSize": "1.62 MB",
+          "optimization": [
+            "Consider compressing large image",
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/images/products/Domestic_oil_spill_kit_collage_3.webp",
+          "size": 415432,
+          "formattedSize": "405.7 KB",
+          "optimization": [
+            "Image size is acceptable"
+          ]
+        },
+        {
+          "file": "assets/images/products/Marine_oil_spill_kit.jpeg",
+          "size": 891451,
+          "formattedSize": "870.56 KB",
+          "optimization": [
+            "Consider compressing large image",
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/images/products/Marine_oil_spill_kit.webp",
+          "size": 202186,
+          "formattedSize": "197.45 KB",
+          "optimization": [
+            "Image size is acceptable"
+          ]
+        },
+        {
+          "file": "assets/images/products/Nano_cellulose_1.jpeg",
+          "size": 552019,
+          "formattedSize": "539.08 KB",
+          "optimization": [
+            "Consider compressing large image",
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/images/products/Nano_cellulose_1.webp",
+          "size": 107326,
+          "formattedSize": "104.81 KB",
+          "optimization": [
+            "Image size is acceptable"
+          ]
+        },
+        {
+          "file": "assets/images/products/Nano_cellulose_2.jpeg",
+          "size": 150235,
+          "formattedSize": "146.71 KB",
+          "optimization": [
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/images/products/Nano_cellulose_2.webp",
+          "size": 45014,
+          "formattedSize": "43.96 KB",
+          "optimization": [
+            "Image size is acceptable"
+          ]
+        },
+        {
+          "file": "assets/images/products/Nano_cellulose_3.jpeg",
+          "size": 507313,
+          "formattedSize": "495.42 KB",
+          "optimization": [
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/images/products/Nano_cellulose_3.webp",
+          "size": 71726,
+          "formattedSize": "70.04 KB",
+          "optimization": [
+            "Image size is acceptable"
+          ]
+        },
+        {
+          "file": "assets/images/products/Nano_cellulose_4.jpeg",
+          "size": 185203,
+          "formattedSize": "180.86 KB",
+          "optimization": [
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/images/products/Nano_cellulose_4.webp",
+          "size": 40448,
+          "formattedSize": "39.5 KB",
+          "optimization": [
+            "Image size is acceptable"
+          ]
+        },
+        {
+          "file": "assets/images/team/goutam-kulsi.jpg",
+          "size": 62252,
+          "formattedSize": "60.79 KB",
+          "optimization": [
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/images/user1.jpg",
+          "size": 0,
+          "formattedSize": "0 Bytes",
+          "optimization": [
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/images/user2.jpg",
+          "size": 0,
+          "formattedSize": "0 Bytes",
+          "optimization": [
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/textures/foliage-bg.jpg",
+          "size": 0,
+          "formattedSize": "0 Bytes",
+          "optimization": [
+            "Ensure JPEG quality is optimized"
+          ]
+        },
+        {
+          "file": "assets/textures/organic-pattern.png",
+          "size": 125324,
+          "formattedSize": "122.39 KB",
+          "optimization": [
+            "Consider converting PNG to WebP"
+          ]
+        }
+      ],
+      "fonts": {
+        "suggestions": [
+          "Use font-display: swap for better loading performance",
+          "Preload critical fonts",
+          "Consider using system fonts for better performance",
+          "Subset fonts to include only used characters"
+        ]
+      }
+    },
+    "performanceMetrics": {
+      "strategies": {
+        "criticalResourceHints": [
+          "Preload critical fonts",
+          "Preload hero images",
+          "Preload critical CSS",
+          "DNS prefetch for external resources"
+        ],
+        "lazyLoading": [
+          "Lazy load images below the fold",
+          "Lazy load non-critical JavaScript",
+          "Lazy load 3D models",
+          "Lazy load product images"
+        ],
+        "caching": [
+          "Implement service worker caching",
+          "Use appropriate cache headers",
+          "Cache critical assets aggressively",
+          "Implement cache invalidation strategy"
+        ],
+        "bundleOptimization": [
+          "Tree shake unused code",
+          "Minify JavaScript and CSS",
+          "Compress assets with gzip/brotli",
+          "Optimize image formats (WebP, AVIF)"
+        ]
+      },
+      "recommendations": [
+        {
+          "category": "Critical Rendering Path",
+          "priority": "High",
+          "recommendation": "Inline critical CSS and defer non-critical CSS",
+          "impact": "Reduces First Contentful Paint by ~200-500ms"
+        },
+        {
+          "category": "JavaScript Loading",
+          "priority": "High",
+          "recommendation": "Use dynamic imports for non-critical features",
+          "impact": "Reduces initial bundle size by ~30-50%"
+        },
+        {
+          "category": "Image Optimization",
+          "priority": "Medium",
+          "recommendation": "Implement responsive images with srcset",
+          "impact": "Reduces image payload by ~40-60%"
+        },
+        {
+          "category": "Caching Strategy",
+          "priority": "Medium",
+          "recommendation": "Implement intelligent cache management",
+          "impact": "Improves repeat visit performance by ~70-90%"
+        },
+        {
+          "category": "Network Optimization",
+          "priority": "Low",
+          "recommendation": "Use HTTP/2 push for critical resources",
+          "impact": "Reduces resource loading time by ~10-20%"
+        }
+      ]
+    }
+  },
+  "recommendations": [
+    {
+      "action": "Implement tree shaking",
+      "priority": "High",
+      "effort": "Medium",
+      "impact": "High",
+      "steps": [
+        "Configure Vite for tree shaking",
+        "Use ES6 imports/exports consistently",
+        "Remove unused dependencies"
+      ]
+    },
+    {
+      "action": "Optimize images",
+      "priority": "High",
+      "effort": "Low",
+      "impact": "Medium",
+      "steps": [
+        "Convert images to WebP format",
+        "Implement responsive images",
+        "Add lazy loading for below-fold images"
+      ]
+    },
+    {
+      "action": "Implement code splitting",
+      "priority": "Medium",
+      "effort": "High",
+      "impact": "High",
+      "steps": [
+        "Split vendor libraries",
+        "Implement route-based splitting",
+        "Lazy load heavy components"
+      ]
+    },
+    {
+      "action": "Optimize loading managers",
+      "priority": "Medium",
+      "effort": "Medium",
+      "impact": "Medium",
+      "steps": [
+        "Reduce loading manager bundle size",
+        "Implement selective loading",
+        "Optimize cache strategies"
+      ]
+    }
+  ]
+}

@@ -34,11 +34,14 @@ export default class ScrollAnimations {
             }
         };
         this.isMobile = this.detectMobile();
-        this.animationQuality = this.detectAnimationQuality(); // Keep this
+        this.animationQuality = this.detectAnimationQuality();
         this.teamInteractionTimeout = null; 
         this.activeCardIndex = 0; 
         this.teamDraggable = null; 
         this.resizeTimeout = null;
+        this.tapSpeedMultiplier = 1; // For team scroll speed up
+        this.lastTapTime = 0;      // For team scroll speed up
+        this.maxSpeedMultiplier = 3; // For team scroll speed up
 
         this.handleResize = this.handleResize.bind(this);
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
@@ -53,7 +56,6 @@ export default class ScrollAnimations {
     }
 
     detectAnimationQuality() {
-        // ... (Keep your existing detectAnimationQuality logic) ...
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return 'minimal';
         const hasDedicatedGPU = () => { 
             const canvas = document.createElement('canvas');
@@ -77,7 +79,7 @@ export default class ScrollAnimations {
         this.resizeTimeout = setTimeout(() => {
             const wasMobile = this.isMobile;
             this.isMobile = this.detectMobile();
-            if (wasMobile !== this.isMobile) {
+            if (wasMobile !== this.isMobile && document.body.classList.contains('homepage')) {
                 this.reinitializeTeamAnimations();
             }
             ScrollTrigger.refresh();
@@ -89,12 +91,8 @@ export default class ScrollAnimations {
             if (this.teamScrollTween) this.teamScrollTween.pause();
             gsap.globalTimeline.pause();
         } else {
-            // Only resume teamScrollTween if autoScroll is enabled for the current mode
-            // AND if it wasn't paused by user interaction (this part is tricky without more state)
-            // For now, simple resume if autoScroll is generally enabled.
             const config = this.getCurrentTeamConfig();
             if (this.teamScrollTween && config.enableAutoScroll) {
-                 // Check if it was paused by user interaction before resuming
                 if (!this.teamDraggable || (this.teamDraggable && !this.teamDraggable.isDragging && !this.teamDraggable.isThrowing)) {
                     this.teamScrollTween.play();
                 }
@@ -109,37 +107,29 @@ export default class ScrollAnimations {
 
     init(sceneManagerInstance) {
         this.sceneManager = sceneManagerInstance;
-        this.initNavbarScroll(); // From your provided simpler version
-        this.initHeroTextFade();   // Use the simpler, direct version for hero text
-        this.initLightingScroll();
-        this.initCoreFocusAnimations();
-        this.initGenericCardAnimations();
-        this.initScrollProgress();     // From the more feature-rich version
-        this.initParallaxElements();   // From the more feature-rich version
+        // Only run homepage-specific animations on the homepage
+        if (document.body.classList.contains('homepage')) {
+            this.initHeroTextFade();
+            this.initLightingScroll();
+            this.initCoreFocusAnimations();
+            this.initGenericCardAnimations();
+            this.initScrollProgress();
+            this.initParallaxElements();
+        }
     }
 
-    initNavbarScroll() { // Using the simpler version you provided
-        const navbar = document.getElementById('navbar');
-        if (!navbar) return;
-        ScrollTrigger.create({
-            start: "top top", end: 99999,
-            onUpdate: (self) => {
-                navbar.classList.toggle('scrolled', self.scroll() > 50);
-            }
-        });
-    }
-
-    initHeroTextFade() { // Using the simpler version you provided that worked for the tagline
-        gsap.to(".hero-text-area", { // This targets the container of H1 and P
-            opacity: 1, y: 0, duration: 1, delay: 0.3, 
+    initHeroTextFade() {
+        gsap.to(".hero-text-area", {
+            opacity: 1, y: 0, duration: 1.2, delay: 0.5, ease: "power2.out",
             scrollTrigger: {
-                trigger: "#homepage-hero", start: "top 70%",
-                toggleActions: "play none none none"
+                trigger: "#homepage-hero",
+                start: "top 80%",
+                toggleActions: "play none none reverse"
             }
         });
     }
 
-    initLightingScroll() { /* ... same as your last working version ... */ 
+    initLightingScroll() {
         if (this.sceneManager && typeof this.sceneManager.updateLighting === 'function') {
             ScrollTrigger.create({
                 trigger: "body", start: "top top", end: "bottom bottom", 
@@ -149,7 +139,7 @@ export default class ScrollAnimations {
         }
     }
     
-    initScrollProgress() { /* ... same as your last working version ... */ 
+    initScrollProgress() {
         let progressBar = document.querySelector('.scroll-progress');
         if (!progressBar) {
             progressBar = document.createElement('div');
@@ -168,7 +158,7 @@ export default class ScrollAnimations {
         });
     }
 
-    initParallaxElements() { /* ... same as your last working version ... */ 
+    initParallaxElements() {
         if (this.animationQuality === 'low') return;
         const parallaxElements = gsap.utils.toArray('[data-parallax-speed]');
         parallaxElements.forEach(element => {
@@ -185,218 +175,172 @@ export default class ScrollAnimations {
         });
     }
 
-    initJourneyTimelineAnimations() { /* ... same as your last working version ... */ 
+    initJourneyTimelineAnimations() {
         const timelineItems = gsap.utils.toArray('.timeline-item');
         if(timelineItems.length === 0) return;
         timelineItems.forEach((item, index) => {
-            const isOdd = Array.from(item.parentElement.children).indexOf(item) % 2 === 0; 
+            const isOdd = index % 2 === 0; 
             gsap.fromTo(item,
-                { opacity: 0, y: 50, x: isOdd ? 50 : -50, scale: 0.95, rotationY: isOdd ? 5 : -5 },
+                { opacity: 0, y: 50, x: isOdd ? -50 : 50, scale: 0.95 }, // Adjusted x for directness
                 {
-                    opacity: 1, y: 0, x: 0, scale: 1, rotationY: 0,
+                    opacity: 1, y: 0, x: 0, scale: 1,
                     duration: this.animationQuality === 'high' ? 0.9 : 0.7, 
                     ease: 'power2.out',
-                    scrollTrigger: { trigger: item, start: "top 90%", toggleActions: "play none none none" }
+                    scrollTrigger: { trigger: item, start: "top 90%", toggleActions: "play none none reverse" }
                 }
             );
         });
     }
 
-    initCoreFocusAnimations() { /* ... same as your last working version ... */ 
+    initCoreFocusAnimations() {
         const focusItems = gsap.utils.toArray('.focus-item.card-style');
         if (focusItems.length === 0) return;
-        focusItems.forEach((item, index) => {
-            gsap.fromTo(item, 
-                { opacity: 0, y: 60, scale: 0.9, rotationX: 5 },
-                { opacity: 1, y: 0, scale: 1, rotationX: 0, 
-                  duration: this.animationQuality === 'high' ? 0.8 : 0.6,
-                  delay: index * 0.08, ease: "back.out(1.4)",
-                  scrollTrigger: { trigger: item, start: "top 88%", toggleActions: "play none none none" }
-                }
-            );
-        });
+        gsap.fromTo(focusItems, 
+            { opacity: 0, y: 60, scale: 0.9, rotationX: this.animationQuality === 'high' ? 5 : 0 },
+            { opacity: 1, y: 0, scale: 1, rotationX: 0, 
+              duration: this.animationQuality === 'high' ? 0.8 : 0.6,
+              stagger: 0.08, ease: "back.out(1.4)",
+              scrollTrigger: { trigger: '.focus-grid', start: "top 88%", toggleActions: "play none none reverse" }
+            }
+        );
     }
     
-initTeamAutoScroll() {
-    const teamGrid = document.querySelector('#team-grid.team-flex-container');
-    const teamScrollerWrapper = document.querySelector('.team-scroller-wrapper');
+    initTeamAutoScroll() {
+        const teamGrid = document.querySelector('#team-grid.team-flex-container');
+        const teamScrollerWrapper = document.querySelector('.team-scroller-wrapper');
 
-    if (!teamGrid || !teamScrollerWrapper || teamGrid.children.length === 0) {
-        this.animateInTeamCards(); 
-        return;
-    }
-    this.cleanupTeamAnimations();
-    
-    const config = this.getCurrentTeamConfig();
-    let originalCards = gsap.utils.toArray(teamGrid.children).filter(child => child.classList.contains('team-card'));
+        if (!teamGrid || !teamScrollerWrapper || teamGrid.children.length === 0 || !teamGrid.children[0].classList.contains('team-card')) {
+            this.animateInTeamCards(); 
+            return;
+        }
+        this.cleanupTeamAnimations();
+        
+        const config = this.getCurrentTeamConfig();
+        let originalCards = gsap.utils.toArray(teamGrid.children).filter(child => child.classList.contains('team-card'));
 
-    if (originalCards.length === 0) {
-        this.animateInTeamCards(); 
-        return;
-    }
+        if (originalCards.length === 0) {
+            this.animateInTeamCards(); 
+            return;
+        }
 
-    let cardWidth = originalCards[0].offsetWidth;
-    const gap = parseFloat(getComputedStyle(teamGrid).gap) || 25;
-    let oneSetWidth = (cardWidth + gap) * originalCards.length - gap;
-    const viewportWidth = teamScrollerWrapper.clientWidth;
+        let cardWidth = originalCards[0].offsetWidth;
+        const gap = parseFloat(getComputedStyle(teamGrid).gap) || 25;
+        let oneSetWidth = (cardWidth + gap) * originalCards.length - gap;
+        const viewportWidth = teamScrollerWrapper.clientWidth;
 
-    const needsScrolling = oneSetWidth > viewportWidth && originalCards.length >= (this.isMobile ? 1 : 3);
+        const needsScrolling = oneSetWidth > viewportWidth && originalCards.length >= (this.isMobile ? 1 : 3);
 
-    if (!needsScrolling) {
-        teamGrid.style.justifyContent = 'center';
-        this.animateInTeamCards(); 
-        return;
-    }
-    teamGrid.style.justifyContent = 'flex-start';
+        if (!needsScrolling) {
+            gsap.set(teamGrid, { justifyContent: 'center', width: '100%' });
+            this.animateInTeamCards(); 
+            return;
+        }
+        gsap.set(teamGrid, { justifyContent: 'flex-start', width: 'max-content' });
 
-    // Clone cards if needed
-    if (config.enableAutoScroll) {
-        const fragment = document.createDocumentFragment();
-        originalCards.forEach(card => {
-            const clone = card.cloneNode(true);
-            clone.classList.add('team-card-clone');
-            fragment.appendChild(clone);
-        });
-        teamGrid.appendChild(fragment);
-    }
+        if (config.enableAutoScroll) {
+            const fragment = document.createDocumentFragment();
+            originalCards.forEach(card => {
+                const clone = card.cloneNode(true);
+                clone.classList.add('team-card-clone');
+                fragment.appendChild(clone);
+            });
+            teamGrid.appendChild(fragment);
+        }
 
-    // Touch scroll via Draggable
-    if (this.isMobile && config.enableTouchScroll) {
-        if (this.teamDraggable) this.teamDraggable.kill();
-        this.teamDraggable = Draggable.create(teamGrid, {
-            type: "x",
-            edgeResistance: 0.65,
-            bounds: teamScrollerWrapper,
-            inertia: true,
-            snap: config.snapToCards ? { x: endValue => Math.round(endValue / (cardWidth + gap)) * (cardWidth + gap) } : false,
-            onDragStart: () => {
-                if (this.teamScrollTween && config.pauseOnInteraction) this.teamScrollTween.pause();
-                clearTimeout(this.teamInteractionTimeout);
-            },
-            onDragEnd: () => {
-                    // Resume auto-scroll after drag ends
+        if (this.isMobile && config.enableTouchScroll) {
+            this.teamDraggable = Draggable.create(teamGrid, {
+                type: "x", edgeResistance: 0.65, bounds: teamScrollerWrapper, inertia: true,
+                snap: config.snapToCards ? { x: endValue => Math.round(endValue / (cardWidth + gap)) * (cardWidth + gap) } : false,
+                onDragStart: () => {
+                    if (this.teamScrollTween && config.pauseOnInteraction) this.teamScrollTween.pause();
+                    clearTimeout(this.teamInteractionTimeout);
+                },
+                onDragEnd: () => {
                     if (config.enableAutoScroll && this.teamScrollTween) {
-                        // Restart the tween to ensure it's smooth and based on current x
                         const currentX = gsap.getProperty(teamGrid, "x");
                         const newDistance = oneSetWidth + gap;
                         const newDuration = newDistance / (config.scrollSpeed * this.tapSpeedMultiplier);
-
-                        this.teamScrollTween.kill(); // Kill old tween
+                        this.teamScrollTween.kill();
                         this.teamScrollTween = gsap.to(teamGrid, {
-                            x: `-=${newDistance}`,
-                            duration: newDuration,
-                            ease: "none",
-                            repeat: -1,
-                            modifiers: {
-                                x: gsap.utils.unitize(x => parseFloat(x) % newDistance)
-                            },
+                            x: `-=${newDistance}`, duration: newDuration, ease: "none", repeat: -1,
+                            modifiers: { x: gsap.utils.unitize(x => parseFloat(x) % newDistance) },
                             onUpdate: () => this.updateMobileScrollIndicators(teamGrid, originalCards.length)
                         });
+                        this.teamScrollTween.seek(Math.abs(currentX / newDistance) * newDuration).play();
                     }
-
                     this.updateMobileScrollIndicators(teamGrid, originalCards.length);
                 },
-            onDrag: () => this.updateMobileScrollIndicators(teamGrid, originalCards.length)
-        })[0];
-        teamGrid.style.overflowX = 'hidden';
-    } else if (this.isMobile) {
-        teamGrid.style.overflowX = 'auto';
-        teamGrid.addEventListener('scroll', () => {
-            clearTimeout(this.teamInteractionTimeout);
-            this.teamInteractionTimeout = setTimeout(() => this.updateMobileScrollIndicators(teamGrid, originalCards.length), 50);
-            if (this.teamScrollTween && config.pauseOnInteraction) this.teamScrollTween.pause();
-            this.teamInteractionTimeout = setTimeout(() => {
-                if (this.teamScrollTween && config.enableAutoScroll) this.teamScrollTween.play();
-            }, config.autoResumeDelay);
-        });
-    }
-
-    // Set up initial speed multiplier
-    this.tapSpeedMultiplier = 1;
-    this.maxSpeedMultiplier = 3;
-    this.lastTapTime = 0;
-
-    // Auto-scroll tween
-    if (config.enableAutoScroll) {
-        const scrollDistance = oneSetWidth + gap;
-        this.teamScrollTween = gsap.to(teamGrid, {
-            x: `-=${scrollDistance}`,
-            duration: scrollDistance / config.scrollSpeed,
-            ease: "none",
-            repeat: -1,
-            modifiers: {
-                x: gsap.utils.unitize(x => parseFloat(x) % scrollDistance)
-            },
-            onUpdate: this.isMobile ? () => this.updateMobileScrollIndicators(teamGrid, originalCards.length) : null,
-            paused: this.isMobile && config.enableTouchScroll
-        });
-
-        // Pause on hover (desktop)
-        if (config.pauseOnInteraction && !this.isMobile) {
-            teamScrollerWrapper.addEventListener('mouseenter', () => {
-                if (this.teamScrollTween) this.teamScrollTween.pause();
-            });
-            teamScrollerWrapper.addEventListener('mouseleave', () => {
-                if (this.teamScrollTween) this.teamScrollTween.play();
+                onDrag: () => this.updateMobileScrollIndicators(teamGrid, originalCards.length)
+            })[0];
+        } else if (this.isMobile) {
+            teamGrid.style.overflowX = 'auto';
+            teamGrid.addEventListener('scroll', () => {
+                if (this.teamScrollTween && config.pauseOnInteraction) this.teamScrollTween.pause();
+                clearTimeout(this.teamInteractionTimeout);
+                this.teamInteractionTimeout = setTimeout(() => {
+                    this.updateMobileScrollIndicators(teamGrid, originalCards.length);
+                    if (this.teamScrollTween && config.enableAutoScroll) this.teamScrollTween.play();
+                }, config.autoResumeDelay);
             });
         }
 
-        // Mobile: tap to resume & speed up
-        if (this.isMobile) {
-            let tapResetTimeout;
-            document.addEventListener('pointerdown', () => {
-                const now = Date.now();
-                if (now - this.lastTapTime < 300) return;
-                this.lastTapTime = now;
-
-                if (this.teamScrollTween && this.teamScrollTween.paused()) {
-                    this.teamScrollTween.play();
-                }
-
-                if (this.tapSpeedMultiplier < this.maxSpeedMultiplier) {
-                    this.tapSpeedMultiplier += 0.2;
-                    const newDuration = scrollDistance / (config.scrollSpeed * this.tapSpeedMultiplier);
-                    this.teamScrollTween.duration(newDuration);
-                }
-
-                clearTimeout(tapResetTimeout);
-                tapResetTimeout = setTimeout(() => {
-                    this.tapSpeedMultiplier = 1;
-                    const resetDuration = scrollDistance / config.scrollSpeed;
-                    if (this.teamScrollTween) {
-                        this.teamScrollTween.duration(resetDuration);
-                    }
-                }, 8000); // Reset after 8s idle
+        if (config.enableAutoScroll) {
+            const scrollDistance = oneSetWidth + gap;
+            this.teamScrollTween = gsap.to(teamGrid, {
+                x: `-=${scrollDistance}`, duration: scrollDistance / (config.scrollSpeed * this.tapSpeedMultiplier),
+                ease: "none", repeat: -1,
+                modifiers: { x: gsap.utils.unitize(x => parseFloat(x) % scrollDistance) },
+                onUpdate: this.isMobile ? () => this.updateMobileScrollIndicators(teamGrid, originalCards.length) : null,
+                paused: this.isMobile && config.enableTouchScroll // Start paused if draggable exists
             });
-        }
-    }
 
-    if (this.isMobile && config.enableTapToEnlarge) {
-        this.setupMobileTapToEnlarge(originalCards, config);
-    }
-    if (this.isMobile) {
-        this.addMobileScrollIndicators(teamScrollerWrapper, teamGrid, originalCards.length);
-        this.updateMobileScrollIndicators(teamGrid, originalCards.length);
-    }
-
-    gsap.fromTo(gsap.utils.toArray(teamGrid.children),
-        { opacity: 0.3, scale: 0.9 },
-        {
-            opacity: 1, scale: 1, duration: 0.8, stagger: 0.08, ease: 'power1.out',
-            scrollTrigger: {
-                trigger: teamScrollerWrapper,
-                start: "top 88%",
-                toggleActions: "play none none none"
+            if (config.pauseOnInteraction && !this.isMobile) {
+                teamScrollerWrapper.addEventListener('mouseenter', () => this.teamScrollTween && this.teamScrollTween.pause());
+                teamScrollerWrapper.addEventListener('mouseleave', () => this.teamScrollTween && this.teamScrollTween.play());
             }
-        });
-}
+            
+            if (this.isMobile) {
+                let tapResetTimeout;
+                teamScrollerWrapper.addEventListener('pointerdown', (e) => {
+                    if (e.target.closest('.team-card') || e.target.closest('.scroll-indicator-dot')) return; // Don't interfere with card/dot clicks
+                    
+                    const now = Date.now();
+                    if (now - this.lastTapTime < 300) return; // Debounce
+                    this.lastTapTime = now;
 
+                    if (this.teamScrollTween) {
+                         if(this.teamScrollTween.paused()) this.teamScrollTween.play();
+
+                        if (this.tapSpeedMultiplier < this.maxSpeedMultiplier) {
+                            this.tapSpeedMultiplier += 0.2;
+                        } else {
+                            this.tapSpeedMultiplier = 1; // Cycle back
+                        }
+                        this.teamScrollTween.duration(scrollDistance / (config.scrollSpeed * this.tapSpeedMultiplier));
+                    }
+                    clearTimeout(tapResetTimeout);
+                    tapResetTimeout = setTimeout(() => {
+                        this.tapSpeedMultiplier = 1;
+                        if (this.teamScrollTween) this.teamScrollTween.duration(scrollDistance / config.scrollSpeed);
+                    }, 8000);
+                });
+            }
+        }
+
+        if (this.isMobile && config.enableTapToEnlarge) {
+            this.setupMobileTapToEnlarge(originalCards, config);
+        }
+        if (this.isMobile) {
+            this.addMobileScrollIndicators(teamScrollerWrapper, teamGrid, originalCards.length);
+            this.updateMobileScrollIndicators(teamGrid, originalCards.length);
+        }
+        this.animateInTeamCards();
+    }
 
     setupMobileTapToEnlarge(cards, config) {
         cards.forEach((card) => {
             let isEnlarged = false;
-            let tapTimeout; // Use a different name than teamInteractionTimeout
-
+            let tapTimeout;
             card.addEventListener('click', (e) => { 
                 if (this.teamDraggable && (this.teamDraggable.isDragging || this.teamDraggable.isThrowing)) return; 
                 e.preventDefault(); 
@@ -429,7 +373,6 @@ initTeamAutoScroll() {
     }
 
     addMobileScrollIndicators(wrapper, teamGrid, numOriginalCards) {
-        // ... (same as your previous version, ensure CSS for .scroll-indicator-dot is present) ...
         let indicatorContainer = wrapper.querySelector('.team-scroll-indicators');
         if (!indicatorContainer) {
             indicatorContainer = document.createElement('div');
@@ -441,6 +384,7 @@ initTeamAutoScroll() {
         for (let i = 0; i < numOriginalCards; i++) {
             const dot = document.createElement('div');
             dot.className = 'scroll-indicator-dot';
+            dot.dataset.index = i; // Store index for click handling
             dot.addEventListener('click', () => {
                 if (this.teamScrollTween && this.getCurrentTeamConfig().pauseOnInteraction) this.teamScrollTween.pause();
                 const cardWidthPlusGap = (teamGrid.children[0]?.offsetWidth || 280) + (parseFloat(getComputedStyle(teamGrid).gap) || 25);
@@ -464,13 +408,12 @@ initTeamAutoScroll() {
     }
 
     updateMobileScrollIndicators(teamGrid, numOriginalCards) {
-        // ... (same as your previous version, ensure CSS for active dot is handled) ...
         if (!this.isMobile || numOriginalCards === 0 || !teamGrid.parentElement) return;
         const indicatorContainer = teamGrid.parentElement.querySelector('.team-scroll-indicators');
-        if (!indicatorContainer || indicatorContainer.children.length !== numOriginalCards) return;
+        if (!indicatorContainer || indicatorContainer.children.length === 0) return; // Ensure dots are present
 
         let currentScrollX;
-        if (this.teamDraggable && this.teamDraggable.x !== undefined) {
+        if (this.teamDraggable && typeof this.teamDraggable.x !== 'undefined') {
             currentScrollX = -this.teamDraggable.x;
         } else {
             currentScrollX = teamGrid.scrollLeft;
@@ -484,38 +427,35 @@ initTeamAutoScroll() {
 
         let activeIndexFloat = currentScrollX / cardWidthPlusGap;
         
-        // Handle looped content with Draggable or auto-scroll
-        if ((this.teamDraggable || this.teamScrollTween) && this.getCurrentTeamConfig().enableAutoScroll) { 
+        if ((this.teamDraggable || this.teamScrollTween) && this.getCurrentTeamConfig().enableAutoScroll && teamGrid.children.length > numOriginalCards) { 
              activeIndexFloat = (currentScrollX % (cardWidthPlusGap * numOriginalCards)) / cardWidthPlusGap;
-             if (activeIndexFloat < 0) activeIndexFloat += numOriginalCards; // Ensure positive index
+             if (activeIndexFloat < 0) activeIndexFloat += numOriginalCards;
         }
 
         this.activeCardIndex = Math.round(activeIndexFloat) % numOriginalCards;
         if (this.activeCardIndex < 0) this.activeCardIndex += numOriginalCards;
 
         Array.from(indicatorContainer.children).forEach((dot, index) => {
-            const isActive = index === this.activeCardIndex;
-            dot.style.backgroundColor = isActive ? 'var(--color-accent-primary)' : 'var(--color-text-secondary)';
-            dot.style.transform = isActive ? 'scale(1.3)' : 'scale(1)';
+            dot.classList.toggle('active', index === this.activeCardIndex);
         });
     }
 
-    initGenericCardAnimations() { /* ... same as your previous version ... */ 
+    initGenericCardAnimations() {
         const genericCards = gsap.utils.toArray('.card-style:not(.team-card):not(.focus-item):not(.timeline-content)');
-        genericCards.forEach((card, index) => {
+        genericCards.forEach((card) => {
              gsap.fromTo(card,
-                { opacity: 0, y: 40, scale:0.95, filter: 'blur(1px)' },
+                { opacity: 0, y: 40, scale:0.95, filter: this.animationQuality !== 'high' ? 'none' : 'blur(1px)' },
                 {
                     opacity: 1, y: 0, scale:1, filter: 'blur(0px)',
                     duration: this.animationQuality === 'high' ? 0.7 : 0.5, 
-                    delay: index * 0.05, ease: "power2.out",
-                    scrollTrigger: { trigger: card, start: "top 88%", toggleActions: "play none none none" }
+                    ease: "power2.out",
+                    scrollTrigger: { trigger: card, start: "top 88%", toggleActions: "play none none reverse" }
                 }
             );
         });
     }
 
-    animateInTeamCards() { /* ... same as your previous version (the fallback) ... */ 
+    animateInTeamCards() {
         const cards = gsap.utils.toArray('.team-card');
         if (cards.length === 0) return;
         const triggerElement = cards[0].closest('.team-scroller-wrapper') || cards[0].closest('#our-team') || document.querySelector('#our-team');
@@ -526,10 +466,10 @@ initTeamAutoScroll() {
             {
                 opacity: 1, scale: 1, y: 0, rotationY: 0,
                 duration: this.animationQuality === 'high' ? 0.7 : 0.5,
-                stagger: 0.08, ease: "back.out(1.4)", // Adjusted stagger and ease
+                stagger: 0.08, ease: "back.out(1.4)",
                 scrollTrigger: {
                     trigger: triggerElement, start: "top 85%",
-                    toggleActions: "play none none none",
+                    toggleActions: "play none none none", // Play once
                 }
             }
         );
@@ -545,9 +485,10 @@ initTeamAutoScroll() {
         if (this.teamDraggable) { this.teamDraggable.kill(); this.teamDraggable = null; }
         
         ScrollTrigger.getAll().forEach(st => {
-            const triggerEl = st.vars.trigger;
-            if (triggerEl && ((typeof triggerEl === 'string' && triggerEl.includes('team')) ||
-                (triggerEl.classList && (triggerEl.classList.contains('team-scroller-wrapper') || triggerEl.id === 'team-grid' || triggerEl.id === 'our-team'))
+            if (st.vars.trigger && (
+                (typeof st.vars.trigger === 'string' && st.vars.trigger.includes('team')) ||
+                (st.vars.trigger.id && (st.vars.trigger.id === 'team-grid' || st.vars.trigger.id === 'our-team')) ||
+                (st.vars.trigger.classList && st.vars.trigger.classList.contains('team-scroller-wrapper'))
             )) {
                 st.kill();
             }
@@ -557,7 +498,7 @@ initTeamAutoScroll() {
         if (teamGrid) {
             const clones = teamGrid.querySelectorAll('.team-card-clone');
             clones.forEach(clone => clone.remove());
-            teamGrid.style.transform = ''; teamGrid.style.webkitTransform = '';
+            gsap.set(teamGrid, {x: 0, clearProps: 'all'}); // Reset position and other GSAP props
             teamGrid.style.overflowX = ''; 
         }
         const indicators = document.querySelector('.team-scroll-indicators');

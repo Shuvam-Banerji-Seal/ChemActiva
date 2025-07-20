@@ -10,27 +10,27 @@
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 body.dark-mode .card-style {
-    background-color: var(--color-background-card); /* Uses rgba from theme vars */
+    background-color: var(--color-background-card);
     backdrop-filter: blur(var(--backdrop-filter-blur));
     -webkit-backdrop-filter: blur(var(--backdrop-filter-blur)); 
-    border: 1px solid rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.3); 
-    box-shadow: 0 0 12px 1px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.15),
-                0 0 20px 3px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.1),
-                inset 0 0 3px 0px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.1);
+    border: 1px solid rgba(var(--color-glow-rgb-values), 0.3); 
+    box-shadow: 0 0 12px 1px rgba(var(--color-glow-rgb-values), 0.15),
+                0 0 20px 3px rgba(var(--color-glow-rgb-values), 0.1),
+                inset 0 0 3px 0px rgba(var(--color-glow-rgb-values), 0.1);
 }
 .card-style:hover { 
     transform: translateY(-5px); 
     box-shadow: 0 10px 25px var(--color-shadow); 
 }
 body.dark-mode .card-style:hover {
-    box-shadow: 0 0 18px 2px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.25),
-                0 0 30px 5px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.15),
-                inset 0 0 5px 0px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.15);
-    border-color: rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.5);
+    box-shadow: 0 0 18px 2px rgba(var(--color-glow-rgb-values), 0.25),
+                0 0 30px 5px rgba(var(--color-glow-rgb-values), 0.15),
+                inset 0 0 5px 0px rgba(var(--color-glow-rgb-values), 0.15);
+    border-color: rgba(var(--color-glow-rgb-values), 0.5);
 }
 
 /* Form Styling */
-#contact-form .form-group { /* Assumes contact form has specific ID */
+#contact-form .form-group {
     margin-bottom: 25px; 
     position: relative; 
 }
@@ -58,8 +58,8 @@ body.dark-mode .card-style:hover {
 }
 body.dark-mode .floating-label-group input,
 body.dark-mode .floating-label-group textarea {
-    background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.3); 
-    border-color: rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.2);
+    background-color: rgba(var(--dm-bg-deep-rgb), 0.3); 
+    border-color: rgba(var(--color-glow-rgb-values), 0.2);
 }
 .floating-label-group label {
     position: absolute;
@@ -68,7 +68,7 @@ body.dark-mode .floating-label-group textarea {
     font-size: 1rem;
     color: var(--color-text-secondary);
     pointer-events: none; 
-    transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease, background-color 0.2s ease, padding 0.2s ease;
+    transition: all 0.2s ease;
     background-color: transparent; 
     padding: 0;
 }
@@ -86,17 +86,17 @@ body.dark-mode .floating-label-group input:focus + label,
 body.dark-mode .floating-label-group input:not(:placeholder-shown) + label,
 body.dark-mode .floating-label-group textarea:focus + label,
 body.dark-mode .floating-label-group textarea:not(:placeholder-shown) + label {
-    background-color: rgba(var(--dm-bg-medium-rgb, 39, 57, 28), 0.6); /* Match dark mode card bg */
+    background-color: var(--color-background-card);
 }
 .floating-label-group input:focus,
 .floating-label-group textarea:focus {
     border-color: var(--color-accent-secondary);
-    box-shadow: 0 0 0 2px rgba(var(--color-accent-rgb-values, 50, 142, 110), 0.2);
+    box-shadow: 0 0 0 2px rgba(var(--color-accent-rgb-values), 0.2);
 }
 body.dark-mode .floating-label-group input:focus,
 body.dark-mode .floating-label-group textarea:focus {
     border-color: var(--color-glow);
-    box-shadow: 0 0 8px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.3);
+    box-shadow: 0 0 8px rgba(var(--color-glow-rgb-values), 0.3);
 }
 
 /* Submit Button */
@@ -110,26 +110,26 @@ body.dark-mode .floating-label-group textarea:focus {
     border: none; border-radius: 8px;
     font-family: var(--font-primary); font-size: 1.05rem; font-weight: 600;
     letter-spacing: 0.5px; cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
     position: relative; overflow: hidden; 
     -webkit-appearance: none; appearance: none;
 }
 body.dark-mode .submit-button.modern-submit {
     background-color: var(--color-glow);
     color: var(--dm-bg-deep); 
-    box-shadow: 0 0 10px 0px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.4);
+    box-shadow: 0 0 10px 0px rgba(var(--color-glow-rgb-values), 0.4);
 }
 .submit-button.modern-submit:hover:not(:disabled),
 .submit-button.modern-submit:focus:not(:disabled) {
     background-color: var(--color-accent-primary);
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(var(--color-accent-rgb-values, 50, 142, 110), 0.3); 
+    box-shadow: 0 4px 15px rgba(var(--color-accent-rgb-values), 0.3); 
     outline: none;
 }
 body.dark-mode .submit-button.modern-submit:hover:not(:disabled),
 body.dark-mode .submit-button.modern-submit:focus:not(:disabled) {
     background-color: var(--dm-accent-secondary); 
-    box-shadow: 0 0 15px 2px rgba(var(--color-glow-rgb-values, 50, 142, 110), 0.6);
+    box-shadow: 0 0 15px 2px rgba(var(--color-glow-rgb-values), 0.6);
 }
 .submit-button.modern-submit:disabled { opacity: 0.7; cursor: not-allowed; }
 .submit-button.modern-submit .submit-icon { margin-left: 10px; font-size: 1.2rem; transition: transform 0.3s ease; }
@@ -139,11 +139,11 @@ body.dark-mode .submit-button.modern-submit:focus:not(:disabled) {
 .ripple {
     position: absolute; border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.6); 
-    transform: scale(0); animation: ripple-animation 0.6s linear;
+    transform: scale(0);
     pointer-events: none; 
 }
 body.dark-mode .submit-button .ripple { 
-    background-color: rgba(var(--dm-bg-deep-rgb, 24, 35, 15), 0.4); 
+    background-color: rgba(var(--dm-bg-deep-rgb), 0.4); 
 }
 @keyframes ripple-animation {
     to { transform: scale(4); opacity: 0; }
@@ -168,7 +168,6 @@ body.dark-mode .submit-button .ripple {
     background-color: var(--color-accent-secondary); 
     color: var(--lm-bg-deep); 
     border-radius: 8px; text-align: center; font-weight: 500;
-    display: none; /* Hidden initially */
 }
 body.dark-mode #form-confirmation {
     background-color: var(--color-glow);

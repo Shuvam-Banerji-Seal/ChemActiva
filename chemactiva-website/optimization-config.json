@@ -1,0 +1,43 @@
+{
+  "timestamp": "2025-07-20T10:02:02.944Z",
+  "strategies": [
+    {
+      "name": "Route-based splitting",
+      "description": "Split code by page/route",
+      "implementation": "Dynamic imports for page-specific code"
+    },
+    {
+      "name": "Component-based splitting",
+      "description": "Split large components",
+      "implementation": "Lazy load heavy components like 3D scenes"
+    },
+    {
+      "name": "Vendor splitting",
+      "description": "Separate vendor libraries",
+      "implementation": "Split Three.js, GSAP, and other libraries"
+    }
+  ],
+  "viteConfig": {
+    "build": {
+      "rollupOptions": {
+        "output": {
+          "manualChunks": {
+            "three": [
+              "three"
+            ],
+            "gsap": [
+              "gsap"
+            ],
+            "anime": [
+              "animejs"
+            ],
+            "vendor": [
+              "marked",
+              "dompurify"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

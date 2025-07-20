@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductImageGallery White Screen Fix Test</title>
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/theme.css">
+    <link rel="stylesheet" href="src/css/products.css">
+    <style>
+        body {
+            padding: 2rem;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .test-gallery {
+            width: 100%;
+            height: 400px;
+            margin: 2rem 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .test-btn {
+            padding: 0.5rem 1rem;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .test-btn:hover {
+            background: #0056b3;
+        }
+        
+        .test-btn.danger {
+            background: #dc3545;
+        }
+        
+        .test-btn.danger:hover {
+            background: #c82333;
+        }
+        
+        .test-status {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        .test-log {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #f1f1f1;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        
+        .log-entry {
+            margin: 0.2rem 0;
+            font-size: 0.8rem;
+        }
+        
+        .log-error {
+            color: #dc3545;
+        }
+        
+        .log-success {
+            color: #28a745;
+        }
+        
+        .log-info {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>ProductImageGallery White Screen Fix Test</h1>
+        <p>This test verifies that the ProductImageGallery improvements prevent white screens during image transitions and handle errors gracefully.</p>
+        
+        <div class="test-controls">
+            <button class="test-btn" onclick="initializeGallery()">Initialize Gallery</button>
+            <button class="test-btn" onclick="testNormalTransition()">Test Normal Transition</button>
+            <button class="test-btn" onclick="testFailedImageTransition()">Test Failed Image</button>
+            <button class="test-btn" onclick="testRapidTransitions()">Test Rapid Transitions</button>
+            <button class="test-btn danger" onclick="simulateNetworkError()">Simulate Network Error</button>
+            <button class="test-btn" onclick="clearLog()">Clear Log</button>
+        </div>
+        
+        <div class="test-status" id="status">
+            Status: Ready to test
+        </div>
+        
+        <div class="test-gallery" id="gallery-container">
+            <!-- Test images will be added here -->
+            <img src="public/assets/images/products/Domestic_oil_spill_kit_1.jpeg" alt="Domestic Oil Spill Kit 1">
+            <img src="public/assets/images/products/Marine_oil_spill_kit.jpeg" alt="Marine Oil Spill Kit">
+            <img src="public/assets/images/products/Nano_cellulose_1.jpeg" alt="Nano Cellulose 1">
+            <img src="public/assets/images/products/Nano_cellulose_2.jpeg" alt="Nano Cellulose 2">
+            <img src="invalid-image-url.jpg" alt="Invalid Image (for testing)">
+        </div>
+        
+        <div class="test-log" id="log">
+            <div class="log-entry log-info">Test log initialized</div>
+        </div>
+    </div>
+
+    <script type="module">
+        import ProductImageGallery from './src/js/ProductImageGallery.js';
+        
+        let gallery = null;
+        let testStartTime = null;
+        
+        function log(message, type = 'info') {
+            const logContainer = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+        
+        function updateStatus(message) {
+            document.getElementById('status').textContent = `Status: ${message}`;
+        }
+        
+        window.initializeGallery = function() {
+            try {
+                const container = document.getElementById('gallery-container');
+                
+                if (gallery) {
+                    gallery.cleanup();
+                    log('Previous gallery cleaned up', 'info');
+                }
+                
+                gallery = new ProductImageGallery(container, {
+                    autoPlay: false,
+                    showThumbnails: true,
+                    enableKeyboard: true,
+                    enableTouch: true,
+                    transitionDuration: 0.6
+                });
+                
+                // Add event listeners for testing
+                container.addEventListener('imageLoaded', (e) => {
+                    log(`Image loaded: ${e.detail.index} - ${e.detail.src}`, 'success');
+                });
+                
+                container.addEventListener('imageLoadFailed', (e) => {
+                    log(`Image load failed: ${e.detail.index} - ${e.detail.alt}`, 'error');
+                });
+                
+                container.addEventListener('imageTransitionComplete', (e) => {
+                    const duration = testStartTime ? Date.now() - testStartTime : 0;
+                    log(`Transition complete: ${e.detail.fromIndex} → ${e.detail.toIndex} (${duration}ms)`, 'success');
+                });
+                
+                container.addEventListener('imageTransitionError', (e) => {
+                    log(`Transition error: ${e.detail.fromIndex} → ${e.detail.toIndex} - ${e.detail.error}`, 'error');
+                });
+                
+                log('Gallery initialized successfully', 'success');
+                updateStatus('Gallery initialized');
+                
+            } catch (error) {
+                log(`Initialization error: ${error.message}`, 'error');
+                updateStatus('Initialization failed');
+            }
+        };
+        
+        window.testNormalTransition = function() {
+            if (!gallery) {
+                log('Gallery not initialized', 'error');
+                return;
+            }
+            
+            testStartTime = Date.now();
+            log('Testing normal transition to image 2', 'info');
+            updateStatus('Testing normal transition...');
+            
+            gallery.goToImage(1);
+        };
+        
+        window.testFailedImageTransition = function() {
+            if (!gallery) {
+                log('Gallery not initialized', 'error');
+                return;
+            }
+            
+            testStartTime = Date.now();
+            log('Testing transition to failed image (index 4)', 'info');
+            updateStatus('Testing failed image transition...');
+            
+            gallery.goToImage(4); // This should be the invalid image
+        };
+        
+        window.testRapidTransitions = function() {
+            if (!gallery) {
+                log('Gallery not initialized', 'error');
+                return;
+            }
+            
+            log('Testing rapid transitions (should handle gracefully)', 'info');
+            updateStatus('Testing rapid transitions...');
+            
+            // Rapid fire transitions
+            setTimeout(() => gallery.goToImage(1), 100);
+            setTimeout(() => gallery.goToImage(2), 200);
+            setTimeout(() => gallery.goToImage(0), 300);
+            setTimeout(() => gallery.goToImage(3), 400);
+        };
+        
+        window.simulateNetworkError = function() {
+            log('Simulating network error conditions', 'info');
+            updateStatus('Simulating network error...');
+            
+            // Temporarily override fetch to simulate network errors
+            const originalFetch = window.fetch;
+            window.fetch = function() {
+                return Promise.reject(new Error('Simulated network error'));
+            };
+            
+            setTimeout(() => {
+                window.fetch = originalFetch;
+                log('Network error simulation ended', 'info');
+            }, 5000);
+            
+            if (gallery) {
+                gallery.retryFailedImages();
+            }
+        };
+        
+        window.clearLog = function() {
+            const logContainer = document.getElementById('log');
+            logContainer.innerHTML = '<div class="log-entry log-info">Test log cleared</div>';
+            updateStatus('Log cleared');
+        };
+        
+        // Auto-initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            log('Page loaded, ready for testing', 'info');
+            setTimeout(initializeGallery, 500);
+        });
+    </script>
+</body>
+</html>

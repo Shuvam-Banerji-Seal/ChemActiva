@@ -2,11 +2,38 @@
 // src/js/HeroLoader.js
 import * as THREE from 'three';
 import { gsap } from 'gsap';
+import AssetLoadingManager from './AssetLoadingManager.js';
 
 const IS_MOBILE = window.innerWidth <= 768;
 const PARTICLE_COUNT = IS_MOBILE ? 3000 : 5500;
 
 export default class HeroLoader {
+    /**
+     * Static method to preload logos before HeroLoader initialization
+     * This should be called early in the application lifecycle
+     */
+    static async preloadLogos() {
+        console.log('[HeroLoader] Static preloading of logos initiated');
+        const assetManager = new AssetLoadingManager();
+        
+        try {
+            const preloadedLogos = await assetManager.preloadLogos();
+            console.log(`[HeroLoader] Successfully preloaded ${preloadedLogos.length} logo variants`);
+            return preloadedLogos.length > 0;
+        } catch (error) {
+            console.warn('[HeroLoader] Logo preloading failed:', error);
+            return false;
+        }
+    }
+
+    /**
+     * Get cache statistics for debugging
+     */
+    static getCacheStats() {
+        const assetManager = new AssetLoadingManager();
+        return assetManager.getCacheStats();
+    }
+
     constructor(loaderSelector, logoPath = '/assets/images/logo.png', options = {}) {
         this.loaderElement = document.querySelector(loaderSelector);
         if (!this.loaderElement) {
@@ -66,30 +93,223 @@ export default class HeroLoader {
         this.logoImage = null;
         this.logoElement = null;
         
+        // Asset loading manager for preloading and caching
+        this.assetManager = new AssetLoadingManager();
+        
         console.log('[HeroLoader] Initialized successfully');
     }
 
     async loadLogoImage() {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
+        console.log('[HeroLoader] Starting logo loading with asset manager');
+        this.logoLoadingState = 'loading';
+        this.showLogoLoadingState();
+        
+        try {
+            // First, try to get logo from asset manager (with preloading and caching)
+            const logoAsset = await this.assetManager.getAvailableLogo();
             
-            img.onload = () => {
-                console.log('[HeroLoader] Logo image loaded:', img.width, 'x', img.height);
-                this.logoImage = img;
+            if (logoAsset && logoAsset.element) {
+                console.log('[HeroLoader] Logo loaded via asset manager');
+                this.logoImage = logoAsset.element;
+                this.logoLoadingState = 'loaded';
                 
                 // Create canvas to analyze the image
                 this.logoCanvas = document.createElement('canvas');
                 this.logoContext = this.logoCanvas.getContext('2d');
                 
-                // Set canvas size (optimize for performance while maintaining quality)
+                const maxSize = IS_MOBILE ? 150 : 200;
+                const scale = Math.min(maxSize / this.logoImage.width, maxSize / this.logoImage.height);
+                
+                this.logoCanvas.width = this.logoImage.width * scale;
+                this.logoCanvas.height = this.logoImage.height * scale;
+                
+                this.logoContext.drawImage(this.logoImage, 0, 0, this.logoCanvas.width, this.logoCanvas.height);
+                this.extractLogoPositions();
+                
+                this.hideLogoLoadingState();
+                return;
+            }
+        } catch (error) {
+            console.warn('[HeroLoader] Asset manager logo loading failed:', error);
+        }
+        
+        // Fallback to original loading method if asset manager fails
+        console.log('[HeroLoader] Falling back to direct logo loading');
+        return new Promise((resolve) => {
+            this.logoLoadAttempts = 0;
+            this.maxLogoAttempts = 3;
+            this.attemptLogoLoad(resolve);
+        });
+    }
+
+    async attemptLogoLoad(resolve) {
+        this.logoLoadAttempts++;
+        console.log(`[HeroLoader] Logo load attempt ${this.logoLoadAttempts}/${this.maxLogoAttempts}`);
+        
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        
+        // Set up timeout for each attempt
+        const loadTimeout = setTimeout(() => {
+            console.warn(`[HeroLoader] Logo load timeout on attempt ${this.logoLoadAttempts}`);
+            this.handleLogoLoadFailure(resolve);
+        }, 3000); // 3 second timeout per attempt
+        
+        img.onload = () => {
+            clearTimeout(loadTimeout);
+            console.log('[HeroLoader] Logo image loaded successfully:', img.width, 'x', img.height);
+            this.logoImage = img;
+            this.logoLoadingState = 'loaded';
+            
+            // Create canvas to analyze the image
+            this.logoCanvas = document.createElement('canvas');
+            this.logoContext = this.logoCanvas.getContext('2d');
+            
+            // Set canvas size (optimize for performance while maintaining quality)
+            const maxSize = IS_MOBILE ? 150 : 200;
+            const scale = Math.min(maxSize / img.width, maxSize / img.height);
+            
+            this.logoCanvas.width = img.width * scale;
+            this.logoCanvas.height = img.height * scale;
+            
+            // Draw and analyze the image
+            this.logoContext.drawImage(img, 0, 0, this.logoCanvas.width, this.logoCanvas.height);
+            this.extractLogoPositions();
+            
+            this.hideLogoLoadingState();
+            resolve();
+        };
+        
+        img.onerror = () => {
+            clearTimeout(loadTimeout);
+            console.warn(`[HeroLoader] Logo image failed to load on attempt ${this.logoLoadAttempts}`);
+            this.handleLogoLoadFailure(resolve);
+        };
+        
+        // Try different path variations with exponential backoff
+        const paths = [
+            this.logoPath,
+            '/public/assets/images/logo.png',
+            './public/assets/images/logo.png',
+            '/assets/images/logo.png',
+            './assets/images/logo.png',
+            '/public/assets/images/logo-small_size.png',
+            './public/assets/images/logo-small_size.png'
+        ];
+        
+        this.tryLoadImagePaths(img, paths, 0, resolve);
+    }
+
+    tryLoadImagePaths(img, paths, index, resolve) {
+        if (index >= paths.length) {
+            console.warn('[HeroLoader] All logo paths failed for this attempt');
+            this.handleLogoLoadFailure(resolve);
+            return;
+        }
+
+        const currentPath = paths[index];
+        console.log(`[HeroLoader] Trying logo path: ${currentPath}`);
+        
+        // Set up individual path timeout
+        const pathTimeout = setTimeout(() => {
+            console.warn(`[HeroLoader] Path timeout: ${currentPath}`);
+            this.tryLoadImagePaths(img, paths, index + 1, resolve);
+        }, 1000); // 1 second per path
+        
+        const originalOnLoad = img.onload;
+        const originalOnError = img.onerror;
+        
+        // Override handlers for this specific path attempt
+        img.onload = () => {
+            clearTimeout(pathTimeout);
+            if (originalOnLoad) originalOnLoad();
+        };
+        
+        img.onerror = () => {
+            clearTimeout(pathTimeout);
+            console.warn(`[HeroLoader] Failed to load: ${currentPath}`);
+            this.tryLoadImagePaths(img, paths, index + 1, resolve);
+        };
+        
+        img.src = currentPath;
+    }
+
+    handleLogoLoadFailure(resolve) {
+        if (this.logoLoadAttempts < this.maxLogoAttempts) {
+            // Exponential backoff: wait longer between attempts
+            const backoffDelay = Math.pow(2, this.logoLoadAttempts - 1) * 1000; // 1s, 2s, 4s
+            console.log(`[HeroLoader] Retrying logo load in ${backoffDelay}ms`);
+            
+            setTimeout(() => {
+                this.attemptLogoLoad(resolve);
+            }, backoffDelay);
+        } else {
+            console.warn('[HeroLoader] All logo load attempts failed, using fallback strategies');
+            this.logoLoadingState = 'failed';
+            this.useLogoFallbackStrategies(resolve);
+        }
+    }
+
+    async useLogoFallbackStrategies(resolve) {
+        console.log('[HeroLoader] Implementing logo fallback strategies');
+        
+        // Strategy 1: Try base64 fallback logo
+        try {
+            await this.tryBase64FallbackLogo();
+            this.logoLoadingState = 'fallback_base64';
+            this.hideLogoLoadingState();
+            resolve();
+            return;
+        } catch (error) {
+            console.warn('[HeroLoader] Base64 fallback failed:', error);
+        }
+        
+        // Strategy 2: Create styled text logo
+        console.log('[HeroLoader] Using styled text logo fallback');
+        this.logoLoadingState = 'fallback_text';
+        this.createStyledTextFallback();
+        this.hideLogoLoadingState();
+        resolve();
+    }
+
+    async tryBase64FallbackLogo() {
+        return new Promise((resolve, reject) => {
+            // Simple base64 encoded ChemActiva logo placeholder
+            const base64Logo = 'data:image/svg+xml;base64,' + btoa(`
+                <svg width="200" height="80" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4ECDC4;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#45B7D1;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#96CEB4;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="200" height="80" rx="8" fill="url(#logoGradient)" opacity="0.1"/>
+                    <text x="100" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" 
+                          text-anchor="middle" fill="url(#logoGradient)">ChemActiva</text>
+                    <text x="100" y="50" font-family="Arial, sans-serif" font-size="12" 
+                          text-anchor="middle" fill="#666">Innovations</text>
+                    <circle cx="30" cy="40" r="8" fill="#4ECDC4" opacity="0.7"/>
+                    <circle cx="170" cy="40" r="6" fill="#45B7D1" opacity="0.7"/>
+                    <circle cx="100" cy="65" r="4" fill="#96CEB4" opacity="0.7"/>
+                </svg>
+            `);
+            
+            const img = new Image();
+            img.onload = () => {
+                console.log('[HeroLoader] Base64 fallback logo loaded');
+                this.logoImage = img;
+                
+                // Create canvas for the base64 logo
+                this.logoCanvas = document.createElement('canvas');
+                this.logoContext = this.logoCanvas.getContext('2d');
+                
                 const maxSize = IS_MOBILE ? 150 : 200;
                 const scale = Math.min(maxSize / img.width, maxSize / img.height);
                 
                 this.logoCanvas.width = img.width * scale;
                 this.logoCanvas.height = img.height * scale;
                 
-                // Draw and analyze the image
                 this.logoContext.drawImage(img, 0, 0, this.logoCanvas.width, this.logoCanvas.height);
                 this.extractLogoPositions();
                 
@@ -97,39 +317,260 @@ export default class HeroLoader {
             };
             
             img.onerror = () => {
-                console.warn('[HeroLoader] Failed to load logo image, using fallback text');
-                this.createFallbackLogo();
-                resolve();
+                console.warn('[HeroLoader] Base64 fallback logo failed');
+                reject(new Error('Base64 logo failed'));
             };
             
-            // Try different path variations
-            const paths = [
-                this.logoPath,
-                `./public${this.logoPath}`,
-                `.${this.logoPath}`,
-                `chemactiva-website/public${this.logoPath}`
-            ];
-            
-            this.tryLoadImagePaths(img, paths, 0, resolve, reject);
+            img.src = base64Logo;
         });
     }
 
-    tryLoadImagePaths(img, paths, index, resolve, reject) {
-        if (index >= paths.length) {
-            console.warn('[HeroLoader] All logo paths failed, using fallback');
-            this.createFallbackLogo();
-            resolve();
-            return;
+    createStyledTextFallback() {
+        console.log('[HeroLoader] Creating styled text fallback');
+        
+        // Create enhanced text-based logo positions
+        const text = 'ChemActiva';
+        const positions = [];
+        const colors = [];
+        
+        // Enhanced letter positioning with better spacing
+        const letterSpacing = 0.25;
+        const startX = -(text.length * letterSpacing) / 2;
+        
+        for (let i = 0; i < text.length; i++) {
+            const letterX = startX + (i * letterSpacing);
+            const letterPositions = this.generateEnhancedLetterPositions(text[i], letterX, 0);
+            positions.push(...letterPositions);
+            
+            // Use gradient colors for text
+            const colorIndex = Math.floor((i / text.length) * this.options.colorPalette.length);
+            const letterColor = new THREE.Color(this.options.colorPalette[colorIndex]);
+            
+            for (let j = 0; j < letterPositions.length; j++) {
+                colors.push(letterColor.clone());
+            }
+        }
+        
+        // Add decorative elements
+        const decorativePositions = this.createDecorativeElements();
+        positions.push(...decorativePositions.positions);
+        colors.push(...decorativePositions.colors);
+        
+        this.logoPositions = positions;
+        this.logoColors = colors;
+        
+        console.log('[HeroLoader] Created styled text fallback with', positions.length, 'positions');
+    }
+
+    generateEnhancedLetterPositions(letter, centerX, centerY) {
+        const positions = [];
+        const density = IS_MOBILE ? 8 : 12; // Points per letter
+        
+        // Enhanced letter patterns with more detail
+        const patterns = {
+            'C': this.createCurvedLetter(centerX, centerY, 0.15, 0.3, 180, 540, density),
+            'h': this.createVerticalLetter(centerX, centerY, 0.3, density).concat(
+                 this.createHorizontalLetter(centerX, centerY - 0.05, 0.12, density/2)),
+            'e': this.createCurvedLetter(centerX, centerY, 0.12, 0.25, 0, 270, density/2).concat(
+                 this.createHorizontalLetter(centerX, centerY, 0.12, density/3)),
+            'm': this.createVerticalLetter(centerX - 0.08, centerY, 0.25, density/3).concat(
+                 this.createVerticalLetter(centerX, centerY, 0.25, density/3),
+                 this.createVerticalLetter(centerX + 0.08, centerY, 0.25, density/3)),
+            'A': this.createTriangleLetter(centerX, centerY, 0.15, 0.3, density),
+            'c': this.createCurvedLetter(centerX, centerY, 0.1, 0.2, 90, 450, density/2),
+            't': this.createVerticalLetter(centerX, centerY, 0.25, density/2).concat(
+                 this.createHorizontalLetter(centerX, centerY + 0.1, 0.1, density/3)),
+            'i': this.createVerticalLetter(centerX, centerY - 0.05, 0.2, density/2).concat(
+                 [[centerX, centerY + 0.15, 0]]),
+            'v': this.createVLetter(centerX, centerY, 0.12, 0.25, density),
+            'a': this.createCurvedLetter(centerX, centerY, 0.1, 0.2, 0, 360, density/2)
+        };
+
+        const pattern = patterns[letter.toLowerCase()];
+        if (pattern) {
+            pattern.forEach(([x, y, z = 0]) => {
+                positions.push(new THREE.Vector3(
+                    x + (Math.random() - 0.5) * 0.02,
+                    y + (Math.random() - 0.5) * 0.02,
+                    z + (Math.random() - 0.5) * 0.1
+                ));
+            });
+        } else {
+            // Default pattern for unknown letters
+            this.createVerticalLetter(centerX, centerY, 0.25, density).forEach(([x, y, z]) => {
+                positions.push(new THREE.Vector3(x, y, z));
+            });
         }
 
-        img.src = paths[index];
+        return positions;
+    }
+
+    createCurvedLetter(centerX, centerY, radiusX, radiusY, startAngle, endAngle, density) {
+        const positions = [];
+        const angleStep = (endAngle - startAngle) / density;
         
-        // If this path fails, try the next one after a short delay
+        for (let i = 0; i <= density; i++) {
+            const angle = (startAngle + i * angleStep) * Math.PI / 180;
+            const x = centerX + Math.cos(angle) * radiusX;
+            const y = centerY + Math.sin(angle) * radiusY;
+            positions.push([x, y, 0]);
+        }
+        
+        return positions;
+    }
+
+    createVerticalLetter(centerX, centerY, height, density) {
+        const positions = [];
+        const step = height / density;
+        
+        for (let i = 0; i <= density; i++) {
+            const y = centerY + height/2 - i * step;
+            positions.push([centerX, y, 0]);
+        }
+        
+        return positions;
+    }
+
+    createHorizontalLetter(centerX, centerY, width, density) {
+        const positions = [];
+        const step = width / density;
+        
+        for (let i = 0; i <= density; i++) {
+            const x = centerX - width/2 + i * step;
+            positions.push([x, centerY, 0]);
+        }
+        
+        return positions;
+    }
+
+    createTriangleLetter(centerX, centerY, width, height, density) {
+        const positions = [];
+        
+        // Left side
+        for (let i = 0; i <= density/3; i++) {
+            const t = i / (density/3);
+            const x = centerX - width/2 + t * width/2;
+            const y = centerY - height/2 + t * height;
+            positions.push([x, y, 0]);
+        }
+        
+        // Right side
+        for (let i = 0; i <= density/3; i++) {
+            const t = i / (density/3);
+            const x = centerX + t * width/2;
+            const y = centerY + height/2 - t * height;
+            positions.push([x, y, 0]);
+        }
+        
+        // Cross bar
+        for (let i = 0; i <= density/3; i++) {
+            const t = i / (density/3);
+            const x = centerX - width/4 + t * width/2;
+            const y = centerY;
+            positions.push([x, y, 0]);
+        }
+        
+        return positions;
+    }
+
+    createVLetter(centerX, centerY, width, height, density) {
+        const positions = [];
+        
+        // Left side
+        for (let i = 0; i <= density/2; i++) {
+            const t = i / (density/2);
+            const x = centerX - width/2 + t * width/2;
+            const y = centerY + height/2 - t * height;
+            positions.push([x, y, 0]);
+        }
+        
+        // Right side
+        for (let i = 0; i <= density/2; i++) {
+            const t = i / (density/2);
+            const x = centerX + t * width/2;
+            const y = centerY - height/2 + t * height;
+            positions.push([x, y, 0]);
+        }
+        
+        return positions;
+    }
+
+    createDecorativeElements() {
+        const positions = [];
+        const colors = [];
+        
+        // Add some decorative particles around the text
+        const decorativeCount = IS_MOBILE ? 20 : 40;
+        
+        for (let i = 0; i < decorativeCount; i++) {
+            // Create orbital positions around the text
+            const angle = (i / decorativeCount) * Math.PI * 2;
+            const radius = 1.2 + Math.random() * 0.5;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius * 0.3; // Flatten the orbit
+            const z = (Math.random() - 0.5) * 0.3;
+            
+            positions.push(new THREE.Vector3(x, y, z));
+            
+            // Use accent colors for decorative elements
+            const accentColors = ['#4ECDC4', '#45B7D1', '#96CEB4'];
+            const color = new THREE.Color(accentColors[i % accentColors.length]);
+            colors.push(color);
+        }
+        
+        return { positions, colors };
+    }
+
+    showLogoLoadingState() {
+        // Create or update loading indicator
+        if (!this.logoLoadingIndicator) {
+            this.logoLoadingIndicator = document.createElement('div');
+            this.logoLoadingIndicator.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: #4ECDC4;
+                font-family: Arial, sans-serif;
+                font-size: ${IS_MOBILE ? '14px' : '16px'};
+                text-align: center;
+                z-index: 5;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            this.contentElement.appendChild(this.logoLoadingIndicator);
+        }
+        
+        this.logoLoadingIndicator.innerHTML = `
+            <div style="margin-bottom: 10px;">
+                <div style="display: inline-block; width: 20px; height: 20px; border: 2px solid #4ECDC4; border-radius: 50%; border-top-color: transparent; animation: spin 1s linear infinite;"></div>
+            </div>
+            <div>Loading ChemActiva...</div>
+            <style>
+                @keyframes spin {
+                    to { transform: rotate(360deg); }
+                }
+            </style>
+        `;
+        
+        // Fade in the loading indicator
         setTimeout(() => {
-            if (!img.complete || img.naturalHeight === 0) {
-                this.tryLoadImagePaths(img, paths, index + 1, resolve, reject);
+            if (this.logoLoadingIndicator) {
+                this.logoLoadingIndicator.style.opacity = '1';
             }
         }, 100);
+    }
+
+    hideLogoLoadingState() {
+        if (this.logoLoadingIndicator) {
+            this.logoLoadingIndicator.style.opacity = '0';
+            setTimeout(() => {
+                if (this.logoLoadingIndicator && this.logoLoadingIndicator.parentNode) {
+                    this.logoLoadingIndicator.parentNode.removeChild(this.logoLoadingIndicator);
+                    this.logoLoadingIndicator = null;
+                }
+            }, 300);
+        }
     }
 
     extractLogoPositions() {
@@ -221,9 +662,28 @@ export default class HeroLoader {
     }
 
     createLogoElement() {
-        // Create the actual logo image element
-        this.logoElement = document.createElement('img');
-        this.logoElement.src = this.logoImage ? this.logoImage.src : this.logoPath;
+        // Create the appropriate logo element based on loading state
+        if (this.logoLoadingState === 'fallback_text') {
+            // Create styled text element instead of image
+            this.logoElement = document.createElement('div');
+            this.logoElement.innerHTML = `
+                <div style="font-family: Arial, sans-serif; font-weight: bold; color: #4ECDC4; text-align: center;">
+                    <div style="font-size: ${IS_MOBILE ? '24px' : '32px'}; margin-bottom: 4px;">ChemActiva</div>
+                    <div style="font-size: ${IS_MOBILE ? '12px' : '16px'}; color: #45B7D1;">Innovations</div>
+                </div>
+            `;
+        } else {
+            // Create image element for successful loads or base64 fallback
+            this.logoElement = document.createElement('img');
+            this.logoElement.src = this.logoImage ? this.logoImage.src : this.logoPath;
+            
+            // Add error handling for the final logo element
+            this.logoElement.onerror = () => {
+                console.warn('[HeroLoader] Final logo element failed to load, replacing with text');
+                this.replaceLogoWithText();
+            };
+        }
+        
         this.logoElement.style.cssText = `
             position: absolute;
             top: 50%;
@@ -237,6 +697,24 @@ export default class HeroLoader {
         `;
         
         this.contentElement.appendChild(this.logoElement);
+    }
+
+    replaceLogoWithText() {
+        if (this.logoElement && this.logoElement.parentNode) {
+            const textElement = document.createElement('div');
+            textElement.innerHTML = `
+                <div style="font-family: Arial, sans-serif; font-weight: bold; color: #4ECDC4; text-align: center;">
+                    <div style="font-size: ${IS_MOBILE ? '24px' : '32px'}; margin-bottom: 4px;">ChemActiva</div>
+                    <div style="font-size: ${IS_MOBILE ? '12px' : '16px'}; color: #45B7D1;">Innovations</div>
+                </div>
+            `;
+            
+            textElement.style.cssText = this.logoElement.style.cssText;
+            
+            this.logoElement.parentNode.replaceChild(textElement, this.logoElement);
+            this.logoElement = textElement;
+            this.logoLoadingState = 'fallback_text';
+        }
     }
 
     initThreeScene() {
@@ -443,13 +921,24 @@ export default class HeroLoader {
     }
 
     async start() {
-        console.log('[HeroLoader] Starting logo formation animation');
+        console.log('[HeroLoader] Starting');
         this.isAnimating = true;
+
+        // Network detection
+        const connection = navigator.connection;
+        const isSlowNetwork = connection ? 
+            (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') : 
+            false;
 
         try {
             // Load logo image first
             await this.loadLogoImage();
             
+            if (isSlowNetwork) {
+                console.log('[HeroLoader] Slow network detected, using simplified animation');
+                return this.showSimplifiedAnimation();
+            }
+
             // Show loader
             gsap.to(this.contentElement, { opacity: 1, duration: 0.6 });
             
@@ -502,8 +991,11 @@ export default class HeroLoader {
                     }
                 });
 
-                // Animate particles to form logo
-                for (let i = 0; i < positions.length / 3; i++) {
+                // Reduce particle count on mobile
+                const particleCount = this.options.particleCount || (IS_MOBILE ? 1500 : 3000);
+                const step = Math.ceil(positions.length / 3 / particleCount) || 1;
+
+                for (let i = 0; i < positions.length / 3; i += step) {
                     const i3 = i * 3;
                     const delay = Math.random() * this.options.formationDelay;
                     const duration = this.options.animationDuration * (0.8 + Math.random() * 0.4);
@@ -542,17 +1034,52 @@ export default class HeroLoader {
 
         } catch (error) {
             console.error('[HeroLoader] Error in start():', error);
-            this.stopAnimation();
-            throw error;
+            this.showSimplifiedAnimation();
         }
     }
 
-transitionToPngLogo() {
-    return new Promise((resolve) => {
-        if (!this.logoElement || !this.particles) {
-            resolve();
-            return;
-        }
+    async showSimplifiedAnimation() {
+        console.log('[HeroLoader] Showing simplified animation');
+        
+        // Show loader immediately
+        gsap.to(this.contentElement, { opacity: 1, duration: 0.3 });
+        
+        // Create logo element
+        this.createLogoElement();
+        
+        // Animate logo appearance
+        gsap.fromTo(this.logoElement, {
+            opacity: 0,
+            scale: 0.8
+        }, {
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            ease: "elastic.out(1, 0.5)",
+            onComplete: () => {
+                // Fade out after delay
+                gsap.to(this.backgroundElement, { opacity: 0, duration: 0.8, delay: 0.5 });
+                gsap.to(this.contentElement, { 
+                    opacity: 0, 
+                    duration: 0.8,
+                    delay: 0.7,
+                    onComplete: () => {
+                        if (this.loaderElement) {
+                            this.loaderElement.style.display = 'none';
+                        }
+                        this.stopAnimation();
+                    }
+                });
+            }
+        });
+    }
+
+    transitionToPngLogo() {
+        return new Promise((resolve) => {
+            if (!this.logoElement || !this.particles) {
+                resolve();
+                return;
+            }
 
         const transitionTL = gsap.timeline({
             onComplete: resolve

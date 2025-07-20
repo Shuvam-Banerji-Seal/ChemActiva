@@ -12,34 +12,32 @@
     <link rel="stylesheet" href="src/css/layout.css">
     <link rel="stylesheet" href="src/css/components.css">
     <link rel="stylesheet" href="src/css/navbar.css">
-    <link rel="stylesheet" href="src/css/hero.css">   <!-- Only for index.html -->
     <link rel="stylesheet" href="src/css/sections.css">
-    <link rel="stylesheet" href="src/css/journey.css"> <!-- Only for index.html -->
-    <link rel="stylesheet" href="src/css/team.css">   <!-- Only for index.html -->
-    <link rel="stylesheet" href="src/css/articles.css"> <!-- For blog/research/single-article pages -->
-    <link rel="stylesheet" href="src/css/loader.css"> <!-- For index.html if loader is used -->
+    <link rel="stylesheet" href="src/css/articles.css">
     <link rel="icon" type="image/png" href="/assets/images/logo-small_size.png">
 </head>
 <body>
-    <div id="main-container"> <!-- No loader on these sub-pages for simplicity, can be added -->
+    <div id="main-container">
         <header id="navbar">
-            <!-- Copy navbar HTML from index.html here -->
             <div class="container">
-                <a href="/index.html#homepage-hero" class="logo"> <!-- Link back to homepage -->
+                <a href="/index.html" class="logo">
                     <img src="/assets/images/logo.png" alt="ChemActiva Logo" id="navbar-logo-img">
                 </a>
                 <nav class="nav-links">
                     <a href="/index.html#about-us">About</a>
                     <a href="/index.html#our-journey">Journey</a>
-                    <a href="/research.html">Research</a> <!-- Link to research page -->
-                    <a href="/blog.html" class="active-nav-link">Blog</a> <!-- Mark as active -->
-                    <a href="/index.html#products">Products</a>
+                    <a href="/products.html">Products</a>
+                    <a href="/innovation.html">Innovation</a>
+                    <a href="/blog.html" class="active-nav-link">Blog</a>
                     <a href="/index.html#our-team">Team</a>
                     <a href="/index.html#contact">Contact</a>
-                     <div class="theme-switcher theme-switcher-mobile">
+                    <div class="theme-switcher theme-switcher-mobile">
                         <input type="checkbox" id="theme-toggle-mobile" class="theme-toggle-checkbox">
                         <label for="theme-toggle-mobile" class="theme-toggle-label">
-                            <span class="toggle-ball"><span class="icon sun-icon">☀️</span><span class="icon moon-icon">🌙</span></span>
+                            <span class="toggle-ball">
+                                <span class="icon sun-icon">☀️</span>
+                                <span class="icon moon-icon">🌙</span>
+                            </span>
                         </label>
                     </div>
                 </nav>
@@ -47,10 +45,17 @@
                     <div class="theme-switcher" id="theme-switcher-desktop">
                         <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox">
                         <label for="theme-toggle" class="theme-toggle-label">
-                            <span class="toggle-ball"><span class="icon sun-icon">☀️</span><span class="icon moon-icon">🌙</span></span>
+                            <span class="toggle-ball">
+                                <span class="icon sun-icon">☀️</span>
+                                <span class="icon moon-icon">🌙</span>
+                            </span>
                         </label>
                     </div>
-                    <button id="hamburger-menu" aria-label="Open menu"><span></span><span></span><span></span></button>
+                    <button id="hamburger-menu" aria-label="Open menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 </div>
             </div>
         </header>
@@ -60,7 +65,6 @@
                 <div class="container">
                     <h2>Our Blog</h2>
                     <div class="article-grid" id="blog-grid">
-                        <!-- Blog cards will be injected here by JS -->
                         <p class="placeholder-text">Loading blog posts...</p>
                     </div>
                 </div>
@@ -68,30 +72,27 @@
         </main>
 
         <footer id="footer">
-            <!-- Copy footer HTML from index.html here -->
             <div class="container">
-                <p>© <span id="current-year">2024</span> ChemActiva Innovations Pvt Ltd. All rights reserved.</p>
+                <p>© <span id="current-year"></span> ChemActiva Innovations Pvt Ltd. All rights reserved.</p>
                 <p>Pioneering Sustainable Nano Cellulose</p>
             </div>
         </footer>
     </div>
-    <!-- <script src="src/js/lib/marked.min.js"></script> Markdown parser -->
-    <script type="module" src="src/js/ArticleManager.js"></script>
+
     <script type="module">
         import ArticleManager from './src/js/ArticleManager.js';
-        import UIAnimations from './src/js/UIAnimations.js'; // For navbar and theme
+        import UIAnimations from './src/js/UIAnimations.js';
         
         document.addEventListener('DOMContentLoaded', () => {
             const uiAnimations = new UIAnimations();
-            uiAnimations.init(); // Initialize navbar, theme toggle
+            uiAnimations.init();
 
             const blogManager = new ArticleManager(
-                '#blog-grid',        // Grid container selector
-                '/blog.jsonl',       // Path to JSONL file
-                'blog',              // Type ('blog' or 'research')
-                'single-article.html' // Page to link to for single article view
+                '#blog-grid',
+                '/blog.jsonl',
+                'blog',
+                'single-article.html'
             );
-            
             blogManager.loadAndDisplayArticles();
 
             const currentYearSpan = document.getElementById('current-year');

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Recovery and User Feedback Test</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        .test-container {
+            min-height: 100px;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            margin: 10px 0;
+            background: white;
+        }
+        
+        button {
+            background: #2c5530;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background: #1e3a21;
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .metrics {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Error Recovery and User Feedback System Test</h1>
+    <p>This page tests the comprehensive error handling and recovery mechanisms implemented for the ChemActiva website.</p>
+
+    <div class="test-section">
+        <h2>1. Logo Loading Error Recovery</h2>
+        <p>Test logo loading with multiple fallback strategies:</p>
+        <div class="test-container" id="logo-test-container">
+            <img id="test-logo" src="/nonexistent/logo.png" alt="ChemActiva Logo" style="max-width: 200px;">
+        </div>
+        <button onclick="testLogoRecovery()">Test Logo Recovery</button>
+        <button onclick="resetLogoTest()">Reset Test</button>
+        <div id="logo-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Image Loading Error Recovery</h2>
+        <p>Test product image loading with WebP to JPEG fallback and placeholder creation:</p>
+        <div class="test-container" id="image-test-container">
+            <img id="test-image" src="/nonexistent/product.webp" alt="Test Product" style="max-width: 300px;">
+        </div>
+        <button onclick="testImageRecovery()">Test Image Recovery</button>
+        <button onclick="resetImageTest()">Reset Test</button>
+        <div id="image-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Network Error Recovery</h2>
+        <p>Test network request recovery with retry mechanisms:</p>
+        <div class="test-container" id="network-test-container">
+            <div id="network-content">Click button to test network recovery</div>
+        </div>
+        <button onclick="testNetworkRecovery()">Test Network Recovery</button>
+        <button onclick="simulateOffline()">Simulate Offline</button>
+        <button onclick="simulateOnline()">Simulate Online</button>
+        <div id="network-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. User Feedback System</h2>
+        <p>Test loading indicators, error messages, and success notifications:</p>
+        <div class="test-container" id="feedback-test-container">
+            <div id="feedback-content">User feedback will appear here</div>
+        </div>
+        <button onclick="testLoadingIndicator()">Test Loading Indicator</button>
+        <button onclick="testErrorMessage()">Test Error Message</button>
+        <button onclick="testSuccessMessage()">Test Success Message</button>
+        <button onclick="clearAllFeedback()">Clear All Feedback</button>
+        <div id="feedback-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Comprehensive Error Handling</h2>
+        <p>Test the integrated ErrorHandler with all recovery mechanisms:</p>
+        <div class="test-container" id="comprehensive-test-container">
+            <div id="comprehensive-content">Comprehensive test results will appear here</div>
+        </div>
+        <button onclick="testComprehensiveErrorHandling()">Test Comprehensive Handling</button>
+        <button onclick="showMetrics()">Show Metrics</button>
+        <div id="comprehensive-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>6. Accessibility Features</h2>
+        <p>Test screen reader announcements and keyboard navigation:</p>
+        <div class="test-container" id="accessibility-test-container">
+            <div id="accessibility-content">Accessibility features will be demonstrated here</div>
+        </div>
+        <button onclick="testAccessibility()">Test Accessibility</button>
+        <div id="accessibility-status"></div>
+    </div>
+
+    <div class="metrics" id="metrics-display">
+        <strong>System Metrics:</strong><br>
+        <span id="metrics-content">Click "Show Metrics" to display current system metrics</span>
+    </div>
+
+    <script type="module">
+        // Import the error handling modules
+        import ErrorRecoveryManager from './src/js/ErrorRecoveryManager.js';
+        import UserFeedbackManager from './src/js/UserFeedbackManager.js';
+        import ErrorHandler from './src/js/ErrorHandler.js';
+
+        // Initialize global instances for testing
+        window.errorRecoveryManager = new ErrorRecoveryManager({
+            enableLogging: true,
+            maxRetries: 3
+        });
+
+        window.userFeedbackManager = new UserFeedbackManager({
+            enableAccessibility: true,
+            enableRetryButtons: true,
+            enableLoadingIndicators: true
+        });
+
+        window.errorHandler = new ErrorHandler();
+
+        // Test functions
+        window.testLogoRecovery = async function() {
+            const statusDiv = document.getElementById('logo-status');
+            const logoImg = document.getElementById('test-logo');
+            
+            statusDiv.innerHTML = '<div class="status info">Testing logo recovery...</div>';
+            
+            try {
+                const result = await window.errorHandler.handleImageError(logoImg, {
+                    showUserFeedback: true,
+                    container: document.getElementById('logo-test-container'),
+                    productType: 'logo'
+                });
+                
+                statusDiv.innerHTML = '<div class="status success">Logo recovery completed successfully!</div>';
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="status error">Logo recovery test completed with fallback: ${error.message}</div>`;
+            }
+        };
+
+        window.resetLogoTest = function() {
+            const logoImg = document.getElementById('test-logo');
+            const container = document.getElementById('logo-test-container');
+            
+            // Clear container and recreate image
+            container.innerHTML = '<img id="test-logo" src="/nonexistent/logo.png" alt="ChemActiva Logo" style="max-width: 200px;">';
+            document.getElementById('logo-status').innerHTML = '';
+        };
+
+        window.testImageRecovery = async function() {
+            const statusDiv = document.getElementById('image-status');
+            const testImg = document.getElementById('test-image');
+            
+            statusDiv.innerHTML = '<div class="status info">Testing image recovery...</div>';
+            
+            try {
+                const result = await window.errorHandler.handleImageError(testImg, {
+                    showUserFeedback: true,
+                    container: document.getElementById('image-test-container'),
+                    productType: 'product'
+                });
+                
+                statusDiv.innerHTML = '<div class="status success">Image recovery completed successfully!</div>';
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="status error">Image recovery test completed with fallback: ${error.message}</div>`;
+            }
+        };
+
+        window.resetImageTest = function() {
+            const container = document.getElementById('image-test-container');
+            container.innerHTML = '<img id="test-image" src="/nonexistent/product.webp" alt="Test Product" style="max-width: 300px;">';
+            document.getElementById('image-status').innerHTML = '';
+        };
+
+        window.testNetworkRecovery = async function() {
+            const statusDiv = document.getElementById('network-status');
+            const contentDiv = document.getElementById('network-content');
+            
+            statusDiv.innerHTML = '<div class="status info">Testing network recovery...</div>';
+            
+            try {
+                const result = await window.errorHandler.handleNetworkError('/nonexistent/api/data', {
+                    showUserFeedback: true,
+                    container: document.getElementById('network-test-container')
+                });
+                
+                contentDiv.innerHTML = 'Network recovery successful!';
+                statusDiv.innerHTML = '<div class="status success">Network recovery completed!</div>';
+            } catch (error) {
+                contentDiv.innerHTML = 'Network recovery failed - using fallback';
+                statusDiv.innerHTML = `<div class="status error">Network recovery test completed: ${error.message}</div>`;
+            }
+        };
+
+        window.simulateOffline = function() {
+            window.userFeedbackManager.showNetworkStatus('offline');
+            document.getElementById('network-status').innerHTML = '<div class="status error">Simulated offline mode</div>';
+        };
+
+        window.simulateOnline = function() {
+            window.userFeedbackManager.showNetworkStatus('online');
+            document.getElementById('network-status').innerHTML = '<div class="status success">Simulated online mode</div>';
+        };
+
+        window.testLoadingIndicator = function() {
+            const container = document.getElementById('feedback-test-container');
+            
+            const indicator = window.userFeedbackManager.showLoadingIndicator('test_loading', {
+                message: 'Testing loading indicator...',
+                container: container,
+                position: 'inline',
+                showProgress: true,
+                progressValue: 0
+            });
+
+            // Simulate progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 20;
+                window.userFeedbackManager.updateLoadingProgress('test_loading', progress, `Loading... ${progress}%`);
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    setTimeout(() => {
+                        window.userFeedbackManager.hideLoadingIndicator('test_loading');
+                        window.userFeedbackManager.showSuccessMessage('loading_complete', {
+                            message: 'Loading completed successfully!',
+                            container: container,
+                            position: 'inline',
+                            autoHide: true
+                        });
+                    }, 500);
+                }
+            }, 500);
+        };
+
+        window.testErrorMessage = function() {
+            const container = document.getElementById('feedback-test-container');
+            
+            window.userFeedbackManager.showErrorMessage('test_error', {
+                title: 'Test Error',
+                message: 'This is a test error message. You can click the retry button to test the retry functionality.',
+                container: container,
+                position: 'inline',
+                enableRetry: true,
+                retryCallback: async () => {
+                    // Simulate retry operation
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    return 'Retry successful!';
+                },
+                networkStatus: navigator.onLine ? 'online' : 'offline'
+            });
+        };
+
+        window.testSuccessMessage = function() {
+            const container = document.getElementById('feedback-test-container');
+            
+            window.userFeedbackManager.showSuccessMessage('test_success', {
+                message: 'This is a test success message!',
+                container: container,
+                position: 'inline',
+                autoHide: false
+            });
+        };
+
+        window.clearAllFeedback = function() {
+            window.userFeedbackManager.clearAllFeedback();
+            document.getElementById('feedback-status').innerHTML = '<div class="status info">All feedback cleared</div>';
+        };
+
+        window.testComprehensiveErrorHandling = async function() {
+            const statusDiv = document.getElementById('comprehensive-status');
+            const contentDiv = document.getElementById('comprehensive-content');
+            
+            statusDiv.innerHTML = '<div class="status info">Running comprehensive error handling test...</div>';
+            contentDiv.innerHTML = 'Testing comprehensive error handling...';
+            
+            // Test multiple error scenarios
+            const tests = [
+                { name: 'Logo Recovery', type: 'logo', request: '/test/logo.png' },
+                { name: 'Image Recovery', type: 'image', request: '/test/image.jpg' },
+                { name: 'Network Recovery', type: 'network', request: '/test/api/data' }
+            ];
+            
+            const results = [];
+            
+            for (const test of tests) {
+                try {
+                    const result = await window.errorRecoveryManager.recover(
+                        new Error(`${test.name} failed`),
+                        test.type,
+                        test.request
+                    );
+                    results.push(`✓ ${test.name}: Success`);
+                } catch (error) {
+                    results.push(`✗ ${test.name}: Fallback applied`);
+                }
+            }
+            
+            contentDiv.innerHTML = results.join('<br>');
+            statusDiv.innerHTML = '<div class="status success">Comprehensive test completed!</div>';
+        };
+
+        window.testAccessibility = function() {
+            const container = document.getElementById('accessibility-test-container');
+            const statusDiv = document.getElementById('accessibility-status');
+            
+            // Test screen reader announcement
+            window.userFeedbackManager.announceToScreenReader('Testing accessibility features for screen readers');
+            
+            // Show error with focus management
+            window.userFeedbackManager.showErrorMessage('accessibility_test', {
+                title: 'Accessibility Test',
+                message: 'This error message demonstrates keyboard navigation and screen reader support. Try using Tab to navigate and Enter to activate buttons.',
+                container: container,
+                position: 'inline',
+                enableRetry: true,
+                retryCallback: () => {
+                    window.userFeedbackManager.announceToScreenReader('Retry button activated successfully');
+                    return Promise.resolve('Accessibility test passed');
+                }
+            });
+            
+            statusDiv.innerHTML = '<div class="status info">Accessibility test initiated. Check screen reader announcements and try keyboard navigation.</div>';
+        };
+
+        window.showMetrics = function() {
+            const metricsDiv = document.getElementById('metrics-content');
+            const stats = window.errorHandler.getComprehensiveStats();
+            
+            const metricsHTML = `
+                <strong>Error Log:</strong> ${stats.errorLog.length} recent errors<br>
+                <strong>Active Retries:</strong> ${Object.keys(stats.retryStatus).length}<br>
+                <strong>Recovery Success Rate:</strong> ${stats.recoveryMetrics.successRate.toFixed(1)}%<br>
+                <strong>Active Feedback:</strong> ${stats.feedbackStats.activeFeedback}<br>
+                <strong>Network Status:</strong> ${stats.networkStatus}<br>
+                <strong>Total Recoveries:</strong> ${stats.recoveryMetrics.totalRecoveries}<br>
+                <strong>Successful Recoveries:</strong> ${stats.recoveryMetrics.successfulRecoveries}<br>
+                <strong>Failed Recoveries:</strong> ${stats.recoveryMetrics.failedRecoveries}<br>
+                <strong>Fallbacks Used:</strong> ${stats.recoveryMetrics.fallbacksUsed}
+            `;
+            
+            metricsDiv.innerHTML = metricsHTML;
+        };
+
+        // Initialize page
+        console.log('Error Recovery and User Feedback Test Page Loaded');
+        console.log('Available global objects:', {
+            errorRecoveryManager: window.errorRecoveryManager,
+            userFeedbackManager: window.userFeedbackManager,
+            errorHandler: window.errorHandler
+        });
+    </script>
+</body>
+</html>

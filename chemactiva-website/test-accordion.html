@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Accordion Functionality</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Lato:wght@300;400;700&family=Stix+Two+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/theme.css">
+    <link rel="stylesheet" href="src/css/layout.css">
+    <link rel="stylesheet" href="src/css/components.css">
+    <link rel="stylesheet" href="src/css/products.css">
+    <style>
+        body {
+            padding: 2rem;
+            background: var(--color-background);
+        }
+        .test-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: var(--color-text-primary);
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Accordion Test</h1>
+        
+        <div class="product-card-enhanced card-style">
+            <div class="product-info-enhanced">
+                <h3>Test Product</h3>
+                <p class="product-tagline">Testing accordion functionality</p>
+                
+                <div class="product-specs-accordion">
+                    <div class="accordion-item">
+                        <button class="accordion-header" aria-expanded="false" aria-controls="test-specs-1">
+                            <span>Technical Specifications</span>
+                            <span class="accordion-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="accordion-content" id="test-specs-1" role="region" aria-labelledby="test-specs-1-header">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li><strong>Test Property 1:</strong> Value 1</li>
+                                    <li><strong>Test Property 2:</strong> Value 2</li>
+                                    <li><strong>Test Property 3:</strong> Value 3</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <button class="accordion-header" aria-expanded="false" aria-controls="test-specs-2">
+                            <span>Applications</span>
+                            <span class="accordion-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="accordion-content" id="test-specs-2" role="region" aria-labelledby="test-specs-2-header">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>Application 1</li>
+                                    <li>Application 2</li>
+                                    <li>Application 3</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="product-cta-enhanced">Test Button</button>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import ProductManager from './src/js/ProductManager.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const productManager = new ProductManager();
+            productManager.init();
+            
+            // Test accordion events
+            window.addEventListener('accordionToggle', (event) => {
+                console.log('Accordion toggled:', event.detail);
+            });
+            
+            console.log('Test page loaded with ProductManager');
+        });
+    </script>
+</body>
+</html>

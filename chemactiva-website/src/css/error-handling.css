@@ -1,0 +1,400 @@
+/* Error Handling Styles for Product Page Components */
+
+/* Image Error States */
+.image-load-error {
+    opacity: 0.5;
+    filter: grayscale(100%);
+    border: 2px dashed #dc3545;
+    border-radius: 4px;
+}
+
+.image-placeholder.error-fallback {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px dashed #6c757d;
+    color: #6c757d;
+    font-family: var(--font-family-base, system-ui);
+    transition: all 0.3s ease;
+}
+
+.image-placeholder.error-fallback:hover {
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+    border-color: #495057;
+}
+
+/* Thumbnail Error States */
+.thumbnail-error {
+    opacity: 0.6;
+    position: relative;
+}
+
+.thumbnail-error::after {
+    content: '⚠️';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+    font-size: 10px;
+    padding: 2px 4px;
+    border-radius: 2px;
+    line-height: 1;
+}
+
+/* Gallery Error Overlay */
+.gallery-error-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(248, 249, 250, 0.95);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    animation: fadeIn 0.3s ease;
+}
+
+.gallery-error-content {
+    text-align: center;
+    padding: 2rem;
+    max-width: 300px;
+}
+
+.gallery-error-content .error-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.gallery-error-content h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--color-text-primary, #212529);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.gallery-error-content p {
+    margin: 0 0 1.5rem 0;
+    color: var(--color-text-secondary, #6c757d);
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.retry-button {
+    background: var(--color-accent-primary, #007bff);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.retry-button:hover {
+    background: var(--color-accent-primary-dark, #0056b3);
+    transform: translateY(-1px);
+}
+
+.retry-button:active {
+    transform: translateY(0);
+}
+
+/* Component Error States */
+.component-error {
+    position: relative;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.component-error::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 193, 7, 0.1) 10px,
+        rgba(255, 193, 7, 0.1) 20px
+    );
+    z-index: 1;
+    pointer-events: none;
+}
+
+.error-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 193, 7, 0.95);
+    color: #856404;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    z-index: 1000;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    animation: pulse 2s infinite;
+}
+
+/* Loading Error States */
+.product-image-skeleton.error {
+    background: linear-gradient(
+        90deg,
+        #f8d7da 25%,
+        #f5c6cb 50%,
+        #f8d7da 75%
+    );
+    background-size: 200% 100%;
+    animation: skeletonError 2s infinite;
+}
+
+.product-info-skeleton.error {
+    opacity: 0.6;
+}
+
+.product-info-skeleton.error .skeleton-line {
+    background: linear-gradient(
+        90deg,
+        #f8d7da 25%,
+        #f5c6cb 50%,
+        #f8d7da 75%
+    );
+    background-size: 200% 100%;
+    animation: skeletonError 2s infinite;
+}
+
+/* Network Status Indicators */
+.network-status {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: var(--color-surface, white);
+    border: 1px solid var(--color-border, #dee2e6);
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.network-status.offline {
+    background: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.network-status.slow {
+    background: #fff3cd;
+    border-color: #ffeaa7;
+    color: #856404;
+}
+
+.network-status.online {
+    background: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+/* Error Toast Notifications */
+.error-toast {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #dc3545;
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.3s ease;
+    max-width: 400px;
+    text-align: center;
+}
+
+.error-toast.warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.error-toast.info {
+    background: #17a2b8;
+    color: white;
+}
+
+/* Fallback Image Styles */
+.fallback-image {
+    border: 2px solid var(--color-border-light, #e9ecef);
+    border-radius: 4px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.fallback-image:hover {
+    opacity: 1;
+}
+
+/* Accessibility Enhancements for Error States */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Error state focus indicators */
+.component-error:focus-within {
+    outline: 2px solid #dc3545;
+    outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 100%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes skeletonError {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .gallery-error-overlay {
+        background: rgba(33, 37, 41, 0.95);
+    }
+    
+    .gallery-error-content h3 {
+        color: #f8f9fa;
+    }
+    
+    .gallery-error-content p {
+        color: #adb5bd;
+    }
+    
+    .image-placeholder.error-fallback {
+        background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+        color: #adb5bd;
+        border-color: #6c757d;
+    }
+    
+    .network-status {
+        background: #343a40;
+        border-color: #495057;
+        color: #f8f9fa;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .gallery-error-content {
+        padding: 1.5rem;
+        max-width: 280px;
+    }
+    
+    .gallery-error-content .error-icon {
+        font-size: 2.5rem;
+    }
+    
+    .error-toast {
+        left: 1rem;
+        right: 1rem;
+        transform: none;
+        max-width: none;
+    }
+    
+    .network-status {
+        top: 0.5rem;
+        right: 0.5rem;
+        font-size: 0.7rem;
+        padding: 0.375rem 0.5rem;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .image-load-error {
+        border-width: 3px;
+        border-color: #000;
+    }
+    
+    .component-error::before {
+        background: repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 8px,
+            rgba(255, 255, 0, 0.3) 8px,
+            rgba(255, 255, 0, 0.3) 16px
+        );
+    }
+    
+    .error-indicator {
+        background: #ffff00;
+        color: #000;
+        border: 2px solid #000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .gallery-error-overlay,
+    .error-toast,
+    .retry-button,
+    .fallback-image,
+    .error-indicator {
+        animation: none;
+        transition: none;
+    }
+    
+    .product-image-skeleton.error,
+    .product-info-skeleton.error .skeleton-line {
+        animation: none;
+        background: #f8d7da;
+    }
+}

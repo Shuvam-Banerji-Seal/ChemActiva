@@ -1,0 +1,26 @@
+--- index.html
++++ index.html
+@@ -73,19 +73,19 @@
+                     <h2>Core Areas of Focus</h2>
+                     <div class="focus-grid">
+                         <div class="focus-item card-style">
+-                            <img src="/assets/icons/sustainable-chemicals.svg" alt="Sustainable Chemicals" class="focus-icon"> <!-- Replace with actual SVGs -->
++                            <img src="/assets/icons/sustainable-chemicals.svg" alt="Sustainable Chemicals" class="focus-icon" loading="lazy">
+                             <h3>Sustainable Chemicals</h3>
+                             <p>Development of eco-friendly chemicals and materials that reduce pollution and promote sustainability. Including biodegradable polymers, green solvents, and renewable chemicals derived from plant sources.</p>
+                         </div>
+                         <div class="focus-item card-style">
+-                            <img src="/assets/icons/plant-based.svg" alt="Plant-Based Products" class="focus-icon"> <!-- Replace with actual SVGs -->
++                            <img src="/assets/icons/plant-based.svg" alt="Plant-Based Products" class="focus-icon" loading="lazy">
+                             <h3>Plant-Based Products</h3>
+                             <p>Emphasizing renewable and natural resources to replace conventional, petroleum-based materials. Examples include bioplastics, natural fiber composites, and bio-based additives.</p>
+                         </div>
+                         <div class="focus-item card-style">
+-                            <img src="/assets/icons/bio-based.svg" alt="Bio-Based Products" class="focus-icon"> <!-- Replace with actual SVGs -->
++                            <img src="/assets/icons/bio-based.svg" alt="Bio-Based Products" class="focus-icon" loading="lazy">
+                             <h3>Bio-Based Products</h3>
+                             <p>Production of chemicals and materials from renewable biological resources, supporting the reduction of reliance on fossil fuels and promoting a circular economy.</p>
+                         </div>
+                         <div class="focus-item card-style">
+-                            <img src="/assets/icons/smart-materials.svg" alt="Smart Materials" class="focus-icon"> <!-- Replace with actual SVGs -->
++                            <img src="/assets/icons/smart-materials.svg" alt="Smart Materials" class="focus-icon" loading="lazy">

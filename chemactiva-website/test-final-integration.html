@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Integration Test - Product Page UI Optimization</title>
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/components.css">
+    <link rel="stylesheet" href="src/css/products.css">
+    <link rel="stylesheet" href="src/css/error-handling.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa;
+        }
+        
+        .test-header {
+            background: #007bff;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .test-controls {
+            background: white;
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .test-controls button {
+            margin: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: #212529; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-info { background: #17a2b8; color: white; }
+        
+        .metrics-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .metric-card h3 {
+            margin: 0 0 1rem 0;
+            color: #495057;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+            margin: 0.5rem 0;
+        }
+        
+        .metric-label {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-good { background: #28a745; }
+        .status-warning { background: #ffc107; }
+        .status-error { background: #dc3545; }
+        
+        .product-showcase {
+            margin: 2rem 1rem;
+        }
+        
+        .log-output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="products-page">
+    <div class="test-header">
+        <h1>Product Page UI Optimization - Final Integration Test</h1>
+        <p>Comprehensive testing of all enhanced product page components</p>
+    </div>
+
+    <div class="test-controls">
+        <h3>Test Controls</h3>
+        <button class="btn-primary" onclick="initializeApp()">Initialize App</button>
+        <button class="btn-success" onclick="runPerformanceTest()">Performance Test</button>
+        <button class="btn-info" onclick="testUserInteractions()">User Interaction Test</button>
+        <button class="btn-warning" onclick="testErrorHandling()">Error Handling Test</button>
+        <button class="btn-danger" onclick="stressTest()">Stress Test</button>
+        <button class="btn-info" onclick="exportMetrics()">Export Metrics</button>
+    </div>
+
+    <div class="metrics-dashboard" id="metrics-dashboard">
+        <div class="metric-card">
+            <h3>Performance Metrics</h3>
+            <div class="metric-value" id="performance-score">--</div>
+            <div class="metric-label">Performance Score</div>
+        </div>
+        
+        <div class="metric-card">
+            <h3>Component Status</h3>
+            <div id="component-status">
+                <div><span class="status-indicator status-good"></span>ProductManager: Ready</div>
+                <div><span class="status-indicator status-good"></span>ContactManager: Ready</div>
+                <div><span class="status-indicator status-good"></span>PerformanceManager: Ready</div>
+                <div><span class="status-indicator status-good"></span>ErrorHandler: Ready</div>
+            </div>
+        </div>
+        
+        <div class="metric-card">
+            <h3>Image Galleries</h3>
+            <div class="metric-value" id="gallery-count">0</div>
+            <div class="metric-label">Active Galleries</div>
+        </div>
+        
+        <div class="metric-card">
+            <h3>Product Cards</h3>
+            <div class="metric-value" id="card-count">0</div>
+            <div class="metric-label">Enhanced Cards</div>
+        </div>
+    </div>
+
+    <!-- Product Showcase -->
+    <div class="product-showcase">
+        <h2>Enhanced Product Cards</h2>
+        
+        <!-- Domestic Oil Spill Kit -->
+        <div class="product-card-enhanced" data-product="domestic-oil-spill-kit">
+            <div class="product-image-carousel-enhanced">
+                <img src="public/assets/images/products/Domestic_oil_spill_kit_1.jpeg" alt="Domestic Oil Spill Kit">
+                <img src="public/assets/images/products/Domestic_oil_spill_kit_collage_1.jpeg" alt="Domestic Kit Components">
+                <img src="public/assets/images/products/Domestic_oil_spill_kit_collage_2.jpeg" alt="Domestic Kit Usage">
+            </div>
+            <div class="product-info-enhanced">
+                <h3>Domestic Oil Spill Kit</h3>
+                <div class="key-benefit-item">Quick absorption technology</div>
+                <div class="key-benefit-item">Easy cleanup process</div>
+                <div class="key-benefit-item">Safe disposal included</div>
+                <div class="key-benefit-item">Compact storage design</div>
+            </div>
+            <div class="product-specs-accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header" aria-expanded="false">
+                        <span>Technical Specifications</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content" aria-hidden="true">
+                        <ul>
+                            <li>Absorption capacity: 50 liters</li>
+                            <li>Coverage area: 100 square meters</li>
+                            <li>Response time: Less than 5 minutes</li>
+                            <li>Storage temperature: -10°C to 50°C</li>
+                            <li>Shelf life: 5 years</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header" aria-expanded="false">
+                        <span>Usage Instructions</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content" aria-hidden="true">
+                        <ol>
+                            <li>Assess the spill area and ensure safety</li>
+                            <li>Apply absorbent material starting from edges</li>
+                            <li>Allow 5-10 minutes for full absorption</li>
+                            <li>Collect saturated material using provided tools</li>
+                            <li>Dispose according to local regulations</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header" aria-expanded="false">
+                        <span>Safety Information</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content" aria-hidden="true">
+                        <p>Always wear protective equipment when handling oil spills. Ensure adequate ventilation and avoid ignition sources. This kit is designed for petroleum-based liquids only.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="product-contact-section">
+                <button class="contact-button primary" data-action="quote" data-product="domestic-oil-spill-kit">
+                    Get Quote
+                </button>
+                <button class="contact-button secondary" data-action="info" data-product="domestic-oil-spill-kit">
+                    More Info
+                </button>
+            </div>
+        </div>
+
+        <!-- Marine Oil Spill Kit -->
+        <div class="product-card-enhanced" data-product="marine-oil-spill-kit">
+            <div class="product-image-carousel-enhanced">
+                <img src="public/assets/images/products/Marine_oil_spill_kit.jpeg" alt="Marine Oil Spill Kit">
+            </div>
+            <div class="product-info-enhanced">
+                <h3>Marine Oil Spill Kit</h3>
+                <div class="key-benefit-item">Marine-grade materials</div>
+                <div class="key-benefit-item">Weather resistant design</div>
+                <div class="key-benefit-item">Floating absorbents</div>
+                <div class="key-benefit-item">Coast Guard approved</div>
+            </div>
+            <div class="product-specs-accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header" aria-expanded="false">
+                        <span>Marine Specifications</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content" aria-hidden="true">
+                        <ul>
+                            <li>Water absorption capacity: 100 liters</li>
+                            <li>Floating time: 48+ hours</li>
+                            <li>Salt water resistant</li>
+                            <li>UV protection included</li>
+                            <li>Coast Guard certification: USCG-2024-001</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="product-contact-section">
+                <button class="contact-button primary" data-action="quote" data-product="marine-oil-spill-kit">
+                    Get Quote
+                </button>
+            </div>
+        </div>
+
+        <!-- Cellulose Nanocrystals -->
+        <div class="product-card-enhanced" data-product="cellulose-nanocrystals">
+            <div class="product-image-carousel-enhanced">
+                <img src="public/assets/images/products/Nano_cellulose_1.jpeg" alt="Cellulose Nanocrystals">
+                <img src="public/assets/images/products/Nano_cellulose_2.jpeg" alt="Nanocrystal Structure">
+                <img src="public/assets/images/products/Nano_cellulose_3.jpeg" alt="Application Examples">
+                <img src="public/assets/images/products/Nano_cellulose_4.jpeg" alt="Research Applications">
+            </div>
+            <div class="product-info-enhanced">
+                <h3>Cellulose Nanocrystals</h3>
+                <div class="key-benefit-item">High strength-to-weight ratio</div>
+                <div class="key-benefit-item">Biodegradable material</div>
+                <div class="key-benefit-item">Versatile applications</div>
+                <div class="key-benefit-item">Research grade quality</div>
+            </div>
+            <div class="product-specs-accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header" aria-expanded="false">
+                        <span>Material Properties</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content" aria-hidden="true">
+                        <ul>
+                            <li>Particle size: 5-20 nm width, 100-300 nm length</li>
+                            <li>Crystallinity: >85%</li>
+                            <li>Surface area: 250-300 m²/g</li>
+                            <li>Tensile strength: 7.5-7.7 GPa</li>
+                            <li>Young's modulus: 110-220 GPa</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header" aria-expanded="false">
+                        <span>Applications</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content" aria-hidden="true">
+                        <ul>
+                            <li>Composite reinforcement</li>
+                            <li>Barrier films and coatings</li>
+                            <li>Biomedical applications</li>
+                            <li>Rheology modification</li>
+                            <li>3D printing materials</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="product-contact-section">
+                <button class="contact-button primary" data-action="quote" data-product="cellulose-nanocrystals">
+                    Get Quote
+                </button>
+                <button class="contact-button secondary" data-action="sample" data-product="cellulose-nanocrystals">
+                    Request Sample
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="log-output" id="test-log">
+        <strong>Test Log:</strong><br>
+        Ready for testing...
+    </div>
+
+    <div id="main-container" style="display: none;">
+        <!-- Main content container for App.js compatibility -->
+    </div>
+
+    <!-- Load Scripts -->
+    <script type="module">
+        import App from './src/js/App.js';
+
+        // Global test variables
+        window.testApp = null;
+        window.testResults = {
+            performance: {},
+            interactions: {},
+            errors: [],
+            metrics: {}
+        };
+
+        // Initialize the application
+        window.initializeApp = async function() {
+            logMessage('Initializing enhanced App with product page components...');
+            
+            try {
+                window.testApp = new App();
+                await window.testApp.init();
+                
+                updateMetricsDashboard();
+                logMessage('App initialized successfully!');
+                
+                // Test component integration
+                setTimeout(() => {
+                    testComponentIntegration();
+                }, 1000);
+                
+            } catch (error) {
+                logMessage(`App initialization failed: ${error.message}`, 'error');
+                console.error('App initialization error:', error);
+            }
+        };
+
+        // Test component integration
+        function testComponentIntegration() {
+            logMessage('Testing component integration...');
+            
+            const productManager = window.testApp.getProductManager();
+            const contactManager = window.testApp.getContactManager();
+            
+            if (productManager) {
+                logMessage(`ProductManager: ${productManager.productCards.length} cards initialized`);
+            }
+            
+            if (contactManager) {
+                logMessage('ContactManager: Initialized and ready');
+            }
+            
+            // Test gallery initialization
+            const galleries = window.testApp.productGalleries;
+            if (galleries) {
+                logMessage(`Image Galleries: ${galleries.size} galleries initialized`);
+                
+                galleries.forEach((gallery, productId) => {
+                    logMessage(`  - ${productId}: ${gallery.getTotalImages()} images`);
+                });
+            }
+            
+            logMessage('Component integration test completed');
+        }
+
+        // Performance testing
+        window.runPerformanceTest = async function() {
+            logMessage('Running comprehensive performance test...');
+            
+            const startTime = performance.now();
+            
+            try {
+                // Test component performance
+                const metrics = window.testApp.getPerformanceMetrics();
+                window.testResults.performance = metrics;
+                
+                // Test image loading performance
+                await testImageLoadingPerformance();
+                
+                // Test interaction performance
+                testInteractionPerformance();
+                
+                // Test memory usage
+                testMemoryUsage();
+                
+                const endTime = performance.now();
+                const totalTime = endTime - startTime;
+                
+                logMessage(`Performance test completed in ${totalTime.toFixed(2)}ms`);
+                updateMetricsDashboard();
+                
+            } catch (error) {
+                logMessage(`Performance test failed: ${error.message}`, 'error');
+            }
+        };
+
+        // Test image loading performance
+        async function testImageLoadingPerformance() {
+            logMessage('Testing image loading performance...');
+            
+            const images = document.querySelectorAll('.product-image-carousel-enhanced img');
+            const loadTimes = [];
+            
+            for (const img of images) {
+                const startTime = performance.now();
+                
+                if (!img.complete) {
+                    await new Promise((resolve) => {
+                        img.onload = resolve;
+                        img.onerror = resolve;
+                    });
+                }
+                
+                const loadTime = performance.now() - startTime;
+                loadTimes.push(loadTime);
+            }
+            
+            const avgLoadTime = loadTimes.reduce((a, b) => a + b, 0) / loadTimes.length;
+            logMessage(`Average image load time: ${avgLoadTime.toFixed(2)}ms`);
+            
+            window.testResults.performance.imageLoading = {
+                totalImages: images.length,
+                averageLoadTime: avgLoadTime,
+                loadTimes: loadTimes
+            };
+        }
+
+        // Test interaction performance
+        function testInteractionPerformance() {
+            logMessage('Testing interaction performance...');
+            
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            const interactionTimes = [];
+            
+            accordionHeaders.forEach(header => {
+                const startTime = performance.now();
+                header.click();
+                const endTime = performance.now();
+                
+                interactionTimes.push(endTime - startTime);
+            });
+            
+            const avgInteractionTime = interactionTimes.reduce((a, b) => a + b, 0) / interactionTimes.length;
+            logMessage(`Average interaction time: ${avgInteractionTime.toFixed(2)}ms`);
+            
+            window.testResults.performance.interactions = {
+                totalInteractions: interactionTimes.length,
+                averageTime: avgInteractionTime,
+                times: interactionTimes
+            };
+        }
+
+        // Test memory usage
+        function testMemoryUsage() {
+            if ('memory' in performance) {
+                const memInfo = performance.memory;
+                const memoryUsage = {
+                    used: Math.round(memInfo.usedJSHeapSize / 1024 / 1024),
+                    total: Math.round(memInfo.totalJSHeapSize / 1024 / 1024),
+                    limit: Math.round(memInfo.jsHeapSizeLimit / 1024 / 1024)
+                };
+                
+                logMessage(`Memory usage: ${memoryUsage.used}MB / ${memoryUsage.total}MB (limit: ${memoryUsage.limit}MB)`);
+                window.testResults.performance.memory = memoryUsage;
+            }
+        }
+
+        // Test user interactions
+        window.testUserInteractions = function() {
+            logMessage('Testing user interactions...');
+            
+            // Test accordion interactions
+            testAccordionInteractions();
+            
+            // Test contact button interactions
+            testContactButtonInteractions();
+            
+            // Test image gallery interactions
+            testImageGalleryInteractions();
+            
+            logMessage('User interaction tests completed');
+        };
+
+        function testAccordionInteractions() {
+            const accordions = document.querySelectorAll('.accordion-header');
+            let successCount = 0;
+            
+            accordions.forEach((header, index) => {
+                try {
+                    header.click();
+                    const content = header.nextElementSibling;
+                    const isExpanded = header.getAttribute('aria-expanded') === 'true';
+                    
+                    if (isExpanded && content.style.maxHeight !== '0px') {
+                        successCount++;
+                    }
+                    
+                } catch (error) {
+                    logMessage(`Accordion ${index} interaction failed: ${error.message}`, 'error');
+                }
+            });
+            
+            logMessage(`Accordion interactions: ${successCount}/${accordions.length} successful`);
+        }
+
+        function testContactButtonInteractions() {
+            const contactButtons = document.querySelectorAll('.contact-button');
+            let successCount = 0;
+            
+            contactButtons.forEach((button, index) => {
+                try {
+                    button.click();
+                    successCount++;
+                } catch (error) {
+                    logMessage(`Contact button ${index} interaction failed: ${error.message}`, 'error');
+                }
+            });
+            
+            logMessage(`Contact button interactions: ${successCount}/${contactButtons.length} successful`);
+        }
+
+        function testImageGalleryInteractions() {
+            const galleries = window.testApp?.productGalleries;
+            if (!galleries) return;
+            
+            let successCount = 0;
+            
+            galleries.forEach((gallery, productId) => {
+                try {
+                    const initialIndex = gallery.getCurrentIndex();
+                    gallery.nextImage();
+                    const newIndex = gallery.getCurrentIndex();
+                    
+                    if (newIndex !== initialIndex) {
+                        successCount++;
+                    }
+                    
+                } catch (error) {
+                    logMessage(`Gallery ${productId} interaction failed: ${error.message}`, 'error');
+                }
+            });
+            
+            logMessage(`Gallery interactions: ${successCount}/${galleries.size} successful`);
+        }
+
+        // Test error handling
+        window.testErrorHandling = function() {
+            logMessage('Testing error handling capabilities...');
+            
+            // Test JavaScript error handling
+            try {
+                throw new Error('Test JavaScript error');
+            } catch (error) {
+                window.testApp.errorHandler.handleJavaScriptError(error, {
+                    component: 'IntegrationTest',
+                    context: 'error handling test'
+                });
+                logMessage('JavaScript error handling: PASSED');
+            }
+            
+            // Test image error handling
+            testImageErrorHandling();
+            
+            // Test network error handling
+            testNetworkErrorHandling();
+            
+            logMessage('Error handling tests completed');
+        };
+
+        function testImageErrorHandling() {
+            const testImg = document.createElement('img');
+            testImg.src = 'invalid-image-url.jpg';
+            
+            testImg.onerror = () => {
+                window.testApp.errorHandler.handleImageError(testImg, {
+                    productType: 'test-product',
+                    onFinalFailure: () => {
+                        logMessage('Image error handling: PASSED');
+                    }
+                });
+            };
+        }
+
+        function testNetworkErrorHandling() {
+            window.testApp.errorHandler.handleNetworkError('invalid-url', {
+                maxRetries: 1,
+                onFinalFailure: () => {
+                    logMessage('Network error handling: PASSED');
+                }
+            }).catch(() => {
+                // Expected to fail
+            });
+        }
+
+        // Stress testing
+        window.stressTest = function() {
+            logMessage('Running stress test...');
+            
+            const startTime = performance.now();
+            
+            // Simulate heavy user interactions
+            for (let i = 0; i < 100; i++) {
+                const accordions = document.querySelectorAll('.accordion-header');
+                accordions.forEach(header => {
+                    header.click();
+                });
+            }
+            
+            // Test gallery navigation stress
+            const galleries = window.testApp?.productGalleries;
+            if (galleries) {
+                galleries.forEach(gallery => {
+                    for (let i = 0; i < 20; i++) {
+                        gallery.nextImage();
+                    }
+                });
+            }
+            
+            const endTime = performance.now();
+            const stressTime = endTime - startTime;
+            
+            logMessage(`Stress test completed in ${stressTime.toFixed(2)}ms`);
+            
+            // Check memory after stress test
+            setTimeout(() => {
+                testMemoryUsage();
+            }, 1000);
+        };
+
+        // Export metrics
+        window.exportMetrics = function() {
+            const metrics = {
+                timestamp: new Date().toISOString(),
+                testResults: window.testResults,
+                appMetrics: window.testApp?.getPerformanceMetrics(),
+                browserInfo: {
+                    userAgent: navigator.userAgent,
+                    viewport: {
+                        width: window.innerWidth,
+                        height: window.innerHeight
+                    },
+                    connection: navigator.connection ? {
+                        effectiveType: navigator.connection.effectiveType,
+                        downlink: navigator.connection.downlink
+                    } : null
+                }
+            };
+            
+            const dataStr = JSON.stringify(metrics, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `product-page-metrics-${Date.now()}.json`;
+            link.click();
+            
+            logMessage('Metrics exported successfully');
+        };
+
+        // Update metrics dashboard
+        function updateMetricsDashboard() {
+            if (!window.testApp) return;
+            
+            const metrics = window.testApp.getPerformanceMetrics();
+            
+            // Update performance score
+            const performanceScore = metrics.performance?.performanceScore || 0;
+            document.getElementById('performance-score').textContent = performanceScore;
+            
+            // Update gallery count
+            const galleryCount = window.testApp.productGalleries?.size || 0;
+            document.getElementById('gallery-count').textContent = galleryCount;
+            
+            // Update card count
+            const cardCount = window.testApp.getProductManager()?.productCards?.length || 0;
+            document.getElementById('card-count').textContent = cardCount;
+            
+            // Update component status
+            updateComponentStatus();
+        }
+
+        function updateComponentStatus() {
+            const statusContainer = document.getElementById('component-status');
+            const components = [
+                { name: 'ProductManager', instance: window.testApp?.getProductManager() },
+                { name: 'ContactManager', instance: window.testApp?.getContactManager() },
+                { name: 'PerformanceManager', instance: window.testApp?.performanceManager },
+                { name: 'ErrorHandler', instance: window.testApp?.errorHandler }
+            ];
+            
+            statusContainer.innerHTML = '';
+            
+            components.forEach(component => {
+                const status = component.instance ? 'status-good' : 'status-error';
+                const statusText = component.instance ? 'Ready' : 'Not Available';
+                
+                const statusDiv = document.createElement('div');
+                statusDiv.innerHTML = `<span class="status-indicator ${status}"></span>${component.name}: ${statusText}`;
+                statusContainer.appendChild(statusDiv);
+            });
+        }
+
+        // Utility function for logging
+        function logMessage(message, type = 'info') {
+            const logElement = document.getElementById('test-log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logClass = type === 'error' ? 'color: #dc3545' : type === 'warning' ? 'color: #ffc107' : 'color: #28a745';
+            
+            logElement.innerHTML += `<br><span style="${logClass}">[${timestamp}] ${message}</span>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        // Auto-initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            logMessage('Page loaded, ready for testing');
+            updateMetricsDashboard();
+        });
+
+        // Global error handling for testing
+        window.addEventListener('error', (event) => {
+            logMessage(`Global error: ${event.message}`, 'error');
+            window.testResults.errors.push({
+                message: event.message,
+                filename: event.filename,
+                lineno: event.lineno,
+                timestamp: Date.now()
+            });
+        });
+
+        window.addEventListener('unhandledrejection', (event) => {
+            logMessage(`Unhandled promise rejection: ${event.reason}`, 'error');
+            window.testResults.errors.push({
+                type: 'unhandledrejection',
+                reason: event.reason,
+                timestamp: Date.now()
+            });
+        });
+    </script>
+</body>
+</html>
