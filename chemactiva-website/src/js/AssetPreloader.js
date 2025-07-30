@@ -28,13 +28,11 @@ export default class AssetPreloader {
         this.criticalAssets = [
             // Logo variants
             { url: '/assets/images/logo.png', type: 'image', priority: this.priorities.CRITICAL },
-            { url: '/public/assets/images/logo.png', type: 'image', priority: this.priorities.CRITICAL },
-            { url: './public/assets/images/logo.png', type: 'image', priority: this.priorities.CRITICAL },
-            { url: '/public/assets/images/logo-small_size.png', type: 'image', priority: this.priorities.CRITICAL },
+            { url: '/assets/images/logo-small_size.png', type: 'image', priority: this.priorities.CRITICAL },
             
-            // Hero section assets
-            { url: '/public/assets/images/user1.jpg', type: 'image', priority: this.priorities.HIGH },
-            { url: '/public/assets/images/user2.jpg', type: 'image', priority: this.priorities.HIGH },
+            // Hero section assets (these images exist in public/assets/images/)
+            // Note: Vite serves public/ files at root, so /assets/images/ maps to public/assets/images/
+            // But we need to check if these are actually needed for the hero section
             
             // Critical CSS (if externally loaded)
             { url: '/src/css/base.css', type: 'css', priority: this.priorities.HIGH },
@@ -421,9 +419,9 @@ export default class AssetPreloader {
         
         if (pagePath.includes('products')) {
             assets.push(
-                { url: '/public/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.HIGH * probability },
-                { url: '/public/assets/images/products/Marine_oil_spill_kit.webp', type: 'image', priority: this.priorities.HIGH * probability },
-                { url: '/public/assets/images/products/Nano_cellulose_1.webp', type: 'image', priority: this.priorities.NORMAL * probability }
+                { url: '/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.HIGH * probability },
+                { url: '/assets/images/products/Marine_oil_spill_kit.webp', type: 'image', priority: this.priorities.HIGH * probability },
+                { url: '/assets/images/products/Nano_cellulose_1.webp', type: 'image', priority: this.priorities.NORMAL * probability }
             );
         } else if (pagePath.includes('blog')) {
             assets.push(
@@ -439,7 +437,7 @@ export default class AssetPreloader {
      */
     getMobileOptimizedAssets() {
         return [
-            { url: '/public/assets/images/logo-small_size.png', type: 'image', priority: this.priorities.HIGH },
+            { url: '/assets/images/logo-small_size.png', type: 'image', priority: this.priorities.HIGH },
             // Prioritize smaller images for mobile
             ...this.criticalAssets.filter(asset => 
                 asset.url.includes('small') || asset.url.includes('mobile')
@@ -452,8 +450,8 @@ export default class AssetPreloader {
      */
     getBusinessHourAssets() {
         return [
-            { url: '/public/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.NORMAL },
-            { url: '/public/assets/resources/domestic-oil-spill-kit-datasheet.pdf', type: 'document', priority: this.priorities.LOW }
+            { url: '/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.NORMAL },
+            { url: '/assets/resources/domestic-oil-spill-kit-datasheet.pdf', type: 'document', priority: this.priorities.LOW }
         ];
     }
 
@@ -492,11 +490,11 @@ export default class AssetPreloader {
      */
     getProductPageAssets() {
         return [
-            { url: '/public/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.HIGH },
-            { url: '/public/assets/images/products/Domestic_oil_spill_kit_collage_1.webp', type: 'image', priority: this.priorities.NORMAL },
-            { url: '/public/assets/images/products/Marine_oil_spill_kit.webp', type: 'image', priority: this.priorities.HIGH },
-            { url: '/public/assets/images/products/Nano_cellulose_1.webp', type: 'image', priority: this.priorities.NORMAL },
-            { url: '/public/assets/images/products/Nano_cellulose_2.webp', type: 'image', priority: this.priorities.LOW },
+            { url: '/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.HIGH },
+            { url: '/assets/images/products/Domestic_oil_spill_kit_collage_1.webp', type: 'image', priority: this.priorities.NORMAL },
+            { url: '/assets/images/products/Marine_oil_spill_kit.webp', type: 'image', priority: this.priorities.HIGH },
+            { url: '/assets/images/products/Nano_cellulose_1.webp', type: 'image', priority: this.priorities.NORMAL },
+            { url: '/assets/images/products/Nano_cellulose_2.webp', type: 'image', priority: this.priorities.LOW },
             { url: '/src/css/products.css', type: 'css', priority: this.priorities.NORMAL }
         ];
     }

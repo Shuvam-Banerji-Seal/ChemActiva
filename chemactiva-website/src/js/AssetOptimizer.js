@@ -7,7 +7,7 @@ export default class AssetOptimizer {
         this.bundleCache = new Map();
         this.criticalAssets = new Set();
         this.deferredAssets = new Set();
-        
+
         this.config = {
             // Define module dependencies and loading strategies
             modules: {
@@ -40,7 +40,7 @@ export default class AssetOptimizer {
                     condition: () => 'serviceWorker' in navigator
                 }
             },
-            
+
             // Bundle configurations for different page types
             bundles: {
                 'homepage': [
@@ -65,7 +65,7 @@ export default class AssetOptimizer {
                     'PerformanceManager'
                 ]
             },
-            
+
             // Asset optimization rules
             optimization: {
                 enableBundling: true,
@@ -77,7 +77,7 @@ export default class AssetOptimizer {
                 maxBundleSize: 100000 // bytes
             }
         };
-        
+
         this.performanceMetrics = {
             modulesLoaded: 0,
             totalLoadTime: 0,
@@ -89,17 +89,17 @@ export default class AssetOptimizer {
 
     async init() {
         console.log('AssetOptimizer initializing...');
-        
+
         try {
             this.detectPageType();
             this.identifyCriticalAssets();
             await this.preloadCriticalAssets();
             this.setupConditionalLoading();
             this.optimizeBundles();
-            
+
             console.log('AssetOptimizer initialized successfully');
             return true;
-            
+
         } catch (error) {
             console.error('AssetOptimizer initialization failed:', error);
             return false;
@@ -109,9 +109,9 @@ export default class AssetOptimizer {
     detectPageType() {
         const path = window.location.pathname;
         const body = document.body;
-        
+
         let pageType = 'common';
-        
+
         if (body.classList.contains('homepage') || path === '/' || path === '/index.html') {
             pageType = 'homepage';
         } else if (path.includes('products') || body.classList.contains('products-page')) {
@@ -119,10 +119,10 @@ export default class AssetOptimizer {
         } else if (path.includes('blog') || body.classList.contains('blog-page')) {
             pageType = 'blog';
         }
-        
+
         this.currentPageType = pageType;
         console.log(`Detected page type: ${pageType}`);
-        
+
         // Emit event for other components
         window.dispatchEvent(new CustomEvent('pageTypeDetected', {
             detail: { pageType }
@@ -133,27 +133,27 @@ export default class AssetOptimizer {
         // Identify critical assets based on page type and configuration
         const pageBundle = this.config.bundles[this.currentPageType] || [];
         const commonBundle = this.config.bundles.common || [];
-        
+
         [...pageBundle, ...commonBundle].forEach(moduleName => {
             const moduleConfig = this.config.modules[moduleName];
             if (moduleConfig && moduleConfig.critical) {
                 this.criticalAssets.add(moduleName);
             }
         });
-        
+
         console.log('Critical assets identified:', Array.from(this.criticalAssets));
     }
 
     async preloadCriticalAssets() {
         const preloadPromises = [];
-        
+
         for (const moduleName of this.criticalAssets) {
             const moduleConfig = this.config.modules[moduleName];
             if (moduleConfig && moduleConfig.preload) {
                 preloadPromises.push(this.preloadModule(moduleName));
             }
         }
-        
+
         await Promise.all(preloadPromises);
         console.log('Critical assets preloaded');
     }
@@ -161,15 +161,15 @@ export default class AssetOptimizer {
     async preloadModule(moduleName) {
         const moduleConfig = this.config.modules[moduleName];
         if (!moduleConfig) return;
-        
+
         // Create preload link
         const link = document.createElement('link');
         link.rel = 'modulepreload';
         link.href = moduleConfig.path;
-        
+
         // Add to document head
         document.head.appendChild(link);
-        
+
         console.log(`Preloading module: ${moduleName}`);
     }
 
@@ -198,7 +198,7 @@ export default class AssetOptimizer {
         const triggers = document.querySelectorAll(
             '.product-card-enhanced, .product-image-carousel-enhanced, .blog-article'
         );
-        
+
         triggers.forEach(trigger => observer.observe(trigger));
     }
 
@@ -208,7 +208,7 @@ export default class AssetOptimizer {
             if (event.target.matches('.product-cta-enhanced, .product-card-enhanced')) {
                 this.loadModule('ProductManager');
             }
-            
+
             if (event.target.matches('.product-image-carousel-enhanced img')) {
                 this.loadModule('ProductImageGallery');
             }
@@ -216,7 +216,7 @@ export default class AssetOptimizer {
 
         // Load modules on hover for better perceived performance
         document.addEventListener('mouseenter', (event) => {
-            if (event.target.matches('.product-card-enhanced')) {
+            if (event.target && typeof event.target.matches === 'function' && event.target.matches('.product-card-enhanced')) {
                 this.loadModule('ProductManager');
             }
         }, true);
@@ -228,7 +228,7 @@ export default class AssetOptimizer {
             this.detectPageType();
             this.checkAndLoadModules();
         });
-        
+
         // Monitor hash changes for single-page navigation
         window.addEventListener('hashchange', () => {
             this.checkAndLoadModules();
@@ -237,7 +237,7 @@ export default class AssetOptimizer {
 
     async checkAndLoadModules() {
         const loadPromises = [];
-        
+
         for (const [moduleName, moduleConfig] of Object.entries(this.config.modules)) {
             if (moduleConfig.condition && moduleConfig.condition()) {
                 if (!this.loadedModules.has(moduleName)) {
@@ -245,7 +245,7 @@ export default class AssetOptimizer {
                 }
             }
         }
-        
+
         await Promise.all(loadPromises);
     }
 
@@ -254,46 +254,46 @@ export default class AssetOptimizer {
         if (this.loadedModules.has(moduleName)) {
             return this.bundleCache.get(moduleName);
         }
-        
+
         if (this.loadingPromises.has(moduleName)) {
             return this.loadingPromises.get(moduleName);
         }
-        
+
         const moduleConfig = this.config.modules[moduleName];
         if (!moduleConfig) {
             console.warn(`Module configuration not found: ${moduleName}`);
             return null;
         }
-        
+
         console.log(`Loading module: ${moduleName}`);
         const startTime = performance.now();
-        
+
         // Create loading promise
         const loadingPromise = this.loadModuleWithDependencies(moduleName, moduleConfig);
         this.loadingPromises.set(moduleName, loadingPromise);
-        
+
         try {
             const module = await loadingPromise;
-            
+
             // Track performance
             const loadTime = performance.now() - startTime;
             this.performanceMetrics.modulesLoaded++;
             this.performanceMetrics.totalLoadTime += loadTime;
             this.performanceMetrics.networkRequests++;
-            
+
             // Cache the module
             this.bundleCache.set(moduleName, module);
             this.loadedModules.add(moduleName);
-            
+
             console.log(`Module loaded: ${moduleName} in ${loadTime.toFixed(2)}ms`);
-            
+
             // Emit event
             window.dispatchEvent(new CustomEvent('moduleLoaded', {
                 detail: { moduleName, module, loadTime }
             }));
-            
+
             return module;
-            
+
         } catch (error) {
             console.error(`Failed to load module ${moduleName}:`, error);
             throw error;
@@ -305,15 +305,15 @@ export default class AssetOptimizer {
     async loadModuleWithDependencies(moduleName, moduleConfig) {
         // Load dependencies first
         if (moduleConfig.dependencies && moduleConfig.dependencies.length > 0) {
-            const dependencyPromises = moduleConfig.dependencies.map(dep => 
+            const dependencyPromises = moduleConfig.dependencies.map(dep =>
                 this.loadModule(dep)
             );
             await Promise.all(dependencyPromises);
         }
-        
+
         // Load the actual module
         try {
-            const module = await import(moduleConfig.path);
+            const module = await import(/* @vite-ignore */ moduleConfig.path);
             return module.default || module;
         } catch (error) {
             // Fallback to script tag loading for compatibility
@@ -326,25 +326,25 @@ export default class AssetOptimizer {
             const script = document.createElement('script');
             script.type = 'module';
             script.src = path;
-            
+
             script.onload = () => {
                 resolve(window[path.split('/').pop().replace('.js', '')]);
             };
-            
+
             script.onerror = () => {
                 reject(new Error(`Failed to load script: ${path}`));
             };
-            
+
             document.head.appendChild(script);
         });
     }
 
     optimizeBundles() {
         if (!this.config.optimization.enableBundling) return;
-        
+
         // Group modules by page type for potential bundling
         const pageBundles = this.config.bundles[this.currentPageType] || [];
-        
+
         if (pageBundles.length >= this.config.optimization.bundleThreshold) {
             this.createVirtualBundle(this.currentPageType, pageBundles);
         }
@@ -353,14 +353,14 @@ export default class AssetOptimizer {
     createVirtualBundle(bundleName, moduleNames) {
         // Create a virtual bundle by preloading related modules together
         console.log(`Creating virtual bundle: ${bundleName}`);
-        
+
         const bundlePromise = Promise.all(
             moduleNames.map(moduleName => this.loadModule(moduleName))
         );
-        
+
         this.bundleCache.set(bundleName, bundlePromise);
         this.performanceMetrics.bundlesCreated++;
-        
+
         return bundlePromise;
     }
 
@@ -371,23 +371,23 @@ export default class AssetOptimizer {
             this.performanceMetrics.cacheHits++;
             return this.bundleCache.get(url);
         }
-        
+
         try {
             const response = await fetch(url);
             let optimizedContent = await response.text();
-            
+
             // Apply optimizations based on type
             if (type === 'css' || url.endsWith('.css')) {
                 optimizedContent = this.optimizeCSS(optimizedContent);
             } else if (type === 'js' || url.endsWith('.js')) {
                 optimizedContent = this.optimizeJS(optimizedContent);
             }
-            
+
             // Cache optimized content
             this.bundleCache.set(url, optimizedContent);
-            
+
             return optimizedContent;
-            
+
         } catch (error) {
             console.error(`Failed to optimize asset: ${url}`, error);
             throw error;
@@ -396,7 +396,7 @@ export default class AssetOptimizer {
 
     optimizeCSS(css) {
         if (!this.config.optimization.enableMinification) return css;
-        
+
         // Basic CSS optimization (in production, use proper minifier)
         return css
             .replace(/\/\*[\s\S]*?\*\//g, '') // Remove comments
@@ -407,7 +407,7 @@ export default class AssetOptimizer {
 
     optimizeJS(js) {
         if (!this.config.optimization.enableMinification) return js;
-        
+
         // Basic JS optimization (in production, use proper minifier)
         return js
             .replace(/\/\*[\s\S]*?\*\//g, '') // Remove block comments
@@ -420,11 +420,11 @@ export default class AssetOptimizer {
     getPerformanceMetrics() {
         return {
             ...this.performanceMetrics,
-            averageLoadTime: this.performanceMetrics.modulesLoaded > 0 
-                ? this.performanceMetrics.totalLoadTime / this.performanceMetrics.modulesLoaded 
+            averageLoadTime: this.performanceMetrics.modulesLoaded > 0
+                ? this.performanceMetrics.totalLoadTime / this.performanceMetrics.modulesLoaded
                 : 0,
-            cacheHitRate: this.performanceMetrics.networkRequests > 0 
-                ? (this.performanceMetrics.cacheHits / this.performanceMetrics.networkRequests) * 100 
+            cacheHitRate: this.performanceMetrics.networkRequests > 0
+                ? (this.performanceMetrics.cacheHits / this.performanceMetrics.networkRequests) * 100
                 : 0,
             loadedModules: Array.from(this.loadedModules),
             currentPageType: this.currentPageType
@@ -435,11 +435,11 @@ export default class AssetOptimizer {
     async preloadPageAssets(pageType) {
         const pageBundle = this.config.bundles[pageType];
         if (!pageBundle) return;
-        
-        const preloadPromises = pageBundle.map(moduleName => 
+
+        const preloadPromises = pageBundle.map(moduleName =>
             this.preloadModule(moduleName)
         );
-        
+
         await Promise.all(preloadPromises);
         console.log(`Preloaded assets for page type: ${pageType}`);
     }
@@ -450,7 +450,7 @@ export default class AssetOptimizer {
         link.rel = 'prefetch';
         link.href = url;
         document.head.appendChild(link);
-        
+
         console.log(`Prefetching page: ${url}`);
     }
 
@@ -459,17 +459,17 @@ export default class AssetOptimizer {
         this.bundleCache.clear();
         this.loadedModules.clear();
         this.loadingPromises.clear();
-        
+
         console.log('Asset cache cleared');
     }
 
     cleanup() {
         this.clearCache();
-        
+
         // Remove preload links
         const preloadLinks = document.querySelectorAll('link[rel="modulepreload"], link[rel="prefetch"]');
         preloadLinks.forEach(link => link.remove());
-        
+
         console.log('AssetOptimizer cleaned up');
     }
 
@@ -490,14 +490,14 @@ export default class AssetOptimizer {
     static isSlowConnection() {
         const connection = AssetOptimizer.detectConnectionSpeed();
         return connection && (
-            connection.effectiveType === 'slow-2g' || 
+            connection.effectiveType === 'slow-2g' ||
             connection.effectiveType === '2g' ||
             connection.saveData
         );
     }
 
     static shouldDeferAssets() {
-        return AssetOptimizer.isSlowConnection() || 
-               (performance.memory && performance.memory.usedJSHeapSize > 50000000); // 50MB
+        return AssetOptimizer.isSlowConnection() ||
+            (performance.memory && performance.memory.usedJSHeapSize > 50000000); // 50MB
     }
 }

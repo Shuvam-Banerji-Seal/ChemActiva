@@ -19,7 +19,7 @@ export default class ErrorHandler {
             enableRetry: true,
             enableFallbacks: true,
             maxErrorLogSize: 100,
-            fallbackImagePath: '/public/assets/images/placeholder-product.jpg',
+            fallbackImagePath: '/assets/images/placeholder-product.jpg',
             networkCheckInterval: 5000, // 5 seconds
             errorReportingEndpoint: null // Can be set for remote error reporting
         };
@@ -113,9 +113,9 @@ export default class ErrorHandler {
 
     setupFallbackImages() {
         // Define fallback images for different product types
-        this.fallbackImages.set('domestic-oil-spill-kit', '/public/assets/images/products/fallback-domestic.jpg');
-        this.fallbackImages.set('marine-oil-spill-kit', '/public/assets/images/products/fallback-marine.jpg');
-        this.fallbackImages.set('cellulose-nanocrystals', '/public/assets/images/products/fallback-cellulose.jpg');
+        this.fallbackImages.set('domestic-oil-spill-kit', '/assets/images/products/fallback-domestic.jpg');
+        this.fallbackImages.set('marine-oil-spill-kit', '/assets/images/products/fallback-marine.jpg');
+        this.fallbackImages.set('cellulose-nanocrystals', '/assets/images/products/fallback-cellulose.jpg');
         this.fallbackImages.set('default', this.config.fallbackImagePath);
     }
 

@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/634</span>
+                <span class='fraction'>0/637</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/335</span>
+                <span class='fraction'>0/337</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/626</span>
+                <span class='fraction'>0/629</span>
             </div>
         
             
@@ -1835,7 +1835,16 @@
 <a name='L1770'></a><a href='#L1770'>1770</a>
 <a name='L1771'></a><a href='#L1771'>1771</a>
 <a name='L1772'></a><a href='#L1772'>1772</a>
-<a name='L1773'></a><a href='#L1773'>1773</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L1773'></a><a href='#L1773'>1773</a>
+<a name='L1774'></a><a href='#L1774'>1774</a>
+<a name='L1775'></a><a href='#L1775'>1775</a>
+<a name='L1776'></a><a href='#L1776'>1776</a>
+<a name='L1777'></a><a href='#L1777'>1777</a>
+<a name='L1778'></a><a href='#L1778'>1778</a>
+<a name='L1779'></a><a href='#L1779'>1779</a>
+<a name='L1780'></a><a href='#L1780'>1780</a>
+<a name='L1781'></a><a href='#L1781'>1781</a>
+<a name='L1782'></a><a href='#L1782'>1782</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1857,6 +1866,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1881,14 +1891,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1927,9 +1940,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2137,8 +2151,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -3626,6 +3644,7 @@ import NavigationStateManager from './NavigationStateManager.js';
 import AdaptiveLoadingManager from './AdaptiveLoadingManager.js';
 import CacheManager from './CacheManager.js';
 import LoadingStateManager from './LoadingStateManager.js';
+import ModernThemeManager from './ModernThemeManager.js';
 &nbsp;
 export default class App {
 <span class="fstat-no" title="function not covered" >    co</span>nstructor() {
@@ -3657,6 +3676,9 @@ export default class App {
             cacheManager: this.cacheManager,
             performanceManager: this.performanceManager
         });
+&nbsp;
+        // Initialize modern theme manager for enhanced theme switching
+<span class="cstat-no" title="statement not covered" >        this.modernThemeManager = new ModernThemeManager();</span>
 &nbsp;
         // Performance and caching are handled by PerformanceManager
         // which includes ServiceWorkerManager and AssetOptimizer
@@ -3699,7 +3721,8 @@ export default class App {
 <span class="cstat-no" title="statement not covered" >        console.log('[App] Initializing strategic asset preloading');</span>
 <span class="cstat-no" title="statement not covered" >        await this.initStrategicPreloading();</span>
         
-<span class="cstat-no" title="statement not covered" >        this.uiAnimations.initThemeToggle();</span>
+        // Theme initialization is now handled by ModernThemeManager in constructor
+        // this.uiAnimations.initThemeToggle(); // Replaced by ModernThemeManager
 &nbsp;
         // Use NavigationStateManager to make smart HeroLoader decisions
 <span class="cstat-no" title="statement not covered" >        await this.initSmartHeroLoader();</span>
@@ -3912,7 +3935,11 @@ export default class App {
         }
         // Internal navigation - use smart logic
         else <span class="cstat-no" title="statement not covered" >if (factors.navigationMethod === 'link' || factors.navigationMethod === 'back') {</span>
-<span class="cstat-no" title="statement not covered" >            if (factors.assetsCached &amp;&amp; factors.isRecentReturn) {</span>
+            // CRITICAL: Respect basic skip recommendation for intra-page navigation
+<span class="cstat-no" title="statement not covered" >            if (factors.basicSkipRecommendation) {</span>
+<span class="cstat-no" title="statement not covered" >                shouldShow = false;</span>
+<span class="cstat-no" title="statement not covered" >                reasoning.push('Basic skip recommendation (likely intra-page navigation) - skipping loader');</span>
+            } else <span class="cstat-no" title="statement not covered" >if (factors.assetsCached &amp;&amp; factors.isRecentReturn) {</span>
 <span class="cstat-no" title="statement not covered" >                shouldShow = false;</span>
 <span class="cstat-no" title="statement not covered" >                reasoning.push('Recent return with cached assets - skipping for performance');</span>
             } else <span class="cstat-no" title="statement not covered" >if (factors.networkConditions.isSlowConnection) {</span>
@@ -5386,7 +5413,7 @@ export default class App {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-20T10:03:32.566Z
+                at 2025-07-20T10:51:59.766Z
             </div>
         <script src="prettify.js"></script>
         <script>

@@ -2,14 +2,17 @@
 import CacheManager from './CacheManager.js';
 import AssetPreloader from './AssetPreloader.js';
 import LoadingStateManager from './LoadingStateManager.js';
+import globalAssetCache from './GlobalAssetCache.js';
 
 export default class AssetLoadingManager {
     constructor(options = {}) {
         this.cacheManager = options.cacheManager || new CacheManager();
         this.loadingStateManager = options.loadingStateManager || new LoadingStateManager();
+        this.globalCache = globalAssetCache; // Use global cache for cross-page persistence
         this.assetPreloader = options.assetPreloader || new AssetPreloader({
             cacheManager: this.cacheManager,
-            loadingStateManager: this.loadingStateManager
+            loadingStateManager: this.loadingStateManager,
+            globalCache: this.globalCache
         });
         
         this.loadingPromises = new Map();
@@ -19,9 +22,7 @@ export default class AssetLoadingManager {
         
         this.criticalAssets = [
             '/assets/images/logo.png',
-            '/public/assets/images/logo.png',
-            './public/assets/images/logo.png',
-            '/public/assets/images/logo-small_size.png'
+            '/assets/images/logo-small_size.png'
         ];
         
         console.log('[AssetLoadingManager] Initialized with CacheManager and AssetPreloader');
@@ -128,10 +129,23 @@ export default class AssetLoadingManager {
             return this.loadingPromises.get(cacheKey);
         }
 
-        // Check cache first using CacheManager
+        // PRIORITY: Check global cache first (cross-page persistence)
+        const globalCachedAsset = this.globalCache.get(cacheKey);
+        if (globalCachedAsset) {
+            console.log(`[AssetLoadingManager] Using global cached asset: ${assetUrl}`);
+            return globalCachedAsset;
+        }
+
+        // Check local cache using CacheManager
         const cachedAsset = this.cacheManager.get(assetUrl);
         if (cachedAsset) {
-            console.log(`[AssetLoadingManager] Using cached asset: ${assetUrl}`);
+            console.log(`[AssetLoadingManager] Using local cached asset: ${assetUrl}`);
+            // Also store in global cache for future cross-page access
+            this.globalCache.set(cacheKey, cachedAsset, {
+                type: cachedAsset.type,
+                priority: options.priority || 'normal',
+                persistent: options.priority === 'critical'
+            });
             return cachedAsset;
         }
 
@@ -172,6 +186,14 @@ export default class AssetLoadingManager {
                         attempts: attempts + 1
                     }
                 });
+
+                // ALSO store in global cache for cross-page persistence
+                this.globalCache.set(cacheKey, asset, {
+                    type: asset.type,
+                    priority: options.priority || 'normal',
+                    persistent: options.priority === 'critical'
+                });
+
                 this.retryAttempts.delete(cacheKey);
                 
                 return asset;

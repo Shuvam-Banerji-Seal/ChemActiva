@@ -3,6 +3,7 @@
 import * as THREE from 'three';
 import { gsap } from 'gsap';
 import AssetLoadingManager from './AssetLoadingManager.js';
+import globalAssetCache from './GlobalAssetCache.js';
 
 const IS_MOBILE = window.innerWidth <= 768;
 const PARTICLE_COUNT = IS_MOBILE ? 3000 : 5500;
@@ -100,46 +101,133 @@ export default class HeroLoader {
     }
 
     async loadLogoImage() {
-        console.log('[HeroLoader] Starting logo loading with asset manager');
+        console.log('[HeroLoader] Starting PRIORITY logo loading');
         this.logoLoadingState = 'loading';
         this.showLogoLoadingState();
         
+        // PRIORITY: Try to load logo from browser cache first (fastest)
+        const cachedLogo = await this.tryLoadCachedLogo();
+        if (cachedLogo) {
+            console.log('[HeroLoader] Logo loaded from browser cache (instant)');
+            this.logoImage = cachedLogo;
+            this.logoLoadingState = 'loaded';
+            this.processLoadedLogo();
+            this.hideLogoLoadingState();
+            return;
+        }
+        
         try {
-            // First, try to get logo from asset manager (with preloading and caching)
-            const logoAsset = await this.assetManager.getAvailableLogo();
+            // Second priority: Try asset manager with shorter timeout for logo
+            const logoAsset = await Promise.race([
+                this.assetManager.getAvailableLogo(),
+                this.createTimeout(1500) // 1.5s timeout for logo specifically
+            ]);
             
             if (logoAsset && logoAsset.element) {
                 console.log('[HeroLoader] Logo loaded via asset manager');
                 this.logoImage = logoAsset.element;
                 this.logoLoadingState = 'loaded';
-                
-                // Create canvas to analyze the image
-                this.logoCanvas = document.createElement('canvas');
-                this.logoContext = this.logoCanvas.getContext('2d');
-                
-                const maxSize = IS_MOBILE ? 150 : 200;
-                const scale = Math.min(maxSize / this.logoImage.width, maxSize / this.logoImage.height);
-                
-                this.logoCanvas.width = this.logoImage.width * scale;
-                this.logoCanvas.height = this.logoImage.height * scale;
-                
-                this.logoContext.drawImage(this.logoImage, 0, 0, this.logoCanvas.width, this.logoCanvas.height);
-                this.extractLogoPositions();
-                
+                this.processLoadedLogo();
                 this.hideLogoLoadingState();
                 return;
             }
         } catch (error) {
-            console.warn('[HeroLoader] Asset manager logo loading failed:', error);
+            console.warn('[HeroLoader] Asset manager logo loading failed or timed out:', error);
         }
         
-        // Fallback to original loading method if asset manager fails
-        console.log('[HeroLoader] Falling back to direct logo loading');
+        // Fallback: Direct logo loading with aggressive timeout
+        console.log('[HeroLoader] Using direct logo loading fallback');
         return new Promise((resolve) => {
             this.logoLoadAttempts = 0;
-            this.maxLogoAttempts = 3;
+            this.maxLogoAttempts = 2; // Reduced attempts for faster fallback
             this.attemptLogoLoad(resolve);
         });
+    }
+
+    /**
+     * Try to load logo from global cache first, then browser cache (fastest method)
+     */
+    async tryLoadCachedLogo() {
+        // FIRST: Try global cache (cross-page persistence)
+        try {
+            const globalCachedLogo = await globalAssetCache.getAvailableLogo();
+            if (globalCachedLogo && globalCachedLogo.element) {
+                console.log('[HeroLoader] Logo found in global cache (instant)');
+                return globalCachedLogo.element;
+            }
+        } catch (error) {
+            console.log('[HeroLoader] No logo in global cache, trying browser cache');
+        }
+
+        // SECOND: Try browser cache
+        const logoPaths = [
+            '/assets/images/logo.png',
+            '/assets/images/logo-small_size.png'
+        ];
+        
+        for (const logoPath of logoPaths) {
+            try {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                
+                // Use a very short timeout for cache check
+                const loadPromise = new Promise((resolve, reject) => {
+                    img.onload = () => resolve(img);
+                    img.onerror = () => reject(new Error('Not in cache'));
+                    img.src = logoPath;
+                });
+                
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Cache timeout')), 300)
+                );
+                
+                const cachedImg = await Promise.race([loadPromise, timeoutPromise]);
+                
+                // Store successful browser cache hit in global cache for next time
+                globalAssetCache.set(`logo-${logoPath.replace(/[^a-zA-Z0-9]/g, '_')}`, {
+                    type: 'image',
+                    element: cachedImg,
+                    url: logoPath,
+                    width: cachedImg.width,
+                    height: cachedImg.height
+                }, { type: 'image', priority: 'critical', persistent: true });
+                
+                return cachedImg;
+                
+            } catch (error) {
+                // Continue to next path
+                continue;
+            }
+        }
+        
+        return null;
+    }
+
+    /**
+     * Process loaded logo image (extracted from loadLogoImage for reuse)
+     */
+    processLoadedLogo() {
+        // Create canvas to analyze the image
+        this.logoCanvas = document.createElement('canvas');
+        this.logoContext = this.logoCanvas.getContext('2d');
+        
+        const maxSize = IS_MOBILE ? 150 : 200;
+        const scale = Math.min(maxSize / this.logoImage.width, maxSize / this.logoImage.height);
+        
+        this.logoCanvas.width = this.logoImage.width * scale;
+        this.logoCanvas.height = this.logoImage.height * scale;
+        
+        this.logoContext.drawImage(this.logoImage, 0, 0, this.logoCanvas.width, this.logoCanvas.height);
+        this.extractLogoPositions();
+    }
+
+    /**
+     * Create a timeout promise for racing with other promises
+     */
+    createTimeout(ms) {
+        return new Promise((_, reject) => 
+            setTimeout(() => reject(new Error(`Timeout after ${ms}ms`)), ms)
+        );
     }
 
     async attemptLogoLoad(resolve) {
@@ -189,12 +277,9 @@ export default class HeroLoader {
         // Try different path variations with exponential backoff
         const paths = [
             this.logoPath,
-            '/public/assets/images/logo.png',
-            './public/assets/images/logo.png',
             '/assets/images/logo.png',
             './assets/images/logo.png',
-            '/public/assets/images/logo-small_size.png',
-            './public/assets/images/logo-small_size.png'
+            '/assets/images/logo-small_size.png'
         ];
         
         this.tryLoadImagePaths(img, paths, 0, resolve);

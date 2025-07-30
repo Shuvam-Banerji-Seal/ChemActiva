@@ -13,18 +13,44 @@
     --lm-shadow-color: rgba(39, 57, 28, 0.1);
     --lm-border: rgba(50, 142, 110, 0.15);  
 
-    /* Dark Mode Palette */
-    --dm-bg-deep: #18230f;
-    --dm-bg-medium: #27391C;
-    --dm-accent-primary: #258F38;
-    --dm-accent-secondary: #32DF6E;
-    --dm-text-primary: #E1EEBC;
-    --dm-text-secondary: #90C67C;
-    --dm-glow-color: #328E6E;
-    --dm-card-border: rgba(50, 142, 110, 0.3);
-    --dm-shadow-color: rgba(0,0,0,0.3);
-    --dm-backdrop-filter-blur: 10px;
-    --dm-border: rgba(50, 142, 110, 0.2);
+    /* Enhanced Dark Mode Palette - Deep Forest Greens */
+    --dm-bg-deep: #0a1208;
+    --dm-bg-medium: #1a2617;
+    --dm-bg-card: #243329;
+    --dm-bg-overlay: rgba(26, 38, 23, 0.85);
+    --dm-accent-primary: #258f38;
+    --dm-accent-secondary: #32df6e;
+    --dm-accent-vibrant: #4eff7a;
+    --dm-text-primary: #f0f7e8;
+    --dm-text-secondary: #b8d4a8;
+    --dm-text-accent: #7dd87f;
+    --dm-glow-color: #32df6e;
+    --dm-glow-soft: #258f38;
+    --dm-card-border: rgba(50, 223, 110, 0.2);
+    --dm-shadow-color: rgba(0, 0, 0, 0.4);
+    --dm-shadow-glow: rgba(50, 223, 110, 0.15);
+    --dm-backdrop-filter-blur: 12px;
+    --dm-border: rgba(50, 223, 110, 0.25);
+
+    /* Enhanced Dark Mode Gradients */
+    --dm-gradient-primary: linear-gradient(135deg, #258f38 0%, #32df6e 100%);
+    --dm-gradient-secondary: linear-gradient(135deg, #1a2617 0%, #243329 100%);
+    --dm-gradient-card: linear-gradient(135deg, rgba(26, 38, 23, 0.8) 0%, rgba(36, 51, 41, 0.6) 100%);
+    --dm-gradient-overlay: linear-gradient(135deg, rgba(10, 18, 8, 0.95) 0%, rgba(26, 38, 23, 0.85) 100%);
+    --dm-gradient-glow: radial-gradient(circle at center, rgba(50, 223, 110, 0.3) 0%, transparent 70%);
+
+    /* Glass-morphism Variables */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --glass-backdrop-blur: 10px;
+    
+    /* Dark Mode Glass-morphism */
+    --dm-glass-bg: rgba(26, 38, 23, 0.3);
+    --dm-glass-border: rgba(50, 223, 110, 0.15);
+    --dm-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --dm-glass-backdrop-blur: 16px;
+    --dm-glass-glow: 0 0 20px rgba(50, 223, 110, 0.1);
 
     /* Font Stacks */
     --font-primary: 'Poppins', sans-serif;
@@ -43,19 +69,35 @@
     --color-shadow: var(--lm-shadow-color);
     --color-border: var(--lm-border);
     --backdrop-filter-blur: 0px; 
-    --section-bg-odd: #f0f7e4; 
+    --section-bg-odd: #f0f7e4;
     
-    /* RGB Values (Populated by JS for opacity) */
+    /* Enhanced Gradient Variables */
+    --gradient-primary: linear-gradient(135deg, var(--lm-accent-primary) 0%, var(--lm-accent-secondary) 100%);
+    --gradient-card: linear-gradient(135deg, var(--lm-bg-medium) 0%, var(--lm-bg-deep) 100%);
+    --gradient-overlay: linear-gradient(135deg, rgba(225, 238, 188, 0.95) 0%, rgba(244, 248, 237, 0.85) 100%);
+    
+    /* Glass-morphism Semantic Variables */
+    --glass-background: var(--glass-bg);
+    --glass-border-color: var(--glass-border);
+    --glass-shadow-effect: var(--glass-shadow);
+    --glass-blur: var(--glass-backdrop-blur);
+    
+    /* RGB Values for Enhanced Colors */
     --lm-accent-primary-rgb-values: 50, 142, 110;
-    --dm-bg-deep-rgb: 24, 35, 15;
-    --dm-bg-medium-rgb: 39, 57, 28;
-    --dm-glow-color-rgb-values: 50, 142, 110;
+    --lm-accent-secondary-rgb-values: 103, 174, 110;
+    --dm-bg-deep-rgb: 10, 18, 8;
+    --dm-bg-medium-rgb: 26, 38, 23;
+    --dm-bg-card-rgb: 36, 51, 41;
+    --dm-accent-primary-rgb: 37, 143, 56;
+    --dm-accent-secondary-rgb: 50, 223, 110;
+    --dm-glow-color-rgb-values: 50, 223, 110;
     --color-accent-rgb-values: var(--lm-accent-primary-rgb-values);
 }
 
 body.dark-mode {
+    /* Enhanced Dark Mode Color Overrides */
     --color-background: var(--dm-bg-deep);
-    --color-background-card: rgba(var(--dm-bg-medium-rgb), 0.6); 
+    --color-background-card: var(--dm-bg-card);
     --color-text-primary: var(--dm-text-primary);
     --color-text-secondary: var(--dm-text-secondary);
     --color-accent-primary: var(--dm-accent-primary);
@@ -65,8 +107,85 @@ body.dark-mode {
     --color-shadow: var(--dm-shadow-color);
     --color-border: var(--dm-border);
     --backdrop-filter-blur: var(--dm-backdrop-filter-blur);
-    --section-bg-odd: #202d16;
+    --section-bg-odd: rgba(var(--dm-bg-medium-rgb), 0.8);
     --color-accent-rgb-values: var(--dm-glow-color-rgb-values);
+    
+    /* Enhanced Dark Mode Gradients */
+    --gradient-primary: var(--dm-gradient-primary);
+    --gradient-card: var(--dm-gradient-card);
+    --gradient-overlay: var(--dm-gradient-overlay);
+    --gradient-glow: var(--dm-gradient-glow);
+    
+    /* Dark Mode Glass-morphism */
+    --glass-background: var(--dm-glass-bg);
+    --glass-border-color: var(--dm-glass-border);
+    --glass-shadow-effect: var(--dm-glass-shadow);
+    --glass-blur: var(--dm-glass-backdrop-blur);
+    --glass-glow-effect: var(--dm-glass-glow);
+    
+    /* Enhanced Shadow System */
+    --shadow-soft: 0 4px 16px var(--dm-shadow-color);
+    --shadow-medium: 0 8px 24px var(--dm-shadow-color);
+    --shadow-strong: 0 12px 32px var(--dm-shadow-color);
+    --shadow-glow: 0 0 16px var(--dm-shadow-glow);
+    --shadow-glow-strong: 0 0 24px var(--dm-shadow-glow);
+}
+
+/* Modern Dark Mode Utility Classes */
+.glass-card {
+    background: var(--glass-background);
+    border: 1px solid var(--glass-border-color);
+    box-shadow: var(--glass-shadow-effect);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+body.dark-mode .glass-card {
+    box-shadow: var(--glass-shadow-effect), var(--glass-glow-effect);
+}
+
+.gradient-bg {
+    background: var(--gradient-card);
+}
+
+.glow-effect {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+body.dark-mode .glow-effect:hover {
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+}
+
+.text-glow {
+    transition: text-shadow 0.3s ease;
+}
+
+body.dark-mode .text-glow:hover {
+    text-shadow: 0 0 8px var(--dm-glow-color);
+}
+
+/* Enhanced Accessibility - High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    body.dark-mode {
+        --dm-text-primary: #ffffff;
+        --dm-text-secondary: #e0e0e0;
+        --dm-card-border: rgba(50, 223, 110, 0.4);
+        --dm-border: rgba(50, 223, 110, 0.4);
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .theme-toggle-label .toggle-ball,
+    .glow-effect,
+    .text-glow {
+        transition: none;
+    }
+    
+    body.dark-mode .glow-effect:hover {
+        transform: none;
+    }
 }
 
 /* Theme Switcher Styling */

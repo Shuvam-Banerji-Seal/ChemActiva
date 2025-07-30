@@ -1,0 +1,682 @@
+client:789 [vite] connecting...
+client:912 [vite] connected.
+GlobalAssetCache.js:22 [GlobalAssetCache] Initialized
+NavigationOptimizer.js:34 [NavigationOptimizer] Initializing navigation optimization
+NavigationOptimizer.js:332 [NavigationOptimizer] Preloading critical assets
+NavigationOptimizer.js:46 [NavigationOptimizer] Navigation optimization initialized
+ErrorRecoveryManager.js:92 [ErrorRecoveryManager] Initialized with comprehensive recovery strategies
+UserFeedbackManager.js:44 [UserFeedbackManager] Initialized with accessibility and retry features
+ErrorHandler.js:52 ErrorHandler initialized
+NavigationStateManager.js:162 [NavigationStateManager] Navigation tracked: Object
+NavigationStateManager.js:19 [NavigationStateManager] Initialized
+CacheManager.js:45 [CacheManager] Initialized with max size: 50 max memory: 50 MB
+AssetPreloader.js:61 [AssetPreloader] Initialized with 6 critical assets
+AssetLoadingManager.js:28 [AssetLoadingManager] Initialized with CacheManager and AssetPreloader
+CacheManager.js:45 [CacheManager] Initialized with max size: 50 max memory: 50 MB
+AdaptiveLoadingManager.js:277 AdaptiveLoadingManager: Device capabilities - Memory: 4GB, CPU: 10 cores, Low-end: false, High-end: true
+AdaptiveLoadingManager.js:115 AdaptiveLoadingManager: Network Information API not available, using fallback detection
+AdaptiveLoadingManager.js:218 AdaptiveLoadingManager: Network condition estimated - 4g, 86.60Mbps
+AdaptiveLoadingManager.js:312 AdaptiveLoadingManager: Adapted to 4g network - Strategy: full, Image quality: high
+AdaptiveLoadingManager.js:400 AdaptiveLoadingManager: Adjusted 0 images to high quality
+AdaptiveLoadingManager.js:476 AdaptiveLoadingManager: Enabled video autoplay for 0 videos
+AdaptiveLoadingManager.js:502 AdaptiveLoadingManager: Enabled animations
+AdaptiveLoadingManager.js:514 AdaptiveLoadingManager: Updated lazy loading threshold to 0.1
+AdaptiveLoadingManager.js:346 AdaptiveLoadingManager: Setting max concurrent requests to 12
+AdaptiveLoadingManager.js:529 AdaptiveLoadingManager: Updated request timeout to 3000ms
+AdaptiveLoadingManager.js:544 AdaptiveLoadingManager: Updated preload distance to 400px
+CacheManager.js:45 [CacheManager] Initialized with max size: 50 max memory: 50 MB
+AssetPreloader.js:61 [AssetPreloader] Initialized with 6 critical assets
+AssetLoadingManager.js:28 [AssetLoadingManager] Initialized with CacheManager and AssetPreloader
+HeroLoader.js:100 [HeroLoader] Initialized successfully
+AssetOptimizer.js:91 AssetOptimizer initializing...
+AssetOptimizer.js:124 Detected page type: homepage
+AssetOptimizer.js:144 Critical assets identified: Array(1)
+AssetOptimizer.js:173 Preloading module: PerformanceManager
+AssetOptimizer.js:158 Critical assets preloaded
+AssetOptimizer.js:355 Creating virtual bundle: homepage
+AssetOptimizer.js:264 Module configuration not found: HeroLoader
+loadModule @ AssetOptimizer.js:264
+AssetOptimizer.js:264 Module configuration not found: SceneManager
+loadModule @ AssetOptimizer.js:264
+AssetOptimizer.js:264 Module configuration not found: TeamManager
+loadModule @ AssetOptimizer.js:264
+AssetOptimizer.js:264 Module configuration not found: JourneyManager
+loadModule @ AssetOptimizer.js:264
+AssetOptimizer.js:264 Module configuration not found: ScrollAnimations
+loadModule @ AssetOptimizer.js:264
+AssetOptimizer.js:100 AssetOptimizer initialized successfully
+ServiceWorkerManager.js:68 Service Worker not supported
+init @ ServiceWorkerManager.js:68
+PerformanceManager.js:139 PerformanceManager initialization failed: TypeError: this.initResourceLoadTracking is not a function
+    at PerformanceManager.init (PerformanceManager.js:122:18)
+    at async App.init (App.js:88:9)
+init @ PerformanceManager.js:139
+App.js:91 [App] Initializing navigation optimization
+App.js:95 [App] Initializing adaptive loading based on network conditions
+App.js:135 [App] Adaptive loading initialized
+App.js:99 [App] Initializing strategic asset preloading
+App.js:590 [App] Starting strategic asset preloading
+AssetLoadingManager.js:35 [AssetLoadingManager] Preloading critical assets via AssetPreloader
+AssetPreloader.js:68 [AssetPreloader] Starting critical asset preloading
+CacheManager.js:83 [CacheManager] Cached css: /src/css/base.css (106 Bytes, priority: 3)
+AssetPreloader.js:238 [AssetPreloader] Successfully preloaded: /src/css/base.css
+CacheManager.js:83 [CacheManager] Cached css: /src/css/theme.css (108 Bytes, priority: 3)
+AssetPreloader.js:238 [AssetPreloader] Successfully preloaded: /src/css/theme.css
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: logo-main (image)
+CacheManager.js:83 [CacheManager] Cached image: /assets/images/logo.png (1.26 MB, priority: 4)
+AssetPreloader.js:238 [AssetPreloader] Successfully preloaded: /assets/images/logo.png
+CacheManager.js:83 [CacheManager] Cached image: /assets/images/logo-small_size.png (19.69 KB, priority: 4)
+AssetPreloader.js:238 [AssetPreloader] Successfully preloaded: /assets/images/logo-small_size.png
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: logo-small (image)
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-main
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-small
+ErrorRecoveryManager.js:146 [ErrorRecoveryManager] Failed to preload fallback: /assets/images/placeholder-product.jpg
+preloadFallbackAssets @ ErrorRecoveryManager.js:146
+AssetPreloader.js:274 [AssetPreloader] Attempt 1 failed for: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 1 for: /assets/images/user1.jpg
+AssetPreloader.js:274 [AssetPreloader] Attempt 1 failed for: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 1 for: /assets/images/user2.jpg
+CacheManager.js:83 [CacheManager] Cached logo: /assets/images/logo-small_size.png (6.7 KB, priority: 4)
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-main
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-main
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: blog-data (data)
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: product-domestic-kit (image)
+AssetPreloader.js:274 [AssetPreloader] Attempt 2 failed for: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 2 for: /assets/images/user1.jpg
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: product-marine-kit (image)
+AssetPreloader.js:274 [AssetPreloader] Attempt 2 failed for: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 2 for: /assets/images/user2.jpg
+AssetPreloader.js:274 [AssetPreloader] Attempt 3 failed for: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 3 for: /assets/images/user1.jpg
+AssetPreloader.js:274 [AssetPreloader] Attempt 3 failed for: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 3 for: /assets/images/user2.jpg
+AssetPreloader.js:274 [AssetPreloader] Attempt 4 failed for: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+LoadingStateManager.js:201 LoadingStateManager: Asset _assets_images_user1_jpg failed to load: Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+handleLoadingFailure @ LoadingStateManager.js:201
+preloadAsset @ AssetPreloader.js:243
+AssetPreloader.js:246 [AssetPreloader] Failed to preload: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+preloadAsset @ AssetPreloader.js:246
+AssetPreloader.js:274 [AssetPreloader] Attempt 4 failed for: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+LoadingStateManager.js:201 LoadingStateManager: Asset _assets_images_user2_jpg failed to load: Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+handleLoadingFailure @ LoadingStateManager.js:201
+preloadAsset @ AssetPreloader.js:243
+AssetPreloader.js:246 [AssetPreloader] Failed to preload: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+preloadAsset @ AssetPreloader.js:246
+AssetPreloader.js:86 [AssetPreloader] Critical asset preloading completed: 4/6 successful
+CacheManager.js:156 [CacheManager] Warming cache with critical assets
+AssetLoadingManager.js:39 [AssetLoadingManager] Critical asset preloading completed: 4/6 successful
+App.js:594 [App] Critical assets preloaded: success
+AssetLoadingManager.js:110 [AssetLoadingManager] Warming cache for critical assets
+CacheManager.js:156 [CacheManager] Warming cache with critical assets
+CacheManager.js:173 [CacheManager] All critical assets already cached
+CacheManager.js:156 [CacheManager] Warming cache with critical assets
+CacheManager.js:190 [CacheManager] Failed to preload asset: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (CacheManager.js:229:24)
+preloadAsset @ CacheManager.js:190
+await in preloadAsset
+warmCache @ CacheManager.js:164
+warmCacheForCriticalAssets @ AssetPreloader.js:510
+warmCache @ AssetLoadingManager.js:114
+await in warmCache
+initStrategicPreloading @ App.js:597
+CacheManager.js:190 [CacheManager] Failed to preload asset: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (CacheManager.js:229:24)
+preloadAsset @ CacheManager.js:190
+await in preloadAsset
+warmCache @ CacheManager.js:164
+warmCacheForCriticalAssets @ AssetPreloader.js:510
+preloadCriticalAssets @ AssetPreloader.js:90
+CacheManager.js:190 [CacheManager] Failed to preload asset: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (CacheManager.js:229:24)
+preloadAsset @ CacheManager.js:190
+await in preloadAsset
+warmCache @ CacheManager.js:164
+warmCacheForCriticalAssets @ AssetPreloader.js:510
+warmCache @ AssetLoadingManager.js:114
+await in warmCache
+initStrategicPreloading @ App.js:597
+CacheManager.js:171 [CacheManager] Cache warming completed: 0/2 assets loaded
+AssetLoadingManager.js:115 [AssetLoadingManager] Cache warming completed
+App.js:605 [App] Strategic asset preloading initialized
+NavigationStateManager.js:501 [NavigationStateManager] Intra-page navigation detected - skipping HeroLoader
+App.js:223 [App] Navigation context: {currentPage: {…}, previousPage: {…}, navigationMethod: 'link', assetsRequired: Array(5), cacheStatus: {…}, …}
+App.js:224 [App] Should skip HeroLoader: true
+App.js:260 [App] Skipping HeroLoader - Reason: Basic skip recommendation (likely intra-page navigation) - skipping loader
+App.js:559 [App] HeroLoader hidden
+App.js:567 [App] Ensuring homepage assets are loaded without HeroLoader
+AssetLoadingManager.js:35 [AssetLoadingManager] Preloading critical assets via AssetPreloader
+AssetPreloader.js:68 [AssetPreloader] Starting critical asset preloading
+AssetPreloader.js:196 [AssetPreloader] Asset already cached: /assets/images/logo.png
+CacheManager.js:119 [CacheManager] Cache hit: /assets/images/logo.png (1 hits)
+AssetPreloader.js:196 [AssetPreloader] Asset already cached: /assets/images/logo-small_size.png
+CacheManager.js:119 [CacheManager] Cache hit: /assets/images/logo-small_size.png (1 hits)
+AssetPreloader.js:196 [AssetPreloader] Asset already cached: /src/css/base.css
+CacheManager.js:119 [CacheManager] Cache hit: /src/css/base.css (1 hits)
+AssetPreloader.js:196 [AssetPreloader] Asset already cached: /src/css/theme.css
+CacheManager.js:119 [CacheManager] Cache hit: /src/css/theme.css (1 hits)
+CacheManager.js:190 [CacheManager] Failed to preload asset: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (CacheManager.js:229:24)
+preloadAsset @ CacheManager.js:190
+await in preloadAsset
+warmCache @ CacheManager.js:164
+warmCacheForCriticalAssets @ AssetPreloader.js:510
+preloadCriticalAssets @ AssetPreloader.js:90
+CacheManager.js:171 [CacheManager] Cache warming completed: 0/2 assets loaded
+AssetPreloader.js:274 [AssetPreloader] Attempt 1 failed for: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+await in performPreload
+preloadAsset @ AssetPreloader.js:217
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 1 for: /assets/images/user1.jpg
+AssetPreloader.js:274 [AssetPreloader] Attempt 1 failed for: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+await in performPreload
+preloadAsset @ AssetPreloader.js:217
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 1 for: /assets/images/user2.jpg
+AssetLoadingManager.js:78 [AssetLoadingManager] Starting pattern-based preloading
+AssetPreloader.js:105 [AssetPreloader] Starting pattern-based preloading
+CacheManager.js:83 [CacheManager] Cached image: /assets/images/products/Domestic_oil_spill_kit_1.webp (22.78 MB, priority: 2)
+AssetPreloader.js:238 [AssetPreloader] Successfully preloaded: /assets/images/products/Domestic_oil_spill_kit_1.webp
+CacheManager.js:83 [CacheManager] Cached document: /assets/resources/domestic-oil-spill-kit-datasheet.pdf (817 Bytes, priority: 1)
+AssetPreloader.js:238 [AssetPreloader] Successfully preloaded: /assets/resources/domestic-oil-spill-kit-datasheet.pdf
+AssetPreloader.js:129 [AssetPreloader] Pattern-based preloading completed: 2/2 successful
+AssetLoadingManager.js:82 [AssetLoadingManager] Pattern-based preloading completed: 2/2 successful
+App.js:628 [App] Pattern-based preloading completed: 2/2 assets
+AssetPreloader.js:274 [AssetPreloader] Attempt 2 failed for: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+await in performPreload
+preloadAsset @ AssetPreloader.js:217
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 2 for: /assets/images/user1.jpg
+AssetPreloader.js:274 [AssetPreloader] Attempt 2 failed for: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+await in performPreload
+preloadAsset @ AssetPreloader.js:217
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 2 for: /assets/images/user2.jpg
+AssetLoadingManager.js:94 [AssetLoadingManager] Starting priority-based preloading (min priority: 3)
+AssetPreloader.js:144 [AssetPreloader] Starting priority-based preloading (min priority: 3)
+AssetPreloader.js:196 [AssetPreloader] Asset already cached: /assets/images/logo.png
+CacheManager.js:119 [CacheManager] Cache hit: /assets/images/logo.png (2 hits)
+AssetPreloader.js:196 [AssetPreloader] Asset already cached: /assets/images/logo-small_size.png
+CacheManager.js:119 [CacheManager] Cache hit: /assets/images/logo-small_size.png (2 hits)
+AssetPreloader.js:202 [AssetPreloader] Asset already being preloaded: /assets/images/user1.jpg
+AssetPreloader.js:202 [AssetPreloader] Asset already being preloaded: /assets/images/user2.jpg
+AssetPreloader.js:196 [AssetPreloader] Asset already cached: /src/css/base.css
+CacheManager.js:119 [CacheManager] Cache hit: /src/css/base.css (2 hits)
+AssetPreloader.js:196 [AssetPreloader] Asset already cached: /src/css/theme.css
+CacheManager.js:119 [CacheManager] Cache hit: /src/css/theme.css (2 hits)
+AssetPreloader.js:178 [AssetPreloader] Priority-based preloading completed: 4/6 successful
+AssetLoadingManager.js:98 [AssetLoadingManager] Priority-based preloading completed: 4/6 successful
+App.js:645 [App] Priority-based preloading completed: 4/6 assets
+AssetPreloader.js:274 [AssetPreloader] Attempt 3 failed for: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+await in performPreload
+preloadAsset @ AssetPreloader.js:217
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 3 for: /assets/images/user1.jpg
+AssetPreloader.js:274 [AssetPreloader] Attempt 3 failed for: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+await in performPreload
+preloadAsset @ AssetPreloader.js:217
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+AssetPreloader.js:266 [AssetPreloader] Retry attempt 3 for: /assets/images/user2.jpg
+ErrorRecoveryManager.js:792 [ErrorRecoveryManager] JavaScript error: TypeError: event.target.closest is not a function
+    at HTMLDocument.<anonymous> (NavigationOptimizer.js:63:39)
+handleJavaScriptError @ ErrorRecoveryManager.js:792
+(anonymous) @ ErrorRecoveryManager.js:129
+ErrorRecoveryManager.js:161 [ErrorRecoveryManager] Starting recovery for javascript: event.target.closest is not a function
+ErrorHandler.js:712 [JavaScript Error] {message: 'Uncaught TypeError: event.target.closest is not a function', filename: 'http://10.20.74.136:3001/src/js/NavigationOptimizer.js', lineno: 63, colno: 39, error: 'TypeError: event.target.closest is not a function\n….74.136:3001/src/js/NavigationOptimizer.js:63:39)'}
+logError @ ErrorHandler.js:712
+(anonymous) @ ErrorHandler.js:58
+NavigationOptimizer.js:63 Uncaught TypeError: event.target.closest is not a function
+    at HTMLDocument.<anonymous> (NavigationOptimizer.js:63:39)
+(anonymous) @ NavigationOptimizer.js:63
+ErrorRecoveryManager.js:202 [ErrorRecoveryManager] Retry attempt 2/2 after 2419.4113972986297ms
+ErrorRecoveryManager.js:792 [ErrorRecoveryManager] JavaScript error: TypeError: event.target.matches is not a function
+    at HTMLDocument.<anonymous> (AssetOptimizer.js:219:30)
+handleJavaScriptError @ ErrorRecoveryManager.js:792
+(anonymous) @ ErrorRecoveryManager.js:129
+ErrorRecoveryManager.js:161 [ErrorRecoveryManager] Starting recovery for javascript: event.target.matches is not a function
+ErrorRecoveryManager.js:202 [ErrorRecoveryManager] Retry attempt 2/2 after 2639.1393760786705ms
+ErrorHandler.js:712 [JavaScript Error] {message: 'Uncaught TypeError: event.target.matches is not a function', filename: 'http://10.20.74.136:3001/src/js/AssetOptimizer.js', lineno: 219, colno: 30, error: 'TypeError: event.target.matches is not a function\n…0.20.74.136:3001/src/js/AssetOptimizer.js:219:30)'}
+logError @ ErrorHandler.js:712
+(anonymous) @ ErrorHandler.js:58
+AssetOptimizer.js:219 Uncaught TypeError: event.target.matches is not a function
+    at HTMLDocument.<anonymous> (AssetOptimizer.js:219:30)
+(anonymous) @ AssetOptimizer.js:219
+AssetPreloader.js:274 [AssetPreloader] Attempt 4 failed for: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+await in performPreload
+preloadAsset @ AssetPreloader.js:217
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+LoadingStateManager.js:201 LoadingStateManager: Asset _assets_images_user1_jpg failed to load: Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+handleLoadingFailure @ LoadingStateManager.js:201
+preloadAsset @ AssetPreloader.js:243
+await in preloadAsset
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+AssetPreloader.js:246 [AssetPreloader] Failed to preload: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+preloadAsset @ AssetPreloader.js:246
+await in preloadAsset
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+AssetPreloader.js:274 [AssetPreloader] Attempt 4 failed for: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+performPreload @ AssetPreloader.js:274
+await in performPreload
+preloadAsset @ AssetPreloader.js:217
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+LoadingStateManager.js:201 LoadingStateManager: Asset _assets_images_user2_jpg failed to load: Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+handleLoadingFailure @ LoadingStateManager.js:201
+preloadAsset @ AssetPreloader.js:243
+await in preloadAsset
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+AssetPreloader.js:246 [AssetPreloader] Failed to preload: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (AssetPreloader.js:323:20)
+preloadAsset @ AssetPreloader.js:246
+await in preloadAsset
+(anonymous) @ AssetPreloader.js:75
+preloadCriticalAssets @ AssetPreloader.js:74
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+AssetPreloader.js:86 [AssetPreloader] Critical asset preloading completed: 4/6 successful
+CacheManager.js:156 [CacheManager] Warming cache with critical assets
+AssetLoadingManager.js:39 [AssetLoadingManager] Critical asset preloading completed: 4/6 successful
+App.js:573 [App] Critical homepage assets preloaded: true
+HeroLoader.js:17 [HeroLoader] Static preloading of logos initiated
+CacheManager.js:45 [CacheManager] Initialized with max size: 50 max memory: 50 MB
+AssetPreloader.js:61 [AssetPreloader] Initialized with 6 critical assets
+AssetLoadingManager.js:28 [AssetLoadingManager] Initialized with CacheManager and AssetPreloader
+AssetLoadingManager.js:486 [AssetLoadingManager] Preloading logo assets
+AssetLoadingManager.js:175 [AssetLoadingManager] Loading /assets/images/logo.png (attempt 1/3)
+AssetLoadingManager.js:175 [AssetLoadingManager] Loading /assets/images/logo-small_size.png (attempt 1/3)
+CacheManager.js:83 [CacheManager] Cached image: /assets/images/logo.png (1.26 MB, priority: 4)
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: _assets_images_logo_png (image)
+CacheManager.js:190 [CacheManager] Failed to preload asset: /assets/images/user1.jpg Error: Failed to preload image: /assets/images/user1.jpg
+    at img.onerror (CacheManager.js:229:24)
+preloadAsset @ CacheManager.js:190
+await in preloadAsset
+warmCache @ CacheManager.js:164
+warmCacheForCriticalAssets @ AssetPreloader.js:510
+preloadCriticalAssets @ AssetPreloader.js:90
+await in preloadCriticalAssets
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+CacheManager.js:190 [CacheManager] Failed to preload asset: /assets/images/user2.jpg Error: Failed to preload image: /assets/images/user2.jpg
+    at img.onerror (CacheManager.js:229:24)
+preloadAsset @ CacheManager.js:190
+await in preloadAsset
+warmCache @ CacheManager.js:164
+warmCacheForCriticalAssets @ AssetPreloader.js:510
+preloadCriticalAssets @ AssetPreloader.js:90
+await in preloadCriticalAssets
+preloadCriticalAssets @ AssetLoadingManager.js:38
+ensureHomepageAssetsLoaded @ App.js:572
+initSmartHeroLoader @ App.js:266
+init @ App.js:106
+CacheManager.js:171 [CacheManager] Cache warming completed: 0/2 assets loaded
+CacheManager.js:83 [CacheManager] Cached image: /assets/images/logo-small_size.png (19.69 KB, priority: 4)
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: _assets_images_logo_small_size_png (image)
+AssetLoadingManager.js:505 [AssetLoadingManager] Successfully preloaded 2 logo variants
+HeroLoader.js:22 [HeroLoader] Successfully preloaded 2 logo variants
+App.js:578 [App] Logo preloading result: true
+App.js:1094 [App] Finalizing integration and applying cross-browser optimizations
+App.js:1124 [App] Optimizing loading managers for production
+AssetLoadingManager.js:532 [AssetLoadingManager] Starting comprehensive optimization
+CacheManager.js:318 [CacheManager] Starting cache optimization
+CacheManager.js:334 [CacheManager] Optimization complete: 6 → 6 entries, 24.04 MB → 24.04 MB
+AssetLoadingManager.js:544 [AssetLoadingManager] Optimization completed
+CacheManager.js:318 [CacheManager] Starting cache optimization
+CacheManager.js:334 [CacheManager] Optimization complete: 0 → 0 entries, 0 Bytes → 0 Bytes
+App.js:1168 [App] Loading managers optimized for production
+App.js:1175 [App] Applying cross-browser compatibility fixes
+App.js:1200 [App] Cross-browser fixes applied
+App.js:1305 [App] Implementing final performance optimizations
+App.js:1319 [App] Final performance optimizations applied
+App.js:1575 [App] Setting up production monitoring
+App.js:1611 [App] Production monitoring setup complete
+App.js:1109 [App] Final integration completed successfully
+NavigationOptimizer.js:132 [NavigationOptimizer] Preloading assets for homepage page: 6 assets
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-main
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-small
+NavigationOptimizer.js:132 [NavigationOptimizer] Preloading assets for homepage page: 6 assets
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-main
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-small
+NavigationOptimizer.js:132 [NavigationOptimizer] Preloading assets for homepage page: 6 assets
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-main
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-small
+NavigationOptimizer.js:132 [NavigationOptimizer] Preloading assets for products page: 4 assets
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-main
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: product-domestic-kit
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: product-marine-kit
+NavigationOptimizer.js:132 [NavigationOptimizer] Preloading assets for innovation page: 1 assets
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-main
+NavigationOptimizer.js:132 [NavigationOptimizer] Preloading assets for blog page: 2 assets
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-main
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: blog-data
+NavigationOptimizer.js:132 [NavigationOptimizer] Preloading assets for homepage page: 6 assets
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-main
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-small
+NavigationOptimizer.js:132 [NavigationOptimizer] Preloading assets for homepage page: 6 assets
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-main
+GlobalAssetCache.js:100 [GlobalAssetCache] Memory cache hit: logo-small
+NavigationOptimizer.js:150 [NavigationOptimizer] Background preloading completed: 1/1 assets
+NavigationOptimizer.js:150 [NavigationOptimizer] Background preloading completed: 2/2 assets
+CacheManager.js:83 [CacheManager] Cached logo: /assets/images/logo-small_size.png (6.7 KB, priority: 4)
+NavigationOptimizer.js:183 [NavigationOptimizer] Failed to preload asset /assets/images/user1.jpg: Error: Failed to load image: /assets/images/user1.jpg
+    at img.onerror (NavigationOptimizer.js:216:28)
+preloadSingleAsset @ NavigationOptimizer.js:183
+await in preloadSingleAsset
+(anonymous) @ NavigationOptimizer.js:136
+preloadPageAssets @ NavigationOptimizer.js:135
+(anonymous) @ NavigationOptimizer.js:410
+IntersectionObserver.rootMargin @ NavigationOptimizer.js:405
+NavigationOptimizer.js:183 [NavigationOptimizer] Failed to preload asset /assets/images/user1.jpg: Error: Failed to load image: /assets/images/user1.jpg
+    at img.onerror (NavigationOptimizer.js:216:28)
+preloadSingleAsset @ NavigationOptimizer.js:183
+await in preloadSingleAsset
+(anonymous) @ NavigationOptimizer.js:136
+preloadPageAssets @ NavigationOptimizer.js:135
+(anonymous) @ NavigationOptimizer.js:410
+IntersectionObserver.rootMargin @ NavigationOptimizer.js:405
+NavigationOptimizer.js:183 [NavigationOptimizer] Failed to preload asset /assets/images/user1.jpg: Error: Failed to load image: /assets/images/user1.jpg
+    at img.onerror (NavigationOptimizer.js:216:28)
+preloadSingleAsset @ NavigationOptimizer.js:183
+await in preloadSingleAsset
+(anonymous) @ NavigationOptimizer.js:136
+preloadPageAssets @ NavigationOptimizer.js:135
+(anonymous) @ NavigationOptimizer.js:410
+IntersectionObserver.rootMargin @ NavigationOptimizer.js:405
+NavigationOptimizer.js:183 [NavigationOptimizer] Failed to preload asset /assets/images/user1.jpg: Error: Failed to load image: /assets/images/user1.jpg
+    at img.onerror (NavigationOptimizer.js:216:28)
+preloadSingleAsset @ NavigationOptimizer.js:183
+await in preloadSingleAsset
+(anonymous) @ NavigationOptimizer.js:136
+preloadPageAssets @ NavigationOptimizer.js:135
+(anonymous) @ NavigationOptimizer.js:410
+IntersectionObserver.rootMargin @ NavigationOptimizer.js:405
+NavigationOptimizer.js:183 [NavigationOptimizer] Failed to preload asset /assets/images/user1.jpg: Error: Failed to load image: /assets/images/user1.jpg
+    at img.onerror (NavigationOptimizer.js:216:28)
+preloadSingleAsset @ NavigationOptimizer.js:183
+await in preloadSingleAsset
+(anonymous) @ NavigationOptimizer.js:136
+preloadPageAssets @ NavigationOptimizer.js:135
+(anonymous) @ NavigationOptimizer.js:410
+IntersectionObserver.rootMargin @ NavigationOptimizer.js:405
+NavigationOptimizer.js:183 [NavigationOptimizer] Failed to preload asset /assets/images/user2.jpg: Error: Failed to load image: /assets/images/user2.jpg
+    at img.onerror (NavigationOptimizer.js:216:28)
+preloadSingleAsset @ NavigationOptimizer.js:183
+await in preloadSingleAsset
+(anonymous) @ NavigationOptimizer.js:136
+preloadPageAssets @ NavigationOptimizer.js:135
+(anonymous) @ NavigationOptimizer.js:410
+IntersectionObserver.rootMargin @ NavigationOptimizer.js:405
+NavigationOptimizer.js:183 [NavigationOptimizer] Failed to preload asset /assets/images/user2.jpg: Error: Failed to load image: /assets/images/user2.jpg
+    at img.onerror (NavigationOptimizer.js:216:28)
+preloadSingleAsset @ NavigationOptimizer.js:183
+await in preloadSingleAsset
+(anonymous) @ NavigationOptimizer.js:136
+preloadPageAssets @ NavigationOptimizer.js:135
+(anonymous) @ NavigationOptimizer.js:410
+IntersectionObserver.rootMargin @ NavigationOptimizer.js:405
+NavigationOptimizer.js:183 [NavigationOptimizer] Failed to preload asset /assets/images/user2.jpg: Error: Failed to load image: /assets/images/user2.jpg
+    at img.onerror (NavigationOptimizer.js:216:28)
+preloadSingleAsset @ NavigationOptimizer.js:183
+await in preloadSingleAsset
+(anonymous) @ NavigationOptimizer.js:136
+preloadPageAssets @ NavigationOptimizer.js:135
+(anonymous) @ NavigationOptimizer.js:410
+IntersectionObserver.rootMargin @ NavigationOptimizer.js:405
+NavigationOptimizer.js:183 [NavigationOptimizer] Failed to preload asset /assets/images/user2.jpg: Error: Failed to load image: /assets/images/user2.jpg
+    at img.onerror (NavigationOptimizer.js:216:28)
+preloadSingleAsset @ NavigationOptimizer.js:183
+await in preloadSingleAsset
+(anonymous) @ NavigationOptimizer.js:136
+preloadPageAssets @ NavigationOptimizer.js:135
+(anonymous) @ NavigationOptimizer.js:410
+IntersectionObserver.rootMargin @ NavigationOptimizer.js:405
+NavigationOptimizer.js:183 [NavigationOptimizer] Failed to preload asset /assets/images/user2.jpg: Error: Failed to load image: /assets/images/user2.jpg
+    at img.onerror (NavigationOptimizer.js:216:28)
+preloadSingleAsset @ NavigationOptimizer.js:183
+await in preloadSingleAsset
+(anonymous) @ NavigationOptimizer.js:136
+preloadPageAssets @ NavigationOptimizer.js:135
+(anonymous) @ NavigationOptimizer.js:410
+IntersectionObserver.rootMargin @ NavigationOptimizer.js:405
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: product-nano-cellulose (image)
+NavigationOptimizer.js:150 [NavigationOptimizer] Background preloading completed: 4/4 assets
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: team-data (data)
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: journey-data (data)
+NavigationOptimizer.js:150 [NavigationOptimizer] Background preloading completed: 4/6 assets
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: team-data (data)
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: journey-data (data)
+NavigationOptimizer.js:150 [NavigationOptimizer] Background preloading completed: 4/6 assets
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: team-data (data)
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: journey-data (data)
+NavigationOptimizer.js:150 [NavigationOptimizer] Background preloading completed: 4/6 assets
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: team-data (data)
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: journey-data (data)
+NavigationOptimizer.js:150 [NavigationOptimizer] Background preloading completed: 4/6 assets
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: team-data (data)
+GlobalAssetCache.js:87 [GlobalAssetCache] Cached asset: journey-data (data)
+NavigationOptimizer.js:150 [NavigationOptimizer] Background preloading completed: 4/6 assets
+[Violation] 'requestAnimationFrame' handler took 71ms
+ErrorRecoveryManager.js:792 [ErrorRecoveryManager] JavaScript error: TypeError: event.target.closest is not a function
+    at HTMLDocument.<anonymous> (NavigationOptimizer.js:63:39)
+handleJavaScriptError @ ErrorRecoveryManager.js:792
+(anonymous) @ ErrorRecoveryManager.js:129
+ErrorRecoveryManager.js:161 [ErrorRecoveryManager] Starting recovery for javascript: event.target.closest is not a function
+ErrorRecoveryManager.js:202 [ErrorRecoveryManager] Retry attempt 2/2 after 2602.5614771614196ms
+ErrorHandler.js:712 [JavaScript Error] {message: 'Uncaught TypeError: event.target.closest is not a function', filename: 'http://10.20.74.136:3001/src/js/NavigationOptimizer.js', lineno: 63, colno: 39, error: 'TypeError: event.target.closest is not a function\n….74.136:3001/src/js/NavigationOptimizer.js:63:39)'}
+logError @ ErrorHandler.js:712
+(anonymous) @ ErrorHandler.js:58
+NavigationOptimizer.js:63 Uncaught TypeError: event.target.closest is not a function
+    at HTMLDocument.<anonymous> (NavigationOptimizer.js:63:39)
+(anonymous) @ NavigationOptimizer.js:63
+ErrorRecoveryManager.js:792 [ErrorRecoveryManager] JavaScript error: TypeError: event.target.matches is not a function
+    at HTMLDocument.<anonymous> (AssetOptimizer.js:219:30)
+handleJavaScriptError @ ErrorRecoveryManager.js:792
+(anonymous) @ ErrorRecoveryManager.js:129
+ErrorRecoveryManager.js:161 [ErrorRecoveryManager] Starting recovery for javascript: event.target.matches is not a function
+ErrorRecoveryManager.js:202 [ErrorRecoveryManager] Retry attempt 2/2 after 2731.486659708137ms
+ErrorHandler.js:712 [JavaScript Error] {message: 'Uncaught TypeError: event.target.matches is not a function', filename: 'http://10.20.74.136:3001/src/js/AssetOptimizer.js', lineno: 219, colno: 30, error: 'TypeError: event.target.matches is not a function\n…0.20.74.136:3001/src/js/AssetOptimizer.js:219:30)'}
+logError @ ErrorHandler.js:712
+(anonymous) @ ErrorHandler.js:58
+AssetOptimizer.js:219 Uncaught TypeError: event.target.matches is not a function
+    at HTMLDocument.<anonymous> (AssetOptimizer.js:219:30)
+(anonymous) @ AssetOptimizer.js:219
+ErrorRecoveryManager.js:882 [ErrorRecoveryManager] Recovery failed for javascript_20pzb_1753868880480: TypeError: Cannot read properties of null (reading 'url')
+    at ErrorRecoveryManager.recoverJavaScript (ErrorRecoveryManager.js:361:95)
+    at ErrorRecoveryManager.performRecovery (ErrorRecoveryManager.js:234:35)
+    at ErrorRecoveryManager.attemptRecoveryWithRetries (ErrorRecoveryManager.js:208:43)
+    at async ErrorRecoveryManager.recover (ErrorRecoveryManager.js:168:28)
+trackRecoveryFailure @ ErrorRecoveryManager.js:882
+recover @ ErrorRecoveryManager.js:183
+await in recover
+handleJavaScriptError @ ErrorRecoveryManager.js:796
+(anonymous) @ ErrorRecoveryManager.js:129
+ErrorRecoveryManager.js:420 [ErrorRecoveryManager] Applying graceful degradation for javascript
+gracefulDegradation @ ErrorRecoveryManager.js:420
+recover @ ErrorRecoveryManager.js:186
+await in recover
+handleJavaScriptError @ ErrorRecoveryManager.js:796
+(anonymous) @ ErrorRecoveryManager.js:129
+AdaptiveLoadingManager.js:218 AdaptiveLoadingManager: Network condition estimated - 2g, 0.28Mbps
+AdaptiveLoadingManager.js:312 AdaptiveLoadingManager: Adapted to 2g network - Strategy: reduced, Image quality: low
+AdaptiveLoadingManager.js:400 AdaptiveLoadingManager: Adjusted 0 images to low quality
+AdaptiveLoadingManager.js:476 AdaptiveLoadingManager: Disabled video autoplay for 0 videos
+AdaptiveLoadingManager.js:502 AdaptiveLoadingManager: Disabled animations
+AdaptiveLoadingManager.js:514 AdaptiveLoadingManager: Updated lazy loading threshold to 0.3
+AdaptiveLoadingManager.js:346 AdaptiveLoadingManager: Setting max concurrent requests to 4
+AdaptiveLoadingManager.js:529 AdaptiveLoadingManager: Updated request timeout to 8000ms
+AdaptiveLoadingManager.js:544 AdaptiveLoadingManager: Updated preload distance to 100px
+App.js:125 [App] Adaptive strategy changed: {strategy: 'reduced', networkType: '2g', imageQuality: 'low'}
+App.js:169 [App] Applying reduced strategy for 2g network
+ErrorRecoveryManager.js:792 [ErrorRecoveryManager] JavaScript error: TypeError: this.uiAnimations.setReducedMotion is not a function
+    at App.applyAdaptiveStrategy (App.js:182:31)
+    at App.js:126:18
+    at AdaptiveLoadingManager.adaptToNetworkCondition (AdaptiveLoadingManager.js:318:16)
+    at AdaptiveLoadingManager.checkNetworkSpeedWithResourceTiming (AdaptiveLoadingManager.js:221:18)
+    at AdaptiveLoadingManager.js:169:18
+handleJavaScriptError @ ErrorRecoveryManager.js:792
+(anonymous) @ ErrorRecoveryManager.js:129
+adaptToNetworkCondition @ AdaptiveLoadingManager.js:318
+checkNetworkSpeedWithResourceTiming @ AdaptiveLoadingManager.js:221
+(anonymous) @ AdaptiveLoadingManager.js:169
+ErrorRecoveryManager.js:161 [ErrorRecoveryManager] Starting recovery for javascript: this.uiAnimations.setReducedMotion is not a function
+ErrorHandler.js:712 [JavaScript Error] {message: 'Uncaught TypeError: this.uiAnimations.setReducedMotion is not a function', filename: 'http://10.20.74.136:3001/src/js/App.js', lineno: 182, colno: 31, error: 'TypeError: this.uiAnimations.setReducedMotion is n….136:3001/src/js/AdaptiveLoadingManager.js:169:18'}
+logError @ ErrorHandler.js:712
+(anonymous) @ ErrorHandler.js:58
+adaptToNetworkCondition @ AdaptiveLoadingManager.js:318
+checkNetworkSpeedWithResourceTiming @ AdaptiveLoadingManager.js:221
+(anonymous) @ AdaptiveLoadingManager.js:169
+App.js:182 Uncaught TypeError: this.uiAnimations.setReducedMotion is not a function
+    at App.applyAdaptiveStrategy (App.js:182:31)
+    at App.js:126:18
+    at AdaptiveLoadingManager.adaptToNetworkCondition (AdaptiveLoadingManager.js:318:16)
+    at AdaptiveLoadingManager.checkNetworkSpeedWithResourceTiming (AdaptiveLoadingManager.js:221:18)
+    at AdaptiveLoadingManager.js:169:18
+applyAdaptiveStrategy @ App.js:182
+(anonymous) @ App.js:126
+adaptToNetworkCondition @ AdaptiveLoadingManager.js:318
+checkNetworkSpeedWithResourceTiming @ AdaptiveLoadingManager.js:221
+(anonymous) @ AdaptiveLoadingManager.js:169
+App.js:120 [App] Network condition changed: {effectiveType: '2g', downlink: 0.27586206898914173, rtt: 0, saveData: false, lastChecked: 1753868882985}
+App.js:159 [App] Adjusting loading timeouts to 8000ms based on network condition
+ErrorRecoveryManager.js:882 [ErrorRecoveryManager] Recovery failed for javascript_20pzb_1753868880482: TypeError: Cannot read properties of null (reading 'url')
+    at ErrorRecoveryManager.recoverJavaScript (ErrorRecoveryManager.js:361:95)
+    at ErrorRecoveryManager.performRecovery (ErrorRecoveryManager.js:234:35)
+    at ErrorRecoveryManager.attemptRecoveryWithRetries (ErrorRecoveryManager.js:208:43)
+    at async ErrorRecoveryManager.recover (ErrorRecoveryManager.js:168:28)
+trackRecoveryFailure @ ErrorRecoveryManager.js:882
+recover @ ErrorRecoveryManager.js:183
+await in recover
+handleJavaScriptError @ ErrorRecoveryManager.js:796
+(anonymous) @ ErrorRecoveryManager.js:129
+ErrorRecoveryManager.js:420 [ErrorRecoveryManager] Applying graceful degradation for javascript
+gracefulDegradation @ ErrorRecoveryManager.js:420
+recover @ ErrorRecoveryManager.js:186
+await in recover
+handleJavaScriptError @ ErrorRecoveryManager.js:796
+(anonymous) @ ErrorRecoveryManager.js:129
+ErrorRecoveryManager.js:882 [ErrorRecoveryManager] Recovery failed for javascript_20pzb_1753868882297: TypeError: Cannot read properties of null (reading 'url')
+    at ErrorRecoveryManager.recoverJavaScript (ErrorRecoveryManager.js:361:95)
+    at ErrorRecoveryManager.performRecovery (ErrorRecoveryManager.js:234:35)
+    at ErrorRecoveryManager.attemptRecoveryWithRetries (ErrorRecoveryManager.js:208:43)
+    at async ErrorRecoveryManager.recover (ErrorRecoveryManager.js:168:28)
+trackRecoveryFailure @ ErrorRecoveryManager.js:882
+recover @ ErrorRecoveryManager.js:183
+await in recover
+handleJavaScriptError @ ErrorRecoveryManager.js:796
+(anonymous) @ ErrorRecoveryManager.js:129
+ErrorRecoveryManager.js:420 [ErrorRecoveryManager] Applying graceful degradation for javascript
+gracefulDegradation @ ErrorRecoveryManager.js:420
+recover @ ErrorRecoveryManager.js:186
+await in recover
+handleJavaScriptError @ ErrorRecoveryManager.js:796
+(anonymous) @ ErrorRecoveryManager.js:129
+ErrorRecoveryManager.js:882 [ErrorRecoveryManager] Recovery failed for javascript_20pzb_1753868882298: TypeError: Cannot read properties of null (reading 'url')
+    at ErrorRecoveryManager.recoverJavaScript (ErrorRecoveryManager.js:361:95)
+    at ErrorRecoveryManager.performRecovery (ErrorRecoveryManager.js:234:35)
+    at ErrorRecoveryManager.attemptRecoveryWithRetries (ErrorRecoveryManager.js:208:43)
+    at async ErrorRecoveryManager.recover (ErrorRecoveryManager.js:168:28)
+trackRecoveryFailure @ ErrorRecoveryManager.js:882
+recover @ ErrorRecoveryManager.js:183
+await in recover
+handleJavaScriptError @ ErrorRecoveryManager.js:796
+(anonymous) @ ErrorRecoveryManager.js:129
+ErrorRecoveryManager.js:420 [ErrorRecoveryManager] Applying graceful degradation for javascript
+gracefulDegradation @ ErrorRecoveryManager.js:420
+recover @ ErrorRecoveryManager.js:186
+await in recover
+handleJavaScriptError @ ErrorRecoveryManager.js:796
+(anonymous) @ ErrorRecoveryManager.js:129

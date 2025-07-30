@@ -36,9 +36,7 @@ export default class CacheManager {
         // Critical assets that should never be evicted
         this.criticalAssets = new Set([
             '/assets/images/logo.png',
-            '/public/assets/images/logo.png',
-            './public/assets/images/logo.png',
-            '/public/assets/images/logo-small_size.png'
+            '/assets/images/logo-small_size.png'
         ]);
         
         // Start periodic cleanup

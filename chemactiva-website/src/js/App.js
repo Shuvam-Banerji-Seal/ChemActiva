@@ -17,6 +17,8 @@ import NavigationStateManager from './NavigationStateManager.js';
 import AdaptiveLoadingManager from './AdaptiveLoadingManager.js';
 import CacheManager from './CacheManager.js';
 import LoadingStateManager from './LoadingStateManager.js';
+import ModernThemeManager from './ModernThemeManager.js';
+import NavigationOptimizer from './NavigationOptimizer.js';
 
 export default class App {
     constructor() {
@@ -48,6 +50,9 @@ export default class App {
             cacheManager: this.cacheManager,
             performanceManager: this.performanceManager
         });
+
+        // Initialize modern theme manager for enhanced theme switching
+        this.modernThemeManager = new ModernThemeManager();
 
         // Performance and caching are handled by PerformanceManager
         // which includes ServiceWorkerManager and AssetOptimizer
@@ -82,6 +87,10 @@ export default class App {
         // Initialize performance tracking early
         await this.performanceManager.init();
         
+        // Initialize navigation optimization for cross-page asset caching
+        console.log('[App] Initializing navigation optimization');
+        NavigationOptimizer.init(); // NavigationOptimizer is a singleton, already initialized
+        
         // Initialize adaptive loading based on network conditions
         console.log('[App] Initializing adaptive loading based on network conditions');
         this.initAdaptiveLoading();
@@ -90,7 +99,8 @@ export default class App {
         console.log('[App] Initializing strategic asset preloading');
         await this.initStrategicPreloading();
         
-        this.uiAnimations.initThemeToggle();
+        // Theme initialization is now handled by ModernThemeManager in constructor
+        // this.uiAnimations.initThemeToggle(); // Replaced by ModernThemeManager
 
         // Use NavigationStateManager to make smart HeroLoader decisions
         await this.initSmartHeroLoader();
@@ -169,15 +179,20 @@ export default class App {
         
         // Apply animation settings based on strategy
         if (strategy.strategy === 'minimal' || strategy.strategy === 'reduced') {
-            this.uiAnimations.setReducedMotion(true);
+            // Check if setReducedMotion method exists before calling it
+            if (this.uiAnimations && typeof this.uiAnimations.setReducedMotion === 'function') {
+                this.uiAnimations.setReducedMotion(true);
+            }
             
-            if (this.scrollAnimations) {
+            if (this.scrollAnimations && typeof this.scrollAnimations.setReducedMotion === 'function') {
                 this.scrollAnimations.setReducedMotion(true);
             }
         } else {
-            this.uiAnimations.setReducedMotion(false);
+            if (this.uiAnimations && typeof this.uiAnimations.setReducedMotion === 'function') {
+                this.uiAnimations.setReducedMotion(false);
+            }
             
-            if (this.scrollAnimations) {
+            if (this.scrollAnimations && typeof this.scrollAnimations.setReducedMotion === 'function') {
                 this.scrollAnimations.setReducedMotion(false);
             }
         }

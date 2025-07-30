@@ -23,8 +23,8 @@ export default class ServiceWorkerManager {
                 '/src/css/components.css',
                 '/src/css/products.css',
                 '/src/js/main.js',
-                '/public/assets/images/logo.png',
-                '/public/assets/images/logo-small_size.png'
+                '/assets/images/logo.png',
+                '/assets/images/logo-small_size.png'
             ],
             dynamicAssets: [
                 '/src/js/ProductManager.js',
@@ -408,7 +408,7 @@ export default class ServiceWorkerManager {
         if ('Notification' in window && Notification.permission === 'granted') {
             new Notification('Update Available', {
                 body: 'A new version of the site is available. Refresh to update.',
-                icon: '/public/assets/images/logo-small_size.png'
+                icon: '/assets/images/logo-small_size.png'
             });
         }
     }

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8.92% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/112</span>
+                <span class='fraction'>0/112</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">2.17% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/46</span>
+                <span class='fraction'>0/46</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.25% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/32</span>
+                <span class='fraction'>0/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">9.34% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/107</span>
+                <span class='fraction'>0/107</span>
             </div>
         
             
@@ -623,23 +623,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -685,9 +683,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1178,14 +1178,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// src/js/ServiceWorkerManager.js
 &nbsp;
 export default class ServiceWorkerManager {
-    constructor() {
-        this.isSupported = 'serviceWorker' in navigator;
-        this.registration = null;
-        this.isRegistered = false;
-        this.cacheVersion = 'chemactiva-v1.2';
-        this.updateAvailable = false;
+<span class="fstat-no" title="function not covered" >    co</span>nstructor() {
+<span class="cstat-no" title="statement not covered" >        this.isSupported = 'serviceWorker' in navigator;</span>
+<span class="cstat-no" title="statement not covered" >        this.registration = null;</span>
+<span class="cstat-no" title="statement not covered" >        this.isRegistered = false;</span>
+<span class="cstat-no" title="statement not covered" >        this.cacheVersion = 'chemactiva-v1.2';</span>
+<span class="cstat-no" title="statement not covered" >        this.updateAvailable = false;</span>
         
-        this.cacheStrategies = {
+<span class="cstat-no" title="statement not covered" >        this.cacheStrategies = {</span>
             'stale-while-revalidate': this.staleWhileRevalidate.bind(this),
             'cache-first': this.cacheFirst.bind(this),
             'network-first': this.networkFirst.bind(this),
@@ -1193,7 +1193,7 @@ export default class ServiceWorkerManager {
             'cache-only': this.cacheOnly.bind(this)
         };
         
-        this.config = {
+<span class="cstat-no" title="statement not covered" >        this.config = {</span>
             staticAssets: [
                 '/src/css/styles.css',
                 '/src/css/base.css',
@@ -1240,10 +1240,10 @@ export default class ServiceWorkerManager {
         };
     }
 &nbsp;
-    async init() {
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (!this.isSupported) {
-            console.warn('Service Worker not supported');
-            return false;
+<span class="fstat-no" title="function not covered" >    as</span>ync init() {
+<span class="cstat-no" title="statement not covered" >        if (!this.isSupported) {</span>
+<span class="cstat-no" title="statement not covered" >            console.warn('Service Worker not supported');</span>
+<span class="cstat-no" title="statement not covered" >            return false;</span>
         }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        try {</span>
@@ -1738,7 +1738,7 @@ export default class ServiceWorkerManager {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-20T10:03:32.485Z
+                at 2025-07-20T10:51:59.546Z
             </div>
         <script src="prettify.js"></script>
         <script>
