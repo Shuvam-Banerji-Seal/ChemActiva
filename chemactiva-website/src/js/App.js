@@ -19,6 +19,7 @@ import CacheManager from './CacheManager.js';
 import LoadingStateManager from './LoadingStateManager.js';
 import ModernThemeManager from './ModernThemeManager.js';
 import NavigationOptimizer from './NavigationOptimizer.js';
+import ModernCursorEffects from './ModernCursorEffects.js';
 
 export default class App {
     constructor() {
@@ -53,6 +54,13 @@ export default class App {
 
         // Initialize modern theme manager for enhanced theme switching
         this.modernThemeManager = new ModernThemeManager();
+
+        // Initialize modern cursor effects for homepage
+        if (this.isHomepage) {
+            this.modernCursorEffects = new ModernCursorEffects();
+        } else {
+            this.modernCursorEffects = null;
+        }
 
         // Performance and caching are handled by PerformanceManager
         // which includes ServiceWorkerManager and AssetOptimizer

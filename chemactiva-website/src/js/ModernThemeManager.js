@@ -35,19 +35,55 @@ class ModernThemeManager {
             :root {
                 --theme-transition-duration: ${this.transitionDuration}ms;
                 --theme-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+                --theme-transition-fast: 150ms;
             }
             
-            * {
+            /* Apply transitions only to specific elements for better performance and immediate feedback */
+            body,
+            .card-style,
+            .content-section,
+            #navbar,
+            .focus-item,
+            .featured-product,
+            .team-card,
+            .advisor-card,
+            .contact-info,
+            #contact-form-container,
+            .cta-button,
+            .submit-button {
                 transition: 
-                    background-color var(--theme-transition-duration) var(--theme-transition-easing),
-                    border-color var(--theme-transition-duration) var(--theme-transition-easing),
-                    color var(--theme-transition-duration) var(--theme-transition-easing),
+                    background-color var(--theme-transition-fast) var(--theme-transition-easing),
+                    border-color var(--theme-transition-fast) var(--theme-transition-easing),
+                    color var(--theme-transition-fast) var(--theme-transition-easing),
                     box-shadow var(--theme-transition-duration) var(--theme-transition-easing),
-                    text-shadow var(--theme-transition-duration) var(--theme-transition-easing);
+                    text-shadow var(--theme-transition-fast) var(--theme-transition-easing);
+            }
+            
+            /* Immediate theme toggle feedback */
+            .theme-toggle-checkbox,
+            .theme-toggle-label,
+            .toggle-ball {
+                transition: 
+                    background-color 0.2s var(--theme-transition-easing),
+                    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
             
             @media (prefers-reduced-motion: reduce) {
-                * {
+                body,
+                .card-style,
+                .content-section,
+                #navbar,
+                .focus-item,
+                .featured-product,
+                .team-card,
+                .advisor-card,
+                .contact-info,
+                #contact-form-container,
+                .cta-button,
+                .submit-button,
+                .theme-toggle-checkbox,
+                .theme-toggle-label,
+                .toggle-ball {
                     transition: none !important;
                 }
             }

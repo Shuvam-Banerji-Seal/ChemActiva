@@ -10,11 +10,12 @@ export default class UIAnimations {
     }
 
     init() {
-        // Theme is initialized early by App.js
+        // Theme is now handled by ModernThemeManager in App.js
         this.initNavbar();
         this.initScrollEffects();
         this.initContactForm();
         this.initActiveNavLinks();
+        this.initScrollDownIndicator();
     }
 
     initScrollEffects() {
@@ -153,51 +154,7 @@ export default class UIAnimations {
         this.toggleMobileMenu();
     }
 
-    initThemeToggle() {
-        const toggles = document.querySelectorAll('.theme-toggle-checkbox');
-        if (toggles.length === 0) return;
 
-        const setDerivedColors = () => {
-             const root = document.documentElement;
-             const isDark = document.body.classList.contains('dark-mode');
-             const computedStyle = getComputedStyle(root);
-             const getRgb = (hex) => {
-                 if(!hex || !hex.startsWith('#') || hex.length < 4) return '0,0,0';
-                 let r, g, b;
-                 if (hex.length === 4) {
-                    r = parseInt(hex[1] + hex[1], 16); g = parseInt(hex[2] + hex[2], 16); b = parseInt(hex[3] + hex[3], 16);
-                 } else {
-                    r = parseInt(hex.slice(1, 3), 16); g = parseInt(hex.slice(3, 5), 16); b = parseInt(hex.slice(5, 7), 16);
-                 }
-                 return `${r}, ${g}, ${b}`;
-             };
-             
-             if (isDark) {
-                root.style.setProperty('--dm-bg-deep-rgb', getRgb(computedStyle.getPropertyValue('--dm-bg-deep').trim()));
-                root.style.setProperty('--dm-bg-medium-rgb', getRgb(computedStyle.getPropertyValue('--dm-bg-medium').trim()));
-                root.style.setProperty('--dm-glow-color-rgb-values', getRgb(computedStyle.getPropertyValue('--dm-glow-color').trim()));
-             } else {
-                root.style.setProperty('--lm-accent-primary-rgb-values', getRgb(computedStyle.getPropertyValue('--lm-accent-primary').trim()));
-             }
-        };
-
-        const applyTheme = (isDark, fromInit = false) => {
-            document.body.classList.toggle('dark-mode', isDark);
-            if (!fromInit) {
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            }
-            toggles.forEach(toggle => toggle.checked = isDark);
-            setDerivedColors();
-            window.dispatchEvent(new CustomEvent('themeChanged', { detail: { isDark } }));
-        };
-        
-        const preferredTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        applyTheme(preferredTheme === 'dark', true);
-
-        toggles.forEach(toggle => {
-            toggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-        });
-    }
 
     initContactForm() {
         const form = document.getElementById('contact-form');
@@ -260,6 +217,36 @@ export default class UIAnimations {
                         gsap.to(confirmationMessage, { opacity: 0, duration: 0.5, onComplete: () => confirmationMessage.style.display = 'none' });
                     }, 4000);
                 }});
+        }
+    }
+
+    initScrollDownIndicator() {
+        const scrollDownIndicator = document.querySelector('.scroll-down-indicator');
+        if (!scrollDownIndicator) return;
+
+        scrollDownIndicator.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = scrollDownIndicator.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                // Smooth scroll to target element
+                targetElement.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+
+        // Add floating animation to the scroll down indicator
+        if (scrollDownIndicator) {
+            gsap.to(scrollDownIndicator, {
+                y: -10,
+                duration: 2,
+                ease: "power2.inOut",
+                yoyo: true,
+                repeat: -1
+            });
         }
     }
 }
