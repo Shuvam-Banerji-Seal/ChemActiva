@@ -3,10 +3,14 @@ import UIAnimations from './UIAnimations.js';
 import ProductManager from './ProductManager.js';
 import ProductImageGallery from './ProductImageGallery.js';
 import ContactManager from './ContactManager.js';
+import ModernThemeManager from './ModernThemeManager.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     try {
-        // Initialize theme toggle and navbar first
+        // Initialize modern theme manager first for proper dark mode support
+        const modernThemeManager = new ModernThemeManager();
+        
+        // Initialize theme toggle and navbar
         const uiAnimations = new UIAnimations();
         uiAnimations.init();
         

@@ -1,0 +1,21 @@
+<svg width="400" height="250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#388e3c;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#66bb6a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#81c784;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#gradient3)"/>
+  <!-- Package/box representation -->
+  <rect x="150" y="80" width="100" height="80" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.6)" stroke-width="2"/>
+  <rect x="160" y="90" width="80" height="60" fill="rgba(255,255,255,0.2)"/>
+  <!-- Leaf elements for sustainability -->
+  <path d="M80,120 Q90,100 100,120 Q90,140 80,120" fill="rgba(255,255,255,0.4)"/>
+  <path d="M320,140 Q330,120 340,140 Q330,160 320,140" fill="rgba(255,255,255,0.4)"/>
+  <!-- Recycling symbol -->
+  <circle cx="200" cy="200" r="25" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="3"/>
+  <path d="M185,190 L200,175 L215,190" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
+  <text x="200" y="40" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Sustainable Packaging</text>
+  <text x="200" y="60" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Arial, sans-serif" font-size="12">Biodegradable Materials</text>
+</svg>

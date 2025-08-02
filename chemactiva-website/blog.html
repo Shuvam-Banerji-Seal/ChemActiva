@@ -82,8 +82,13 @@
     <script type="module">
         import ArticleManager from './src/js/ArticleManager.js';
         import UIAnimations from './src/js/UIAnimations.js';
+        import ModernThemeManager from './src/js/ModernThemeManager.js';
         
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize modern theme manager first for proper dark mode support
+            const modernThemeManager = new ModernThemeManager();
+            
+            // Initialize UI animations
             const uiAnimations = new UIAnimations();
             uiAnimations.init();
 
