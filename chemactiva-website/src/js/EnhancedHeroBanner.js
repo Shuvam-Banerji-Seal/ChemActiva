@@ -504,13 +504,14 @@ class EnhancedHeroBanner {
 
     setupIntersectionObserver() {
         const options = {
-            threshold: 0.1,
-            rootMargin: '0px'
+            threshold: 0.01, // Lower threshold for better detection
+            rootMargin: '50px' // Add margin to trigger earlier
         };
 
         this.intersectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 this.isVisible = entry.isIntersecting;
+                console.log('[EnhancedHeroBanner] Visibility changed:', this.isVisible);
                 if (this.isVisible) {
                     this.resumeSlideshow();
                 } else {
@@ -592,9 +593,20 @@ class EnhancedHeroBanner {
         // Reset progress
         this.animateProgress();
 
+        // Restart slideshow after manual interaction
+        this.restartSlideshow();
+
         setTimeout(() => {
             this.isTransitioning = false;
         }, 1000);
+    }
+
+    restartSlideshow() {
+        // Clear existing interval and restart to reset the timer
+        if (this.slideInterval) {
+            clearInterval(this.slideInterval);
+        }
+        this.startSlideshow();
     }
 
     transitionSlides(fromIndex, toIndex) {
@@ -836,10 +848,9 @@ class EnhancedHeroBanner {
     }
 
     animate() {
-        // Temporarily disable visibility check to debug 3D rendering
-        // if (!this.isVisible) {
-        //     return;
-        // }
+        if (!this.isVisible) {
+            return;
+        }
 
         this.animationFrameId = requestAnimationFrame(this.animate);
 
@@ -867,11 +878,6 @@ class EnhancedHeroBanner {
         // Render scene
         if (this.renderer && this.scene && this.camera) {
             this.renderer.render(this.scene, this.camera);
-            
-            // Debug: Log rendering status occasionally
-            if (Math.random() < 0.001) { // Log ~0.1% of frames
-                console.log('[EnhancedHeroBanner] 3D rendering active - molecule:', !!this.celluloseMolecule);
-            }
         }
     }
 
