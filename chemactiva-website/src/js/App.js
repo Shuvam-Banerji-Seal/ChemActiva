@@ -1,6 +1,5 @@
 // src/js/App.js
 import HeroLoader from './HeroLoader.js';
-import SceneManager from './SceneManager.js';
 import ScrollAnimations from './ScrollAnimations.js';
 import TeamManager from './TeamManager.js';
 import UIAnimations from './UIAnimations.js';
@@ -23,6 +22,7 @@ import ModernCursorEffects from './ModernCursorEffects.js';
 import ProductsRedesigned from './ProductsRedesigned.js';
 import TeamModernized from './TeamModernized.js';
 import AdvisorsModernized from './AdvisorsModernized.js';
+import EnhancedHeroBanner from './EnhancedHeroBanner.js';
 
 export default class App {
     constructor() {
@@ -70,7 +70,7 @@ export default class App {
 
         if (this.isHomepage) {
             this.heroLoader = new HeroLoader('#hero-loader');
-            this.sceneManager = new SceneManager('#hero-3d-scene-container');
+            this.enhancedHeroBanner = new EnhancedHeroBanner('#homepage-hero');
             this.teamManager = new TeamManager('#team-grid', '/team.jsonl');
             this.journeyManager = new JourneyManager('.journey-timeline', '/journey.jsonl');
             this.productsRedesigned = new ProductsRedesigned();
@@ -78,7 +78,7 @@ export default class App {
             this.advisorsModernized = new AdvisorsModernized();
         } else {
             this.heroLoader = null;
-            this.sceneManager = null;
+            this.enhancedHeroBanner = null;
             this.teamManager = null;
             this.journeyManager = null;
             this.productsRedesigned = null;
@@ -683,7 +683,12 @@ export default class App {
 
         requestAnimationFrame(async () => {
             if (this.isHomepage) {
-                if (this.sceneManager) this.sceneManager.initMainScene();
+                // Initialize enhanced hero banner (replaces old scene manager for hero)
+                if (this.enhancedHeroBanner) {
+                    console.log('[App] EnhancedHeroBanner initialized');
+                }
+                
+                // 3D molecule rendering is now handled by EnhancedHeroBanner
                 
                 const dataLoadingPromises = [];
                 if (this.journeyManager) dataLoadingPromises.push(this.journeyManager.loadAndDisplayJourney());
@@ -696,7 +701,7 @@ export default class App {
                 await this.initProductPageComponents();
             }
 
-            this.scrollAnimations.init(this.sceneManager);
+            this.scrollAnimations.init();
 
             if (this.isHomepage) {
                 if (this.journeyManager?.hasLoaded) {
@@ -1452,7 +1457,6 @@ export default class App {
     implementLazyModuleLoading() {
         // Lazy load heavy components
         const lazyComponents = {
-            'SceneManager': () => import('./SceneManager.js'),
             'ProductImageGallery': () => import('./ProductImageGallery.js'),
             'JourneyManager': () => import('./JourneyManager.js')
         };
@@ -1464,7 +1468,6 @@ export default class App {
         if (this.isHomepage) {
             // Preload homepage components
             requestIdleCallback(() => {
-                lazyComponents['SceneManager']();
                 lazyComponents['JourneyManager']();
             });
         } else if (this.isProductPage) {

@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger, Draggable);
 
 export default class ScrollAnimations {
     constructor() {
-        this.sceneManager = null;
+        // SceneManager no longer used - 3D rendering handled by EnhancedHeroBanner
         this.teamScrollTween = null;
         this.teamAnimationConfig = {
             mobile: {
@@ -105,8 +105,8 @@ export default class ScrollAnimations {
         return this.isMobile ? this.teamAnimationConfig.mobile : this.teamAnimationConfig.desktop;
     }
 
-    init(sceneManagerInstance) {
-        this.sceneManager = sceneManagerInstance;
+    init() {
+        // SceneManager is no longer used - 3D rendering handled by EnhancedHeroBanner
         // Only run homepage-specific animations on the homepage
         if (document.body.classList.contains('homepage')) {
             this.initHeroTextFade();
@@ -130,13 +130,8 @@ export default class ScrollAnimations {
     }
 
     initLightingScroll() {
-        if (this.sceneManager && typeof this.sceneManager.updateLighting === 'function') {
-            ScrollTrigger.create({
-                trigger: "body", start: "top top", end: "bottom bottom", 
-                scrub: this.animationQuality === 'high' ? 1.2 : 1.8,
-                onUpdate: (self) => this.sceneManager.updateLighting(self.progress)
-            });
-        }
+        // Lighting updates now handled by EnhancedHeroBanner's 3D scene
+        // This method is kept for compatibility but no longer performs lighting updates
     }
     
     initScrollProgress() {
