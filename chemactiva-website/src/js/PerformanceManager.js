@@ -225,8 +225,9 @@ export default class PerformanceManager {
                 console.warn('FCP tracking not supported:', error);
             }
         }
-    }    in
-itResourceLoadTracking() {
+    }
+
+    initResourceLoadTracking() {
         if ('PerformanceObserver' in window) {
             try {
                 const resourceObserver = new PerformanceObserver((list) => {

@@ -15,8 +15,11 @@
     <link rel="stylesheet" href="src/css/hero.css">
     <link rel="stylesheet" href="src/css/sections.css">
     <link rel="stylesheet" href="src/css/modern-sections.css">
+    <link rel="stylesheet" href="src/css/products-redesigned.css">
     <link rel="stylesheet" href="src/css/journey.css">
     <link rel="stylesheet" href="src/css/team.css">
+    <link rel="stylesheet" href="src/css/team-modernized.css">
+    <link rel="stylesheet" href="src/css/advisors-modernized.css">
     <link rel="stylesheet" href="src/css/loader.css">
     <link rel="icon" type="image/png" href="/assets/images/logo-small_size.png">
 </head>
@@ -138,73 +141,432 @@
                 </div>
             </section>
             
-            <section id="products" class="content-section">
+            <section id="products" class="content-section products-redesigned">
                 <div class="container">
-                    <h2>Our Products</h2>
-                    <div class="product-intro card-style">
-                        <h3>Cellulose Nanocrystals & Nanocellulose Products</h3>
-                        <p><strong>ChemActiva Innovations: Advancing Sustainability with Nanocellulose Solutions</strong></p>
-                        <p>Cellu®, derived from renewable plant sources, represents a line of high-performance, biodegradable cellulose nanocrystals. Available in powder and liquid forms, designed to enhance environmental sustainability and technical performance.</p>
+                    <div class="products-header">
+                        <div class="products-header-content">
+                            <h2>Our Products</h2>
+                            <p class="products-subtitle">Innovative solutions for a sustainable future</p>
+                        </div>
+                        <div class="products-header-accent"></div>
                     </div>
                     
-                    <div class="featured-products-grid">
-                        <div class="featured-product card-style">
-                            <img src="/assets/images/products/Domestic_oil_spill_kit_1.webp" alt="Domestic Oil Spill Kit" loading="lazy">
-                            <div class="featured-product-info">
-                                <h3>Domestic Oil Spill Kit</h3>
-                                <p>Safe, sustainable solution for home kitchens</p>
+                    <div class="product-hero-banner">
+                        <div class="product-hero-content">
+                            <div class="product-hero-text">
+                                <h3>Cellu<sup>®</sup> - Cellulose Nanocrystals</h3>
+                                <p class="product-hero-tagline">Advancing Sustainability with Nanocellulose Solutions</p>
+                                <p class="product-hero-description">
+                                    Derived from renewable plant sources, Cellu® represents a line of high-performance, 
+                                    biodegradable cellulose nanocrystals. Available in powder and liquid forms, 
+                                    designed to enhance environmental sustainability and technical performance.
+                                </p>
+                                <div class="product-hero-features">
+                                    <div class="feature-badge">
+                                        <span class="feature-icon">🌱</span>
+                                        <span>100% Biodegradable</span>
+                                    </div>
+                                    <div class="feature-badge">
+                                        <span class="feature-icon">⚡</span>
+                                        <span>High Performance</span>
+                                    </div>
+                                    <div class="feature-badge">
+                                        <span class="feature-icon">🔬</span>
+                                        <span>Plant-Based</span>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="product-hero-visual">
+                                <div class="product-hero-circle">
+                                    <div class="hero-circle-inner">
+                                        <span class="hero-circle-text">Cellu<sup>®</sup></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="products-showcase">
+                        <h3 class="showcase-title">Featured Solutions</h3>
+                        <div class="products-grid-modern">
+                            <div class="product-card-modern">
+                                <div class="product-card-image">
+                                    <img src="/assets/images/products/Domestic_oil_spill_kit_1.webp" alt="Domestic Oil Spill Kit" loading="lazy">
+                                    <div class="product-card-overlay">
+                                        <div class="product-category">Domestic Solutions</div>
+                                    </div>
+                                </div>
+                                <div class="product-card-content">
+                                    <h4>Domestic Oil Spill Kit</h4>
+                                    <p>Safe, sustainable solution for home kitchens and small-scale spills</p>
+                                    <div class="product-features">
+                                        <span class="feature-tag">Kitchen Safe</span>
+                                        <span class="feature-tag">Easy to Use</span>
+                                        <span class="feature-tag">Non-Toxic</span>
+                                    </div>
+                                    <div class="product-card-action">
+                                        <span class="learn-more">Learn More →</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="product-card-modern">
+                                <div class="product-card-image">
+                                    <img src="/assets/images/products/Marine_oil_spill_kit.webp" alt="Marine Oil Spill Kit" loading="lazy">
+                                    <div class="product-card-overlay">
+                                        <div class="product-category">Marine Solutions</div>
+                                    </div>
+                                </div>
+                                <div class="product-card-content">
+                                    <h4>Marine Oil Spill Kit</h4>
+                                    <p>Biodegradable solution for marine oil spill management and cleanup</p>
+                                    <div class="product-features">
+                                        <span class="feature-tag">Marine Grade</span>
+                                        <span class="feature-tag">Biodegradable</span>
+                                        <span class="feature-tag">Fast Acting</span>
+                                    </div>
+                                    <div class="product-card-action">
+                                        <span class="learn-more">Learn More →</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="product-card-modern product-card-cta">
+                                <div class="product-cta-content">
+                                    <div class="product-cta-icon">
+                                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <h4>Explore Our Full Range</h4>
+                                    <p>Discover all our innovative nanocellulose products and solutions</p>
+                                    <a href="/products.html" class="cta-button-modern">
+                                        View All Products
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="products-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Biodegradable</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2+</div>
+                            <div class="stat-label">Product Lines</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">Plant</div>
+                            <div class="stat-label">Based Sources</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">Eco</div>
+                            <div class="stat-label">Friendly</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="our-team" class="content-section team-modernized">
+                <div class="container">
+                    <div class="team-header">
+                        <div class="team-header-content">
+                            <h2>Our Team</h2>
+                            <p class="team-subtitle">Meet the brilliant minds driving innovation at ChemActiva</p>
+                        </div>
+                        <div class="team-header-accent"></div>
+                    </div>
+                    
+                    <div class="team-intro-banner">
+                        <div class="team-intro-content">
+                            <div class="team-intro-text">
+                                <h3>Pioneering Scientific Excellence</h3>
+                                <p class="team-intro-description">
+                                    Our multidisciplinary team combines deep scientific expertise with entrepreneurial vision, 
+                                    driving breakthrough innovations in sustainable nanocellulose technologies.
+                                </p>
+                                <div class="team-stats-inline">
+                                    <div class="inline-stat">
+                                        <span class="stat-number">3+</span>
+                                        <span class="stat-label">Team Members</span>
+                                    </div>
+                                    <div class="inline-stat">
+                                        <span class="stat-number">PhD</span>
+                                        <span class="stat-label">Level Expertise</span>
+                                    </div>
+                                    <div class="inline-stat">
+                                        <span class="stat-number">Global</span>
+                                        <span class="stat-label">Research Experience</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="team-intro-visual">
+                                <div class="team-visual-circle">
+                                    <div class="team-circle-inner">
+                                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="team-showcase">
+                        <div class="team-grid-modern" id="team-grid-modern">
+                            <p class="placeholder-text">Loading team...</p>
                         </div>
                         
-                        <div class="featured-product card-style">
-                            <img src="/assets/images/products/Marine_oil_spill_kit.webp" alt="Marine Oil Spill Kit" loading="lazy">
-                            <div class="featured-product-info">
-                                <h3>Marine Oil Spill Kit</h3>
-                                <p>Biodegradable solution for oil spill management</p>
+                        <div class="team-navigation">
+                            <button class="team-nav-btn team-nav-prev" aria-label="Previous team member">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <div class="team-nav-dots" id="team-nav-dots"></div>
+                            <button class="team-nav-btn team-nav-next" aria-label="Next team member">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="team-values">
+                        <h3 class="values-title">Our Values</h3>
+                        <div class="values-grid">
+                            <div class="value-item">
+                                <div class="value-icon">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h4>Excellence</h4>
+                                <p>Pursuing the highest standards in scientific research and innovation</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M22 12H18L15 21L9 3L6 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h4>Innovation</h4>
+                                <p>Pioneering breakthrough solutions for sustainable technologies</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7ZM23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h4>Collaboration</h4>
+                                <p>Working together to achieve extraordinary results</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h4>Sustainability</h4>
+                                <p>Committed to environmental stewardship and green technologies</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="advisors" class="content-section advisors-modernized">
+                <div class="container">
+                    <div class="advisors-header">
+                        <div class="advisors-header-content">
+                            <h2>Our Advisors</h2>
+                            <p class="advisors-subtitle">Distinguished experts guiding our scientific journey</p>
+                        </div>
+                        <div class="advisors-header-accent"></div>
+                    </div>
+                    
+                    <div class="advisors-intro-banner">
+                        <div class="advisors-intro-content">
+                            <div class="advisors-intro-text">
+                                <h3>World-Class Scientific Guidance</h3>
+                                <p class="advisors-intro-description">
+                                    Our advisory board comprises renowned scientists and industry leaders who provide strategic 
+                                    guidance, ensuring our research maintains the highest standards of scientific excellence 
+                                    and practical relevance.
+                                </p>
+                                <div class="advisors-stats-inline">
+                                    <div class="inline-stat">
+                                        <span class="stat-number">4</span>
+                                        <span class="stat-label">Expert Advisors</span>
+                                    </div>
+                                    <div class="inline-stat">
+                                        <span class="stat-number">50+</span>
+                                        <span class="stat-label">Years Combined Experience</span>
+                                    </div>
+                                    <div class="inline-stat">
+                                        <span class="stat-number">Global</span>
+                                        <span class="stat-label">Research Network</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="advisors-intro-visual">
+                                <div class="advisors-visual-circle">
+                                    <div class="advisors-circle-inner">
+                                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="view-all-container">
-                        <a href="/products.html" class="cta-button">View All Products</a>
-                    </div>
-                </div>
-            </section>
-
-            <section id="our-team" class="content-section">
-                <div class="team-scroller-wrapper"> 
-                    <div class="container section-header-container">
-                        <h2>Our Team</h2>
-                    </div>
-                    <div id="team-grid" class="team-flex-container">
-                        <p class="placeholder-text">Loading team...</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="advisors" class="content-section">
-                <div class="container">
-                    <h2>Our Advisors</h2>
-                    <div class="advisor-grid">
-                        <div class="advisor-card card-style">
-                            <h3>Prof. Swaminathan Sivaram</h3>
-                            <p class="advisor-role">INSA Senior Scientist, IISER Pune & IISER Kolkata</p>
-                            <p>Pioneering contributions to polymer chemistry, biodegradable polymers, and sustainable materials derived from renewable resources.</p>
+                    <div class="advisors-showcase">
+                        <div class="advisors-grid-modern">
+                            <div class="advisor-card-modern">
+                                <div class="advisor-card-header">
+                                    <div class="advisor-avatar">
+                                        <span class="advisor-initials">SS</span>
+                                    </div>
+                                    <div class="advisor-badge">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="advisor-card-content">
+                                    <h3>Prof. Swaminathan Sivaram</h3>
+                                    <p class="advisor-role">INSA Senior Scientist, IISER Pune & IISER Kolkata</p>
+                                    <p class="advisor-description">Pioneering contributions to polymer chemistry, biodegradable polymers, and sustainable materials derived from renewable resources.</p>
+                                    <div class="advisor-expertise">
+                                        <span class="expertise-tag">Polymer Chemistry</span>
+                                        <span class="expertise-tag">Biodegradable Materials</span>
+                                        <span class="expertise-tag">Sustainability</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="advisor-card-modern">
+                                <div class="advisor-card-header">
+                                    <div class="advisor-avatar">
+                                        <span class="advisor-initials">AD</span>
+                                    </div>
+                                    <div class="advisor-badge">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="advisor-card-content">
+                                    <h3>Prof. Amitava Das</h3>
+                                    <p class="advisor-role">Professor, IISER Kolkata; Former Director, CSIR-CSMCRI</p>
+                                    <p class="advisor-description">Distinguished researcher known for bridging academia and industry in materials chemistry, energy, and sustainable technologies.</p>
+                                    <div class="advisor-expertise">
+                                        <span class="expertise-tag">Materials Chemistry</span>
+                                        <span class="expertise-tag">Energy Systems</span>
+                                        <span class="expertise-tag">Industry Bridge</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="advisor-card-modern">
+                                <div class="advisor-card-header">
+                                    <div class="advisor-avatar">
+                                        <span class="advisor-initials">SG</span>
+                                    </div>
+                                    <div class="advisor-badge">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="advisor-card-content">
+                                    <h3>Prof. Sayam Sen Gupta</h3>
+                                    <p class="advisor-role">Professor, IISER Kolkata</p>
+                                    <p class="advisor-description">A leading expert in organic chemistry, with significant contributions to bio-inspired catalysis and biomaterial sciences.</p>
+                                    <div class="advisor-expertise">
+                                        <span class="expertise-tag">Organic Chemistry</span>
+                                        <span class="expertise-tag">Bio-Catalysis</span>
+                                        <span class="expertise-tag">Biomaterials</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="advisor-card-modern">
+                                <div class="advisor-card-header">
+                                    <div class="advisor-avatar">
+                                        <span class="advisor-initials">AP</span>
+                                    </div>
+                                    <div class="advisor-badge">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="advisor-card-content">
+                                    <h3>Prof. Anandamoy Puste</h3>
+                                    <p class="advisor-role">Retired Professor, Bidhan Chandra Krishi Viswavidyalaya</p>
+                                    <p class="advisor-description">Expert in water/wetland management, with specialized work in Shola plantation and sustainable agronomic practices.</p>
+                                    <div class="advisor-expertise">
+                                        <span class="expertise-tag">Water Management</span>
+                                        <span class="expertise-tag">Sustainable Agriculture</span>
+                                        <span class="expertise-tag">Environmental Science</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="advisor-card card-style">
-                            <h3>Prof. Amitava Das</h3>
-                            <p class="advisor-role">Professor, IISER Kolkata; Former Director, CSIR-CSMCRI</p>
-                            <p>Distinguished researcher known for bridging academia and industry in materials chemistry, energy, and sustainable technologies.</p>
-                        </div>
-                        <div class="advisor-card card-style">
-                            <h3>Prof. Sayam Sen Gupta</h3>
-                            <p class="advisor-role">Professor, IISER Kolkata</p>
-                            <p>A leading expert in organic chemistry, with significant contributions to bio-inspired catalysis and biomaterial sciences.</p>
-                        </div>
-                        <div class="advisor-card card-style">
-                            <h3>Prof. Anandamoy Puste</h3>
-                            <p class="advisor-role">Retired Professor, Bidhan Chandra Krishi Viswavidyalaya</p>
-                            <p>Expert in water/wetland management, with specialized work in Shola plantation and sustainable agronomic practices.</p>
+                    </div>
+                    
+                    <div class="advisors-impact">
+                        <h3 class="impact-title">Advisory Impact</h3>
+                        <div class="impact-grid">
+                            <div class="impact-item">
+                                <div class="impact-icon">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17ZM17 21V11H13V7H7V19H17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h4>Strategic Research Direction</h4>
+                                <p>Guiding our research priorities and ensuring alignment with global scientific trends</p>
+                            </div>
+                            <div class="impact-item">
+                                <div class="impact-icon">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h4>Network Expansion</h4>
+                                <p>Connecting us with leading institutions and researchers worldwide</p>
+                            </div>
+                            <div class="impact-item">
+                                <div class="impact-icon">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h4>Innovation Acceleration</h4>
+                                <p>Accelerating breakthrough discoveries through expert insights and mentorship</p>
+                            </div>
+                            <div class="impact-item">
+                                <div class="impact-icon">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h4>Quality Assurance</h4>
+                                <p>Ensuring our research meets the highest standards of scientific rigor and excellence</p>
+                            </div>
                         </div>
                     </div>
                 </div>

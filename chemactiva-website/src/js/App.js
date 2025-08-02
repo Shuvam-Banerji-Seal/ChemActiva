@@ -20,6 +20,9 @@ import LoadingStateManager from './LoadingStateManager.js';
 import ModernThemeManager from './ModernThemeManager.js';
 import NavigationOptimizer from './NavigationOptimizer.js';
 import ModernCursorEffects from './ModernCursorEffects.js';
+import ProductsRedesigned from './ProductsRedesigned.js';
+import TeamModernized from './TeamModernized.js';
+import AdvisorsModernized from './AdvisorsModernized.js';
 
 export default class App {
     constructor() {
@@ -70,11 +73,17 @@ export default class App {
             this.sceneManager = new SceneManager('#hero-3d-scene-container');
             this.teamManager = new TeamManager('#team-grid', '/team.jsonl');
             this.journeyManager = new JourneyManager('.journey-timeline', '/journey.jsonl');
+            this.productsRedesigned = new ProductsRedesigned();
+            this.teamModernized = new TeamModernized();
+            this.advisorsModernized = new AdvisorsModernized();
         } else {
             this.heroLoader = null;
             this.sceneManager = null;
             this.teamManager = null;
             this.journeyManager = null;
+            this.productsRedesigned = null;
+            this.teamModernized = null;
+            this.advisorsModernized = null;
         }
 
         // Initialize product page components
@@ -695,6 +704,24 @@ export default class App {
                 }
                 if (this.teamManager?.hasLoaded) {
                     this.scrollAnimations.initTeamAutoScroll();
+                }
+                
+                // Initialize redesigned products section
+                if (this.productsRedesigned) {
+                    this.productsRedesigned.init();
+                    console.log('[App] ProductsRedesigned initialized');
+                }
+                
+                // Initialize modernized team section
+                if (this.teamModernized) {
+                    this.teamModernized.init();
+                    console.log('[App] TeamModernized initialized');
+                }
+                
+                // Initialize modernized advisors section
+                if (this.advisorsModernized) {
+                    this.advisorsModernized.init();
+                    console.log('[App] AdvisorsModernized initialized');
                 }
             }
 
