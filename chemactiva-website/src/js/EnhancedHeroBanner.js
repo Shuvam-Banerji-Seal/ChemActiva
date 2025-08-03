@@ -38,7 +38,7 @@ class EnhancedHeroBanner {
         this.currentRotation = { x: 0, y: 0 };
 
         // Performance properties
-        this.isVisible = true;
+        this.isVisible = true; // Start as visible to ensure 3D molecule renders
         this.intersectionObserver = null;
         this.isMobile = window.innerWidth <= 768;
 
@@ -58,10 +58,15 @@ class EnhancedHeroBanner {
             
             this.setupSlideData();
             this.setupHTML();
+            
+            // Wait for layout to be ready before setting up 3D scene
+            await this.waitForLayout();
+            
             this.setup3DScene();
             await this.load3DMolecule();
             this.setupEventListeners();
             this.setupIntersectionObserver();
+            this.setupResizeObserver();
             this.startSlideshow();
             this.startAnimation();
 
@@ -70,6 +75,19 @@ class EnhancedHeroBanner {
             console.error('[EnhancedHeroBanner] Initialization failed:', error);
             this.showFallback();
         }
+    }
+
+    waitForLayout() {
+        return new Promise((resolve) => {
+            // Wait for next frame to ensure CSS is applied
+            requestAnimationFrame(() => {
+                // Wait one more frame to be sure
+                requestAnimationFrame(() => {
+                    // Also wait a small amount of time for CSS transitions
+                    setTimeout(resolve, 100);
+                });
+            });
+        });
     }
 
     setupSlideData() {
@@ -197,11 +215,31 @@ class EnhancedHeroBanner {
     }
 
     setup3DScene() {
-        if (!this.moleculeContainer) return;
+        if (!this.moleculeContainer) {
+            console.error('[EnhancedHeroBanner] Molecule container not found!');
+            return;
+        }
 
-        // Setup renderer with proper settings
+        // Get container dimensions with fallback
         const containerRect = this.moleculeContainer.getBoundingClientRect();
-        const size = Math.min(containerRect.width, containerRect.height, 400);
+        let size = Math.min(containerRect.width, containerRect.height, 400);
+        
+        // If container has no size yet, use CSS-defined size as fallback
+        if (size <= 0) {
+            const computedStyle = window.getComputedStyle(this.moleculeContainer);
+            const cssWidth = parseInt(computedStyle.width) || 400;
+            const cssHeight = parseInt(computedStyle.height) || 400;
+            size = Math.min(cssWidth, cssHeight, 400);
+            console.log('[EnhancedHeroBanner] Using CSS fallback size:', size);
+        }
+        
+        console.log('[EnhancedHeroBanner] Container size:', size, 'Container rect:', containerRect);
+        
+        // Ensure minimum size
+        if (size < 200) {
+            size = 400; // Default fallback size
+            console.log('[EnhancedHeroBanner] Using default fallback size:', size);
+        }
         
         this.renderer.setSize(size, size);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -235,7 +273,49 @@ class EnhancedHeroBanner {
         // Setup lighting
         this.setupLighting();
 
-        console.log('[EnhancedHeroBanner] 3D scene setup complete');
+        console.log('[EnhancedHeroBanner] 3D scene setup complete - Canvas added to DOM');
+        
+        // Schedule a resize check after a short delay to ensure proper sizing
+        setTimeout(() => {
+            this.resize3DScene();
+        }, 500);
+    }
+
+    setupResizeObserver() {
+        if (!this.moleculeContainer || !window.ResizeObserver) {
+            console.log('[EnhancedHeroBanner] ResizeObserver not available, using window resize');
+            return;
+        }
+
+        this.resizeObserver = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                const { width, height } = entry.contentRect;
+                console.log('[EnhancedHeroBanner] Container resized:', width, height);
+                
+                if (width > 0 && height > 0) {
+                    this.resize3DScene();
+                }
+            }
+        });
+
+        this.resizeObserver.observe(this.moleculeContainer);
+        console.log('[EnhancedHeroBanner] ResizeObserver setup complete');
+    }
+
+    resize3DScene() {
+        if (!this.renderer || !this.camera || !this.moleculeContainer) return;
+
+        const containerRect = this.moleculeContainer.getBoundingClientRect();
+        const size = Math.min(containerRect.width, containerRect.height, 400);
+        
+        console.log('[EnhancedHeroBanner] Resizing 3D scene to:', size);
+        
+        if (size > 0) {
+            this.camera.aspect = 1;
+            this.camera.updateProjectionMatrix();
+            this.renderer.setSize(size, size);
+            this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        }
     }
 
     setupLighting() {
@@ -281,7 +361,7 @@ class EnhancedHeroBanner {
             this.gltfLoader.load('/assets/models/cellulose.glb', (gltf) => {
                 this.celluloseMolecule = gltf.scene;
                 this.celluloseMolecule.scale.set(0.4, 0.4, 0.4);
-                this.celluloseMolecule.position.y = 0.7;
+                this.celluloseMolecule.position.set(0, 0.7, 0);
                 this.celluloseMolecule.traverse((child) => {
                     if (child.isMesh) {
                         child.castShadow = !this.isMobile;
@@ -291,17 +371,19 @@ class EnhancedHeroBanner {
                     }
                 });
                 this.scene.add(this.celluloseMolecule);
-                console.log('[EnhancedHeroBanner] GLTF cellulose molecule loaded successfully');
+                console.log('[EnhancedHeroBanner] GLTF cellulose molecule loaded successfully - Position:', this.celluloseMolecule.position);
+                console.log('[EnhancedHeroBanner] Scene children count:', this.scene.children.length);
             }, undefined, (error) => {
                 console.error('Error loading cellulose molecule:', error);
                 // Fallback to simple sphere like the original SceneManager
                 const fallbackGeo = new THREE.SphereGeometry(0.6, 32, 16);
                 const fallbackMat = new THREE.MeshStandardMaterial({ color: 0x255F38 });
                 this.celluloseMolecule = new THREE.Mesh(fallbackGeo, fallbackMat);
-                this.celluloseMolecule.position.y = 0.7;
+                this.celluloseMolecule.position.set(0, 0.7, 0);
                 this.celluloseMolecule.castShadow = !this.isMobile;
                 this.scene.add(this.celluloseMolecule);
-                console.log('[EnhancedHeroBanner] Using fallback sphere molecule');
+                console.log('[EnhancedHeroBanner] Using fallback sphere molecule - Position:', this.celluloseMolecule.position);
+                console.log('[EnhancedHeroBanner] Scene children count:', this.scene.children.length);
             });
 
         } catch (error) {
@@ -504,15 +586,20 @@ class EnhancedHeroBanner {
 
     setupIntersectionObserver() {
         const options = {
-            threshold: 0.1,
-            rootMargin: '0px'
+            threshold: 0.01, // Lower threshold for better detection
+            rootMargin: '100px' // Add margin to trigger earlier
         };
 
         this.intersectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 this.isVisible = entry.isIntersecting;
+                console.log('[EnhancedHeroBanner] Visibility changed:', this.isVisible);
                 if (this.isVisible) {
                     this.resumeSlideshow();
+                    // Ensure 3D animation continues
+                    if (!this.animationFrameId) {
+                        this.startAnimation();
+                    }
                 } else {
                     this.pauseSlideshow();
                 }
@@ -836,11 +923,7 @@ class EnhancedHeroBanner {
     }
 
     animate() {
-        // Temporarily disable visibility check to debug 3D rendering
-        // if (!this.isVisible) {
-        //     return;
-        // }
-
+        // Always run animation - visibility check disabled for debugging
         this.animationFrameId = requestAnimationFrame(this.animate);
 
         // Update controls (this includes auto-rotation)
@@ -867,11 +950,6 @@ class EnhancedHeroBanner {
         // Render scene
         if (this.renderer && this.scene && this.camera) {
             this.renderer.render(this.scene, this.camera);
-            
-            // Debug: Log rendering status occasionally
-            if (Math.random() < 0.001) { // Log ~0.1% of frames
-                console.log('[EnhancedHeroBanner] 3D rendering active - molecule:', !!this.celluloseMolecule);
-            }
         }
     }
 
