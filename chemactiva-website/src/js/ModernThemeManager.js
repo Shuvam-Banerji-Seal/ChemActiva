@@ -118,8 +118,7 @@ class ModernThemeManager {
     initializeTheme() {
         const savedTheme = this.getSavedTheme();
         const systemTheme = this.getSystemTheme();
-        // Default to dark mode if no saved preference
-        const initialTheme = savedTheme || this.themes.dark;
+        const initialTheme = savedTheme || systemTheme;
         
         this.applyTheme(initialTheme, true);
     }
@@ -144,8 +143,7 @@ class ModernThemeManager {
     }
 
     handleToggleChange(e) {
-        // Since dark is default, checked = light mode, unchecked = dark mode
-        const targetTheme = e.target.checked ? this.themes.light : this.themes.dark;
+        const targetTheme = e.target.checked ? this.themes.dark : this.themes.light;
         this.switchTheme(targetTheme);
     }
 
@@ -205,29 +203,19 @@ class ModernThemeManager {
     applyTheme(theme, isInitial = false) {
         const isDark = theme === this.themes.dark;
         
-        // Apply theme classes - remove both first, then add the correct one
-        document.body.classList.remove('dark-mode', 'light-mode');
-        if (isDark) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.add('light-mode');
-        }
+        // Apply theme class
+        document.body.classList.toggle('dark-mode', isDark);
         
-        // Update toggle states - for dark mode default, checked = light mode
+        // Update toggle states
         const toggles = document.querySelectorAll('.theme-toggle-checkbox');
         toggles.forEach(toggle => {
-            toggle.checked = !isDark; // Inverted because dark is default
+            toggle.checked = isDark;
         });
-        
-        // Save theme preference
-        if (!isInitial) {
-            localStorage.setItem('theme', theme);
-        }
         
         // Set derived colors for enhanced theme
         this.setDerivedColors(isDark);
         
-        // Apply enhanced theme effects
+        // Apply enhanced dark mode effects
         if (isDark) {
             this.applyEnhancedDarkMode();
         } else {

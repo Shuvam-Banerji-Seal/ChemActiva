@@ -94,7 +94,6 @@
     --color-accent-rgb-values: var(--lm-accent-primary-rgb-values);
 }
 
-/* Dark mode is now the default - this class is kept for compatibility */
 body.dark-mode {
     /* Enhanced Dark Mode Color Overrides */
     --color-background: var(--dm-bg-deep);
