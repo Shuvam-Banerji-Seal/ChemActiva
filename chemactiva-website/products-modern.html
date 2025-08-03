@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products - ChemActiva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Lato:wght@300;400;700&family=Stix+Two+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/theme.css">
+    <link rel="stylesheet" href="src/css/typography.css">
+    <link rel="stylesheet" href="src/css/layout.css">
+    <link rel="stylesheet" href="src/css/components.css">
+    <link rel="stylesheet" href="src/css/navbar.css">
+    <link rel="stylesheet" href="src/css/sections.css">
+    <link rel="stylesheet" href="src/css/products.css">
+    <link rel="stylesheet" href="src/css/product-flash-cards.css">
+    <link rel="stylesheet" href="src/css/mobile-fixes.css">
+    <link rel="icon" type="image/png" href="/assets/images/logo-small_size.png">
+</head>
+<body>
+    <div id="main-container">
+        <header id="navbar">
+            <div class="container">
+                <a href="/index.html" class="logo">
+                    <img src="/assets/images/logo.png" alt="ChemActiva Logo" id="navbar-logo-img">
+                </a>
+                <nav class="nav-links">
+                    <a href="/index.html#about-us">About</a>
+                    <a href="/index.html#our-journey">Journey</a>
+                    <a href="/products.html" class="active-nav-link">Products</a>
+                    <a href="/innovation.html">Innovation</a>
+                    <a href="/blog.html">Blog</a>
+                    <a href="/index.html#our-team">Team</a>
+                    <a href="/index.html#contact">Contact</a>
+                    <div class="theme-switcher theme-switcher-mobile" style="display: none;">
+                        <input type="checkbox" id="theme-toggle-mobile" class="theme-toggle-checkbox">
+                        <label for="theme-toggle-mobile" class="theme-toggle-label">
+                            <span class="toggle-ball">
+                                <span class="icon sun-icon">☀️</span>
+                                <span class="icon moon-icon">🌙</span>
+                            </span>
+                        </label>
+                    </div>
+                </nav>
+                <div class="controls-container">
+                    <div class="theme-switcher" id="theme-switcher-desktop">
+                        <input type="checkbox" id="theme-toggle" class="theme-toggle-checkbox">
+                        <label for="theme-toggle" class="theme-toggle-label">
+                            <span class="toggle-ball">
+                                <span class="icon sun-icon">☀️</span>
+                                <span class="icon moon-icon">🌙</span>
+                            </span>
+                        </label>
+                    </div>
+                    <button id="hamburger-menu" aria-label="Open menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="content-section product-hero">
+                <div class="container">
+                    <h1>Our Innovative Products</h1>
+                    <p class="page-subtitle">Sustainable solutions for a cleaner world</p>
+                </div>
+            </section>
+
+            <section class="products-showcase">
+                <div class="products-grid">
+                    <!-- Domestic Oil Spill Kit -->
+                    <article class="product-flash-card" data-product="domestic">
+                        <div class="card-image-section">
+                            <img src="/assets/images/products/Domestic_oil_spill_kit_1.webp" 
+                                 alt="Domestic Oil Spill Kit" 
+                                 loading="lazy">
+                            <div class="product-badge">New</div>
+                        </div>
+                        
+                        <div class="card-content-section">
+                            <div class="card-header">
+                                <h3 class="card-title">Domestic Oil Spill Kit</h3>
+                                <p class="card-subtitle">Safe • Sustainable • Food-Grade</p>
+                            </div>
+                            
+                            <div class="card-stats">
+                                <div class="stat-item">
+                                    <span class="stat-number">97.3%</span>
+                                    <span class="stat-label">Porosity</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">100%</span>
+                                    <span class="stat-label">Food Safe</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card-details">
+                                <div class="features-list">
+                                    <div class="feature-item">
+                                        <span class="feature-icon">✓</span>
+                                        <span>Non-toxic</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">⚡</span>
+                                        <span>High Efficiency</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">💧</span>
+                                        <span>Water-Repellent</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">♻</span>
+                                        <span>Eco-Friendly</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="specs-section">
+                                    <button class="specs-toggle" onclick="toggleSpecs('specs-domestic')">
+                                        <span>Technical Specifications</span>
+                                        <span class="specs-icon">+</span>
+                                    </button>
+                                    <div class="specs-content" id="specs-domestic">
+                                        <ul class="specs-list">
+                                            <li>
+                                                <span class="spec-label">Porosity</span>
+                                                <span class="spec-value">97.3%</span>
+                                            </li>
+                                            <li>
+                                                <span class="spec-label">Absorption</span>
+                                                <span class="spec-value">15-20x weight</span>
+                                            </li>
+                                            <li>
+                                                <span class="spec-label">Material</span>
+                                                <span class="spec-value">Nano-cellulose</span>
+                                            </li>
+                                            <li>
+                                                <span class="spec-label">Reusable</span>
+                                                <span class="spec-value">Yes</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-actions">
+                                <button class="action-button primary">Get Quote</button>
+                                <button class="action-button secondary">Learn More</button>
+                            </div>
+                            
+                            <div class="hover-hint">Hover for details ↗</div>
+                        </div>
+                    </article>
+
+                    <!-- Marine Oil Spill Kit -->
+                    <article class="product-flash-card" data-product="marine">
+                        <div class="card-image-section">
+                            <img src="/assets/images/products/Marine_oil_spill_kit.webp" 
+                                 alt="Marine Oil Spill Kit" 
+                                 loading="lazy">
+                            <div class="product-badge marine">Marine Grade</div>
+                        </div>
+                        
+                        <div class="card-content-section">
+                            <div class="card-header">
+                                <h3 class="card-title">Marine Oil Spill Kit</h3>
+                                <p class="card-subtitle">Biodegradable • Fast-Acting • Marine-Grade</p>
+                            </div>
+                            
+                            <div class="card-stats">
+                                <div class="stat-item">
+                                    <span class="stat-number">95%</span>
+                                    <span class="stat-label">Efficiency</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">100%</span>
+                                    <span class="stat-label">Biodegradable</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card-details">
+                                <div class="features-list">
+                                    <div class="feature-item">
+                                        <span class="feature-icon">🌊</span>
+                                        <span>Marine Grade</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">⚡</span>
+                                        <span>Fast Acting</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">🌱</span>
+                                        <span>Biodegradable</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">🔒</span>
+                                        <span>Marine Safe</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="specs-section">
+                                    <button class="specs-toggle" onclick="toggleSpecs('specs-marine')">
+                                        <span>Technical Specifications</span>
+                                        <span class="specs-icon">+</span>
+                                    </button>
+                                    <div class="specs-content" id="specs-marine">
+                                        <ul class="specs-list">
+                                            <li>
+                                                <span class="spec-label">Absorption Rate</span>
+                                                <span class="spec-value">95%</span>
+                                            </li>
+                                            <li>
+                                                <span class="spec-label">Biodegradation</span>
+                                                <span class="spec-value">100%</span>
+                                            </li>
+                                            <li>
+                                                <span class="spec-label">Marine Safety</span>
+                                                <span class="spec-value">Certified</span>
+                                            </li>
+                                            <li>
+                                                <span class="spec-label">Coverage</span>
+                                                <span class="spec-value">Large spills</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-actions">
+                                <button class="action-button primary">Get Quote</button>
+                                <button class="action-button secondary">Learn More</button>
+                            </div>
+                            
+                            <div class="hover-hint">Hover for details ↗</div>
+                        </div>
+                    </article>
+
+                    <!-- Cellulose Nanocrystals -->
+                    <article class="product-flash-card" data-product="cellulose">
+                        <div class="card-image-section">
+                            <img src="/assets/images/products/Nano_cellulose_1.webp" 
+                                 alt="Cellulose Nanocrystals" 
+                                 loading="lazy">
+                            <div class="product-badge cellulose">Advanced</div>
+                        </div>
+                        
+                        <div class="card-content-section">
+                            <div class="card-header">
+                                <h3 class="card-title">Cellulose Nanocrystals</h3>
+                                <p class="card-subtitle">Renewable • High-Performance • Versatile</p>
+                            </div>
+                            
+                            <div class="card-stats">
+                                <div class="stat-item">
+                                    <span class="stat-number">100%</span>
+                                    <span class="stat-label">Renewable</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">Ultra</span>
+                                    <span class="stat-label">Strong</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card-details">
+                                <div class="features-list">
+                                    <div class="feature-item">
+                                        <span class="feature-icon">🌿</span>
+                                        <span>Plant-Based</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">💪</span>
+                                        <span>High Strength</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">🔬</span>
+                                        <span>Nano-Scale</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">🎯</span>
+                                        <span>Multi-Purpose</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="specs-section">
+                                    <button class="specs-toggle" onclick="toggleSpecs('specs-cellulose')">
+                                        <span>Technical Specifications</span>
+                                        <span class="specs-icon">+</span>
+                                    </button>
+                                    <div class="specs-content" id="specs-cellulose">
+                                        <ul class="specs-list">
+                                            <li>
+                                                <span class="spec-label">Source</span>
+                                                <span class="spec-value">Plant-based</span>
+                                            </li>
+                                            <li>
+                                                <span class="spec-label">Size</span>
+                                                <span class="spec-value">Nano-scale</span>
+                                            </li>
+                                            <li>
+                                                <span class="spec-label">Strength</span>
+                                                <span class="spec-value">Ultra-high</span>
+                                            </li>
+                                            <li>
+                                                <span class="spec-label">Applications</span>
+                                                <span class="spec-value">Multiple</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-actions">
+                                <button class="action-button primary">Get Quote</button>
+                                <button class="action-button secondary">Learn More</button>
+                            </div>
+                            
+                            <div class="hover-hint">Hover for details ↗</div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <footer id="footer">
+            <div class="container">
+                <p>© <span id="current-year"></span> ChemActiva Innovations Pvt Ltd. All rights reserved.</p>
+                <p>Pioneering Sustainable Nano Cellulose</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script type="module">
+        import UIAnimations from './src/js/UIAnimations.js';
+        import ModernThemeManager from './src/js/ModernThemeManager.js';
+        
+        // Toggle specs function
+        window.toggleSpecs = function(specsId) {
+            const specsContent = document.getElementById(specsId);
+            const specsToggle = document.querySelector(`[onclick="toggleSpecs('${specsId}')"]`);
+            const specsIcon = specsToggle.querySelector('.specs-icon');
+            
+            if (specsContent.classList.contains('expanded')) {
+                specsContent.classList.remove('expanded');
+                specsIcon.textContent = '+';
+                specsIcon.style.transform = 'rotate(0deg)';
+            } else {
+                // Close all other expanded specs first
+                document.querySelectorAll('.specs-content.expanded').forEach(content => {
+                    content.classList.remove('expanded');
+                });
+                document.querySelectorAll('.specs-icon').forEach(icon => {
+                    icon.textContent = '+';
+                    icon.style.transform = 'rotate(0deg)';
+                });
+                
+                // Open current specs
+                specsContent.classList.add('expanded');
+                specsIcon.textContent = '−';
+                specsIcon.style.transform = 'rotate(180deg)';
+            }
+        };
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize modern theme manager first for proper dark mode support
+            const modernThemeManager = new ModernThemeManager();
+            
+            // Initialize UI animations
+            const uiAnimations = new UIAnimations();
+            uiAnimations.init();
+
+            const currentYearSpan = document.getElementById('current-year');
+            if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

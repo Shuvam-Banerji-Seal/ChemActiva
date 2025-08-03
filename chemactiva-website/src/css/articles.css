@@ -1,19 +1,35 @@
 /* src/css/articles.css */
 
-/* Article Section Styling with Dark Mode Support */
+/* Article Section Styling with Consistent Typography */
 .article-listing-section {
     background: var(--color-background);
     color: var(--color-text-primary);
     transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 6rem 0 4rem;
+    min-height: 100vh;
 }
 
 .article-listing-section h2 {
-    margin-bottom: 50px;
-    color: var(--color-accent-primary);
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    margin-bottom: 3rem;
+    color: var(--color-text-primary);
+    text-align: center;
+    text-wrap: balance;
 }
 
-body.dark-mode .article-listing-section h2 {
-    color: var(--dm-glow-color);
+/* Subtitle for pages */
+.article-listing-section .page-subtitle {
+    font-family: var(--font-secondary);
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 4rem auto;
+    line-height: var(--line-height-relaxed);
 }
 
 .article-grid {
@@ -88,60 +104,67 @@ body.dark-mode .article-card:focus-within {
     flex-direction: column;
 }
 
-/* Article Card Content Styling with Dark Mode Support */
+/* Article Card Content Styling with Consistent Typography */
 .article-card-title {
     font-family: var(--font-primary);
-    font-size: 1.3rem;
-    color: var(--color-accent-primary);
-    margin-bottom: 0.5em;
-    line-height: 1.3;
+    font-weight: var(--font-weight-semibold);
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    color: var(--color-text-primary);
+    margin-bottom: 0.75em;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-normal);
     transition: color 0.3s ease;
+    text-wrap: balance;
 }
 
-body.dark-mode .article-card-title {
-    color: var(--dm-glow-color);
+.article-card:hover .article-card-title {
+    color: var(--color-accent-primary);
 }
 
 .article-card-meta {
-    font-size: 0.8rem;
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
     color: var(--color-text-secondary);
-    margin-bottom: 0.8em;
+    margin-bottom: 1em;
     transition: color 0.3s ease;
-}
-
-body.dark-mode .article-card-meta {
-    color: var(--dm-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
 }
 
 .article-card-meta span {
-    margin-right: 10px;
+    margin-right: 1rem;
+    display: inline-block;
 }
 
 .article-card-abstract {
-    font-size: 0.9rem;
-    line-height: 1.6;
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-relaxed);
     color: var(--color-text-secondary);
     flex-grow: 1;
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
     transition: color 0.3s ease;
-}
-
-body.dark-mode .article-card-abstract {
-    color: var(--dm-text-secondary);
 }
 
 .article-card-read-more {
     display: inline-block;
-    padding: 8px 15px;
+    padding: 0.75rem 1.5rem;
     background-color: var(--color-accent-secondary);
     color: white;
-    border-radius: 5px;
+    border-radius: 8px;
     text-align: center;
-    font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     margin-top: auto;
     align-self: flex-start;
     border: 1px solid transparent;
+    text-decoration: none;
 }
 
 body.dark-mode .article-card-read-more {
@@ -489,6 +512,72 @@ body.dark-mode .article-grid {
     background: transparent;
 }
 
+/* Single Article Page Styling */
+.article-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.article-container h1 {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    line-height: var(--line-height-tight);
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+    text-wrap: balance;
+}
+
+.article-container .article-meta {
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-card-border);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+.article-container .article-content {
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
+    color: var(--color-text-primary);
+}
+
+.article-container .article-content h2 {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: clamp(1.5rem, 3vw, 1.8rem);
+    color: var(--color-accent-primary);
+    margin: 2rem 0 1rem 0;
+}
+
+.article-container .article-content h3 {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-medium);
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    color: var(--color-accent-secondary);
+    margin: 1.5rem 0 0.75rem 0;
+}
+
+.article-container .article-content p {
+    margin-bottom: 1.5rem;
+}
+
+.article-container .article-content ul,
+.article-container .article-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.article-container .article-content li {
+    margin-bottom: 0.5rem;
+    line-height: var(--line-height-relaxed);
+}
+
 /* Blog Loading State Enhancement */
 .placeholder-text {
     background: var(--color-background-card);
@@ -497,7 +586,11 @@ body.dark-mode .article-grid {
     padding: 2rem;
     text-align: center;
     color: var(--color-text-secondary);
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
     font-style: italic;
+    line-height: var(--line-height-relaxed);
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px var(--color-shadow);
 }

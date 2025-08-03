@@ -1,7 +1,6 @@
-// Products Page JavaScript - Enhanced Product Experience
+// Products Page JavaScript - Modern Flash Cards Experience
 import UIAnimations from './UIAnimations.js';
-import ProductManager from './ProductManager.js';
-import ProductImageGallery from './ProductImageGallery.js';
+import ProductFlashCards from './ProductFlashCards.js';
 import ContactManager from './ContactManager.js';
 import ModernThemeManager from './ModernThemeManager.js';
 
@@ -14,82 +13,55 @@ document.addEventListener('DOMContentLoaded', () => {
         const uiAnimations = new UIAnimations();
         uiAnimations.init();
         
-        // Initialize enhanced product manager with UIAnimations integration
-        const productManager = new ProductManager(uiAnimations);
-        productManager.init();
+        // Initialize modern flash cards for products
+        const productFlashCards = new ProductFlashCards();
+        productFlashCards.init();
         
         // Initialize contact manager for product inquiries and quotes
         const contactManager = new ContactManager();
         contactManager.init();
         
-        // Initialize ProductImageGallery for enhanced product cards
-        const enhancedProductCards = document.querySelectorAll('.product-card-enhanced');
-        const galleries = [];
-        
-        enhancedProductCards.forEach(card => {
-            const imageContainer = card.querySelector('.product-image-carousel-enhanced');
-            if (imageContainer) {
-                const images = imageContainer.querySelectorAll('img');
-                
-                // Only initialize gallery if there are multiple images
-                if (images.length > 1) {
-                    const gallery = new ProductImageGallery(imageContainer, {
-                        autoPlay: true,
-                        autoPlayDelay: 4000,
-                        showThumbnails: true,
-                        enableKeyboard: true,
-                        enableTouch: true,
-                        transitionDuration: 0.6
-                    });
-                    galleries.push(gallery);
-                }
-            }
-        });
-        
-        // Initialize legacy product image carousels (for backward compatibility)
-        const legacyProductCards = document.querySelectorAll('.product-card:not(.product-card-enhanced)');
-        
-        legacyProductCards.forEach(card => {
-            const images = card.querySelectorAll('.product-image-carousel img');
-            if (images.length > 1) {
-                let currentIndex = 0;
-                
-                // Set initial image
-                images[0].style.opacity = 1;
-                
-                // Rotate images every 5 seconds
-                setInterval(() => {
-                    images[currentIndex].style.opacity = 0;
-                    currentIndex = (currentIndex + 1) % images.length;
-                    images[currentIndex].style.opacity = 1;
-                }, 5000);
-            }
-        });
-        
-        // Listen for theme changes to update product card animations
-        window.addEventListener('themeChanged', (event) => {
-            if (productManager) {
-                productManager.handleThemeChange(event.detail.isDark);
-            }
-        });
-        
-        // Listen for product CTA clicks for enhanced interactivity
-        window.addEventListener('productCTAClick', (event) => {
-            const { productIndex, productTitle, cardElement } = event.detail;
-            console.log(`Product CTA clicked: ${productTitle} (Index: ${productIndex})`);
+        // Listen for flash card events
+        window.addEventListener('flashCardActionClick', (event) => {
+            const { cardIndex, action, productId, buttonText } = event.detail;
+            console.log(`Flash card action clicked: ${action} for ${productId} (Card: ${cardIndex})`);
             
-            // Add custom behavior here - could open modal, navigate to product page, etc.
-            // For now, just add a visual feedback
-            cardElement.style.transform = 'scale(0.98)';
-            setTimeout(() => {
-                cardElement.style.transform = '';
-            }, 150);
+            // Handle different actions
+            if (action === 'quote' || action === 'inquiry') {
+                // Trigger contact manager
+                const contactEvent = new CustomEvent('productContactClick', {
+                    detail: {
+                        productId: productId,
+                        action: action,
+                        cardIndex: cardIndex,
+                        productName: buttonText
+                    }
+                });
+                window.dispatchEvent(contactEvent);
+            }
         });
         
-        // Listen for accordion toggle events
-        window.addEventListener('accordionToggle', (event) => {
-            const { cardIndex, isExpanded } = event.detail;
-            console.log(`Accordion ${isExpanded ? 'expanded' : 'collapsed'} for card ${cardIndex}`);
+        // Listen for collapsible toggle events
+        window.addEventListener('flashCardCollapsibleToggle', (event) => {
+            const { cardIndex, sectionIndex, isExpanded } = event.detail;
+            console.log(`Collapsible ${isExpanded ? 'expanded' : 'collapsed'} for card ${cardIndex}, section ${sectionIndex}`);
+        });
+        
+        // Listen for tag clicks
+        window.addEventListener('flashCardTagClick', (event) => {
+            const { cardIndex, tagIndex, isActive, tagText } = event.detail;
+            console.log(`Tag "${tagText}" ${isActive ? 'activated' : 'deactivated'} for card ${cardIndex}`);
+        });
+        
+        // Listen for card hover events
+        window.addEventListener('flashCardCardHoverEnter', (event) => {
+            const { cardIndex, productId } = event.detail;
+            console.log(`Card ${cardIndex} (${productId}) hovered`);
+        });
+        
+        window.addEventListener('flashCardCardHoverLeave', (event) => {
+            const { cardIndex, productId } = event.detail;
+            console.log(`Card ${cardIndex} (${productId}) hover ended`);
         });
         
         // Set current year in footer
@@ -97,20 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
         
         // Store references globally for potential cleanup and debugging
-        window.productManager = productManager;
+        window.productFlashCards = productFlashCards;
         window.contactManager = contactManager;
-        window.productGalleries = galleries;
         window.uiAnimations = uiAnimations;
         
-        // Log performance metrics after initialization
-        setTimeout(() => {
-            if (productManager) {
-                const metrics = productManager.getPerformanceMetrics();
-                console.log('ProductManager Performance Metrics:', metrics);
-            }
-        }, 2000);
-        
-        console.log('Products page initialized with enhanced functionality');
+        console.log('Products page initialized with modern flash cards');
         
     } catch (error) {
         console.error('Error initializing products page:', error);
@@ -127,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Basic product card hover effects
-        const productCards = document.querySelectorAll('.product-card, .product-card-enhanced');
+        const productCards = document.querySelectorAll('.product-card, .product-card-enhanced, .product-flash-card');
         productCards.forEach(card => {
             card.addEventListener('mouseenter', () => {
                 card.style.transform = 'translateY(-5px)';
@@ -140,12 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // Basic contact button functionality
-        const contactButtons = document.querySelectorAll('.contact-button');
+        const contactButtons = document.querySelectorAll('.contact-button, .flash-card-btn');
         contactButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 const action = button.dataset.action || 'contact';
-                const productName = button.closest('.product-card, .product-card-enhanced')?.querySelector('h3')?.textContent || 'Product';
+                const productName = button.closest('.product-card, .product-card-enhanced, .product-flash-card')?.querySelector('h3, .flash-card-title')?.textContent || 'Product';
                 alert(`Contact form for ${productName} - ${action} (Enhanced features temporarily unavailable)`);
             });
         });

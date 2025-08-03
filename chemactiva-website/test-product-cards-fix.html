@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Cards Fix Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Lato:wght@300;400;700&family=Stix+Two+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/theme.css">
+    <link rel="stylesheet" href="src/css/typography.css">
+    <link rel="stylesheet" href="src/css/layout.css">
+    <link rel="stylesheet" href="src/css/components.css">
+    <link rel="stylesheet" href="src/css/navbar.css">
+    <link rel="stylesheet" href="src/css/sections.css">
+    <link rel="stylesheet" href="src/css/products.css">
+    <link rel="stylesheet" href="src/css/mobile-fixes.css">
+</head>
+<body class="products-page">
+    <div id="main-container">
+        <main>
+            <section class="content-section product-hero">
+                <div class="container">
+                    <h1>Product Cards Fix Test</h1>
+                    <p>Testing the fixed flash card layout and image carousel</p>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <div class="container">
+                    <div class="product-grid">
+                        <!-- Test Card 1: Single Image -->
+                        <div class="product-card-enhanced card-style">
+                            <div class="product-image-carousel-enhanced">
+                                <img src="/assets/images/products/Marine_oil_spill_kit.webp" alt="Marine Oil Spill Kit" loading="lazy">
+                            </div>
+                            <div class="product-info-enhanced">
+                                <div class="product-header-section">
+                                    <div class="product-title-group">
+                                        <span class="product-category-badge">Marine Solution</span>
+                                        <h3>Marine Oil Spill Kit</h3>
+                                        <p class="product-tagline">Single image test</p>
+                                    </div>
+                                    <p class="product-description">
+                                        Testing single image layout to ensure proper sizing and no overflow.
+                                    </p>
+                                </div>
+
+                                <div class="product-benefits-highlight">
+                                    <div class="benefits-title">Key Benefits</div>
+                                    <ul class="key-benefits-grid">
+                                        <li class="key-benefit-item">
+                                            <span class="benefit-icon">🌱</span>
+                                            <span class="benefit-text">Eco-friendly</span>
+                                        </li>
+                                        <li class="key-benefit-item">
+                                            <span class="benefit-icon">💪</span>
+                                            <span class="benefit-text">High absorption</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="product-highlights">
+                                    <span class="highlight-tag">Marine Grade</span>
+                                    <span class="highlight-tag">Fast Deploy</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Test Card 2: Multiple Images -->
+                        <div class="product-card-enhanced card-style">
+                            <div class="product-image-carousel-enhanced">
+                                <img src="/assets/images/products/Domestic_oil_spill_kit_1.webp" alt="Domestic Oil Spill Kit - Main View" loading="lazy">
+                                <img src="/assets/images/products/Domestic_oil_spill_kit_collage_1.webp" alt="Domestic Kit Collage - Usage Examples" loading="lazy">
+                                <img src="/assets/images/products/Domestic_oil_spill_kit_collage_2.webp" alt="Domestic Kit Collage - Components" loading="lazy">
+                            </div>
+                            <div class="product-info-enhanced">
+                                <div class="product-header-section">
+                                    <div class="product-title-group">
+                                        <span class="product-category-badge">Oil Spill Solution</span>
+                                        <h3>Domestic Oil Spill Kit</h3>
+                                        <p class="product-tagline">Multiple images test</p>
+                                    </div>
+                                    <p class="product-description">
+                                        Testing multiple image carousel with navigation controls and proper sizing.
+                                    </p>
+                                </div>
+
+                                <div class="product-benefits-highlight">
+                                    <div class="benefits-title">Key Benefits</div>
+                                    <ul class="key-benefits-grid">
+                                        <li class="key-benefit-item">
+                                            <span class="benefit-icon">✓</span>
+                                            <span class="benefit-text">Non-toxic & Food-Safe</span>
+                                        </li>
+                                        <li class="key-benefit-item">
+                                            <span class="benefit-icon">⚡</span>
+                                            <span class="benefit-text">High Efficiency</span>
+                                        </li>
+                                        <li class="key-benefit-item">
+                                            <span class="benefit-icon">💧</span>
+                                            <span class="benefit-text">Water-Repellent</span>
+                                        </li>
+                                        <li class="key-benefit-item">
+                                            <span class="benefit-icon">♻</span>
+                                            <span class="benefit-text">Reusable</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="product-highlights">
+                                    <span class="highlight-tag">Food Safe</span>
+                                    <span class="highlight-tag">97.3% Porosity</span>
+                                    <span class="highlight-tag">Reusable</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script type="module" src="src/js/products.js"></script>
+</body>
+</html>

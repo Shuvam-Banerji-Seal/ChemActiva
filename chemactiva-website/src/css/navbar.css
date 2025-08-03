@@ -32,6 +32,7 @@
     max-width: 1400px;
     margin: 0 auto;
     transition: var(--navbar-transition);
+    min-height: 100px; /* Ensure minimum height for logo */
 }
 
 /* Logo Styling */
@@ -41,17 +42,45 @@
     height: 100%;
     z-index: 1003; /* Above mobile menu overlay */
     transition: var(--navbar-transition);
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: transparent;
+}
+
+#navbar .logo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, 
+        rgba(var(--color-accent-primary), 0.05) 0%, 
+        rgba(var(--color-accent-secondary), 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#navbar .logo:hover::before {
+    opacity: 1;
+}
+
+body.dark-mode #navbar .logo::before {
+    background: linear-gradient(135deg, 
+        rgba(var(--dm-glow-color-rgb-values), 0.1) 0%, 
+        rgba(var(--dm-accent-secondary-rgb), 0.1) 100%);
 }
 
 #navbar .logo img {
-    height: 100px;
+    height: 120px;
     width: auto;
+    max-width: 200px;
     display: block;
     transition: height 0.4s ease, filter 0.3s ease, transform 0.3s ease;
     object-fit: contain;
+    padding: 8px 0;
 }
 #navbar .logo img:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 /* Scrolled Navbar State */
@@ -63,7 +92,7 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 #navbar.scrolled .container { height: var(--navbar-height-scrolled); }
-#navbar.scrolled .logo img { height: 80px; }
+#navbar.scrolled .logo img { height: 90px; }
 
 /* Dark Mode Navbar */
 body.dark-mode #navbar.scrolled {
@@ -74,6 +103,26 @@ body.dark-mode #navbar.scrolled {
 }
 body.dark-mode #navbar .logo img {
     filter: drop-shadow(0 0 8px rgba(var(--color-glow-rgb-values), 0.3));
+}
+
+/* Enhanced logo styling for better visual hierarchy */
+#navbar .logo {
+    position: relative;
+}
+
+#navbar .logo img {
+    position: relative;
+    z-index: 2;
+}
+
+/* Add subtle glow effect on hover for dark mode */
+body.dark-mode #navbar .logo:hover img {
+    filter: drop-shadow(0 0 12px rgba(var(--color-glow-rgb-values), 0.5));
+}
+
+/* Light mode hover effect */
+body.light-mode #navbar .logo:hover img {
+    filter: drop-shadow(0 0 8px rgba(var(--lm-accent-primary-rgb-values), 0.3));
 }
 
 /* Desktop Navigation Links */
@@ -189,10 +238,19 @@ body.dark-mode #hamburger-menu {
 
 /* Mobile Styles & Menu Overlay */
 @media (max-width: 768px) {
-    #navbar .container { height: var(--navbar-height-mobile); padding: 0 20px; }
-    #navbar .logo img { height: 90px; }
-    #navbar.scrolled .container { height: 65px; }
-    #navbar.scrolled .logo img { height: 75px; }
+    #navbar .container { 
+        height: var(--navbar-height-mobile); 
+        padding: 0 20px; 
+        min-height: 80px; /* Ensure minimum height for mobile logo */
+    }
+    #navbar .logo img { 
+        height: 100px; /* Larger logo on mobile */
+        max-width: 180px;
+    }
+    #navbar.scrolled .container { height: 70px; }
+    #navbar.scrolled .logo img { 
+        height: 85px; /* Keep logo prominent even when scrolled */
+    }
 
     #hamburger-menu { display: flex !important; }
     #theme-switcher-desktop { display: none !important; }

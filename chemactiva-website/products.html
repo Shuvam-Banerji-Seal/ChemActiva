@@ -15,10 +15,11 @@
     <link rel="stylesheet" href="src/css/navbar.css">
     <link rel="stylesheet" href="src/css/sections.css">
     <link rel="stylesheet" href="src/css/products.css">
+    <link rel="stylesheet" href="src/css/modern-flash-cards.css">
     <link rel="stylesheet" href="src/css/mobile-fixes.css">
     <link rel="icon" type="image/png" href="/assets/images/logo-small_size.png">
 </head>
-<body>
+<body class="products-page">
     <div id="main-container">
         <header id="navbar">
             <div class="container">
@@ -72,393 +73,321 @@
 
             <section class="content-section">
                 <div class="container">
-                    <div class="product-grid">
-                        <div class="product-card-enhanced card-style">
-                            <div class="product-image-carousel-enhanced">
-                                <img src="/assets/images/products/Domestic_oil_spill_kit_1.webp" alt="Domestic Oil Spill Kit - Main View" loading="lazy">
-                                <img src="/assets/images/products/Domestic_oil_spill_kit_collage_1.webp" alt="Domestic Kit Collage - Usage Examples" loading="lazy">
-                                <img src="/assets/images/products/Domestic_oil_spill_kit_collage_2.webp" alt="Domestic Kit Collage - Components" loading="lazy">
-                                <img src="/assets/images/products/Domestic_oil_spill_kit_collage_3.webp" alt="Domestic Kit Collage - Applications" loading="lazy">
+                    <div class="product-flash-grid">
+                        <!-- Domestic Oil Spill Kit Flash Card -->
+                        <div class="product-flash-card" data-product="domestic-oil-spill-kit">
+                            <!-- Image Container with Fixed Aspect Ratio -->
+                            <div class="flash-card-image-container">
+                                <img src="/assets/images/products/Domestic_oil_spill_kit_1.webp" 
+                                     alt="Domestic Oil Spill Kit - Main View" 
+                                     class="flash-card-image" 
+                                     loading="lazy">
+                                <div class="flash-card-badge">Oil Spill Solution</div>
                             </div>
-                            <div class="product-info-enhanced">
-                                <div class="product-header-section">
-                                    <div class="product-title-group">
-                                        <span class="product-category-badge">Oil Spill Solution</span>
-                                        <h3>Domestic Oil Spill Kit</h3>
-                                        <p class="product-tagline">Safe | Sustainable | Taste-Preserving</p>
-                                    </div>
-                                    <p class="product-description">
-                                        Revolutionary nano-cellulose based oil absorption kit designed for safe domestic use. 
-                                        Features exceptional porosity and water-repellent properties while maintaining food safety standards.
-                                    </p>
-                                </div>
 
-                                <div class="product-benefits-highlight">
-                                    <div class="benefits-title">Key Benefits</div>
-                                    <ul class="key-benefits-grid">
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">✓</span>
-                                            <span class="benefit-text">Non-toxic & Food-Safe</span>
-                                        </li>
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">⚡</span>
-                                            <span class="benefit-text">High Efficiency (97.3% porosity)</span>
-                                        </li>
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">💧</span>
-                                            <span class="benefit-text">Water-Repellent Design</span>
-                                        </li>
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">♻</span>
-                                            <span class="benefit-text">Reusable & Eco-Friendly</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <!-- Base Content - Always Visible -->
+                            <div class="flash-card-base-content">
+                                <h3 class="flash-card-title">Domestic Oil Spill Kit</h3>
+                                <p class="flash-card-subtitle">Safe | Sustainable | Taste-Preserving</p>
+                                <p class="flash-card-key-benefit">
+                                    <span class="benefit-icon">✓</span>
+                                    Non-toxic & Food-Safe Solution
+                                </p>
+                            </div>
 
-                                <div class="product-highlights">
-                                    <span class="highlight-tag">Food Safe</span>
-                                    <span class="highlight-tag">97.3% Porosity</span>
-                                    <span class="highlight-tag">Reusable</span>
-                                    <span class="highlight-tag">Biodegradable</span>
-                                </div>
-
-                                <div class="product-specs-preview">
-                                    <div class="spec-item">
-                                        <span class="spec-value">97.3%</span>
-                                        <span class="spec-label">Porosity</span>
-                                    </div>
-                                    <div class="spec-item">
-                                        <span class="spec-value">15-20x</span>
-                                        <span class="spec-label">Absorption</span>
-                                    </div>
-                                    <div class="spec-item">
-                                        <span class="spec-value">100%</span>
-                                        <span class="spec-label">Biodegradable</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="product-specs-accordion">
-                                    <div class="accordion-item">
-                                        <button class="accordion-header" aria-expanded="false" aria-controls="specs-domestic-1">
-                                            <span>Technical Specifications</span>
-                                            <span class="accordion-icon" aria-hidden="true">+</span>
-                                        </button>
-                                        <div class="accordion-content" id="specs-domestic-1" role="region" aria-labelledby="specs-domestic-1-header">
-                                            <div class="accordion-body">
-                                                <ul>
-                                                    <li><strong>Porosity:</strong> 97.3%</li>
-                                                    <li><strong>Absorption Capacity:</strong> 15-20x its weight</li>
-                                                    <li><strong>Material:</strong> Nano-cellulose based</li>
-                                                    <li><strong>Biodegradability:</strong> 100% biodegradable</li>
-                                                    <li><strong>Temperature Range:</strong> -10°C to 60°C</li>
-                                                </ul>
-                                            </div>
+                            <!-- Content Overlay - Revealed on Hover -->
+                            <div class="flash-card-content-overlay">
+                                <!-- Quick Stats -->
+                                <div class="overlay-section">
+                                    <div class="flash-card-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-value">97.3%</span>
+                                            <span class="stat-label">Porosity</span>
                                         </div>
-                                    </div>
-                                    
-                                    <div class="accordion-item">
-                                        <button class="accordion-header" aria-expanded="false" aria-controls="specs-domestic-2">
-                                            <span>Applications & Usage</span>
-                                            <span class="accordion-icon" aria-hidden="true">+</span>
-                                        </button>
-                                        <div class="accordion-content" id="specs-domestic-2" role="region" aria-labelledby="specs-domestic-2-header">
-                                            <div class="accordion-body">
-                                                <ul>
-                                                    <li>Kitchen oil spill cleanup</li>
-                                                    <li>Garage and workshop maintenance</li>
-                                                    <li>Automotive fluid management</li>
-                                                    <li>Industrial equipment maintenance</li>
-                                                    <li>Emergency spill response</li>
-                                                </ul>
-                                            </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value">15-20x</span>
+                                            <span class="stat-label">Absorption</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value">100%</span>
+                                            <span class="stat-label">Biodegradable</span>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="product-contact-section">
-                                    <div class="contact-actions-group">
-                                        <button class="contact-button primary" data-product="domestic-oil-spill-kit">
-                                            <span class="contact-icon">📧</span>
-                                            <span>Get Quote</span>
-                                        </button>
-                                        <button class="contact-button" data-product="domestic-oil-spill-kit" data-action="inquiry">
-                                            <span class="contact-icon">💬</span>
-                                            <span>Ask Question</span>
-                                        </button>
+
+                                <!-- Expandable Tags -->
+                                <div class="overlay-section">
+                                    <div class="flash-card-tags">
+                                        <div class="expandable-tag" data-info="Food-safe nano-cellulose material">
+                                            <span>Food Safe</span>
+                                            <div class="tag-tooltip">Food-safe nano-cellulose material</div>
+                                        </div>
+                                        <div class="expandable-tag" data-info="Exceptional absorption capacity">
+                                            <span>High Efficiency</span>
+                                            <div class="tag-tooltip">Exceptional absorption capacity</div>
+                                        </div>
+                                        <div class="expandable-tag" data-info="Reusable and eco-friendly design">
+                                            <span>Reusable</span>
+                                            <div class="tag-tooltip">Reusable and eco-friendly design</div>
+                                        </div>
                                     </div>
-                                    <div class="resource-links">
-                                        <a href="/assets/resources/domestic-oil-spill-kit-datasheet.pdf" class="resource-link">
-                                            <span class="resource-icon">📄</span>
-                                            <span>Product Sheet</span>
-                                        </a>
-                                        <a href="/assets/resources/domestic-oil-spill-kit-datasheet.pdf" class="resource-link">
-                                            <span class="resource-icon">🔬</span>
+                                </div>
+
+                                <!-- Collapsible Specifications -->
+                                <div class="overlay-section">
+                                    <div class="collapsible-section">
+                                        <button class="collapsible-trigger" aria-expanded="false">
                                             <span>Technical Specs</span>
-                                        </a>
-                                        <a href="#" class="resource-link">
-                                            <span class="resource-icon">📊</span>
-                                            <span>Safety Data</span>
-                                        </a>
+                                            <span class="trigger-icon">+</span>
+                                        </button>
+                                        <div class="collapsible-content">
+                                            <ul class="specs-list">
+                                                <li><strong>Porosity:</strong> 97.3%</li>
+                                                <li><strong>Absorption:</strong> 15-20x its weight</li>
+                                                <li><strong>Material:</strong> Nano-cellulose based</li>
+                                                <li><strong>Temperature:</strong> -10°C to 60°C</li>
+                                            </ul>
+                                        </div>
                                     </div>
+
+                                    <div class="collapsible-section">
+                                        <button class="collapsible-trigger" aria-expanded="false">
+                                            <span>Applications</span>
+                                            <span class="trigger-icon">+</span>
+                                        </button>
+                                        <div class="collapsible-content">
+                                            <ul class="specs-list">
+                                                <li>Kitchen oil spill cleanup</li>
+                                                <li>Garage maintenance</li>
+                                                <li>Automotive fluid management</li>
+                                                <li>Emergency spill response</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="flash-card-actions">
+                                    <button class="flash-card-btn primary" data-action="quote" data-product="domestic-oil-spill-kit">
+                                        <span>📧</span>
+                                        Get Quote
+                                    </button>
+                                    <button class="flash-card-btn secondary" data-action="inquiry" data-product="domestic-oil-spill-kit">
+                                        <span>💬</span>
+                                        Ask Question
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="product-card-enhanced card-style">
-                            <div class="product-image-carousel-enhanced">
-                                <img src="/assets/images/products/Marine_oil_spill_kit.webp" alt="Marine Oil Spill Kit" loading="lazy">
+                        <!-- Marine Oil Spill Kit Flash Card -->
+                        <div class="product-flash-card" data-product="marine-oil-spill-kit">
+                            <!-- Image Container with Fixed Aspect Ratio -->
+                            <div class="flash-card-image-container">
+                                <img src="/assets/images/products/Marine_oil_spill_kit.webp" 
+                                     alt="Marine Oil Spill Kit" 
+                                     class="flash-card-image" 
+                                     loading="lazy">
+                                <div class="flash-card-badge marine">Marine Solution</div>
                             </div>
-                            <div class="product-info-enhanced">
-                                <div class="product-header-section">
-                                    <div class="product-title-group">
-                                        <span class="product-category-badge">Marine Solution</span>
-                                        <h3>Marine Oil Spill Kit</h3>
-                                        <p class="product-tagline">Biodegradable solution for oil spill management</p>
-                                    </div>
-                                    <p class="product-description">
-                                        Advanced marine oil spill response system derived from sustainable Shola plant material. 
-                                        Engineered for rapid deployment and exceptional absorption capacity in marine environments.
-                                    </p>
-                                </div>
 
-                                <div class="product-benefits-highlight">
-                                    <div class="benefits-title">Key Benefits</div>
-                                    <ul class="key-benefits-grid">
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">🌱</span>
-                                            <span class="benefit-text">Developed from Shola plant</span>
-                                        </li>
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">💪</span>
-                                            <span class="benefit-text">Absorbs oil up to 50x its weight</span>
-                                        </li>
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">🌍</span>
-                                            <span class="benefit-text">Eco-friendly and sustainable</span>
-                                        </li>
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">⚡</span>
-                                            <span class="benefit-text">Rapid deployment</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <!-- Base Content - Always Visible -->
+                            <div class="flash-card-base-content">
+                                <h3 class="flash-card-title">Marine Oil Spill Kit</h3>
+                                <p class="flash-card-subtitle">Biodegradable | Rapid Deploy | Marine Grade</p>
+                                <p class="flash-card-key-benefit">
+                                    <span class="benefit-icon">🌱</span>
+                                    Developed from Shola Plant
+                                </p>
+                            </div>
 
-                                <div class="product-highlights">
-                                    <span class="highlight-tag">Marine Grade</span>
-                                    <span class="highlight-tag">50x Absorption</span>
-                                    <span class="highlight-tag">Fast Deploy</span>
-                                    <span class="highlight-tag">Biodegradable</span>
-                                </div>
-
-                                <div class="product-specs-preview">
-                                    <div class="spec-item">
-                                        <span class="spec-value">50:1</span>
-                                        <span class="spec-label">Absorption</span>
-                                    </div>
-                                    <div class="spec-item">
-                                        <span class="spec-value">&lt;5min</span>
-                                        <span class="spec-label">Deploy Time</span>
-                                    </div>
-                                    <div class="spec-item">
-                                        <span class="spec-value">90%</span>
-                                        <span class="spec-label">Biodegrades</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="product-specs-accordion">
-                                    <div class="accordion-item">
-                                        <button class="accordion-header" aria-expanded="false" aria-controls="specs-marine-1">
-                                            <span>Technical Specifications</span>
-                                            <span class="accordion-icon" aria-hidden="true">+</span>
-                                        </button>
-                                        <div class="accordion-content" id="specs-marine-1" role="region" aria-labelledby="specs-marine-1-header">
-                                            <div class="accordion-body">
-                                                <ul>
-                                                    <li><strong>Absorption Ratio:</strong> Up to 50:1</li>
-                                                    <li><strong>Source Material:</strong> Shola plant (Aeschynomene aspera)</li>
-                                                    <li><strong>Deployment Time:</strong> &lt; 5 minutes</li>
-                                                    <li><strong>Biodegradation:</strong> 90% in 180 days</li>
-                                                    <li><strong>Buoyancy:</strong> Floats on water surface</li>
-                                                </ul>
-                                            </div>
+                            <!-- Content Overlay - Revealed on Hover -->
+                            <div class="flash-card-content-overlay">
+                                <!-- Quick Stats -->
+                                <div class="overlay-section">
+                                    <div class="flash-card-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-value">50:1</span>
+                                            <span class="stat-label">Absorption</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value">&lt;5min</span>
+                                            <span class="stat-label">Deploy Time</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value">90%</span>
+                                            <span class="stat-label">Biodegrades</span>
                                         </div>
                                     </div>
-                                    
-                                    <div class="accordion-item">
-                                        <button class="accordion-header" aria-expanded="false" aria-controls="specs-marine-2">
+                                </div>
+
+                                <!-- Expandable Tags -->
+                                <div class="overlay-section">
+                                    <div class="flash-card-tags">
+                                        <div class="expandable-tag" data-info="Marine-grade absorption material">
+                                            <span>Marine Grade</span>
+                                            <div class="tag-tooltip">Marine-grade absorption material</div>
+                                        </div>
+                                        <div class="expandable-tag" data-info="Absorbs oil up to 50x its weight">
+                                            <span>50x Absorption</span>
+                                            <div class="tag-tooltip">Absorbs oil up to 50x its weight</div>
+                                        </div>
+                                        <div class="expandable-tag" data-info="Rapid deployment in emergency situations">
+                                            <span>Fast Deploy</span>
+                                            <div class="tag-tooltip">Rapid deployment in emergency situations</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Collapsible Specifications -->
+                                <div class="overlay-section">
+                                    <div class="collapsible-section">
+                                        <button class="collapsible-trigger" aria-expanded="false">
+                                            <span>Technical Specs</span>
+                                            <span class="trigger-icon">+</span>
+                                        </button>
+                                        <div class="collapsible-content">
+                                            <ul class="specs-list">
+                                                <li><strong>Absorption:</strong> Up to 50:1 ratio</li>
+                                                <li><strong>Source:</strong> Shola plant (Aeschynomene aspera)</li>
+                                                <li><strong>Deploy Time:</strong> &lt; 5 minutes</li>
+                                                <li><strong>Biodegradation:</strong> 90% in 180 days</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="collapsible-section">
+                                        <button class="collapsible-trigger" aria-expanded="false">
                                             <span>Marine Applications</span>
-                                            <span class="accordion-icon" aria-hidden="true">+</span>
+                                            <span class="trigger-icon">+</span>
                                         </button>
-                                        <div class="accordion-content" id="specs-marine-2" role="region" aria-labelledby="specs-marine-2-header">
-                                            <div class="accordion-body">
-                                                <ul>
-                                                    <li>Ocean oil spill response</li>
-                                                    <li>Port and harbor cleanup</li>
-                                                    <li>Ship bilge water treatment</li>
-                                                    <li>Coastal protection systems</li>
-                                                    <li>Emergency marine response</li>
-                                                </ul>
-                                            </div>
+                                        <div class="collapsible-content">
+                                            <ul class="specs-list">
+                                                <li>Ocean oil spill response</li>
+                                                <li>Port and harbor cleanup</li>
+                                                <li>Ship bilge water treatment</li>
+                                                <li>Coastal protection systems</li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="product-contact-section">
-                                    <div class="contact-actions-group">
-                                        <button class="contact-button primary" data-product="marine-oil-spill-kit">
-                                            <span class="contact-icon">📧</span>
-                                            <span>Get Quote</span>
-                                        </button>
-                                        <button class="contact-button" data-product="marine-oil-spill-kit" data-action="inquiry">
-                                            <span class="contact-icon">💬</span>
-                                            <span>Ask Question</span>
-                                        </button>
-                                    </div>
-                                    <div class="resource-links">
-                                        <a href="/assets/resources/marine-oil-spill-kit-guide.pdf" class="resource-link">
-                                            <span class="resource-icon">📄</span>
-                                            <span>Product Sheet</span>
-                                        </a>
-                                        <a href="/assets/resources/marine-oil-spill-kit-guide.pdf" class="resource-link">
-                                            <span class="resource-icon">🌊</span>
-                                            <span>Marine Guide</span>
-                                        </a>
-                                        <a href="#" class="resource-link">
-                                            <span class="resource-icon">📊</span>
-                                            <span>Case Studies</span>
-                                        </a>
-                                    </div>
+
+                                <!-- Action Buttons -->
+                                <div class="flash-card-actions">
+                                    <button class="flash-card-btn primary" data-action="quote" data-product="marine-oil-spill-kit">
+                                        <span>📧</span>
+                                        Get Quote
+                                    </button>
+                                    <button class="flash-card-btn secondary" data-action="inquiry" data-product="marine-oil-spill-kit">
+                                        <span>💬</span>
+                                        Ask Question
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="product-card-enhanced card-style">
-                            <div class="product-image-carousel-enhanced">
-                                <img src="/assets/images/products/Nano_cellulose_1.webp" alt="Nano Cellulose - Powder Form" loading="lazy">
-                                <img src="/assets/images/products/Nano_cellulose_2.webp" alt="Nano Cellulose - Liquid Application" loading="lazy">
-                                <img src="/assets/images/products/Nano_cellulose_3.webp" alt="Nano Cellulose - Industrial Use" loading="lazy">
-                                <img src="/assets/images/products/Nano_cellulose_4.webp" alt="Nano Cellulose - Microscopic View" loading="lazy">
+                        <!-- Cellulose Nanocrystals Flash Card -->
+                        <div class="product-flash-card" data-product="cellulose-nanocrystals">
+                            <!-- Image Container with Fixed Aspect Ratio -->
+                            <div class="flash-card-image-container">
+                                <img src="/assets/images/products/Nano_cellulose_1.webp" 
+                                     alt="Cellulose Nanocrystals - Powder Form" 
+                                     class="flash-card-image" 
+                                     loading="lazy">
+                                <div class="flash-card-badge">Nano Material</div>
                             </div>
-                            <div class="product-info-enhanced">
-                                <div class="product-header-section">
-                                    <div class="product-title-group">
-                                        <span class="product-category-badge">Nano Material</span>
-                                        <h3>Cellulose Nanocrystals (Cellu®)</h3>
-                                        <p class="product-tagline">High-performance, biodegradable nanocellulose</p>
-                                    </div>
-                                    <p class="product-description">
-                                        Premium cellulose nanocrystals engineered from renewable plant sources. 
-                                        Available in multiple forms to enhance sustainability across diverse industrial applications.
-                                    </p>
-                                </div>
 
-                                <div class="product-benefits-highlight">
-                                    <div class="benefits-title">Key Benefits</div>
-                                    <ul class="key-benefits-grid">
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">🌿</span>
-                                            <span class="benefit-text">Derived from renewable plant sources</span>
-                                        </li>
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">⚗️</span>
-                                            <span class="benefit-text">Available in powder and liquid forms</span>
-                                        </li>
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">🌱</span>
-                                            <span class="benefit-text">Enhances product sustainability</span>
-                                        </li>
-                                        <li class="key-benefit-item">
-                                            <span class="benefit-icon">🏭</span>
-                                            <span class="benefit-text">Versatile industrial applications</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <!-- Base Content - Always Visible -->
+                            <div class="flash-card-base-content">
+                                <h3 class="flash-card-title">Cellulose Nanocrystals (Cellu®)</h3>
+                                <p class="flash-card-subtitle">High-Performance | Biodegradable | Multi-Form</p>
+                                <p class="flash-card-key-benefit">
+                                    <span class="benefit-icon">🌿</span>
+                                    Renewable Plant Sources
+                                </p>
+                            </div>
 
-                                <div class="product-highlights">
-                                    <span class="highlight-tag">Nano Scale</span>
-                                    <span class="highlight-tag">Multi-Form</span>
-                                    <span class="highlight-tag">High Purity</span>
-                                    <span class="highlight-tag">Renewable</span>
-                                </div>
-
-                                <div class="product-specs-preview">
-                                    <div class="spec-item">
-                                        <span class="spec-value">5-20nm</span>
-                                        <span class="spec-label">Particle Size</span>
-                                    </div>
-                                    <div class="spec-item">
-                                        <span class="spec-value">>99%</span>
-                                        <span class="spec-label">Purity</span>
-                                    </div>
-                                    <div class="spec-item">
-                                        <span class="spec-value">>85%</span>
-                                        <span class="spec-label">Crystallinity</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="product-specs-accordion">
-                                    <div class="accordion-item">
-                                        <button class="accordion-header" aria-expanded="false" aria-controls="specs-cellulose-1">
-                                            <span>Technical Specifications</span>
-                                            <span class="accordion-icon" aria-hidden="true">+</span>
-                                        </button>
-                                        <div class="accordion-content" id="specs-cellulose-1" role="region" aria-labelledby="specs-cellulose-1-header">
-                                            <div class="accordion-body">
-                                                <ul>
-                                                    <li><strong>Particle Size:</strong> 5-20 nanometers</li>
-                                                    <li><strong>Crystallinity:</strong> >85%</li>
-                                                    <li><strong>Aspect Ratio:</strong> 10-50</li>
-                                                    <li><strong>Surface Area:</strong> 250-300 m²/g</li>
-                                                    <li><strong>Purity:</strong> >99%</li>
-                                                </ul>
-                                            </div>
+                            <!-- Content Overlay - Revealed on Hover -->
+                            <div class="flash-card-content-overlay">
+                                <!-- Quick Stats -->
+                                <div class="overlay-section">
+                                    <div class="flash-card-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-value">5-20nm</span>
+                                            <span class="stat-label">Particle Size</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value">>99%</span>
+                                            <span class="stat-label">Purity</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value">>85%</span>
+                                            <span class="stat-label">Crystallinity</span>
                                         </div>
                                     </div>
-                                    
-                                    <div class="accordion-item">
-                                        <button class="accordion-header" aria-expanded="false" aria-controls="specs-cellulose-2">
+                                </div>
+
+                                <!-- Expandable Tags -->
+                                <div class="overlay-section">
+                                    <div class="flash-card-tags">
+                                        <div class="expandable-tag" data-info="Nanoscale particles for enhanced properties">
+                                            <span>Nano Scale</span>
+                                            <div class="tag-tooltip">Nanoscale particles for enhanced properties</div>
+                                        </div>
+                                        <div class="expandable-tag" data-info="Available in powder and liquid forms">
+                                            <span>Multi-Form</span>
+                                            <div class="tag-tooltip">Available in powder and liquid forms</div>
+                                        </div>
+                                        <div class="expandable-tag" data-info="High purity for industrial applications">
+                                            <span>High Purity</span>
+                                            <div class="tag-tooltip">High purity for industrial applications</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Collapsible Specifications -->
+                                <div class="overlay-section">
+                                    <div class="collapsible-section">
+                                        <button class="collapsible-trigger" aria-expanded="false">
+                                            <span>Technical Specs</span>
+                                            <span class="trigger-icon">+</span>
+                                        </button>
+                                        <div class="collapsible-content">
+                                            <ul class="specs-list">
+                                                <li><strong>Particle Size:</strong> 5-20 nanometers</li>
+                                                <li><strong>Crystallinity:</strong> >85%</li>
+                                                <li><strong>Aspect Ratio:</strong> 10-50</li>
+                                                <li><strong>Surface Area:</strong> 250-300 m²/g</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="collapsible-section">
+                                        <button class="collapsible-trigger" aria-expanded="false">
                                             <span>Industrial Applications</span>
-                                            <span class="accordion-icon" aria-hidden="true">+</span>
+                                            <span class="trigger-icon">+</span>
                                         </button>
-                                        <div class="accordion-content" id="specs-cellulose-2" role="region" aria-labelledby="specs-cellulose-2-header">
-                                            <div class="accordion-body">
-                                                <ul>
-                                                    <li>Composite material reinforcement</li>
-                                                    <li>Pharmaceutical excipients</li>
-                                                    <li>Food packaging enhancement</li>
-                                                    <li>Cosmetic formulations</li>
-                                                    <li>Paper and textile industries</li>
-                                                </ul>
-                                            </div>
+                                        <div class="collapsible-content">
+                                            <ul class="specs-list">
+                                                <li>Composite material reinforcement</li>
+                                                <li>Pharmaceutical excipients</li>
+                                                <li>Food packaging enhancement</li>
+                                                <li>Cosmetic formulations</li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="product-contact-section">
-                                    <div class="contact-actions-group">
-                                        <button class="contact-button primary" data-product="cellulose-nanocrystals">
-                                            <span class="contact-icon">📧</span>
-                                            <span>Get Quote</span>
-                                        </button>
-                                        <button class="contact-button" data-product="cellulose-nanocrystals" data-action="inquiry">
-                                            <span class="contact-icon">💬</span>
-                                            <span>Ask Question</span>
-                                        </button>
-                                    </div>
-                                    <div class="resource-links">
-                                        <a href="/assets/resources/cellulose-nanocrystals-technical-specs.pdf" class="resource-link">
-                                            <span class="resource-icon">📄</span>
-                                            <span>Product Sheet</span>
-                                        </a>
-                                        <a href="/assets/resources/cellulose-nanocrystals-technical-specs.pdf" class="resource-link">
-                                            <span class="resource-icon">🔬</span>
-                                            <span>Research Data</span>
-                                        </a>
-                                        <a href="#" class="resource-link">
-                                            <span class="resource-icon">📊</span>
-                                            <span>Applications Guide</span>
-                                        </a>
-                                    </div>
+
+                                <!-- Action Buttons -->
+                                <div class="flash-card-actions">
+                                    <button class="flash-card-btn primary" data-action="quote" data-product="cellulose-nanocrystals">
+                                        <span>📧</span>
+                                        Get Quote
+                                    </button>
+                                    <button class="flash-card-btn secondary" data-action="inquiry" data-product="cellulose-nanocrystals">
+                                        <span>💬</span>
+                                        Ask Question
+                                    </button>
                                 </div>
                             </div>
                         </div>

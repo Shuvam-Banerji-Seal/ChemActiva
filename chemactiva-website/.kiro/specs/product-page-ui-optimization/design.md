@@ -2,9 +2,9 @@
 
 ## Overview
 
-This design document outlines the enhancement of ChemActiva's product page UI and optimization of loading performance across the website. The solution builds upon the existing design system while introducing modern UI patterns, improved interactivity, and performance optimizations that maintain brand consistency and provide an exceptional user experience.
+This design document outlines the creation of modern flash cards for ChemActiva's product page that solve current issues with image rendering, content clipping, and poor hover interactions. The solution focuses on progressive information disclosure through smooth hover animations and collapsible UI elements that prevent information overload.
 
-The design leverages the existing CSS architecture with custom properties, GSAP animations, and modular JavaScript components to create a cohesive, performant, and accessible product browsing experience.
+The design addresses specific problems: images rendering at different places, content clipping due to fixed heights, and the need for modern flash cards that reveal information on hover rather than cramming everything at once. The solution uses CSS Grid, Flexbox, and smooth CSS transitions to create responsive, accessible cards that work seamlessly across all devices.
 
 ## Architecture
 
@@ -30,36 +30,52 @@ Building on the existing CSS custom property system:
 
 ## Components and Interfaces
 
-### Enhanced Product Card Component
+### Modern Flash Card Component
 ```css
-.product-card-enhanced {
-  /* Enhanced card with improved hover states and loading indicators */
+.product-flash-card {
+  /* Modern card with fixed aspect ratio and no content overflow */
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  position: relative;
 }
 
-.product-image-gallery {
-  /* Multi-image carousel with touch support */
+.card-image-container {
+  /* Properly constrained image container with consistent sizing */
+  height: 45%;
+  overflow: hidden;
+  position: relative;
 }
 
-.product-specs-accordion {
-  /* Collapsible specifications section */
+.card-content-overlay {
+  /* Progressive information disclosure on hover */
+  position: absolute;
+  bottom: 0;
+  transform: translateY(60%);
+  transition: transform 0.4s ease;
+}
+
+.card-content-overlay.revealed {
+  transform: translateY(0);
 }
 ```
 
-### Product Image Gallery Interface
-- **Multi-image support**: Carousel with thumbnail navigation
-- **Touch gestures**: Swipe support for mobile devices  
-- **Zoom functionality**: Click-to-zoom for detailed product views
-- **Loading states**: Skeleton loaders and progressive image loading
+### Progressive Information Disclosure
+- **Base layer**: Essential product info always visible (title, price, key benefit)
+- **Hover layer**: Additional details revealed smoothly on hover (specs, features, CTA)
+- **Expandable tags**: Collapsible sections for detailed specifications
+- **Smart truncation**: Content automatically truncated with "show more" functionality
 
-### Interactive Product Information
-- **Expandable sections**: Accordion-style specifications and details
-- **Quick actions**: Prominent CTA buttons with hover animations
-- **Contact integration**: Direct inquiry links from product cards
+### Image Rendering Solution
+- **Consistent aspect ratios**: All product images use 16:10 aspect ratio
+- **Object-fit cover**: Images scale properly without distortion
+- **Overflow hidden**: Container prevents image bleeding
+- **Loading placeholders**: Skeleton loaders maintain layout during loading
 
-### Performance Components
-- **Image optimization**: Automatic WebP conversion with fallbacks
-- **Lazy loading**: Progressive content loading as user scrolls
-- **Preloading**: Strategic preloading of critical above-the-fold content
+### Hover Interaction System
+- **Smooth transitions**: CSS transforms with cubic-bezier easing
+- **Staggered animations**: Content reveals in logical sequence
+- **Touch-friendly**: Tap interactions for mobile devices
+- **Accessibility**: Keyboard navigation and screen reader support
 
 ## Data Models
 

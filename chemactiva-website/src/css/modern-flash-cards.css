@@ -1,0 +1,919 @@
+/* Modern Flash Cards for Product Page */
+/* Fixes image rendering issues, content clipping, and implements progressive information disclosure */
+
+:root {
+    /* Flash card specific properties */
+    --flash-card-aspect-ratio: 4/5;
+    --flash-card-border-radius: 20px;
+    --flash-card-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --flash-card-shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.2);
+    --flash-card-transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    /* Image container properties */
+    --image-container-height: 45%;
+    --image-aspect-ratio: 16/10;
+    
+    /* Content overlay properties */
+    --overlay-reveal-distance: 60%;
+    --overlay-transition: transform 0.4s ease, opacity 0.3s ease;
+    
+    /* Progressive disclosure timing */
+    --content-stagger-delay: 0.1s;
+    --hover-delay: 0.2s;
+}
+
+/* Modern Flash Card Grid */
+.product-flash-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .product-flash-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+}
+
+/* Modern Flash Card Base */
+.product-flash-card {
+    position: relative;
+    aspect-ratio: var(--flash-card-aspect-ratio);
+    border-radius: var(--flash-card-border-radius);
+    background: var(--color-background-card);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--flash-card-shadow);
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--flash-card-transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.product-flash-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: var(--flash-card-shadow-hover);
+    border-color: var(--color-accent-primary);
+}
+
+/* Image Container - Fixed Height to Prevent Rendering Issues */
+.flash-card-image-container {
+    position: relative;
+    height: var(--image-container-height);
+    overflow: hidden;
+    border-radius: var(--flash-card-border-radius) var(--flash-card-border-radius) 0 0;
+    background: var(--color-background-secondary);
+}
+
+.flash-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s ease;
+    display: block;
+}
+
+.product-flash-card:hover .flash-card-image {
+    transform: scale(1.1);
+}
+
+/* Product Badge */
+.flash-card-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--color-accent-primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 2;
+}
+
+/* Base Content Layer - Always Visible */
+.flash-card-base-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        transparent 100%
+    );
+    color: white;
+    padding: 1.5rem;
+    z-index: 2;
+}
+
+.flash-card-title {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: 1.25rem;
+    line-height: var(--line-height-tight);
+    margin: 0 0 0.5rem 0;
+    color: white;
+}
+
+.flash-card-subtitle {
+    font-family: var(--font-secondary);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 0.75rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.flash-card-key-benefit {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.benefit-icon {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* Content Overlay - Revealed on Hover */
+.flash-card-content-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-background-card);
+    border-radius: 0 0 var(--flash-card-border-radius) var(--flash-card-border-radius);
+    padding: 1.5rem;
+    transform: translateY(var(--overlay-reveal-distance));
+    transition: var(--overlay-transition);
+    opacity: 0;
+    z-index: 3;
+    max-height: 55%;
+    overflow-y: auto;
+}
+
+.product-flash-card:hover .flash-card-content-overlay {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Content Overlay Sections */
+.overlay-section {
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.product-flash-card:hover .overlay-section {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.product-flash-card:hover .overlay-section:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.product-flash-card:hover .overlay-section:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.product-flash-card:hover .overlay-section:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+/* Quick Stats */
+.flash-card-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    background: rgba(var(--color-accent-rgb-values), 0.1);
+    border-radius: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.stat-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-accent-primary);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.2rem;
+    text-align: center;
+}
+
+/* Expandable Tags */
+.flash-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.expandable-tag {
+    background: rgba(var(--color-accent-rgb-values), 0.1);
+    border: 1px solid rgba(var(--color-accent-rgb-values), 0.2);
+    border-radius: 16px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    color: var(--color-accent-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.expandable-tag:hover {
+    background: rgba(var(--color-accent-rgb-values), 0.2);
+    transform: translateY(-2px);
+}
+
+.expandable-tag.active {
+    background: var(--color-accent-primary);
+    color: white;
+}
+
+/* Tag Tooltip */
+.tag-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-text-primary);
+    color: var(--color-background);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.expandable-tag:hover .tag-tooltip {
+    opacity: 1;
+}
+
+/* Action Buttons */
+.flash-card-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+}
+
+.flash-card-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.flash-card-btn.primary {
+    background: var(--color-accent-primary);
+    color: white;
+}
+
+.flash-card-btn.primary:hover {
+    background: var(--color-accent-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(var(--color-accent-rgb-values), 0.3);
+}
+
+.flash-card-btn.secondary {
+    background: transparent;
+    color: var(--color-accent-primary);
+    border: 2px solid var(--color-accent-primary);
+}
+
+.flash-card-btn.secondary:hover {
+    background: var(--color-accent-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Collapsible Sections */
+.collapsible-section {
+    margin-bottom: 0.75rem;
+}
+
+.collapsible-trigger {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(var(--color-accent-rgb-values), 0.05);
+    border: 1px solid rgba(var(--color-accent-rgb-values), 0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: 0.8rem;
+}
+
+.collapsible-trigger:hover {
+    background: rgba(var(--color-accent-rgb-values), 0.1);
+    border-color: rgba(var(--color-accent-rgb-values), 0.3);
+}
+
+.trigger-icon {
+    font-size: 1rem;
+    font-weight: 300;
+    transition: transform 0.3s ease;
+}
+
+.collapsible-trigger.active .trigger-icon {
+    transform: rotate(45deg);
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background: rgba(var(--color-accent-rgb-values), 0.02);
+    border-radius: 0 0 8px 8px;
+    margin-top: -1px;
+}
+
+.collapsible-content.active {
+    max-height: 150px;
+    padding: 0.75rem;
+    border: 1px solid rgba(var(--color-accent-rgb-values), 0.15);
+    border-top: none;
+}
+
+.specs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.specs-list li {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(var(--color-accent-rgb-values), 0.1);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+}
+
+.specs-list li:last-child {
+    border-bottom: none;
+}
+
+/* Loading States */
+.flash-card-skeleton {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        var(--color-background-secondary) 25%,
+        var(--color-background) 50%,
+        var(--color-background-secondary) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: var(--flash-card-border-radius);
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Dark Mode Support */
+body.dark-mode .product-flash-card {
+    background: var(--dm-bg-medium);
+    border-color: var(--dm-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .product-flash-card:hover {
+    border-color: var(--dm-glow-color);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(var(--dm-glow-color-rgb-values), 0.3);
+}
+
+body.dark-mode .flash-card-content-overlay {
+    background: var(--dm-bg-medium);
+}
+
+body.dark-mode .flash-card-badge {
+    background: var(--dm-glow-color);
+    color: var(--dm-bg-deep);
+}
+
+body.dark-mode .stat-item {
+    background: rgba(var(--dm-glow-color-rgb-values), 0.1);
+}
+
+body.dark-mode .stat-value {
+    color: var(--dm-glow-color);
+}
+
+body.dark-mode .stat-label {
+    color: var(--dm-text-secondary);
+}
+
+body.dark-mode .expandable-tag {
+    background: rgba(var(--dm-glow-color-rgb-values), 0.1);
+    border-color: rgba(var(--dm-glow-color-rgb-values), 0.2);
+    color: var(--dm-glow-color);
+}
+
+body.dark-mode .expandable-tag:hover {
+    background: rgba(var(--dm-glow-color-rgb-values), 0.2);
+}
+
+body.dark-mode .expandable-tag.active {
+    background: var(--dm-glow-color);
+    color: var(--dm-bg-deep);
+}
+
+body.dark-mode .flash-card-btn.primary {
+    background: var(--dm-glow-color);
+    color: var(--dm-bg-deep);
+}
+
+body.dark-mode .flash-card-btn.primary:hover {
+    background: var(--dm-accent-secondary);
+    box-shadow: 0 4px 15px rgba(var(--dm-glow-color-rgb-values), 0.4);
+}
+
+body.dark-mode .flash-card-btn.secondary {
+    color: var(--dm-glow-color);
+    border-color: var(--dm-glow-color);
+}
+
+body.dark-mode .flash-card-btn.secondary:hover {
+    background: var(--dm-glow-color);
+    color: var(--dm-bg-deep);
+}
+
+body.dark-mode .collapsible-trigger {
+    background: rgba(var(--dm-glow-color-rgb-values), 0.08);
+    border-color: rgba(var(--dm-glow-color-rgb-values), 0.2);
+    color: var(--dm-text-primary);
+}
+
+body.dark-mode .collapsible-trigger:hover {
+    background: rgba(var(--dm-glow-color-rgb-values), 0.15);
+    border-color: rgba(var(--dm-glow-color-rgb-values), 0.4);
+}
+
+body.dark-mode .collapsible-content {
+    background: rgba(var(--dm-glow-color-rgb-values), 0.03);
+}
+
+body.dark-mode .collapsible-content.active {
+    border-color: rgba(var(--dm-glow-color-rgb-values), 0.2);
+}
+
+body.dark-mode .specs-list li {
+    border-bottom-color: rgba(var(--dm-glow-color-rgb-values), 0.15);
+    color: var(--dm-text-secondary);
+}
+
+/* Accessibility Improvements */
+.product-flash-card:focus {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 4px;
+}
+
+.flash-card-btn:focus {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+}
+
+.expandable-tag:focus {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .product-flash-card,
+    .flash-card-image,
+    .flash-card-content-overlay,
+    .overlay-section,
+    .expandable-tag,
+    .flash-card-btn {
+        transition: none;
+    }
+    
+    .flash-card-skeleton {
+        animation: none;
+    }
+}
+/* Enhance
+d Hover Interactions and Content Revelation */
+
+/* Smooth card entrance animations */
+.product-flash-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: cardEntranceAnimation 0.6s ease forwards;
+}
+
+.product-flash-card:nth-child(1) { animation-delay: 0.1s; }
+.product-flash-card:nth-child(2) { animation-delay: 0.2s; }
+.product-flash-card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes cardEntranceAnimation {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhanced hover state with micro-interactions */
+.product-flash-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: var(--flash-card-shadow-hover);
+    border-color: var(--color-accent-primary);
+}
+
+.product-flash-card:hover::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        var(--color-accent-primary), 
+        var(--color-accent-secondary), 
+        var(--color-accent-primary));
+    border-radius: calc(var(--flash-card-border-radius) + 2px);
+    z-index: -1;
+    opacity: 0.3;
+    animation: borderGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes borderGlow {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.6; }
+}
+
+/* Enhanced image hover effects */
+.product-flash-card:hover .flash-card-image {
+    transform: scale(1.1) rotate(1deg);
+    filter: brightness(1.1) contrast(1.05) saturate(1.1);
+}
+
+/* Smooth badge animation on hover */
+.product-flash-card:hover .flash-card-badge {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Enhanced base content animation */
+.flash-card-base-content {
+    transition: all 0.4s ease;
+}
+
+.product-flash-card:hover .flash-card-base-content {
+    transform: translateY(-5px);
+}
+
+.flash-card-title {
+    transition: all 0.3s ease;
+}
+
+.product-flash-card:hover .flash-card-title {
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.02);
+}
+
+/* Progressive content revelation with staggered timing */
+.flash-card-content-overlay {
+    transform: translateY(var(--overlay-reveal-distance));
+    transition: var(--overlay-transition);
+    opacity: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.product-flash-card:hover .flash-card-content-overlay {
+    transform: translateY(0);
+    opacity: 1;
+    animation: overlaySlideUp 0.5s ease forwards;
+}
+
+@keyframes overlaySlideUp {
+    0% {
+        transform: translateY(60%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Enhanced overlay section animations with stagger */
+.overlay-section {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.product-flash-card:hover .overlay-section:nth-child(1) {
+    animation: sectionReveal 0.4s ease forwards 0.1s;
+}
+
+.product-flash-card:hover .overlay-section:nth-child(2) {
+    animation: sectionReveal 0.4s ease forwards 0.2s;
+}
+
+.product-flash-card:hover .overlay-section:nth-child(3) {
+    animation: sectionReveal 0.4s ease forwards 0.3s;
+}
+
+@keyframes sectionReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhanced stat item animations */
+.stat-item {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(var(--color-accent-rgb-values), 0.2), 
+        transparent);
+    transition: left 0.6s ease;
+}
+
+.product-flash-card:hover .stat-item::before {
+    left: 100%;
+}
+
+.product-flash-card:hover .stat-item {
+    transform: translateY(-3px) scale(1.05);
+    background: rgba(var(--color-accent-rgb-values), 0.15);
+}
+
+/* Enhanced expandable tag interactions */
+.expandable-tag {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.expandable-tag::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(var(--color-accent-rgb-values), 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s ease;
+}
+
+.expandable-tag:hover::before {
+    width: 200%;
+    height: 200%;
+}
+
+.expandable-tag:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(var(--color-accent-rgb-values), 0.3);
+}
+
+/* Enhanced collapsible trigger animations */
+.collapsible-trigger {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.collapsible-trigger::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(var(--color-accent-rgb-values), 0.1), 
+        transparent);
+    transition: left 0.5s ease;
+}
+
+.collapsible-trigger:hover::before {
+    left: 100%;
+}
+
+.collapsible-trigger:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(var(--color-accent-rgb-values), 0.2);
+}
+
+/* Enhanced action button animations */
+.flash-card-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.flash-card-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s ease;
+}
+
+.flash-card-btn:hover::before {
+    width: 300%;
+    height: 300%;
+}
+
+.flash-card-btn:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+/* Pulse animation for primary buttons */
+.flash-card-btn.primary {
+    animation: buttonPulse 3s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+    0%, 100% { box-shadow: 0 4px 15px rgba(var(--color-accent-rgb-values), 0.3); }
+    50% { box-shadow: 0 6px 25px rgba(var(--color-accent-rgb-values), 0.5); }
+}
+
+/* Enhanced tooltip animations */
+.tag-tooltip {
+    transform: translateX(-50%) translateY(-5px);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.expandable-tag:hover .tag-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+.tag-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--color-text-primary);
+}
+
+/* Loading state enhancements */
+.flash-card-skeleton {
+    animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonShimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Mobile touch feedback */
+@media (max-width: 768px) {
+    .product-flash-card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+    
+    .flash-card-btn:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+    
+    .expandable-tag:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+}
+
+/* Focus states for accessibility */
+.product-flash-card:focus-within {
+    outline: 3px solid var(--color-accent-primary);
+    outline-offset: 4px;
+}
+
+.flash-card-btn:focus {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(var(--color-accent-rgb-values), 0.2);
+}
+
+.expandable-tag:focus {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+}
+
+.collapsible-trigger:focus {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+}
+
+/* Dark mode enhancements */
+body.dark-mode .product-flash-card:hover::before {
+    background: linear-gradient(45deg, 
+        var(--dm-glow-color), 
+        var(--dm-accent-secondary), 
+        var(--dm-glow-color));
+}
+
+body.dark-mode .flash-card-btn.primary {
+    animation: buttonPulseDark 3s ease-in-out infinite;
+}
+
+@keyframes buttonPulseDark {
+    0%, 100% { box-shadow: 0 4px 15px rgba(var(--dm-glow-color-rgb-values), 0.4); }
+    50% { box-shadow: 0 6px 25px rgba(var(--dm-glow-color-rgb-values), 0.6); }
+}
+
+/* Performance optimizations */
+.product-flash-card {
+    will-change: transform, box-shadow;
+}
+
+.flash-card-image {
+    will-change: transform, filter;
+}
+
+.flash-card-content-overlay {
+    will-change: transform, opacity;
+}
+
+.overlay-section {
+    will-change: transform, opacity;
+}

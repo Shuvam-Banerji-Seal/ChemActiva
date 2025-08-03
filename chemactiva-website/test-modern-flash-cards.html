@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Flash Cards Test - ChemActiva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Lato:wght@300;400;700&family=Stix+Two+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/theme.css">
+    <link rel="stylesheet" href="src/css/typography.css">
+    <link rel="stylesheet" href="src/css/layout.css">
+    <link rel="stylesheet" href="src/css/components.css">
+    <link rel="stylesheet" href="src/css/modern-flash-cards.css">
+    <style>
+        body {
+            padding: 2rem;
+            background: var(--color-background);
+            color: var(--color-text-primary);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .test-header h1 {
+            font-family: var(--font-primary);
+            font-size: 2.5rem;
+            color: var(--color-text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .test-header p {
+            font-family: var(--font-secondary);
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+        }
+        
+        .test-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--color-accent-primary);
+            color: white;
+            font-family: var(--font-primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .test-btn:hover {
+            background: var(--color-accent-secondary);
+            transform: translateY(-2px);
+        }
+        
+        .test-btn.secondary {
+            background: transparent;
+            color: var(--color-accent-primary);
+            border: 2px solid var(--color-accent-primary);
+        }
+        
+        .test-btn.secondary:hover {
+            background: var(--color-accent-primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1>Modern Flash Cards Test</h1>
+        <p>Testing the new product flash cards with progressive information disclosure</p>
+    </div>
+    
+    <div class="test-controls">
+        <button class="test-btn" onclick="testHoverInteractions()">Test Hover</button>
+        <button class="test-btn secondary" onclick="testResponsiveness()">Test Mobile</button>
+        <button class="test-btn secondary" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+
+    <div class="product-flash-grid">
+        <!-- Test Flash Card 1 -->
+        <div class="product-flash-card" data-product="test-product-1">
+            <div class="flash-card-image-container">
+                <img src="/assets/images/products/Domestic_oil_spill_kit_1.webp" 
+                     alt="Test Product 1" 
+                     class="flash-card-image" 
+                     loading="lazy">
+                <div class="flash-card-badge">Test Solution</div>
+            </div>
+
+            <div class="flash-card-base-content">
+                <h3 class="flash-card-title">Test Product 1</h3>
+                <p class="flash-card-subtitle">Modern | Interactive | Responsive</p>
+                <p class="flash-card-key-benefit">
+                    <span class="benefit-icon">✨</span>
+                    Progressive Information Disclosure
+                </p>
+            </div>
+
+            <div class="flash-card-content-overlay">
+                <div class="overlay-section">
+                    <div class="flash-card-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">100%</span>
+                            <span class="stat-label">Working</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">0ms</span>
+                            <span class="stat-label">Lag</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">∞</span>
+                            <span class="stat-label">Smooth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overlay-section">
+                    <div class="flash-card-tags">
+                        <div class="expandable-tag" data-info="Hover interactions work perfectly">
+                            <span>Hover Test</span>
+                            <div class="tag-tooltip">Hover interactions work perfectly</div>
+                        </div>
+                        <div class="expandable-tag" data-info="Content reveals smoothly">
+                            <span>Smooth Reveal</span>
+                            <div class="tag-tooltip">Content reveals smoothly</div>
+                        </div>
+                        <div class="expandable-tag" data-info="No content clipping issues">
+                            <span>No Clipping</span>
+                            <div class="tag-tooltip">No content clipping issues</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overlay-section">
+                    <div class="collapsible-section">
+                        <button class="collapsible-trigger" aria-expanded="false">
+                            <span>Test Specifications</span>
+                            <span class="trigger-icon">+</span>
+                        </button>
+                        <div class="collapsible-content">
+                            <ul class="specs-list">
+                                <li><strong>Image Rendering:</strong> Fixed and consistent</li>
+                                <li><strong>Content Clipping:</strong> Eliminated</li>
+                                <li><strong>Hover Interactions:</strong> Smooth and responsive</li>
+                                <li><strong>Progressive Disclosure:</strong> Working perfectly</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flash-card-actions">
+                    <button class="flash-card-btn primary" data-action="test" data-product="test-product-1">
+                        <span>✅</span>
+                        Test Passed
+                    </button>
+                    <button class="flash-card-btn secondary" data-action="demo" data-product="test-product-1">
+                        <span>🚀</span>
+                        Demo Mode
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Flash Card 2 -->
+        <div class="product-flash-card" data-product="test-product-2">
+            <div class="flash-card-image-container">
+                <img src="/assets/images/products/Marine_oil_spill_kit.webp" 
+                     alt="Test Product 2" 
+                     class="flash-card-image" 
+                     loading="lazy">
+                <div class="flash-card-badge marine">Mobile Test</div>
+            </div>
+
+            <div class="flash-card-base-content">
+                <h3 class="flash-card-title">Mobile Responsive Test</h3>
+                <p class="flash-card-subtitle">Touch | Tap | Swipe</p>
+                <p class="flash-card-key-benefit">
+                    <span class="benefit-icon">📱</span>
+                    Mobile-First Design
+                </p>
+            </div>
+
+            <div class="flash-card-content-overlay">
+                <div class="overlay-section">
+                    <div class="flash-card-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">100%</span>
+                            <span class="stat-label">Responsive</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">Touch</span>
+                            <span class="stat-label">Friendly</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">Fast</span>
+                            <span class="stat-label">Loading</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overlay-section">
+                    <div class="flash-card-tags">
+                        <div class="expandable-tag" data-info="Works on all screen sizes">
+                            <span>Responsive</span>
+                            <div class="tag-tooltip">Works on all screen sizes</div>
+                        </div>
+                        <div class="expandable-tag" data-info="Touch interactions optimized">
+                            <span>Touch Ready</span>
+                            <div class="tag-tooltip">Touch interactions optimized</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flash-card-actions">
+                    <button class="flash-card-btn primary" data-action="mobile-test">
+                        <span>📱</span>
+                        Mobile Test
+                    </button>
+                    <button class="flash-card-btn secondary" data-action="resize-test">
+                        <span>🔄</span>
+                        Resize Test
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import ProductFlashCards from './src/js/ProductFlashCards.js';
+        
+        // Initialize flash cards
+        const flashCards = new ProductFlashCards();
+        flashCards.init();
+        
+        // Test functions
+        window.testHoverInteractions = function() {
+            console.log('Testing hover interactions...');
+            const cards = document.querySelectorAll('.product-flash-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.dispatchEvent(new Event('mouseenter'));
+                    setTimeout(() => {
+                        card.dispatchEvent(new Event('mouseleave'));
+                    }, 2000);
+                }, index * 1000);
+            });
+        };
+        
+        window.testResponsiveness = function() {
+            console.log('Testing responsiveness...');
+            const viewport = document.querySelector('meta[name="viewport"]');
+            const currentWidth = window.innerWidth;
+            
+            // Simulate mobile viewport
+            document.body.style.width = '375px';
+            document.body.style.transform = 'scale(0.8)';
+            document.body.style.transformOrigin = 'top left';
+            
+            setTimeout(() => {
+                // Reset to original
+                document.body.style.width = '';
+                document.body.style.transform = '';
+                document.body.style.transformOrigin = '';
+            }, 3000);
+        };
+        
+        window.toggleTheme = function() {
+            document.body.classList.toggle('dark-mode');
+        };
+        
+        // Listen for flash card events
+        window.addEventListener('flashCardActionClick', (event) => {
+            const { action, productId } = event.detail;
+            console.log(`Flash card action: ${action} for ${productId}`);
+            alert(`Flash card test: ${action} clicked for ${productId}`);
+        });
+        
+        window.addEventListener('flashCardCollapsibleToggle', (event) => {
+            const { cardIndex, isExpanded } = event.detail;
+            console.log(`Collapsible ${isExpanded ? 'expanded' : 'collapsed'} for card ${cardIndex}`);
+        });
+        
+        console.log('Modern Flash Cards test page loaded successfully!');
+    </script>
+</body>
+</html>
