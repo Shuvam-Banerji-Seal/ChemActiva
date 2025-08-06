@@ -1,54 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="16" failures="3" errors="0" time="4.639">
-  <testsuite name="ModernThemeManager" errors="0" failures="3" skipped="0" timestamp="2025-07-20T10:51:53" time="4.411" tests="16">
-    <testcase classname="ModernThemeManager Initialization should initialize with default light theme" name="ModernThemeManager Initialization should initialize with default light theme" time="0.013">
+<testsuites name="jest tests" tests="30" failures="0" errors="0" time="0.832">
+  <testsuite name="ModernArticleManager" errors="0" failures="0" skipped="0" timestamp="2025-08-03T12:12:35" time="0.607" tests="30">
+    <testcase classname="ModernArticleManager Constructor should extend ArticleManager with enhanced options" name="ModernArticleManager Constructor should extend ArticleManager with enhanced options" time="0.012">
     </testcase>
-    <testcase classname="ModernThemeManager Initialization should add transition styles to document head" name="ModernThemeManager Initialization should add transition styles to document head" time="0.003">
+    <testcase classname="ModernArticleManager Constructor should initialize metadata configuration" name="ModernArticleManager Constructor should initialize metadata configuration" time="0.003">
     </testcase>
-    <testcase classname="ModernThemeManager Initialization should set up event listeners for theme toggles" name="ModernThemeManager Initialization should set up event listeners for theme toggles" time="0.002">
+    <testcase classname="ModernArticleManager Constructor should initialize reading time cache" name="ModernArticleManager Constructor should initialize reading time cache" time="0.002">
     </testcase>
-    <testcase classname="ModernThemeManager Theme Switching should switch to dark mode" name="ModernThemeManager Theme Switching should switch to dark mode" time="0.476">
-      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
-
-Expected: &quot;theme&quot;, &quot;dark&quot;
-
-Number of calls: 0
-    at Object.toHaveBeenCalledWith (/home/shuvam/codes/ChemActiva/chemactiva-website/src/js/tests/ModernThemeManager.test.js:91:46)</failure>
+    <testcase classname="ModernArticleManager Reading Time Calculation should calculate reading time for basic text" name="ModernArticleManager Reading Time Calculation should calculate reading time for basic text" time="0.002">
     </testcase>
-    <testcase classname="ModernThemeManager Theme Switching should switch to light mode" name="ModernThemeManager Theme Switching should switch to light mode" time="0.471">
-      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
-
-Expected: &quot;theme&quot;, &quot;light&quot;
-
-Number of calls: 0
-    at Object.toHaveBeenCalledWith (/home/shuvam/codes/ChemActiva/chemactiva-website/src/js/tests/ModernThemeManager.test.js:106:46)</failure>
+    <testcase classname="ModernArticleManager Reading Time Calculation should cache reading time calculations" name="ModernArticleManager Reading Time Calculation should cache reading time calculations" time="0.001">
     </testcase>
-    <testcase classname="ModernThemeManager Theme Switching should not switch if already in target theme" name="ModernThemeManager Theme Switching should not switch if already in target theme" time="0.002">
+    <testcase classname="ModernArticleManager Reading Time Calculation should account for images in reading time" name="ModernArticleManager Reading Time Calculation should account for images in reading time" time="0.001">
     </testcase>
-    <testcase classname="ModernThemeManager Theme Switching should dispatch themeChanged event" name="ModernThemeManager Theme Switching should dispatch themeChanged event" time="0.473">
+    <testcase classname="ModernArticleManager Reading Time Calculation should account for code blocks in reading time" name="ModernArticleManager Reading Time Calculation should account for code blocks in reading time" time="0.001">
     </testcase>
-    <testcase classname="ModernThemeManager Enhanced Dark Mode Features should apply glow effects in dark mode" name="ModernThemeManager Enhanced Dark Mode Features should apply glow effects in dark mode" time="0.006">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: true
-Received: false
-    at Object.toBe (/home/shuvam/codes/ChemActiva/chemactiva-website/src/js/tests/ModernThemeManager.test.js:151:60)</failure>
+    <testcase classname="ModernArticleManager Reading Time Calculation should return minimum 1 minute for very short content" name="ModernArticleManager Reading Time Calculation should return minimum 1 minute for very short content" time="0.001">
     </testcase>
-    <testcase classname="ModernThemeManager Enhanced Dark Mode Features should remove glow effects in light mode" name="ModernThemeManager Enhanced Dark Mode Features should remove glow effects in light mode" time="0.472">
+    <testcase classname="ModernArticleManager Reading Time Calculation should handle empty content" name="ModernArticleManager Reading Time Calculation should handle empty content" time="0.001">
     </testcase>
-    <testcase classname="ModernThemeManager Enhanced Dark Mode Features should set enhanced dark mode RGB values" name="ModernThemeManager Enhanced Dark Mode Features should set enhanced dark mode RGB values" time="0.473">
+    <testcase classname="ModernArticleManager Date Formatting should format date in short format by default" name="ModernArticleManager Date Formatting should format date in short format by default" time="0.013">
     </testcase>
-    <testcase classname="ModernThemeManager Public API isDarkMode should return correct state" name="ModernThemeManager Public API isDarkMode should return correct state" time="0.938">
+    <testcase classname="ModernArticleManager Date Formatting should format date in long format" name="ModernArticleManager Date Formatting should format date in long format" time="0.002">
     </testcase>
-    <testcase classname="ModernThemeManager Public API toggleTheme should switch between themes" name="ModernThemeManager Public API toggleTheme should switch between themes" time="0.523">
+    <testcase classname="ModernArticleManager Date Formatting should format date in relative format" name="ModernArticleManager Date Formatting should format date in relative format" time="0.001">
     </testcase>
-    <testcase classname="ModernThemeManager Public API setTheme should set specific theme" name="ModernThemeManager Public API setTheme should set specific theme" time="0.051">
+    <testcase classname="ModernArticleManager Date Formatting should handle invalid dates" name="ModernArticleManager Date Formatting should handle invalid dates" time="0.001">
     </testcase>
-    <testcase classname="ModernThemeManager System Theme Detection should respect saved theme preference" name="ModernThemeManager System Theme Detection should respect saved theme preference" time="0.001">
+    <testcase classname="ModernArticleManager Enhanced Metadata Creation should create metadata container with proper class" name="ModernArticleManager Enhanced Metadata Creation should create metadata container with proper class" time="0.008">
     </testcase>
-    <testcase classname="ModernThemeManager System Theme Detection should fall back to system theme when no saved preference" name="ModernThemeManager System Theme Detection should fall back to system theme when no saved preference" time="0.001">
+    <testcase classname="ModernArticleManager Enhanced Metadata Creation should include date metadata when enabled" name="ModernArticleManager Enhanced Metadata Creation should include date metadata when enabled" time="0.005">
     </testcase>
-    <testcase classname="ModernThemeManager Accessibility should respect reduced motion preference" name="ModernThemeManager Accessibility should respect reduced motion preference" time="0.001">
+    <testcase classname="ModernArticleManager Enhanced Metadata Creation should include author metadata when enabled" name="ModernArticleManager Enhanced Metadata Creation should include author metadata when enabled" time="0.004">
+    </testcase>
+    <testcase classname="ModernArticleManager Enhanced Metadata Creation should include reading time when enabled" name="ModernArticleManager Enhanced Metadata Creation should include reading time when enabled" time="0.003">
+    </testcase>
+    <testcase classname="ModernArticleManager Enhanced Metadata Creation should include category metadata when available" name="ModernArticleManager Enhanced Metadata Creation should include category metadata when available" time="0.003">
+    </testcase>
+    <testcase classname="ModernArticleManager Enhanced Metadata Creation should handle articles with multiple authors" name="ModernArticleManager Enhanced Metadata Creation should handle articles with multiple authors" time="0.003">
+    </testcase>
+    <testcase classname="ModernArticleManager Enhanced Metadata Creation should add separators between metadata items" name="ModernArticleManager Enhanced Metadata Creation should add separators between metadata items" time="0.002">
+    </testcase>
+    <testcase classname="ModernArticleManager Modern Article Card Creation should create modern article card with proper structure" name="ModernArticleManager Modern Article Card Creation should create modern article card with proper structure" time="0.007">
+    </testcase>
+    <testcase classname="ModernArticleManager Modern Article Card Creation should create featured card when specified" name="ModernArticleManager Modern Article Card Creation should create featured card when specified" time="0.003">
+    </testcase>
+    <testcase classname="ModernArticleManager Modern Article Card Creation should include image container with proper structure" name="ModernArticleManager Modern Article Card Creation should include image container with proper structure" time="0.007">
+    </testcase>
+    <testcase classname="ModernArticleManager Modern Article Card Creation should include content section with all elements" name="ModernArticleManager Modern Article Card Creation should include content section with all elements" time="0.003">
+    </testcase>
+    <testcase classname="ModernArticleManager Modern Article Card Creation should handle missing cover image with fallback" name="ModernArticleManager Modern Article Card Creation should handle missing cover image with fallback" time="0.003">
+    </testcase>
+    <testcase classname="ModernArticleManager Modern Article Card Creation should add proper accessibility attributes" name="ModernArticleManager Modern Article Card Creation should add proper accessibility attributes" time="0.003">
+    </testcase>
+    <testcase classname="ModernArticleManager Configuration Updates should update metadata configuration" name="ModernArticleManager Configuration Updates should update metadata configuration" time="0.001">
+    </testcase>
+    <testcase classname="ModernArticleManager Configuration Updates should update reading speed and clear cache" name="ModernArticleManager Configuration Updates should update reading speed and clear cache" time="0.001">
+    </testcase>
+    <testcase classname="ModernArticleManager Article Statistics should return correct article statistics" name="ModernArticleManager Article Statistics should return correct article statistics" time="0.002">
+    </testcase>
+    <testcase classname="ModernArticleManager Cleanup should properly cleanup resources" name="ModernArticleManager Cleanup should properly cleanup resources" time="0.002">
     </testcase>
   </testsuite>
 </testsuites>

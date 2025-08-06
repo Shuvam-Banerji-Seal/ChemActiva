@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/296</span>
+                <span class='fraction'>0/291</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/258</span>
+                <span class='fraction'>0/252</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/56</span>
+                <span class='fraction'>0/55</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/255</span>
+                <span class='fraction'>0/250</span>
             </div>
         
             
@@ -575,12 +575,7 @@
 <a name='L510'></a><a href='#L510'>510</a>
 <a name='L511'></a><a href='#L511'>511</a>
 <a name='L512'></a><a href='#L512'>512</a>
-<a name='L513'></a><a href='#L513'>513</a>
-<a name='L514'></a><a href='#L514'>514</a>
-<a name='L515'></a><a href='#L515'>515</a>
-<a name='L516'></a><a href='#L516'>516</a>
-<a name='L517'></a><a href='#L517'>517</a>
-<a name='L518'></a><a href='#L518'>518</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L513'></a><a href='#L513'>513</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -589,7 +584,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -688,15 +683,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -712,11 +707,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1106,7 +1096,7 @@ import { Draggable } from "gsap/Draggable";
 &nbsp;
 export default class ScrollAnimations {
 <span class="fstat-no" title="function not covered" >    co</span>nstructor() {
-<span class="cstat-no" title="statement not covered" >        this.sceneManager = null;</span>
+        // SceneManager no longer used - 3D rendering handled by EnhancedHeroBanner
 <span class="cstat-no" title="statement not covered" >        this.teamScrollTween = null;</span>
 <span class="cstat-no" title="statement not covered" >        this.teamAnimationConfig = {</span>
             mobile: {
@@ -1204,8 +1194,8 @@ export default class ScrollAnimations {
 <span class="cstat-no" title="statement not covered" >        return this.isMobile ? this.teamAnimationConfig.mobile : this.teamAnimationConfig.desktop;</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    in</span>it(sceneManagerInstance) {
-<span class="cstat-no" title="statement not covered" >        this.sceneManager = sceneManagerInstance;</span>
+<span class="fstat-no" title="function not covered" >    in</span>it() {
+        // SceneManager is no longer used - 3D rendering handled by EnhancedHeroBanner
         // Only run homepage-specific animations on the homepage
 <span class="cstat-no" title="statement not covered" >        if (document.body.classList.contains('homepage')) {</span>
 <span class="cstat-no" title="statement not covered" >            this.initHeroTextFade();</span>
@@ -1229,13 +1219,8 @@ export default class ScrollAnimations {
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    in</span>itLightingScroll() {
-<span class="cstat-no" title="statement not covered" >        if (this.sceneManager &amp;&amp; typeof this.sceneManager.updateLighting === 'function') {</span>
-<span class="cstat-no" title="statement not covered" >            ScrollTrigger.create({</span>
-                trigger: "body", start: "top top", end: "bottom bottom", 
-                scrub: this.animationQuality === 'high' ? 1.2 : 1.8,
-                onUpdate: <span class="fstat-no" title="function not covered" >(s</span>elf) =&gt; <span class="cstat-no" title="statement not covered" >this.sceneManager.updateLighting(self.progress)</span>
-            });
-        }
+        // Lighting updates now handled by EnhancedHeroBanner's 3D scene
+        // This method is kept for compatibility but no longer performs lighting updates
     }
     
 <span class="fstat-no" title="function not covered" >    in</span>itScrollProgress() {
@@ -1621,7 +1606,7 @@ export default class ScrollAnimations {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-20T10:51:59.546Z
+                at 2025-08-03T12:12:37.835Z
             </div>
         <script src="prettify.js"></script>
         <script>

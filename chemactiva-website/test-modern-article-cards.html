@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Article Cards Test</title>
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/theme.css">
+    <link rel="stylesheet" href="src/css/typography.css">
+    <link rel="stylesheet" href="src/css/modern-article-cards.css">
+    <style>
+        body {
+            padding: 2rem;
+            background: var(--color-background);
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Modern Article Cards Test</h1>
+        
+        <div class="modern-article-grid">
+            <!-- Test Article Card 1 -->
+            <article class="modern-article-card">
+                <div class="modern-article-image-container">
+                    <img src="public/assets/images/covers/research-cover-1.svg" alt="Research Article" class="modern-article-image">
+                    <div class="modern-article-image-overlay"></div>
+                </div>
+                <div class="modern-article-content-section">
+                    <div class="modern-article-meta">
+                        <span class="modern-article-meta-item">Research</span>
+                        <div class="modern-article-meta-separator"></div>
+                        <span class="modern-article-meta-item">5 min read</span>
+                    </div>
+                    <h3 class="modern-article-title">Sustainable Nanocellulose Innovation</h3>
+                    <p class="modern-article-abstract">Exploring cutting-edge applications of cellulose nanocrystals in environmental remediation and sustainable materials development.</p>
+                    <a href="#" class="modern-article-cta">
+                        Read More
+                        <span class="modern-article-cta-icon">→</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Test Article Card 2 -->
+            <article class="modern-article-card">
+                <div class="modern-article-image-container">
+                    <img src="public/assets/images/covers/oil-spill-research.svg" alt="Oil Spill Research" class="modern-article-image">
+                    <div class="modern-article-image-overlay"></div>
+                </div>
+                <div class="modern-article-content-section">
+                    <div class="modern-article-meta">
+                        <span class="modern-article-meta-item">Innovation</span>
+                        <div class="modern-article-meta-separator"></div>
+                        <span class="modern-article-meta-item">3 min read</span>
+                    </div>
+                    <h3 class="modern-article-title">Marine Oil Spill Solutions</h3>
+                    <p class="modern-article-abstract">Revolutionary biodegradable solutions for marine oil spill cleanup using advanced nanocellulose technology.</p>
+                    <a href="#" class="modern-article-cta">
+                        Learn More
+                        <span class="modern-article-cta-icon">→</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Test Article Card 3 -->
+            <article class="modern-article-card">
+                <div class="modern-article-image-container">
+                    <img src="public/assets/images/covers/packaging-research.svg" alt="Packaging Research" class="modern-article-image">
+                    <div class="modern-article-image-overlay"></div>
+                </div>
+                <div class="modern-article-content-section">
+                    <div class="modern-article-meta">
+                        <span class="modern-article-meta-item">Blog</span>
+                        <div class="modern-article-meta-separator"></div>
+                        <span class="modern-article-meta-item">7 min read</span>
+                    </div>
+                    <h3 class="modern-article-title">Future of Sustainable Packaging</h3>
+                    <p class="modern-article-abstract">How plant-based materials are revolutionizing the packaging industry with biodegradable alternatives.</p>
+                    <a href="#" class="modern-article-cta">
+                        Explore
+                        <span class="modern-article-cta-icon">→</span>
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;">
+            <button onclick="document.body.classList.toggle('dark-mode')" style="padding: 1rem 2rem; background: var(--color-accent-primary); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                Toggle Dark Mode
+            </button>
+        </div>
+    </div>
+</body>
+</html>

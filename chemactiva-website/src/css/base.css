@@ -42,3 +42,52 @@ li {
     padding: 20px; 
     font-style: italic;
 }
+
+/* Modern Cursor Effects - Global Styles */
+.custom-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: var(--color-accent-primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    transform: translate(-50%, -50%);
+}
+
+.custom-cursor.hover {
+    transform: translate(-50%, -50%) scale(1.5);
+    background: var(--color-accent-secondary);
+}
+
+.cursor-trail {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent-primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.6;
+    transform: translate(-50%, -50%);
+}
+
+/* Hide default cursor on desktop when custom cursor is active */
+body:not(.mobile) * {
+    cursor: none !important;
+}
+
+/* Dark mode cursor effects */
+body.dark-mode .custom-cursor {
+    background: var(--dm-glow-color);
+}
+
+body.dark-mode .custom-cursor.hover {
+    background: var(--dm-accent-secondary);
+}
+
+body.dark-mode .cursor-trail {
+    background: var(--dm-glow-color);
+}

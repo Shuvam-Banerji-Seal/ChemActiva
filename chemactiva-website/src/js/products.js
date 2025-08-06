@@ -3,6 +3,7 @@ import UIAnimations from './UIAnimations.js';
 import ProductFlashCards from './ProductFlashCards.js';
 import ContactManager from './ContactManager.js';
 import ModernThemeManager from './ModernThemeManager.js';
+import ModernCursorEffects from './ModernCursorEffects.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     try {
@@ -20,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize contact manager for product inquiries and quotes
         const contactManager = new ContactManager();
         contactManager.init();
+        
+        // Initialize modern cursor effects for enhanced interactivity
+        const modernCursorEffects = new ModernCursorEffects();
+        console.log('Modern cursor effects initialized for products page');
         
         // Listen for flash card events
         window.addEventListener('flashCardActionClick', (event) => {
@@ -72,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.productFlashCards = productFlashCards;
         window.contactManager = contactManager;
         window.uiAnimations = uiAnimations;
+        window.modernCursorEffects = modernCursorEffects;
         
         console.log('Products page initialized with modern flash cards');
         

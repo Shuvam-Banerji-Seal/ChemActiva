@@ -1,0 +1,429 @@
+/* src/css/expandable-text.css - Expandable Text Component Styles */
+
+/* ===== EXPANDABLE TEXT COMPONENT ===== */
+
+/* Expandable Text Container */
+.expandable-text-container {
+    position: relative;
+    display: block;
+    line-height: var(--line-height-relaxed);
+}
+
+/* Text Content Container */
+.expandable-text-content {
+    display: block;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Collapsed State Styling */
+.expandable-text-container.collapsed .expandable-text-content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+}
+
+/* Expanded State Styling */
+.expandable-text-container.expanded .expandable-text-content {
+    display: block;
+    overflow: visible;
+}
+
+/* Expandable Text Button */
+.expandable-text-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    background: transparent;
+    border: 1px solid var(--color-accent-secondary);
+    border-radius: 6px;
+    color: var(--color-accent-secondary);
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    will-change: transform, background-color, color;
+}
+
+body.dark-mode .expandable-text-button {
+    border-color: var(--dm-accent-secondary);
+    color: var(--dm-accent-secondary);
+}
+
+/* Button Hover Effects */
+.expandable-text-button:hover {
+    background: var(--color-accent-secondary);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--color-accent-rgb-values), 0.3);
+}
+
+body.dark-mode .expandable-text-button:hover {
+    background: var(--dm-accent-secondary);
+    color: var(--dm-bg-deep);
+    box-shadow: 0 4px 12px rgba(var(--dm-glow-color-rgb-values), 0.4);
+}
+
+/* Button Focus States */
+.expandable-text-button:focus {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+}
+
+body.dark-mode .expandable-text-button:focus {
+    outline-color: var(--dm-glow-color);
+}
+
+/* Button Active State */
+.expandable-text-button:active {
+    transform: translateY(0);
+    transition-duration: 0.1s;
+}
+
+/* Button Ripple Effect */
+.expandable-text-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: -1;
+}
+
+body.dark-mode .expandable-text-button::before {
+    background: rgba(var(--dm-bg-deep-rgb), 0.3);
+}
+
+.expandable-text-button:hover::before {
+    width: 100px;
+    height: 100px;
+}
+
+/* Button Icon Animation */
+.expandable-text-button::after {
+    content: '↓';
+    font-size: 0.75rem;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: rotate(0deg);
+    margin-left: 0.25rem;
+}
+
+.expandable-text-container.expanded .expandable-text-button::after {
+    transform: rotate(180deg);
+}
+
+/* Article Abstract Specific Styling */
+.modern-article-abstract.expandable-text-container {
+    margin-bottom: 0.5rem;
+}
+
+.modern-article-abstract .expandable-text-button {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    margin-top: 0.375rem;
+    border-radius: 4px;
+}
+
+/* Card Context Adjustments */
+.modern-article-card .expandable-text-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.modern-article-card .expandable-text-content {
+    flex-grow: 1;
+}
+
+.modern-article-card .expandable-text-button {
+    align-self: flex-start;
+    margin-top: auto;
+    margin-bottom: 0.5rem;
+}
+
+/* Smooth Height Transitions */
+.expandable-text-content[style*="height"] {
+    overflow: hidden !important;
+}
+
+/* Fade-in Animation for Expanded Content */
+.expandable-text-container.expanded .expandable-text-content {
+    animation: fadeInContent 0.4s ease-out;
+}
+
+@keyframes fadeInContent {
+    from {
+        opacity: 0.7;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Gradient Fade Effect for Collapsed Text */
+.expandable-text-container.collapsed .expandable-text-content::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1.5em;
+    background: linear-gradient(transparent, var(--color-background-card));
+    pointer-events: none;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+body.dark-mode .expandable-text-container.collapsed .expandable-text-content::after {
+    background: linear-gradient(transparent, var(--dm-bg-card));
+}
+
+/* Remove gradient when expanded */
+.expandable-text-container.expanded .expandable-text-content::after {
+    opacity: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .expandable-text-button {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+        margin-top: 0.4rem;
+    }
+    
+    .modern-article-abstract .expandable-text-button {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.4rem;
+        margin-top: 0.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .expandable-text-button {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.5rem;
+        margin-top: 0.35rem;
+    }
+    
+    .expandable-text-container.collapsed .expandable-text-content::after {
+        height: 1.2em;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .expandable-text-button {
+        border-width: 2px;
+        font-weight: var(--font-weight-semibold);
+    }
+    
+    .expandable-text-container.collapsed .expandable-text-content::after {
+        background: linear-gradient(transparent 50%, var(--color-background-card));
+    }
+    
+    body.dark-mode .expandable-text-container.collapsed .expandable-text-content::after {
+        background: linear-gradient(transparent 50%, var(--dm-bg-card));
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .expandable-text-content,
+    .expandable-text-button,
+    .expandable-text-button::before,
+    .expandable-text-button::after {
+        transition: none;
+        animation: none;
+    }
+    
+    .expandable-text-button:hover {
+        transform: none;
+    }
+    
+    .expandable-text-button::after {
+        transform: none;
+    }
+    
+    .expandable-text-container.expanded .expandable-text-button::after {
+        content: '↑';
+    }
+    
+    .expandable-text-container.collapsed .expandable-text-button::after {
+        content: '↓';
+    }
+}
+
+/* Print Styles */
+@media print {
+    .expandable-text-container {
+        display: block !important;
+    }
+    
+    .expandable-text-content {
+        display: block !important;
+        -webkit-line-clamp: none !important;
+        overflow: visible !important;
+        height: auto !important;
+    }
+    
+    .expandable-text-button {
+        display: none !important;
+    }
+    
+    .expandable-text-container.collapsed .expandable-text-content::after {
+        display: none !important;
+    }
+}
+
+/* Loading State for Expandable Text */
+.expandable-text-loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.expandable-text-loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(var(--color-accent-rgb-values), 0.1), 
+        transparent);
+    animation: loadingShimmer 1.5s infinite;
+}
+
+body.dark-mode .expandable-text-loading::before {
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(var(--dm-glow-color-rgb-values), 0.1), 
+        transparent);
+}
+
+@keyframes loadingShimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* Accessibility Enhancements */
+.expandable-text-button[aria-expanded="true"] {
+    background: var(--color-accent-secondary);
+    color: white;
+}
+
+body.dark-mode .expandable-text-button[aria-expanded="true"] {
+    background: var(--dm-accent-secondary);
+    color: var(--dm-bg-deep);
+}
+
+/* Screen Reader Only Text */
+.expandable-text-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus Visible Support */
+.expandable-text-button:focus-visible {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+}
+
+body.dark-mode .expandable-text-button:focus-visible {
+    outline-color: var(--dm-glow-color);
+}
+
+/* Custom Scrollbar for Long Expanded Content */
+.expandable-text-container.expanded .expandable-text-content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent-secondary) transparent;
+}
+
+.expandable-text-container.expanded .expandable-text-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.expandable-text-container.expanded .expandable-text-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.expandable-text-container.expanded .expandable-text-content::-webkit-scrollbar-thumb {
+    background: var(--color-accent-secondary);
+    border-radius: 2px;
+}
+
+body.dark-mode .expandable-text-container.expanded .expandable-text-content::-webkit-scrollbar-thumb {
+    background: var(--dm-accent-secondary);
+}
+
+/* Animation Performance Optimizations */
+.expandable-text-content,
+.expandable-text-button {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Container Queries Support (Future Enhancement) */
+@container (max-width: 300px) {
+    .expandable-text-button {
+        font-size: 0.6rem;
+        padding: 0.2rem 0.4rem;
+    }
+}
+
+/* Hover State for Touch Devices */
+@media (hover: none) and (pointer: coarse) {
+    .expandable-text-button:hover {
+        background: transparent;
+        color: var(--color-accent-secondary);
+        transform: none;
+        box-shadow: none;
+    }
+    
+    body.dark-mode .expandable-text-button:hover {
+        background: transparent;
+        color: var(--dm-accent-secondary);
+        box-shadow: none;
+    }
+    
+    .expandable-text-button:active {
+        background: var(--color-accent-secondary);
+        color: white;
+        transform: scale(0.98);
+    }
+    
+    body.dark-mode .expandable-text-button:active {
+        background: var(--dm-accent-secondary);
+        color: var(--dm-bg-deep);
+    }
+}

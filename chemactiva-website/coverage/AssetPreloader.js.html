@@ -756,9 +756,7 @@
 <a name='L691'></a><a href='#L691'>691</a>
 <a name='L692'></a><a href='#L692'>692</a>
 <a name='L693'></a><a href='#L693'>693</a>
-<a name='L694'></a><a href='#L694'>694</a>
-<a name='L695'></a><a href='#L695'>695</a>
-<a name='L696'></a><a href='#L696'>696</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L694'></a><a href='#L694'>694</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -786,8 +784,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1483,13 +1479,11 @@ export default class AssetPreloader {
 <span class="cstat-no" title="statement not covered" >        this.criticalAssets = [</span>
             // Logo variants
             { url: '/assets/images/logo.png', type: 'image', priority: this.priorities.CRITICAL },
-            { url: '/public/assets/images/logo.png', type: 'image', priority: this.priorities.CRITICAL },
-            { url: './public/assets/images/logo.png', type: 'image', priority: this.priorities.CRITICAL },
-            { url: '/public/assets/images/logo-small_size.png', type: 'image', priority: this.priorities.CRITICAL },
+            { url: '/assets/images/logo-small_size.png', type: 'image', priority: this.priorities.CRITICAL },
             
-            // Hero section assets
-            { url: '/public/assets/images/user1.jpg', type: 'image', priority: this.priorities.HIGH },
-            { url: '/public/assets/images/user2.jpg', type: 'image', priority: this.priorities.HIGH },
+            // Hero section assets (these images exist in public/assets/images/)
+            // Note: Vite serves public/ files at root, so /assets/images/ maps to public/assets/images/
+            // But we need to check if these are actually needed for the hero section
             
             // Critical CSS (if externally loaded)
             { url: '/src/css/base.css', type: 'css', priority: this.priorities.HIGH },
@@ -1876,9 +1870,9 @@ export default class AssetPreloader {
         
 <span class="cstat-no" title="statement not covered" >        if (pagePath.includes('products')) {</span>
 <span class="cstat-no" title="statement not covered" >            assets.push(</span>
-                { url: '/public/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.HIGH * probability },
-                { url: '/public/assets/images/products/Marine_oil_spill_kit.webp', type: 'image', priority: this.priorities.HIGH * probability },
-                { url: '/public/assets/images/products/Nano_cellulose_1.webp', type: 'image', priority: this.priorities.NORMAL * probability }
+                { url: '/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.HIGH * probability },
+                { url: '/assets/images/products/Marine_oil_spill_kit.webp', type: 'image', priority: this.priorities.HIGH * probability },
+                { url: '/assets/images/products/Nano_cellulose_1.webp', type: 'image', priority: this.priorities.NORMAL * probability }
             );
         } else <span class="cstat-no" title="statement not covered" >if (pagePath.includes('blog')) {</span>
 <span class="cstat-no" title="statement not covered" >            assets.push(</span>
@@ -1894,7 +1888,7 @@ export default class AssetPreloader {
      */
 <span class="fstat-no" title="function not covered" >    ge</span>tMobileOptimizedAssets() {
 <span class="cstat-no" title="statement not covered" >        return [</span>
-            { url: '/public/assets/images/logo-small_size.png', type: 'image', priority: this.priorities.HIGH },
+            { url: '/assets/images/logo-small_size.png', type: 'image', priority: this.priorities.HIGH },
             // Prioritize smaller images for mobile
             ...this.criticalAssets.filter(<span class="fstat-no" title="function not covered" >as</span>set =&gt; 
 <span class="cstat-no" title="statement not covered" >                asset.url.includes('small') || asset.url.includes('mobile')</span>
@@ -1907,8 +1901,8 @@ export default class AssetPreloader {
      */
 <span class="fstat-no" title="function not covered" >    ge</span>tBusinessHourAssets() {
 <span class="cstat-no" title="statement not covered" >        return [</span>
-            { url: '/public/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.NORMAL },
-            { url: '/public/assets/resources/domestic-oil-spill-kit-datasheet.pdf', type: 'document', priority: this.priorities.LOW }
+            { url: '/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.NORMAL },
+            { url: '/assets/resources/domestic-oil-spill-kit-datasheet.pdf', type: 'document', priority: this.priorities.LOW }
         ];
     }
 &nbsp;
@@ -1947,11 +1941,11 @@ export default class AssetPreloader {
      */
 <span class="fstat-no" title="function not covered" >    ge</span>tProductPageAssets() {
 <span class="cstat-no" title="statement not covered" >        return [</span>
-            { url: '/public/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.HIGH },
-            { url: '/public/assets/images/products/Domestic_oil_spill_kit_collage_1.webp', type: 'image', priority: this.priorities.NORMAL },
-            { url: '/public/assets/images/products/Marine_oil_spill_kit.webp', type: 'image', priority: this.priorities.HIGH },
-            { url: '/public/assets/images/products/Nano_cellulose_1.webp', type: 'image', priority: this.priorities.NORMAL },
-            { url: '/public/assets/images/products/Nano_cellulose_2.webp', type: 'image', priority: this.priorities.LOW },
+            { url: '/assets/images/products/Domestic_oil_spill_kit_1.webp', type: 'image', priority: this.priorities.HIGH },
+            { url: '/assets/images/products/Domestic_oil_spill_kit_collage_1.webp', type: 'image', priority: this.priorities.NORMAL },
+            { url: '/assets/images/products/Marine_oil_spill_kit.webp', type: 'image', priority: this.priorities.HIGH },
+            { url: '/assets/images/products/Nano_cellulose_1.webp', type: 'image', priority: this.priorities.NORMAL },
+            { url: '/assets/images/products/Nano_cellulose_2.webp', type: 'image', priority: this.priorities.LOW },
             { url: '/src/css/products.css', type: 'css', priority: this.priorities.NORMAL }
         ];
     }
@@ -2155,7 +2149,7 @@ export default class AssetPreloader {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-20T10:51:59.766Z
+                at 2025-08-03T12:12:37.961Z
             </div>
         <script src="prettify.js"></script>
         <script>

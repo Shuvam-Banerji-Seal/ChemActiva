@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/89</span>
+                <span class='fraction'>0/92</span>
             </div>
         
             
@@ -1076,7 +1076,7 @@ export default class AssetOptimizer {
 <span class="cstat-no" title="statement not covered" >        this.bundleCache = new Map();</span>
 <span class="cstat-no" title="statement not covered" >        this.criticalAssets = new Set();</span>
 <span class="cstat-no" title="statement not covered" >        this.deferredAssets = new Set();</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        this.config = {</span>
             // Define module dependencies and loading strategies
             modules: {
@@ -1109,7 +1109,7 @@ export default class AssetOptimizer {
                     condition: <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >'serviceWorker' in navigator</span>
                 }
             },
-            
+&nbsp;
             // Bundle configurations for different page types
             bundles: {
                 'homepage': [
@@ -1134,7 +1134,7 @@ export default class AssetOptimizer {
                     'PerformanceManager'
                 ]
             },
-            
+&nbsp;
             // Asset optimization rules
             optimization: {
                 enableBundling: true,
@@ -1146,7 +1146,7 @@ export default class AssetOptimizer {
                 maxBundleSize: 100000 // bytes
             }
         };
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        this.performanceMetrics = {</span>
             modulesLoaded: 0,
             totalLoadTime: 0,
@@ -1158,17 +1158,17 @@ export default class AssetOptimizer {
 &nbsp;
 <span class="fstat-no" title="function not covered" >    as</span>ync init() {
 <span class="cstat-no" title="statement not covered" >        console.log('AssetOptimizer initializing...');</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        try {</span>
 <span class="cstat-no" title="statement not covered" >            this.detectPageType();</span>
 <span class="cstat-no" title="statement not covered" >            this.identifyCriticalAssets();</span>
 <span class="cstat-no" title="statement not covered" >            await this.preloadCriticalAssets();</span>
 <span class="cstat-no" title="statement not covered" >            this.setupConditionalLoading();</span>
 <span class="cstat-no" title="statement not covered" >            this.optimizeBundles();</span>
-            
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            console.log('AssetOptimizer initialized successfully');</span>
 <span class="cstat-no" title="statement not covered" >            return true;</span>
-            
+&nbsp;
         } catch (error) {
 <span class="cstat-no" title="statement not covered" >            console.error('AssetOptimizer initialization failed:', error);</span>
 <span class="cstat-no" title="statement not covered" >            return false;</span>
@@ -1178,9 +1178,9 @@ export default class AssetOptimizer {
 <span class="fstat-no" title="function not covered" >    de</span>tectPageType() {
         const path = <span class="cstat-no" title="statement not covered" >window.location.pathname;</span>
         const body = <span class="cstat-no" title="statement not covered" >document.body;</span>
-        
+&nbsp;
         let pageType = <span class="cstat-no" title="statement not covered" >'common';</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        if (body.classList.contains('homepage') || path === '/' || path === '/index.html') {</span>
 <span class="cstat-no" title="statement not covered" >            pageType = 'homepage';</span>
         } else <span class="cstat-no" title="statement not covered" >if (path.includes('products') || body.classList.contains('products-page')) {</span>
@@ -1188,10 +1188,10 @@ export default class AssetOptimizer {
         } else <span class="cstat-no" title="statement not covered" >if (path.includes('blog') || body.classList.contains('blog-page')) {</span>
 <span class="cstat-no" title="statement not covered" >            pageType = 'blog';</span>
         }
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        this.currentPageType = pageType;</span>
 <span class="cstat-no" title="statement not covered" >        console.log(`Detected page type: ${pageType}`);</span>
-        
+&nbsp;
         // Emit event for other components
 <span class="cstat-no" title="statement not covered" >        window.dispatchEvent(new CustomEvent('pageTypeDetected', {</span>
             detail: { pageType }
@@ -1202,27 +1202,27 @@ export default class AssetOptimizer {
         // Identify critical assets based on page type and configuration
         const pageBundle = <span class="cstat-no" title="statement not covered" >this.config.bundles[this.currentPageType] || [];</span>
         const commonBundle = <span class="cstat-no" title="statement not covered" >this.config.bundles.common || [];</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        [...pageBundle, ...commonBundle].forEach(<span class="fstat-no" title="function not covered" >mo</span>duleName =&gt; {</span>
             const moduleConfig = <span class="cstat-no" title="statement not covered" >this.config.modules[moduleName];</span>
 <span class="cstat-no" title="statement not covered" >            if (moduleConfig &amp;&amp; moduleConfig.critical) {</span>
 <span class="cstat-no" title="statement not covered" >                this.criticalAssets.add(moduleName);</span>
             }
         });
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        console.log('Critical assets identified:', Array.from(this.criticalAssets));</span>
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    as</span>ync preloadCriticalAssets() {
         const preloadPromises = <span class="cstat-no" title="statement not covered" >[];</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        for (const moduleName of this.criticalAssets) {</span>
             const moduleConfig = <span class="cstat-no" title="statement not covered" >this.config.modules[moduleName];</span>
 <span class="cstat-no" title="statement not covered" >            if (moduleConfig &amp;&amp; moduleConfig.preload) {</span>
 <span class="cstat-no" title="statement not covered" >                preloadPromises.push(this.preloadModule(moduleName));</span>
             }
         }
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        await Promise.all(preloadPromises);</span>
 <span class="cstat-no" title="statement not covered" >        console.log('Critical assets preloaded');</span>
     }
@@ -1230,15 +1230,15 @@ export default class AssetOptimizer {
 <span class="fstat-no" title="function not covered" >    as</span>ync preloadModule(moduleName) {
         const moduleConfig = <span class="cstat-no" title="statement not covered" >this.config.modules[moduleName];</span>
 <span class="cstat-no" title="statement not covered" >        if (!moduleConfig) <span class="cstat-no" title="statement not covered" >return;</span></span>
-        
+&nbsp;
         // Create preload link
         const link = <span class="cstat-no" title="statement not covered" >document.createElement('link');</span>
 <span class="cstat-no" title="statement not covered" >        link.rel = 'modulepreload';</span>
 <span class="cstat-no" title="statement not covered" >        link.href = moduleConfig.path;</span>
-        
+&nbsp;
         // Add to document head
 <span class="cstat-no" title="statement not covered" >        document.head.appendChild(link);</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        console.log(`Preloading module: ${moduleName}`);</span>
     }
 &nbsp;
@@ -1267,7 +1267,7 @@ export default class AssetOptimizer {
         const triggers = <span class="cstat-no" title="statement not covered" >document.querySelectorAll(</span>
             '.product-card-enhanced, .product-image-carousel-enhanced, .blog-article'
         );
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        triggers.forEach(<span class="fstat-no" title="function not covered" >tr</span>igger =&gt; <span class="cstat-no" title="statement not covered" >observer.observe(trigger))</span>;</span>
     }
 &nbsp;
@@ -1277,7 +1277,7 @@ export default class AssetOptimizer {
 <span class="cstat-no" title="statement not covered" >            if (event.target.matches('.product-cta-enhanced, .product-card-enhanced')) {</span>
 <span class="cstat-no" title="statement not covered" >                this.loadModule('ProductManager');</span>
             }
-            
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            if (event.target.matches('.product-image-carousel-enhanced img')) {</span>
 <span class="cstat-no" title="statement not covered" >                this.loadModule('ProductImageGallery');</span>
             }
@@ -1285,7 +1285,7 @@ export default class AssetOptimizer {
 &nbsp;
         // Load modules on hover for better perceived performance
 <span class="cstat-no" title="statement not covered" >        document.addEventListener('mouseenter', <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            if (event.target.matches('.product-card-enhanced')) {</span>
+<span class="cstat-no" title="statement not covered" >            if (event.target &amp;&amp; typeof event.target.matches === 'function' &amp;&amp; event.target.matches('.product-card-enhanced')) {</span>
 <span class="cstat-no" title="statement not covered" >                this.loadModule('ProductManager');</span>
             }
         }, true);
@@ -1297,7 +1297,7 @@ export default class AssetOptimizer {
 <span class="cstat-no" title="statement not covered" >            this.detectPageType();</span>
 <span class="cstat-no" title="statement not covered" >            this.checkAndLoadModules();</span>
         });
-        
+&nbsp;
         // Monitor hash changes for single-page navigation
 <span class="cstat-no" title="statement not covered" >        window.addEventListener('hashchange', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            this.checkAndLoadModules();</span>
@@ -1306,7 +1306,7 @@ export default class AssetOptimizer {
 &nbsp;
 <span class="fstat-no" title="function not covered" >    as</span>ync checkAndLoadModules() {
         const loadPromises = <span class="cstat-no" title="statement not covered" >[];</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        for (const [moduleName, moduleConfig] of Object.entries(this.config.modules)) {</span>
 <span class="cstat-no" title="statement not covered" >            if (moduleConfig.condition &amp;&amp; moduleConfig.condition()) {</span>
 <span class="cstat-no" title="statement not covered" >                if (!this.loadedModules.has(moduleName)) {</span>
@@ -1314,7 +1314,7 @@ export default class AssetOptimizer {
                 }
             }
         }
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        await Promise.all(loadPromises);</span>
     }
 &nbsp;
@@ -1323,46 +1323,46 @@ export default class AssetOptimizer {
 <span class="cstat-no" title="statement not covered" >        if (this.loadedModules.has(moduleName)) {</span>
 <span class="cstat-no" title="statement not covered" >            return this.bundleCache.get(moduleName);</span>
         }
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        if (this.loadingPromises.has(moduleName)) {</span>
 <span class="cstat-no" title="statement not covered" >            return this.loadingPromises.get(moduleName);</span>
         }
-        
+&nbsp;
         const moduleConfig = <span class="cstat-no" title="statement not covered" >this.config.modules[moduleName];</span>
 <span class="cstat-no" title="statement not covered" >        if (!moduleConfig) {</span>
 <span class="cstat-no" title="statement not covered" >            console.warn(`Module configuration not found: ${moduleName}`);</span>
 <span class="cstat-no" title="statement not covered" >            return null;</span>
         }
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        console.log(`Loading module: ${moduleName}`);</span>
         const startTime = <span class="cstat-no" title="statement not covered" >performance.now();</span>
-        
+&nbsp;
         // Create loading promise
         const loadingPromise = <span class="cstat-no" title="statement not covered" >this.loadModuleWithDependencies(moduleName, moduleConfig);</span>
 <span class="cstat-no" title="statement not covered" >        this.loadingPromises.set(moduleName, loadingPromise);</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        try {</span>
             const module = <span class="cstat-no" title="statement not covered" >await loadingPromise;</span>
-            
+&nbsp;
             // Track performance
             const loadTime = <span class="cstat-no" title="statement not covered" >performance.now() - startTime;</span>
 <span class="cstat-no" title="statement not covered" >            this.performanceMetrics.modulesLoaded++;</span>
 <span class="cstat-no" title="statement not covered" >            this.performanceMetrics.totalLoadTime += loadTime;</span>
 <span class="cstat-no" title="statement not covered" >            this.performanceMetrics.networkRequests++;</span>
-            
+&nbsp;
             // Cache the module
 <span class="cstat-no" title="statement not covered" >            this.bundleCache.set(moduleName, module);</span>
 <span class="cstat-no" title="statement not covered" >            this.loadedModules.add(moduleName);</span>
-            
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            console.log(`Module loaded: ${moduleName} in ${loadTime.toFixed(2)}ms`);</span>
-            
+&nbsp;
             // Emit event
 <span class="cstat-no" title="statement not covered" >            window.dispatchEvent(new CustomEvent('moduleLoaded', {</span>
                 detail: { moduleName, module, loadTime }
             }));
-            
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            return module;</span>
-            
+&nbsp;
         } catch (error) {
 <span class="cstat-no" title="statement not covered" >            console.error(`Failed to load module ${moduleName}:`, error);</span>
 <span class="cstat-no" title="statement not covered" >            throw error;</span>
@@ -1374,15 +1374,15 @@ export default class AssetOptimizer {
 <span class="fstat-no" title="function not covered" >    as</span>ync loadModuleWithDependencies(moduleName, moduleConfig) {
         // Load dependencies first
 <span class="cstat-no" title="statement not covered" >        if (moduleConfig.dependencies &amp;&amp; moduleConfig.dependencies.length &gt; 0) {</span>
-            const dependencyPromises = <span class="cstat-no" title="statement not covered" >moduleConfig.dependencies.map(<span class="fstat-no" title="function not covered" >de</span>p =&gt; </span>
+            const dependencyPromises = <span class="cstat-no" title="statement not covered" >moduleConfig.dependencies.map(<span class="fstat-no" title="function not covered" >de</span>p =&gt;</span>
 <span class="cstat-no" title="statement not covered" >                this.loadModule(dep)</span>
             );
 <span class="cstat-no" title="statement not covered" >            await Promise.all(dependencyPromises);</span>
         }
-        
+&nbsp;
         // Load the actual module
 <span class="cstat-no" title="statement not covered" >        try {</span>
-            const module = <span class="cstat-no" title="statement not covered" >await import(moduleConfig.path);</span>
+            const module = <span class="cstat-no" title="statement not covered" >await import(/* @vite-ignore */ moduleConfig.path);</span>
 <span class="cstat-no" title="statement not covered" >            return module.default || module;</span>
         } catch (error) {
             // Fallback to script tag loading for compatibility
@@ -1395,25 +1395,25 @@ export default class AssetOptimizer {
             const script = <span class="cstat-no" title="statement not covered" >document.createElement('script');</span>
 <span class="cstat-no" title="statement not covered" >            script.type = 'module';</span>
 <span class="cstat-no" title="statement not covered" >            script.src = path;</span>
-            
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            script.onload = <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                resolve(window[path.split('/').pop().replace('.js', '')]);</span>
             };
-            
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            script.onerror = <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                reject(new Error(`Failed to load script: ${path}`));</span>
             };
-            
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            document.head.appendChild(script);</span>
         });
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    op</span>timizeBundles() {
 <span class="cstat-no" title="statement not covered" >        if (!this.config.optimization.enableBundling) <span class="cstat-no" title="statement not covered" >return;</span></span>
-        
+&nbsp;
         // Group modules by page type for potential bundling
         const pageBundles = <span class="cstat-no" title="statement not covered" >this.config.bundles[this.currentPageType] || [];</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        if (pageBundles.length &gt;= this.config.optimization.bundleThreshold) {</span>
 <span class="cstat-no" title="statement not covered" >            this.createVirtualBundle(this.currentPageType, pageBundles);</span>
         }
@@ -1422,14 +1422,14 @@ export default class AssetOptimizer {
 <span class="fstat-no" title="function not covered" >    cr</span>eateVirtualBundle(bundleName, moduleNames) {
         // Create a virtual bundle by preloading related modules together
 <span class="cstat-no" title="statement not covered" >        console.log(`Creating virtual bundle: ${bundleName}`);</span>
-        
+&nbsp;
         const bundlePromise = <span class="cstat-no" title="statement not covered" >Promise.all(</span>
             moduleNames.map(<span class="fstat-no" title="function not covered" >mo</span>duleName =&gt; <span class="cstat-no" title="statement not covered" >this.loadModule(moduleName))</span>
         );
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        this.bundleCache.set(bundleName, bundlePromise);</span>
 <span class="cstat-no" title="statement not covered" >        this.performanceMetrics.bundlesCreated++;</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        return bundlePromise;</span>
     }
 &nbsp;
@@ -1440,23 +1440,23 @@ export default class AssetOptimizer {
 <span class="cstat-no" title="statement not covered" >            this.performanceMetrics.cacheHits++;</span>
 <span class="cstat-no" title="statement not covered" >            return this.bundleCache.get(url);</span>
         }
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        try {</span>
             const response = <span class="cstat-no" title="statement not covered" >await fetch(url);</span>
             let optimizedContent = <span class="cstat-no" title="statement not covered" >await response.text();</span>
-            
+&nbsp;
             // Apply optimizations based on type
 <span class="cstat-no" title="statement not covered" >            if (type === 'css' || url.endsWith('.css')) {</span>
 <span class="cstat-no" title="statement not covered" >                optimizedContent = this.optimizeCSS(optimizedContent);</span>
             } else <span class="cstat-no" title="statement not covered" >if (type === 'js' || url.endsWith('.js')) {</span>
 <span class="cstat-no" title="statement not covered" >                optimizedContent = this.optimizeJS(optimizedContent);</span>
             }
-            
+&nbsp;
             // Cache optimized content
 <span class="cstat-no" title="statement not covered" >            this.bundleCache.set(url, optimizedContent);</span>
-            
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            return optimizedContent;</span>
-            
+&nbsp;
         } catch (error) {
 <span class="cstat-no" title="statement not covered" >            console.error(`Failed to optimize asset: ${url}`, error);</span>
 <span class="cstat-no" title="statement not covered" >            throw error;</span>
@@ -1465,7 +1465,7 @@ export default class AssetOptimizer {
 &nbsp;
 <span class="fstat-no" title="function not covered" >    op</span>timizeCSS(css) {
 <span class="cstat-no" title="statement not covered" >        if (!this.config.optimization.enableMinification) <span class="cstat-no" title="statement not covered" >return css;</span></span>
-        
+&nbsp;
         // Basic CSS optimization (in production, use proper minifier)
 <span class="cstat-no" title="statement not covered" >        return css</span>
             .replace(/\/\*[\s\S]*?\*\//g, '') // Remove comments
@@ -1476,7 +1476,7 @@ export default class AssetOptimizer {
 &nbsp;
 <span class="fstat-no" title="function not covered" >    op</span>timizeJS(js) {
 <span class="cstat-no" title="statement not covered" >        if (!this.config.optimization.enableMinification) <span class="cstat-no" title="statement not covered" >return js;</span></span>
-        
+&nbsp;
         // Basic JS optimization (in production, use proper minifier)
 <span class="cstat-no" title="statement not covered" >        return js</span>
             .replace(/\/\*[\s\S]*?\*\//g, '') // Remove block comments
@@ -1489,11 +1489,11 @@ export default class AssetOptimizer {
 <span class="fstat-no" title="function not covered" >    ge</span>tPerformanceMetrics() {
 <span class="cstat-no" title="statement not covered" >        return {</span>
             ...this.performanceMetrics,
-            averageLoadTime: this.performanceMetrics.modulesLoaded &gt; 0 
-                ? this.performanceMetrics.totalLoadTime / this.performanceMetrics.modulesLoaded 
+            averageLoadTime: this.performanceMetrics.modulesLoaded &gt; 0
+                ? this.performanceMetrics.totalLoadTime / this.performanceMetrics.modulesLoaded
                 : 0,
-            cacheHitRate: this.performanceMetrics.networkRequests &gt; 0 
-                ? (this.performanceMetrics.cacheHits / this.performanceMetrics.networkRequests) * 100 
+            cacheHitRate: this.performanceMetrics.networkRequests &gt; 0
+                ? (this.performanceMetrics.cacheHits / this.performanceMetrics.networkRequests) * 100
                 : 0,
             loadedModules: Array.from(this.loadedModules),
             currentPageType: this.currentPageType
@@ -1504,11 +1504,11 @@ export default class AssetOptimizer {
 <span class="fstat-no" title="function not covered" >    as</span>ync preloadPageAssets(pageType) {
         const pageBundle = <span class="cstat-no" title="statement not covered" >this.config.bundles[pageType];</span>
 <span class="cstat-no" title="statement not covered" >        if (!pageBundle) <span class="cstat-no" title="statement not covered" >return;</span></span>
-        
-        const preloadPromises = <span class="cstat-no" title="statement not covered" >pageBundle.map(<span class="fstat-no" title="function not covered" >mo</span>duleName =&gt; </span>
+&nbsp;
+        const preloadPromises = <span class="cstat-no" title="statement not covered" >pageBundle.map(<span class="fstat-no" title="function not covered" >mo</span>duleName =&gt;</span>
 <span class="cstat-no" title="statement not covered" >            this.preloadModule(moduleName)</span>
         );
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        await Promise.all(preloadPromises);</span>
 <span class="cstat-no" title="statement not covered" >        console.log(`Preloaded assets for page type: ${pageType}`);</span>
     }
@@ -1519,7 +1519,7 @@ export default class AssetOptimizer {
 <span class="cstat-no" title="statement not covered" >        link.rel = 'prefetch';</span>
 <span class="cstat-no" title="statement not covered" >        link.href = url;</span>
 <span class="cstat-no" title="statement not covered" >        document.head.appendChild(link);</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        console.log(`Prefetching page: ${url}`);</span>
     }
 &nbsp;
@@ -1528,17 +1528,17 @@ export default class AssetOptimizer {
 <span class="cstat-no" title="statement not covered" >        this.bundleCache.clear();</span>
 <span class="cstat-no" title="statement not covered" >        this.loadedModules.clear();</span>
 <span class="cstat-no" title="statement not covered" >        this.loadingPromises.clear();</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        console.log('Asset cache cleared');</span>
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    cl</span>eanup() {
 <span class="cstat-no" title="statement not covered" >        this.clearCache();</span>
-        
+&nbsp;
         // Remove preload links
         const preloadLinks = <span class="cstat-no" title="statement not covered" >document.querySelectorAll('link[rel="modulepreload"], link[rel="prefetch"]');</span>
 <span class="cstat-no" title="statement not covered" >        preloadLinks.forEach(<span class="fstat-no" title="function not covered" >li</span>nk =&gt; <span class="cstat-no" title="statement not covered" >link.remove())</span>;</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        console.log('AssetOptimizer cleaned up');</span>
     }
 &nbsp;
@@ -1559,15 +1559,15 @@ export default class AssetOptimizer {
 <span class="fstat-no" title="function not covered" >    st</span>atic isSlowConnection() {
         const connection = <span class="cstat-no" title="statement not covered" >AssetOptimizer.detectConnectionSpeed();</span>
 <span class="cstat-no" title="statement not covered" >        return connection &amp;&amp; (</span>
-            connection.effectiveType === 'slow-2g' || 
+            connection.effectiveType === 'slow-2g' ||
             connection.effectiveType === '2g' ||
             connection.saveData
         );
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    st</span>atic shouldDeferAssets() {
-<span class="cstat-no" title="statement not covered" >        return AssetOptimizer.isSlowConnection() || </span>
-               (performance.memory &amp;&amp; performance.memory.usedJSHeapSize &gt; 50000000); // 50MB
+<span class="cstat-no" title="statement not covered" >        return AssetOptimizer.isSlowConnection() ||</span>
+            (performance.memory &amp;&amp; performance.memory.usedJSHeapSize &gt; 50000000); // 50MB
     }
 }</pre></td></tr></table></pre>
 
@@ -1576,7 +1576,7 @@ export default class AssetOptimizer {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-20T10:51:59.546Z
+                at 2025-08-03T12:12:37.835Z
             </div>
         <script src="prettify.js"></script>
         <script>
