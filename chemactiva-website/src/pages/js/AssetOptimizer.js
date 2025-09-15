@@ -12,28 +12,28 @@ export default class AssetOptimizer {
             // Define module dependencies and loading strategies
             modules: {
                 'ProductManager': {
-                    path: '/src/js/ProductManager.js',
+                    path: '/js/ProductManager.js',
                     dependencies: ['UIAnimations'],
                     critical: false,
                     preload: true,
                     condition: () => document.querySelector('.product-card-enhanced')
                 },
                 'ProductImageGallery': {
-                    path: '/src/js/ProductImageGallery.js',
+                    path: '/js/ProductImageGallery.js',
                     dependencies: [],
                     critical: false,
                     preload: false,
                     condition: () => document.querySelector('.product-image-carousel-enhanced')
                 },
                 'PerformanceManager': {
-                    path: '/src/js/PerformanceManager.js',
+                    path: '/js/PerformanceManager.js',
                     dependencies: [],
                     critical: true,
                     preload: true,
                     condition: () => true
                 },
                 'ServiceWorkerManager': {
-                    path: '/src/js/ServiceWorkerManager.js',
+                    path: '/js/ServiceWorkerManager.js',
                     dependencies: [],
                     critical: false,
                     preload: true,

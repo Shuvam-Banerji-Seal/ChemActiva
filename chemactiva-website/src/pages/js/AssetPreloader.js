@@ -35,8 +35,8 @@ export default class AssetPreloader {
             // But we need to check if these are actually needed for the hero section
             
             // Critical CSS (if externally loaded)
-            { url: '/src/css/base.css', type: 'css', priority: this.priorities.HIGH },
-            { url: '/src/css/theme.css', type: 'css', priority: this.priorities.HIGH }
+            { url: '/css/base.css', type: 'css', priority: this.priorities.HIGH },
+            { url: '/css/theme.css', type: 'css', priority: this.priorities.HIGH }
         ];
         
         // Navigation pattern tracking
@@ -425,7 +425,7 @@ export default class AssetPreloader {
             );
         } else if (pagePath.includes('blog')) {
             assets.push(
-                { url: '/src/css/articles.css', type: 'css', priority: this.priorities.NORMAL * probability }
+                { url: '/css/articles.css', type: 'css', priority: this.priorities.NORMAL * probability }
             );
         }
         
@@ -495,7 +495,7 @@ export default class AssetPreloader {
             { url: '/assets/images/products/Marine_oil_spill_kit.webp', type: 'image', priority: this.priorities.HIGH },
             { url: '/assets/images/products/Nano_cellulose_1.webp', type: 'image', priority: this.priorities.NORMAL },
             { url: '/assets/images/products/Nano_cellulose_2.webp', type: 'image', priority: this.priorities.LOW },
-            { url: '/src/css/products.css', type: 'css', priority: this.priorities.NORMAL }
+            { url: '/css/products.css', type: 'css', priority: this.priorities.NORMAL }
         ];
     }
 

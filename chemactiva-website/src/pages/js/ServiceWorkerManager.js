@@ -18,18 +18,18 @@ export default class ServiceWorkerManager {
         
         this.config = {
             staticAssets: [
-                '/src/css/styles.css',
-                '/src/css/base.css',
-                '/src/css/components.css',
-                '/src/css/products.css',
-                '/src/js/main.js',
+                '/css/styles.css',
+                '/css/base.css',
+                '/css/components.css',
+                '/css/products.css',
+                '/js/main.js',
                 '/assets/images/logo.png',
                 '/assets/images/logo-small_size.png'
             ],
             dynamicAssets: [
-                '/src/js/ProductManager.js',
-                '/src/js/ProductImageGallery.js',
-                '/src/js/PerformanceManager.js'
+                '/js/ProductManager.js',
+                '/js/ProductImageGallery.js',
+                '/js/PerformanceManager.js'
             ],
             cacheRules: [
                 {

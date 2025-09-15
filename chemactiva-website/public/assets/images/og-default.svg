@@ -1,0 +1,30 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E40AF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Logo area -->
+  <circle cx="300" cy="315" r="80" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="300" cy="315" r="60" fill="rgba(255,255,255,0.2)"/>
+  <text x="300" y="325" font-family="system-ui, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">CA</text>
+  
+  <!-- Main text -->
+  <text x="500" y="280" font-family="system-ui, sans-serif" font-size="48" font-weight="bold" fill="white">ChemActiva</text>
+  <text x="500" y="320" font-family="system-ui, sans-serif" font-size="24" fill="rgba(255,255,255,0.9)">Innovative Chemical Solutions</text>
+  <text x="500" y="360" font-family="system-ui, sans-serif" font-size="18" fill="rgba(255,255,255,0.8)">Leading provider of research services and chemical products</text>
+  
+  <!-- Decorative elements -->
+  <circle cx="900" cy="150" r="120" fill="rgba(255,255,255,0.05)"/>
+  <circle cx="1000" cy="480" r="80" fill="rgba(255,255,255,0.05)"/>
+  <circle cx="150" cy="500" r="60" fill="rgba(255,255,255,0.05)"/>
+  
+  <!-- Chemical symbols as decoration -->
+  <text x="900" y="160" font-family="serif" font-size="36" fill="rgba(255,255,255,0.3)" text-anchor="middle">H₂O</text>
+  <text x="1000" y="490" font-family="serif" font-size="24" fill="rgba(255,255,255,0.3)" text-anchor="middle">CO₂</text>
+  <text x="150" y="510" font-family="serif" font-size="20" fill="rgba(255,255,255,0.3)" text-anchor="middle">NaCl</text>
+</svg>

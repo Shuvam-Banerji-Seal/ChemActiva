@@ -1,5 +1,5 @@
 /**
- * ErrorRecoveryManager - Comprehensive error recovery system with multiple fallback strategies
+ * ErrorRecoveryManager - Enhanced error recovery system with smarter offline detection
  * Provides automatic retry mechanisms with exponential backoff and graceful degradation
  */
 export default class ErrorRecoveryManager {
@@ -11,20 +11,33 @@ export default class ErrorRecoveryManager {
             enableLogging: options.enableLogging !== false,
             enableMetrics: options.enableMetrics !== false,
             fallbackStrategies: options.fallbackStrategies || {},
-            networkTimeoutMs: options.networkTimeoutMs || 5000,
+            networkTimeoutMs: options.networkTimeoutMs || 8000, // Increased timeout
+            offlineThreshold: options.offlineThreshold || 3, // Failures needed to consider offline
+            onlineCheckInterval: options.onlineCheckInterval || 30000, // Check connectivity every 30s
             ...options
         };
 
-        // Recovery state tracking
+        // Enhanced recovery state tracking
         this.recoveryAttempts = new Map();
         this.fallbackCache = new Map();
         this.networkStatus = 'online';
+        this.consecutiveFailures = 0;
+        this.lastOnlineCheck = Date.now();
+        this.offlineStartTime = null;
         this.recoveryMetrics = {
             totalRecoveries: 0,
             successfulRecoveries: 0,
             failedRecoveries: 0,
             fallbacksUsed: 0,
-            averageRecoveryTime: 0
+            averageRecoveryTime: 0,
+            falseOfflineDetections: 0
+        };
+
+        // User feedback system
+        this.userNotifications = {
+            element: null,
+            timeouts: new Set(),
+            queue: []
         };
 
         // Asset type specific strategies
@@ -43,7 +56,7 @@ export default class ErrorRecoveryManager {
             image: {
                 fallbacks: [
                     'webp-to-jpeg',
-                    '/assets/images/placeholder-product.jpg',
+                    '/assets/images/placeholder-product.svg',
                     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmNWY1ZjUiLz48dGV4dCB4PSIxNTAiIHk9IjEwMCIgZm9udC1mYW1pbHk9InN5c3RlbS11aSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SW1hZ2UgVW5hdmFpbGFibGU8L3RleHQ+PC9zdmc+',
                     'placeholder'
                 ],
@@ -87,9 +100,15 @@ export default class ErrorRecoveryManager {
         this.setupNetworkMonitoring();
         this.setupGlobalErrorHandling();
         this.preloadFallbackAssets();
+        this.startPeriodicConnectivityCheck();
+        
+        // Initial connectivity check
+        setTimeout(() => {
+            this.smartOfflineDetection();
+        }, 1000);
         
         if (this.config.enableLogging) {
-            console.log('[ErrorRecoveryManager] Initialized with comprehensive recovery strategies');
+            console.log('[ErrorRecoveryManager] Initialized with enhanced recovery strategies and smart offline detection');
         }
     }
 
@@ -134,7 +153,7 @@ export default class ErrorRecoveryManager {
     async preloadFallbackAssets() {
         // Preload critical fallback assets
         const criticalFallbacks = [
-            '/assets/images/placeholder-product.jpg'
+            '/assets/images/placeholder-product.svg'
         ];
 
         for (const fallback of criticalFallbacks) {
@@ -884,6 +903,250 @@ export default class ErrorRecoveryManager {
     }
 
     // Public API methods
+    // Enhanced offline detection methods
+    async smartOfflineDetection() {
+        // Don't rely solely on navigator.onLine
+        const tests = await Promise.allSettled([
+            this.testConnectivity('/favicon.ico'),
+            this.testConnectivity('/assets/images/logo.png'),
+            this.pingNetworkEndpoint()
+        ]);
+
+        const successfulTests = tests.filter(result => result.status === 'fulfilled').length;
+        const isActuallyOnline = successfulTests >= 1; // At least one test must pass
+
+        if (!isActuallyOnline && this.networkStatus === 'online') {
+            this.consecutiveFailures++;
+            if (this.consecutiveFailures >= this.config.offlineThreshold) {
+                this.transitionToOffline();
+            }
+        } else if (isActuallyOnline && this.networkStatus === 'offline') {
+            this.transitionToOnline();
+        } else if (isActuallyOnline) {
+            this.consecutiveFailures = 0; // Reset failure counter
+        }
+
+        return isActuallyOnline;
+    }
+
+    async testConnectivity(url) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+        try {
+            const response = await fetch(url, {
+                method: 'HEAD',
+                signal: controller.signal,
+                cache: 'no-cache'
+            });
+            clearTimeout(timeoutId);
+            return response.ok;
+        } catch (error) {
+            clearTimeout(timeoutId);
+            throw error;
+        }
+    }
+
+    async pingNetworkEndpoint() {
+        // Try to reach a reliable endpoint
+        try {
+            const response = await fetch('https://httpbin.org/status/200', {
+                method: 'HEAD',
+                signal: AbortSignal.timeout(2000),
+                cache: 'no-cache'
+            });
+            return response.ok;
+        } catch {
+            // Fallback to DNS resolution test
+            try {
+                await fetch('https://dns.google', {
+                    method: 'HEAD',
+                    signal: AbortSignal.timeout(2000),
+                    cache: 'no-cache'
+                });
+                return true;
+            } catch {
+                return false;
+            }
+        }
+    }
+
+    transitionToOffline() {
+        if (this.networkStatus !== 'offline') {
+            this.networkStatus = 'offline';
+            this.offlineStartTime = Date.now();
+            this.showUserNotification('You appear to be offline. Some features may be limited.', 'warning', 5000);
+            
+            if (this.config.enableLogging) {
+                console.warn('[ErrorRecoveryManager] Transitioned to offline mode after', this.consecutiveFailures, 'consecutive failures');
+            }
+        }
+    }
+
+    transitionToOnline() {
+        if (this.networkStatus === 'offline') {
+            const offlineDuration = this.offlineStartTime ? Date.now() - this.offlineStartTime : 0;
+            this.networkStatus = 'online';
+            this.consecutiveFailures = 0;
+            this.offlineStartTime = null;
+            
+            // Check if this was a false positive
+            if (offlineDuration < 10000) { // Less than 10 seconds
+                this.recoveryMetrics.falseOfflineDetections++;
+            }
+            
+            this.showUserNotification('Connection restored!', 'success', 3000);
+            this.handleNetworkRestore();
+            
+            if (this.config.enableLogging) {
+                console.log('[ErrorRecoveryManager] Back online after', Math.round(offlineDuration / 1000), 'seconds');
+            }
+        }
+    }
+
+    // Enhanced user feedback system
+    showUserNotification(message, type = 'info', duration = 4000) {
+        // Create notification container if it doesn't exist
+        if (!this.userNotifications.element) {
+            this.createNotificationContainer();
+        }
+
+        const notification = this.createNotificationElement(message, type);
+        this.userNotifications.element.appendChild(notification);
+
+        // Auto-dismiss after duration
+        const timeoutId = setTimeout(() => {
+            this.dismissNotification(notification);
+            this.userNotifications.timeouts.delete(timeoutId);
+        }, duration);
+        
+        this.userNotifications.timeouts.add(timeoutId);
+
+        // Allow manual dismissal
+        notification.addEventListener('click', () => {
+            clearTimeout(timeoutId);
+            this.dismissNotification(notification);
+            this.userNotifications.timeouts.delete(timeoutId);
+        });
+    }
+
+    createNotificationContainer() {
+        this.userNotifications.element = document.createElement('div');
+        this.userNotifications.element.id = 'error-notifications';
+        this.userNotifications.element.className = 'error-notifications';
+        this.userNotifications.element.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            max-width: 350px;
+            pointer-events: none;
+        `;
+        document.body.appendChild(this.userNotifications.element);
+    }
+
+    createNotificationElement(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.style.cssText = `
+            background: ${this.getNotificationColor(type)};
+            color: white;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-size: 14px;
+            line-height: 1.4;
+            cursor: pointer;
+            pointer-events: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            position: relative;
+        `;
+        
+        notification.innerHTML = `
+            <div style="padding-right: 20px;">${message}</div>
+            <div style="position: absolute; top: 8px; right: 8px; font-size: 16px; opacity: 0.7;">×</div>
+        `;
+
+        // Trigger animation
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 10);
+
+        return notification;
+    }
+
+    getNotificationColor(type) {
+        const colors = {
+            success: '#10b981',
+            warning: '#f59e0b',
+            error: '#ef4444',
+            info: '#3b82f6'
+        };
+        return colors[type] || colors.info;
+    }
+
+    dismissNotification(notification) {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }
+
+    clearAllNotifications() {
+        this.userNotifications.timeouts.forEach(timeoutId => clearTimeout(timeoutId));
+        this.userNotifications.timeouts.clear();
+        
+        if (this.userNotifications.element) {
+            this.userNotifications.element.innerHTML = '';
+        }
+    }
+
+    // Enhanced recovery with better feedback
+    async recoverWithFeedback(originalFunction, context = {}) {
+        const startTime = Date.now();
+        this.showUserNotification('Attempting to recover...', 'info', 2000);
+        
+        try {
+            const result = await this.recover(originalFunction, context.type || 'unknown', context.element, context);
+            
+            if (result.success) {
+                this.showUserNotification('Recovery successful!', 'success', 2000);
+            } else {
+                this.showUserNotification('Recovery failed. Using fallback.', 'warning', 3000);
+            }
+            
+            return result;
+        } catch (error) {
+            this.showUserNotification('Recovery failed completely.', 'error', 4000);
+            throw error;
+        }
+    }
+
+    // Periodic connectivity checks
+    startPeriodicConnectivityCheck() {
+        if (this.connectivityCheckInterval) {
+            clearInterval(this.connectivityCheckInterval);
+        }
+
+        this.connectivityCheckInterval = setInterval(async () => {
+            if (Date.now() - this.lastOnlineCheck > this.config.onlineCheckInterval) {
+                this.lastOnlineCheck = Date.now();
+                await this.smartOfflineDetection();
+            }
+        }, this.config.onlineCheckInterval);
+    }
+
+    stopPeriodicConnectivityCheck() {
+        if (this.connectivityCheckInterval) {
+            clearInterval(this.connectivityCheckInterval);
+            this.connectivityCheckInterval = null;
+        }
+    }
+
     getRecoveryMetrics() {
         return {
             ...this.recoveryMetrics,
@@ -891,7 +1154,9 @@ export default class ErrorRecoveryManager {
                 ? (this.recoveryMetrics.successfulRecoveries / this.recoveryMetrics.totalRecoveries) * 100 
                 : 0,
             networkStatus: this.networkStatus,
-            activeRecoveries: this.recoveryAttempts.size
+            activeRecoveries: this.recoveryAttempts.size,
+            falseOfflineDetections: this.recoveryMetrics.falseOfflineDetections,
+            consecutiveFailures: this.consecutiveFailures
         };
     }
 
@@ -902,12 +1167,24 @@ export default class ErrorRecoveryManager {
             successfulRecoveries: 0,
             failedRecoveries: 0,
             fallbacksUsed: 0,
-            averageRecoveryTime: 0
+            averageRecoveryTime: 0,
+            falseOfflineDetections: 0
         };
+        this.consecutiveFailures = 0;
     }
 
     setConfig(newConfig) {
         this.config = { ...this.config, ...newConfig };
+    }
+
+    // Cleanup method
+    destroy() {
+        this.stopPeriodicConnectivityCheck();
+        this.clearAllNotifications();
+        
+        if (this.userNotifications.element) {
+            this.userNotifications.element.remove();
+        }
     }
 
     // Static factory method
