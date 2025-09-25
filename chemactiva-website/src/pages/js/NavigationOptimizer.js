@@ -302,8 +302,8 @@ class NavigationOptimizer {
             homepage: [
                 { key: 'logo-main', url: '/assets/images/logo.png', type: 'image', priority: 'critical' },
                 { key: 'logo-small', url: '/assets/images/logo-small_size.png', type: 'image', priority: 'critical' },
-                { key: 'hero-user1', url: '/assets/images/user1.jpg', type: 'image', priority: 'high' },
-                { key: 'hero-user2', url: '/assets/images/user2.jpg', type: 'image', priority: 'high' },
+                { key: 'hero-ceo', url: '/assets/images/team/dr-goutam-kulsi.webp', type: 'image', priority: 'high' },
+                { key: 'hero-advisor', url: '/assets/images/team/prof-amitava-das.webp', type: 'image', priority: 'high' },
                 { key: 'team-data', url: '/team.jsonl', type: 'data', priority: 'normal' },
                 { key: 'journey-data', url: '/journey.jsonl', type: 'data', priority: 'normal' }
             ],

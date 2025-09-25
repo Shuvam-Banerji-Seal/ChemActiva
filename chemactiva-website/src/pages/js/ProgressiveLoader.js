@@ -49,7 +49,6 @@ export default class ProgressiveLoader {
         // Only show skeletons for sections that exist and aren't immediately visible
         const sectionsToSkeletonize = [
             { id: 'products-section', type: 'products' },
-            { id: 'team-section', type: 'team' },
             { id: 'blog-section', type: 'articles' }
         ];
         

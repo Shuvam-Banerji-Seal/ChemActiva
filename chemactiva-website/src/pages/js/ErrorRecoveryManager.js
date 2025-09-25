@@ -699,32 +699,8 @@ export default class ErrorRecoveryManager {
     }
 
     showOfflineIndicator() {
-        let indicator = document.getElementById('offline-indicator');
-        if (!indicator) {
-            indicator = document.createElement('div');
-            indicator.id = 'offline-indicator';
-            indicator.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                background: #ff6b6b;
-                color: white;
-                text-align: center;
-                padding: 8px;
-                font-size: 14px;
-                z-index: 10000;
-                transform: translateY(-100%);
-                transition: transform 0.3s ease;
-            `;
-            indicator.textContent = 'You are currently offline. Some features may be limited.';
-            document.body.appendChild(indicator);
-        }
-        
-        // Show indicator
-        setTimeout(() => {
-            indicator.style.transform = 'translateY(0)';
-        }, 100);
+        // Offline indicator disabled - no longer showing offline banner
+        return;
     }
 
     // Network event handlers

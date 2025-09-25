@@ -289,6 +289,15 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+.advisor-photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    background: var(--color-background-secondary);
+}
+
 .advisor-badge {
     width: 40px;
     height: 40px;

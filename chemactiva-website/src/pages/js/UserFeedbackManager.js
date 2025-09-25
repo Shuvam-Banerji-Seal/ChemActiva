@@ -628,39 +628,16 @@ export default class UserFeedbackManager {
         // Remove existing status
         this.dismissFeedback(statusId);
 
-        let message, type;
-        switch (status) {
-            case 'online':
-                message = 'Connection restored';
-                type = 'success';
-                break;
-            case 'offline':
-                message = 'You are currently offline';
-                type = 'error';
-                break;
-            case 'slow':
-                message = 'Slow connection detected';
-                type = 'warning';
-                break;
-            default:
-                return;
-        }
-
+        // Only show connection restored message, skip offline/slow messages
         if (status === 'online') {
             this.showSuccessMessage(statusId, {
-                message,
+                message: 'Connection restored',
                 position: 'overlay',
                 autoHide: true
             });
-        } else {
-            this.showErrorMessage(statusId, {
-                title: 'Network Status',
-                message,
-                position: 'overlay',
-                enableRetry: false,
-                autoHide: status === 'slow'
-            });
         }
+        // Disabled offline and slow connection notifications
+        return;
     }
 
     /**

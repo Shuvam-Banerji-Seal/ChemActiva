@@ -7,6 +7,7 @@ class AdvisorsModernized {
         this.isInitialized = false;
         this.animationObserver = null;
         this.advisorCards = [];
+        this.advisorData = [];
         this.statsAnimated = false;
         
         // Bind methods
@@ -16,13 +17,15 @@ class AdvisorsModernized {
         this.handleIntersection = this.handleIntersection.bind(this);
     }
 
-    init() {
+    async init() {
         if (this.isInitialized) return;
         
         console.log('[AdvisorsModernized] Initializing modernized advisors section');
         
         try {
+            await this.loadAdvisorData();
             this.setupElements();
+            this.renderAdvisorCards();
             this.setupEventListeners();
             this.setupIntersectionObserver();
             this.setupAnimations();
@@ -35,15 +38,97 @@ class AdvisorsModernized {
         }
     }
 
+    async loadAdvisorData() {
+        try {
+            console.log('[AdvisorsModernized] Loading advisor data...');
+            const response = await fetch('/team.jsonl');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const text = await response.text();
+            const allData = text.trim().split('\n')
+                .filter(line => line.trim())
+                .map(line => JSON.parse(line));
+            
+            // Filter to get only advisors
+            this.advisorData = allData.filter(member => member.position === 'Advisor');
+            
+            console.log(`[AdvisorsModernized] Loaded ${this.advisorData.length} advisors`);
+            
+        } catch (error) {
+            console.error('[AdvisorsModernized] Failed to load advisor data:', error);
+            this.advisorData = [];
+        }
+    }
+
     setupElements() {
-        // Get all advisor cards
-        this.advisorCards = document.querySelectorAll('.advisor-card-modern');
+        // Get container elements
+        this.advisorGrid = document.querySelector('.advisors-grid-modern');
         this.statsSection = document.querySelector('.advisors-stats-inline');
         this.impactSection = document.querySelector('.advisors-impact');
         this.introBanner = document.querySelector('.advisors-intro-banner');
         this.expertiseTags = document.querySelectorAll('.expertise-tag');
         
-        console.log(`[AdvisorsModernized] Found ${this.advisorCards.length} advisor cards`);
+        console.log(`[AdvisorsModernized] Found advisor grid container`);
+    }
+
+    renderAdvisorCards() {
+        if (!this.advisorGrid || !this.advisorData.length) return;
+
+        // Clear existing content
+        this.advisorGrid.innerHTML = '';
+
+        // Create advisor cards
+        this.advisorData.forEach((advisor, index) => {
+            const card = this.createAdvisorCard(advisor, index);
+            this.advisorGrid.appendChild(card);
+        });
+
+        // Update advisor cards reference
+        this.advisorCards = document.querySelectorAll('.advisor-card-modern');
+
+        console.log(`[AdvisorsModernized] Rendered ${this.advisorData.length} advisor cards`);
+    }
+
+    createAdvisorCard(advisor, index) {
+        const card = document.createElement('div');
+        card.className = 'advisor-card-modern';
+        card.setAttribute('data-index', index);
+        
+        // Create photo element
+        const photoElement = advisor.image ? 
+            `<img src="${advisor.image}" alt="${advisor.name}" class="advisor-photo" loading="lazy">` :
+            `<span class="advisor-initials">${this.getInitials(advisor.name)}</span>`;
+
+        card.innerHTML = `
+            <div class="advisor-card-header">
+                <div class="advisor-avatar">
+                    ${photoElement}
+                </div>
+                <div class="advisor-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" fill="currentColor"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="advisor-card-content">
+                <h3>${advisor.name}</h3>
+                <p class="advisor-description">${advisor.bio}</p>
+            </div>
+        `;
+        
+        return card;
+    }
+
+    getInitials(name) {
+        return name
+            .split(' ')
+            .map(n => n[0])
+            .join('')
+            .toUpperCase()
+            .slice(0, 2);
     }
 
     setupEventListeners() {

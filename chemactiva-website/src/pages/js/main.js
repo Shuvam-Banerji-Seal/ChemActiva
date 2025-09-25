@@ -5,6 +5,7 @@ import PerformanceMonitor from './PerformanceMonitor.js';
 import SEOManager from './SEOManager.js';
 import AssetAuditor from './AssetAuditor.js';
 import AccessibilityManager from './AccessibilityManager.js';
+import ProductImageGallery from './ProductImageGallery.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize accessibility features first for immediate keyboard/screen reader support
@@ -50,6 +51,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize main app
     const app = new App();
     app.init();
+    
+    // Initialize product image galleries
+    setTimeout(() => {
+        const galleryContainers = document.querySelectorAll('.product-card-image-gallery');
+        galleryContainers.forEach(container => {
+            new ProductImageGallery(container, {
+                autoPlay: false,
+                showThumbnails: true,
+                enableKeyboard: true,
+                enableTouch: true
+            });
+        });
+    }, 500);
     
     // Announce page load completion to screen readers
     setTimeout(() => {

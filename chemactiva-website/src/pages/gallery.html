@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - ChemActiva</title>
+    <meta name="description" content="Explore our achievements, facilities, and notable moments at ChemActiva through our comprehensive image gallery.">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/typography.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/modern-sections.css">
+    <link rel="stylesheet" href="/css/products-redesigned.css">
+    <link rel="stylesheet" href="/css/gallery.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/css/base.css" as="style">
+    <link rel="preload" href="/js/gallery.js" as="script">
+</head>
+<body>
+    <!-- Header -->
+    <header id="navbar">
+        <div class="container">
+            <a href="/index.html" class="logo">
+                <img src="/assets/images/logo.png" alt="ChemActiva Logo" id="navbar-logo-img">
+            </a>
+            <nav class="nav-links">
+                <a href="/index.html#about-us">About</a>
+                <a href="/index.html#our-journey">Journey</a>
+                <a href="/products.html">Products</a>
+                <a href="/innovation.html">Innovation</a>
+                <a href="/index.html#blog">Blog</a>
+                <a href="/index.html#our-team">Team</a>
+                <a href="/gallery.html" class="active">Gallery</a>
+                <a href="/index.html#contact">Contact</a>
+                <div class="theme-switcher theme-switcher-mobile">
+                    <input type="checkbox" id="theme-toggle-mobile" class="theme-toggle-checkbox">
+                    <label for="theme-toggle-mobile" class="theme-toggle-label">
+                        <span class="toggle-ball">
+                            <span class="icon sun-icon">☀️</span>
+                            <span class="icon moon-icon">🌙</span>
+                        </span>
+                    </label>
+                </div>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="theme-switcher theme-switcher-desktop">
+                <input type="checkbox" id="theme-toggle-desktop" class="theme-toggle-checkbox">
+                <label for="theme-toggle-desktop" class="theme-toggle-label">
+                    <span class="toggle-ball">
+                        <span class="icon sun-icon">☀️</span>
+                        <span class="icon moon-icon">🌙</span>
+                    </span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="gallery-hero">
+            <div class="container">
+                <h1 class="gallery-hero-title">Our Gallery</h1>
+                <p class="gallery-hero-subtitle">Explore our achievements, facilities, and notable moments</p>
+            </div>
+        </section>
+
+        <!-- Filter Navigation -->
+        <section class="gallery-filters">
+            <div class="container">
+                <nav class="filter-nav">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="achievements">Achievements</button>
+                    <button class="filter-btn" data-filter="facilities">Facilities</button>
+                    <button class="filter-btn" data-filter="products">Products</button>
+                    <button class="filter-btn" data-filter="team">Team</button>
+                </nav>
+            </div>
+        </section>
+
+        <!-- Gallery Grid -->
+        <section class="gallery-section">
+            <div class="container">
+                <div class="gallery-grid" id="galleryGrid">
+                    
+                    <!-- Achievements Gallery Items -->
+                    <div class="gallery-item" data-category="achievements">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/achievements/Panel_1_Crystalline_Nano_Cellulose.jpg" alt="Crystalline Nano Cellulose Achievement" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Crystalline Nano Cellulose</h3>
+                                <p>Pioneering innovation in sustainable nanotechnology</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="achievements">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/achievements/Panel_2_Oil_Spill_Kits.jpg" alt="Oil Spill Kits Achievement" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Oil Spill Kits</h3>
+                                <p>Environmental protection solutions</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="achievements">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/achievements/Panel_3_HDFC_Parivartan_CSR_Grant.jpg" alt="HDFC Parivartan CSR Grant" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>HDFC Parivartan CSR Grant</h3>
+                                <p>Recognition for sustainable development initiatives</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="achievements">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/achievements/Panel_4_DST_NIDHI_PRAYAS.jpeg" alt="DST NIDHI PRAYAS Award" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>DST NIDHI PRAYAS</h3>
+                                <p>Department of Science & Technology recognition</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="achievements">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/achievements/Panel_5_Blue_Economy_Mission_Award.jfif" alt="Blue Economy Mission Award" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Blue Economy Mission Award</h3>
+                                <p>Excellence in marine environmental solutions</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Facilities Gallery Items -->
+                    <div class="gallery-item" data-category="facilities">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/facilities/IMG_20250722_133405.jpg" alt="Research Laboratory" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Research Laboratory</h3>
+                                <p>State-of-the-art research and development facility</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="facilities">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/facilities/IMG_20250722_133641.jpg" alt="Testing Equipment" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Testing Equipment</h3>
+                                <p>Advanced testing and quality control instruments</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="facilities">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/facilities/IMG_20250722_133819.jpg" alt="Production Facility" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Production Facility</h3>
+                                <p>Clean production environment for chemical synthesis</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="facilities">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/facilities/IMG_20250722_134040.jpg" alt="Laboratory Equipment" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Laboratory Equipment</h3>
+                                <p>Precision instruments for chemical analysis</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="facilities">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/facilities/IMG_20250722_134456.jpg" alt="Research Workspace" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Research Workspace</h3>
+                                <p>Collaborative research and development environment</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Images -->
+                    <div class="gallery-item" data-category="products">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/facilities/Greenulose_100g_bottle.jpg" alt="Greenulose Product" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Greenulose</h3>
+                                <p>Sustainable cellulose-based solutions</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="products">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/facilities/Crystalline_Nano_Cellulose.jpg" alt="Crystalline Nano Cellulose" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Crystalline Nano Cellulose</h3>
+                                <p>Advanced nanotechnology applications</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="products">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/facilities/Domestic_Oil_Spill_Kit.jpg" alt="Domestic Oil Spill Kit" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Domestic Oil Spill Kit</h3>
+                                <p>Environmental protection solutions</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="products">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/gallery/facilities/Greenulose_25g_50g_100g_all_bottles.jpg" alt="Greenulose Product Range" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Greenulose Product Range</h3>
+                                <p>Complete range of sustainable solutions</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Images -->
+                    <div class="gallery-item" data-category="team">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/team/dr-goutam-kulsi.webp" alt="Dr. Goutam Kulsi" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Dr. Goutam Kulsi</h3>
+                                <p>Leading expert in chemical research and innovation</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="team">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/team/keya-mandal.webp" alt="Keya Mandal" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Keya Mandal</h3>
+                                <p>Research specialist in sustainable solutions</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="team">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/team/kushagra-advani.webp" alt="Kushagra Advani" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Kushagra Advani</h3>
+                                <p>Innovation and product development expert</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="team">
+                        <div class="gallery-image-container">
+                            <img src="/assets/images/team/shipra-bharti.webp" alt="Shipra Bharti" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Shipra Bharti</h3>
+                                <p>Chemical engineering and process optimization</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Load More Button -->
+                <div class="gallery-load-more">
+                    <button class="btn btn-primary" id="loadMoreBtn">Load More Images</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ChemActiva</h3>
+                    <p>Leading provider of innovative chemical solutions and research services.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/index.html">Home</a></li>
+                        <li><a href="/index.html#products">Products</a></li>
+                        <li><a href="/index.html#team">Team</a></li>
+                        <li><a href="/gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: info@chemactiva.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ChemActiva. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">&times;</button>
+            <img class="lightbox-image" id="lightboxImage" src="" alt="">
+            <div class="lightbox-info">
+                <h3 class="lightbox-title" id="lightboxTitle"></h3>
+                <p class="lightbox-description" id="lightboxDescription"></p>
+            </div>
+            <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
+            <button class="lightbox-nav lightbox-next" id="lightboxNext">›</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="/js/gallery.js"></script>
+    <script type="module" src="/js/main.js"></script>
+</body>
+</html>

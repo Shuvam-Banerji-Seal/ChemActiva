@@ -1,5 +1,13 @@
 /* src/css/base.css */
 
+/* Hide offline banners globally */
+#offline-indicator,
+#offline-notification,
+[id*="network-status"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
 /* Basic Reset & Defaults */
 * { 
     margin: 0; 

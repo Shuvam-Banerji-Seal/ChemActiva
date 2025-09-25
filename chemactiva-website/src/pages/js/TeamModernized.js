@@ -11,6 +11,11 @@ class TeamModernized {
         this.teamCards = [];
         this.statsAnimated = false;
         
+        // Animation flags
+        this.introBannerAnimated = false;
+        this.teamCardsAnimated = false;
+        this.valuesAnimated = false;
+        
         // Navigation elements
         this.prevBtn = null;
         this.nextBtn = null;
@@ -32,10 +37,10 @@ class TeamModernized {
         try {
             await this.loadTeamData();
             this.setupElements();
+            this.setupAnimations(); // Set up animation states before rendering
             this.renderTeamCards();
             this.setupEventListeners();
             this.setupIntersectionObserver();
-            this.setupAnimations();
             
             this.isInitialized = true;
             console.log('[TeamModernized] Initialization complete');
@@ -56,11 +61,14 @@ class TeamModernized {
             }
             
             const text = await response.text();
-            this.teamData = text.trim().split('\n')
+            const allData = text.trim().split('\n')
                 .filter(line => line.trim())
                 .map(line => JSON.parse(line));
             
-            console.log(`[TeamModernized] Loaded ${this.teamData.length} team members`);
+            // Filter out advisors - only show actual team members
+            this.teamData = allData.filter(member => member.position !== 'Advisor');
+            
+            console.log(`[TeamModernized] Loaded ${this.teamData.length} team members (filtered out advisors)`);
             
         } catch (error) {
             console.error('[TeamModernized] Failed to load team data:', error);
@@ -118,9 +126,12 @@ class TeamModernized {
         // Clear existing content
         this.teamGrid.innerHTML = '';
 
+        // Check if team grid is currently visible
+        const isVisible = this.isElementVisible(this.teamGrid, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
+
         // Create team cards
         this.teamData.forEach((member, index) => {
-            const card = this.createTeamCard(member, index);
+            const card = this.createTeamCard(member, index, isVisible);
             this.teamGrid.appendChild(card);
         });
 
@@ -130,13 +141,20 @@ class TeamModernized {
         // Update navigation state
         this.updateNavigationState();
 
-        console.log(`[TeamModernized] Rendered ${this.teamData.length} team cards`);
+        console.log(`[TeamModernized] Rendered ${this.teamData.length} team cards${isVisible ? ' (visible)' : ' (hidden)'}`);
     }
 
-    createTeamCard(member, index) {
+    createTeamCard(member, index, isVisible = false) {
         const card = document.createElement('div');
         card.className = 'team-card-modern';
         card.setAttribute('data-index', index);
+        
+        // Set initial animation state
+        if (!isVisible) {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }
         
         // Create photo element
         const photoElement = member.image ? 
@@ -267,22 +285,68 @@ class TeamModernized {
         ].filter(Boolean);
 
         elementsToObserve.forEach(element => {
-            this.animationObserver.observe(element);
+            // Check if element is already visible and animate immediately
+            if (this.isElementVisible(element, options)) {
+                this.handleImmediateAnimation(element);
+            } else {
+                this.animationObserver.observe(element);
+            }
         });
 
         console.log('[TeamModernized] Intersection observer setup complete');
     }
 
+    isElementVisible(element, options) {
+        const rect = element.getBoundingClientRect();
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+        
+        // Check if element is in viewport considering the threshold and rootMargin
+        const threshold = options.threshold || 0;
+        const rootMargin = options.rootMargin || '0px';
+        
+        // Parse rootMargin (simplified)
+        const marginTop = 0;
+        const marginBottom = 50; // From '0px 0px -50px 0px'
+        
+        const elementTop = rect.top - marginTop;
+        const elementBottom = rect.bottom + marginBottom;
+        const elementHeight = rect.height;
+        
+        const visibleTop = Math.max(0, elementTop);
+        const visibleBottom = Math.min(windowHeight, elementBottom);
+        const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+        
+        return visibleHeight >= elementHeight * threshold;
+    }
+
+    handleImmediateAnimation(element) {
+        // Trigger animation immediately for elements already in view
+        if (element.classList.contains('team-intro-banner') && !this.introBannerAnimated) {
+            this.introBannerAnimated = true;
+            this.animateIntroBanner();
+        } else if (element.id === 'team-grid-modern' && !this.teamCardsAnimated) {
+            this.teamCardsAnimated = true;
+            this.animateTeamCards();
+        } else if (element.classList.contains('team-stats-inline') && !this.statsAnimated) {
+            this.statsAnimated = true;
+            this.animateStats();
+        } else if (element.classList.contains('team-values') && !this.valuesAnimated) {
+            this.valuesAnimated = true;
+            this.animateValues();
+        }
+    }
+
     setupAnimations() {
-        // Add initial animation states
-        const teamCards = document.querySelectorAll('.team-card-modern');
+        // Add initial animation states for elements that don't already have them
+        const teamCards = document.querySelectorAll('.team-card-modern:not([style*="opacity"])');
         teamCards.forEach((card, index) => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(30px)';
             card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         });
 
-        if (this.valuesSection) {
+        if (this.valuesSection && !this.valuesSection.style.opacity) {
             this.valuesSection.style.opacity = '0';
             this.valuesSection.style.transform = 'translateY(20px)';
             this.valuesSection.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -296,13 +360,17 @@ class TeamModernized {
             if (entry.isIntersecting) {
                 const element = entry.target;
                 
-                if (element.classList.contains('team-intro-banner')) {
+                if (element.classList.contains('team-intro-banner') && !this.introBannerAnimated) {
+                    this.introBannerAnimated = true;
                     this.animateIntroBanner();
-                } else if (element.id === 'team-grid-modern') {
+                } else if (element.id === 'team-grid-modern' && !this.teamCardsAnimated) {
+                    this.teamCardsAnimated = true;
                     this.animateTeamCards();
-                } else if (element.classList.contains('team-stats-inline')) {
+                } else if (element.classList.contains('team-stats-inline') && !this.statsAnimated) {
+                    this.statsAnimated = true;
                     this.animateStats();
-                } else if (element.classList.contains('team-values')) {
+                } else if (element.classList.contains('team-values') && !this.valuesAnimated) {
+                    this.valuesAnimated = true;
                     this.animateValues();
                 }
                 

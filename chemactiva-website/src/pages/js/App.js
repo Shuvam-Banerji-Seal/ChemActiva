@@ -71,7 +71,6 @@ export default class App {
         if (this.isHomepage) {
             this.heroLoader = new HeroLoader('#hero-loader');
             this.enhancedHeroBanner = new EnhancedHeroBanner('#homepage-hero');
-            this.teamManager = new TeamManager('#team-grid', '/team.jsonl');
             this.journeyManager = new JourneyManager('.journey-timeline', '/journey.jsonl');
             this.productsRedesigned = new ProductsRedesigned();
             this.teamModernized = new TeamModernized();

@@ -572,18 +572,8 @@ class AdaptiveLoadingManager {
      * Show offline notification
      */
     showOfflineNotification() {
-        // Check if notification already exists
-        if (document.getElementById('offline-notification')) return;
-        
-        const notification = document.createElement('div');
-        notification.id = 'offline-notification';
-        notification.innerHTML = `
-            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; text-align: center; position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;">
-                You are currently offline. Some features may be limited.
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
+        // Offline notification disabled - no longer showing offline banner
+        return;
     }
 
     /**
