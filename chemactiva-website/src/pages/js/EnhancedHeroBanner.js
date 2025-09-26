@@ -67,6 +67,8 @@ class EnhancedHeroBanner {
             this.setupEventListeners();
             this.setupIntersectionObserver();
             this.setupResizeObserver();
+            this.setupScrollIndicator();
+            this.setupContentSectionObserver();
             this.startSlideshow();
             this.startAnimation();
 
@@ -95,83 +97,160 @@ class EnhancedHeroBanner {
             {
                 id: 'innovation',
                 title: 'Pioneering Sustainable Innovation',
-                subtitle: 'Advanced Nanocellulose Technology',
+                subtitle: 'Crystalline Nano Cellulose Technology',
                 description: 'Leading breakthrough research in biodegradable cellulose nanocrystals for environmental solutions',
                 background: 'linear-gradient(135deg, rgba(50, 142, 110, 0.9) 0%, rgba(103, 174, 110, 0.8) 100%)',
                 image: '/assets/images/hero/innovation-lab.jpg',
+                panelImage: '/assets/images/Panel_1_Crystalline_Nano_Cellulose.webp',
                 moleculeColor: '#328E6E',
-                particles: true
-            },
-            {
-                id: 'research',
-                title: 'World-Class Scientific Research',
-                subtitle: 'Cellu® - High-Performance Materials',
-                description: 'Developing next-generation biodegradable materials from renewable plant sources',
-                background: 'linear-gradient(135deg, rgba(37, 143, 56, 0.9) 0%, rgba(50, 223, 110, 0.8) 100%)',
-                image: '/assets/images/hero/research-facility.jpg',
-                moleculeColor: '#32df6e',
-                particles: true
+                particles: true,
+                features: ['High-Performance Materials', 'Biodegradable', 'Renewable Sources']
             },
             {
                 id: 'products',
-                title: 'Sustainable Product Solutions',
-                subtitle: 'Oil Spill Management Systems',
-                description: 'Revolutionary biodegradable solutions for domestic and marine oil spill cleanup',
-                background: 'linear-gradient(135deg, rgba(103, 174, 110, 0.9) 0%, rgba(50, 142, 110, 0.8) 100%)',
+                title: 'Revolutionary Oil Spill Solutions',
+                subtitle: 'Marine & Domestic Spill Management',
+                description: 'Advanced biodegradable oil spill kits for comprehensive environmental protection',
+                background: 'linear-gradient(135deg, rgba(37, 143, 56, 0.9) 0%, rgba(50, 223, 110, 0.8) 100%)',
                 image: '/assets/images/hero/products-showcase.jpg',
-                moleculeColor: '#67AE6E',
-                particles: false
+                panelImage: '/assets/images/Panel_2_Oil_Spill_Kits.webp',
+                moleculeColor: '#32df6e',
+                particles: true,
+                features: ['Marine Solutions', 'Domestic Applications', 'Eco-Friendly']
             },
             {
-                id: 'future',
-                title: 'Shaping a Sustainable Future',
-                subtitle: 'Environmental Stewardship',
-                description: 'Committed to creating a cleaner planet through innovative green technologies',
+                id: 'partnerships',
+                title: 'Strategic Industry Partnerships',
+                subtitle: 'HDFC Parivartan CSR Initiative',
+                description: 'Collaborating with leading institutions to drive sustainable innovation and social impact',
+                background: 'linear-gradient(135deg, rgba(103, 174, 110, 0.9) 0%, rgba(50, 142, 110, 0.8) 100%)',
+                image: '/assets/images/hero/research-facility.jpg',
+                panelImage: '/assets/images/Panel_3_HDFC_Parivartan_CSR_Grant.webp',
+                moleculeColor: '#67AE6E',
+                particles: false,
+                features: ['Corporate Partnerships', 'Social Impact', 'Sustainable Development']
+            },
+            {
+                id: 'recognition',
+                title: 'Government Recognition & Support',
+                subtitle: 'DST NIDHI PRAYAS Program',
+                description: 'Recognized by the Department of Science & Technology for innovative research excellence',
                 background: 'linear-gradient(135deg, rgba(50, 223, 110, 0.9) 0%, rgba(79, 255, 122, 0.8) 100%)',
                 image: '/assets/images/hero/sustainable-future.jpg',
+                panelImage: '/assets/images/Panel_4_DST_NIDHI_PRAYAS.webp',
                 moleculeColor: '#4eff7a',
-                particles: true
+                particles: true,
+                features: ['Government Support', 'Research Excellence', 'Innovation Awards']
+            },
+            {
+                id: 'awards',
+                title: 'Blue Economy Mission Award',
+                subtitle: 'National Recognition for Innovation',
+                description: 'Honored for contributions to sustainable marine ecosystem protection and restoration',
+                background: 'linear-gradient(135deg, rgba(20, 80, 160, 0.9) 0%, rgba(40, 120, 200, 0.8) 100%)',
+                image: '/assets/images/hero/innovation-lab.jpg',
+                panelImage: '/assets/images/Panel_5_Blue_Economy_Mission_Award.webp',
+                moleculeColor: '#2890c8',
+                particles: true,
+                features: ['National Award', 'Marine Conservation', 'Blue Economy Leadership']
             }
         ];
     }
 
     setupHTML() {
         this.container.innerHTML = `
-            <div class="hero-slideshow-container">
-                <div class="hero-slides">
-                    ${this.slides.map((slide, index) => `
-                        <div class="hero-slide ${index === 0 ? 'active' : ''}" data-slide="${slide.id}">
-                            <div class="slide-background" style="background: ${slide.background};">
-                                <div class="slide-image" style="background-image: url('${slide.image}');"></div>
-                                <div class="slide-overlay"></div>
-                            </div>
-                            <div class="slide-content">
-                                <div class="slide-text">
-                                    <h1 class="slide-title">${slide.title}</h1>
-                                    <h2 class="slide-subtitle">${slide.subtitle}</h2>
-                                    <p class="slide-description">${slide.description}</p>
-                                    <div class="slide-actions">
-                                        <button class="cta-primary" data-action="learn-more">Learn More</button>
-                                        <button class="cta-secondary" data-action="explore">Explore Products</button>
+            <!-- Section 1: Full-Screen Image Slideshow -->
+            <section class="hero-slideshow-section">
+                <div class="hero-image-window">
+                    <div class="hero-3d-stage">
+                        <div class="hero-slides">
+                            ${this.slides.map((slide, index) => `
+                                <div class="hero-slide ${index === 0 ? 'active' : ''}" data-slide="${slide.id}" data-index="${index}">
+                                    <div class="slide-3d-wrapper">
+                                        <div class="slide-image-container">
+                                            <img src="${slide.panelImage}" alt="${slide.title}" class="main-slide-image" loading="lazy">
+                                            <div class="slide-overlay"></div>
+                                        </div>
+                                        ${slide.particles ? '<div class="slide-particles"></div>' : ''}
                                     </div>
                                 </div>
-                            </div>
-                            ${slide.particles ? '<div class="slide-particles"></div>' : ''}
+                            `).join('')}
                         </div>
-                    `).join('')}
+                    </div>
+                    
+                    <!-- Image Slideshow Navigation -->
+                    <div class="image-nav-controls">
+                        <button class="nav-arrow prev-arrow" data-direction="prev">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button class="nav-arrow next-arrow" data-direction="next">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="image-dots">
+                            ${this.slides.map((_, index) => `
+                                <button class="image-dot ${index === 0 ? 'active' : ''}" data-slide="${index}"></button>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <!-- Scroll Indicator -->
+                    <div class="scroll-indicator">
+                        <div class="scroll-text">Scroll to explore</div>
+                        <div class="scroll-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 5v14m-7-7l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="hero-3d-overlay">
-                    <div class="molecule-container" id="molecule-3d-container">
-                        <div class="molecule-info">
-                            <div class="molecule-label">Interactive Cellulose Molecule</div>
-                            <div class="molecule-controls">
-                                <button class="molecule-btn" data-action="rotate">🔄</button>
-                                <button class="molecule-btn" data-action="info">ℹ️</button>
+            </section>
+            
+            <!-- Section 2: Text Content and 3D Molecule -->
+            <section class="hero-content-section">
+                <div class="hero-content-area">
+                    <!-- Text Content with Typing Effect -->
+                    <div class="hero-text-section">
+                        <div class="text-container">
+                            <h1 class="hero-title">
+                                <span class="typewriter-text" data-text="${this.slides[0]?.title || 'ChemActiva'}"></span>
+                                <span class="typewriter-cursor">|</span>
+                            </h1>
+                            <h2 class="hero-subtitle">
+                                <span class="typewriter-text" data-text="${this.slides[0]?.subtitle || 'Advanced Chemical Solutions'}" data-delay="1000"></span>
+                            </h2>
+                            <p class="hero-description">
+                                <span class="typewriter-text" data-text="${this.slides[0]?.description || 'Pioneering sustainable chemical innovations'}" data-delay="2000"></span>
+                            </p>
+                            <div class="hero-features">
+                                ${this.slides[0]?.features ? this.slides[0].features.map((feature, index) => `
+                                    <span class="feature-tag typewriter-text" data-text="${feature}" data-delay="${3000 + index * 500}"></span>
+                                `).join('') : ''}
+                            </div>
+                            <div class="hero-actions">
+                                <button class="cta-primary fade-in-btn" data-delay="4000" data-action="learn-more">Learn More</button>
+                                <button class="cta-secondary fade-in-btn" data-delay="4300" data-action="explore">Explore Products</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 3D Molecule on Right Side -->
+                    <div class="hero-molecule-section">
+                        <div class="molecule-container" id="molecule-3d-container">
+                            <div class="molecule-info">
+                                <div class="molecule-label">Interactive Cellulose Molecule</div>
+                                <div class="molecule-controls">
+                                    <button class="molecule-btn" data-action="rotate">🔄</button>
+                                    <button class="molecule-btn" data-action="info">ℹ️</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </section>
                 
                 <div class="hero-navigation">
                     <div class="slide-indicators">
@@ -209,9 +288,21 @@ class EnhancedHeroBanner {
         // Get references to created elements
         this.slidesContainer = this.container.querySelector('.hero-slides');
         this.slideElements = this.container.querySelectorAll('.hero-slide');
-        this.indicatorElements = this.container.querySelectorAll('.slide-indicator');
+        this.imageDots = this.container.querySelectorAll('.image-dot');
         this.moleculeContainer = this.container.querySelector('#molecule-3d-container');
         this.progressFill = this.container.querySelector('.progress-fill');
+        
+        console.log('[EnhancedHeroBanner] Found elements:', {
+            slides: this.slideElements.length,
+            dots: this.imageDots.length,
+            moleculeContainer: !!this.moleculeContainer
+        });
+        
+        // Ensure first slide is active
+        if (this.slideElements.length > 0) {
+            this.slideElements[0].classList.add('active');
+            console.log('[EnhancedHeroBanner] First slide activated');
+        }
     }
 
     setup3DScene() {
@@ -533,17 +624,19 @@ class EnhancedHeroBanner {
     }
 
     setupEventListeners() {
-        // Slideshow controls
-        const prevBtn = this.container.querySelector('.slide-control.prev');
-        const nextBtn = this.container.querySelector('.slide-control.next');
+        // New image navigation controls
+        const prevArrow = this.container.querySelector('.prev-arrow');
+        const nextArrow = this.container.querySelector('.next-arrow');
         
-        if (prevBtn) prevBtn.addEventListener('click', () => this.previousSlide());
-        if (nextBtn) nextBtn.addEventListener('click', () => this.nextSlide());
+        if (prevArrow) prevArrow.addEventListener('click', () => this.previousSlide());
+        if (nextArrow) nextArrow.addEventListener('click', () => this.nextSlide());
 
-        // Slide indicators
-        this.indicatorElements.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => this.goToSlide(index));
-        });
+        // Image dots (use the ones already stored from setupHTML)
+        if (this.imageDots) {
+            this.imageDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => this.goToSlide(index));
+            });
+        }
 
         // CTA buttons
         const ctaButtons = this.container.querySelectorAll('.cta-primary, .cta-secondary');
@@ -666,15 +759,18 @@ class EnhancedHeroBanner {
         const previousIndex = this.currentSlideIndex;
         this.currentSlideIndex = index;
 
-        // Update indicators
-        this.indicatorElements[previousIndex]?.classList.remove('active');
-        this.indicatorElements[index]?.classList.add('active');
+        // Update image dots
+        this.imageDots[previousIndex]?.classList.remove('active');
+        this.imageDots[index]?.classList.add('active');
 
         // Transition slides
         this.transitionSlides(previousIndex, index);
 
         // Update molecule color
         this.updateMoleculeForSlide(this.slides[index]);
+
+        // Update typewriter text content
+        this.updateTypewriterContent(index);
 
         // Reset progress
         this.animateProgress();
@@ -688,23 +784,26 @@ class EnhancedHeroBanner {
         const fromSlide = this.slideElements[fromIndex];
         const toSlide = this.slideElements[toIndex];
 
-        if (!fromSlide || !toSlide) return;
+        if (!fromSlide || !toSlide) {
+            console.warn('[EnhancedHeroBanner] Missing slide elements for transition:', fromIndex, toIndex);
+            return;
+        }
 
-        // Remove active class from previous slide
-        fromSlide.classList.remove('active');
+        console.log('[EnhancedHeroBanner] Transitioning from slide', fromIndex, 'to', toIndex);
+
+        // Remove active class from all slides first
+        this.slideElements.forEach(slide => slide.classList.remove('active'));
         
         // Add transitioning classes
         fromSlide.classList.add('slide-out');
         toSlide.classList.add('slide-in');
 
-        // Activate new slide
-        setTimeout(() => {
-            toSlide.classList.add('active');
-            toSlide.classList.remove('slide-in');
-        }, 50);
+        // Activate new slide immediately for better visual feedback
+        toSlide.classList.add('active');
 
-        // Clean up previous slide
+        // Clean up classes after transition
         setTimeout(() => {
+            toSlide.classList.remove('slide-in');
             fromSlide.classList.remove('slide-out');
         }, 1000);
 
@@ -967,6 +1066,142 @@ class EnhancedHeroBanner {
                 </div>
             </div>
         `;
+    }
+
+    // Setup scroll indicator functionality
+    setupScrollIndicator() {
+        const scrollIndicator = this.container.querySelector('.scroll-indicator');
+        if (scrollIndicator) {
+            scrollIndicator.addEventListener('click', () => {
+                const contentSection = this.container.querySelector('.hero-content-section');
+                if (contentSection) {
+                    contentSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        }
+    }
+
+    // Setup intersection observer for content section
+    setupContentSectionObserver() {
+        const contentSection = this.container.querySelector('.hero-content-section');
+        if (!contentSection) return;
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add in-view class for smooth animation
+                    entry.target.classList.add('in-view');
+                    
+                    // Trigger typewriter effect when content section comes into view
+                    setTimeout(() => {
+                        this.initTypewriterEffect();
+                    }, 300); // Small delay for smoother experience
+                    
+                    // Only observe once
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        observer.observe(contentSection);
+    }
+
+    // Initialize typewriter effect for text elements
+    initTypewriterEffect() {
+        const typewriterElements = this.container.querySelectorAll('.typewriter-text');
+        const buttons = this.container.querySelectorAll('.fade-in-btn');
+        
+        typewriterElements.forEach((element, index) => {
+            const text = element.getAttribute('data-text') || '';
+            const delay = parseInt(element.getAttribute('data-delay')) || index * 1000;
+            
+            // Clear the element initially
+            element.textContent = '';
+            
+            setTimeout(() => {
+                this.typeText(element, text, 50); // 50ms per character
+            }, delay);
+        });
+        
+        // Animate buttons with staggered delay
+        buttons.forEach((button, index) => {
+            const delay = parseInt(button.getAttribute('data-delay')) || (4000 + index * 300);
+            button.style.animationDelay = `${delay}ms`;
+        });
+    }
+
+    // Typewriter text animation
+    typeText(element, text, speed = 50) {
+        let i = 0;
+        element.style.opacity = '1';
+        
+        const typeInterval = setInterval(() => {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+            } else {
+                clearInterval(typeInterval);
+                // Add completed class for any additional styling
+                element.classList.add('typing-complete');
+            }
+        }, speed);
+    }
+
+    // Update text content when slide changes
+    updateTypewriterContent(slideIndex) {
+        const slide = this.slides[slideIndex];
+        if (!slide) return;
+
+        // Update text content for typewriter elements
+        const titleElement = this.container.querySelector('.hero-title .typewriter-text');
+        const subtitleElement = this.container.querySelector('.hero-subtitle .typewriter-text');
+        const descriptionElement = this.container.querySelector('.hero-description .typewriter-text');
+        
+        if (titleElement) {
+            titleElement.textContent = '';
+            titleElement.setAttribute('data-text', slide.title);
+            this.typeText(titleElement, slide.title, 30);
+        }
+        
+        if (subtitleElement) {
+            setTimeout(() => {
+                subtitleElement.textContent = '';
+                subtitleElement.setAttribute('data-text', slide.subtitle);
+                this.typeText(subtitleElement, slide.subtitle, 40);
+            }, 800);
+        }
+        
+        if (descriptionElement) {
+            setTimeout(() => {
+                descriptionElement.textContent = '';
+                descriptionElement.setAttribute('data-text', slide.description);
+                this.typeText(descriptionElement, slide.description, 20);
+            }, 1600);
+        }
+
+        // Update features
+        const featuresContainer = this.container.querySelector('.hero-features');
+        if (featuresContainer && slide.features) {
+            featuresContainer.innerHTML = '';
+            slide.features.forEach((feature, index) => {
+                setTimeout(() => {
+                    const featureTag = document.createElement('span');
+                    featureTag.className = 'feature-tag';
+                    featureTag.style.animationDelay = `${index * 200}ms`;
+                    featureTag.textContent = feature;
+                    featuresContainer.appendChild(featureTag);
+                }, 2500 + index * 300);
+            });
+        }
     }
 
     // Public API methods
